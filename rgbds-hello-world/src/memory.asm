@@ -5,9 +5,9 @@ INCLUDE "gbhw.inc"
 ; Macro that pauses until VRAM available.
 
 lcd_WaitVRAM: MACRO
-        ld      a,[rSTAT]       ; <---+
+.loop\@ ld      a,[rSTAT]       ; <---+
         and     STATF_BUSY      ;     |
-        jr      nz,@-4          ; ----+
+        jr      nz, .loop\@     ; ----+
         ENDM
 
         PUSHS           ; Push the current section onto assember stack.
