@@ -1,19 +1,37 @@
-$00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
-$00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
-$00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
-$00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
-$d9 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $d9 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
-$d9 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $d9 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
-$d9 rom, $04 rom, $0c rom, $18 rom, $01 rom, $22 rom, $0d rom, $20 rom, $fc rom, $05 rom, $20 rom, $f9 rom, $c9 rom, $04 rom, $0c rom, $18 rom,
-$03 rom, $2a rom, $12 rom, $13 rom, $0d rom, $20 rom, $fa rom, $05 rom, $20 rom, $f7 rom, $c9 rom, $04 rom, $0c rom, $18 rom, $05 rom, $2a rom,
-$12 rom, $13 rom, $12 rom, $13 rom, $0d rom, $20 rom, $f8 rom, $05 rom, $20 rom, $f5 rom, $c9 rom, $04 rom, $0c rom, $18 rom, $0b rom, $f5 rom,
-$f3 rom, $f0 rom, $41 rom, $e6 rom, $02 rom, $20 rom, $fa rom, $f1 rom, $22 rom, $fb rom, $0d rom, $20 rom, $f2 rom, $05 rom, $20 rom, $ef rom,
-$c9 rom, $04 rom, $0c rom, $18 rom, $0b rom, $f3 rom, $f0 rom, $41 rom, $e6 rom, $02 rom, $20 rom, $fa rom, $2a rom, $12 rom, $fb rom, $13 rom,
-$0d rom, $20 rom, $f2 rom, $05 rom, $20 rom, $ef rom, $c9 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
-$00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
-$00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
-$00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
-$00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
+$00 ==> $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, ( restart $00 address )
+$08 ==> $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, ( restart $08 address )
+$10 ==> $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, ( restart $10 address )
+$18 ==> $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, ( restart $18 address )
+$20 ==> $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, ( restart $20 address )
+$28 ==> $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, ( restart $28 address )
+$30 ==> $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, ( restart $30 address )
+$38 ==> $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, ( restart $38 address )
+$40 ==> $d9 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, ( vertical blank interrupt start address )
+$48 ==> $d9 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, ( timer overflowInterrupt start address )
+$50 ==> $d9 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, ( LCDC status interrupt start address )
+$58 ==> $d9 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, ( serial transfer completion interrupt start address  )
+$60 ==> $d9 rom, $04 rom, $0c rom, $18 rom, $01 rom, $22 rom, $0d rom, $20 rom, ( high-to-low of p10 interrupt start address )
+$68 ==> $fc rom, $05 rom, $20 rom, $f9 rom, $c9 rom, $04 rom, $0c rom, $18 rom, ( high-to-low of p11 interrupt start address )
+$70 ==> $03 rom, $2a rom, $12 rom, $13 rom, $0d rom, $20 rom, $fa rom, $05 rom, ( high-to-low of p12 interrupt start address )
+$78 ==> $20 rom, $f7 rom, $c9 rom, $04 rom, $0c rom, $18 rom, $05 rom, $2a rom, ( high-to-low of p13 interrupt start address )
+
+$80 ==> ( code maybe? )
+$12 rom, $13 rom, $12 rom, $13 rom, $0d rom, $20 rom, $f8 rom, $05 rom,
+$20 rom, $f5 rom, $c9 rom, $04 rom, $0c rom, $18 rom, $0b rom, $f5 rom,
+$f3 rom, $f0 rom, $41 rom, $e6 rom, $02 rom, $20 rom, $fa rom, $f1 rom,
+$22 rom, $fb rom, $0d rom, $20 rom, $f2 rom, $05 rom, $20 rom, $ef rom,
+$c9 rom, $04 rom, $0c rom, $18 rom, $0b rom, $f3 rom, $f0 rom, $41 rom,
+$e6 rom, $02 rom, $20 rom, $fa rom, $2a rom, $12 rom, $fb rom, $13 rom,
+$0d rom, $20 rom, $f2 rom, $05 rom, $20 rom, $ef rom, $c9 rom, $00 rom,
+$00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
+$00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
+$00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
+$00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
+$00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
+$00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
+$00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
+$00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
+$00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
 
 : jmp $c3 rom, ;
 : forward ( -- offset )
@@ -30,13 +48,14 @@ $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
   rom-offset lower-byte  r@ 0 + rom!
   rom-offset higher-byte r> 1 + rom! ;
 
-( start entry point )
+$100 ==> ( start entry point )
 
 nop
 jmp forward
 
 ( start header )
 
+$0104 ==> ( nintendo logo )
 logo
 title
 gbgame

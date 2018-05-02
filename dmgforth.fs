@@ -25,6 +25,9 @@ variable rom-offset-variable
   rom-offset rom!
   $1 rom-offset+! ;
 
+: ==> ( n -- )
+  rom-offset! ;
+
 : logo
   $ce rom, $ed rom, $66 rom, $66 rom, $cc rom, $0d rom, $00 rom, $0b rom,
   $03 rom, $73 rom, $00 rom, $83 rom, $00 rom, $0c rom, $00 rom, $0d rom,
