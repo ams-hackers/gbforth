@@ -21,6 +21,9 @@ variable rom-offset-variable
 : offset>addr
   rom-base + ;
 
+: rom@ ( offset -- val )
+  offset>addr c@ ;
+
 : rom! ( val offset -- )
   offset>addr c! ;
 
@@ -55,13 +58,24 @@ rom erase
 
 include rom.fs
 
+: header-complement
+  0
+  $014D $0134 ?do
+    i rom@ +
+  loop
+  $19 + negate ;
+
+: fix-header-complement
+  header-complement $014D rom! ;
+
 0 Value rom-fd
 : dump-rom ( c-addr u -- )
   s" ./output.gb" w/o bin create-file throw TO rom-fd
   rom rom-fd write-file throw
   rom-fd close-file throw ;
 
-\ main
+
+fix-header-complement
 
 dump-rom
 ." Generated file output.gb" cr

@@ -33,9 +33,12 @@ $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
 $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
 $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
 
+( A placeholder for values)
+: $xx $42 ;
+
 : jmp $c3 rom, ;
 : forward ( -- offset )
-  rom-offset $42 rom, $42 rom, ;
+  rom-offset $xx rom, $xx rom, ;
 
 : lower-byte ( n1n2 -- n2 )
    $ff and ;
@@ -68,7 +71,7 @@ $00 rom,          ( ram size )
 $01 rom,          ( market code jp/int )
 $33 rom,          ( licensee code )
 $00 rom,          ( mask rom version number )
-$a7 rom,          ( complement check )
+$xx rom,          ( complement check )
 $f8 rom, $9c rom, ( checksum )
 
 ( header end )
