@@ -57,8 +57,8 @@ jmp forward
 
 $0104 ==> ( nintendo logo )
 logo
-title
-gbgame
+$134 ==> s" EXAMPLE" title
+$143 ==> gbgame
 
 $00 rom, $00 rom, ( licensee code )
 $00 rom,          ( gb 00 or super gameboy 03 )

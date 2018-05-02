@@ -18,8 +18,11 @@ variable rom-offset-variable
 
 : rom rom-base rom-size ;
 
+: offset>addr
+  rom-base + ;
+
 : rom! ( val offset -- )
-  rom-base + c! ;
+  offset>addr c! ;
 
 : rom,
   rom-offset rom!
@@ -36,9 +39,9 @@ variable rom-offset-variable
   $bb rom, $bb rom, $67 rom, $63 rom, $6e rom, $0e rom, $ec rom, $cc rom,
   $dd rom, $dc rom, $99 rom, $9f rom, $bb rom, $b9 rom, $33 rom, $3e rom, ;
 
-: title
-  $45 rom, $58 rom, $41 rom, $4d rom, $50 rom, $4c rom, $45 rom, $00 rom,
-  $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, ;
+: title ( addr u -- )
+  dup #15 > abort" Title is too long"
+  $134 offset>addr swap move ;
 
 : gbgame $00 rom, ; ( non color )
 
