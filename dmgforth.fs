@@ -39,7 +39,11 @@ variable rom-offset-variable
   $bb rom, $bb rom, $67 rom, $63 rom, $6e rom, $0e rom, $ec rom, $cc rom,
   $dd rom, $dc rom, $99 rom, $9f rom, $bb rom, $b9 rom, $33 rom, $3e rom, ;
 
-: title ( addr u -- )
+: parse-line ( -- addr u )
+  #10 parse ;
+
+: title:
+  parse-line
   dup #15 > abort" Title is too long"
   $134 offset>addr swap move ;
 

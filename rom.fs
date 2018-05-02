@@ -57,7 +57,7 @@ jmp forward
 
 $0104 ==> ( nintendo logo )
 logo
-$134 ==> s" EXAMPLE" title
+title: EXAMPLE
 $143 ==> gbgame
 
 $00 rom, $00 rom, ( licensee code )
