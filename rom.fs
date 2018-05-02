@@ -14,14 +14,50 @@ $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
 $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
 $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
 $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
-$00 rom, $c3 rom, $50 rom, $01 rom,
+
+: jmp $c3 rom, ;
+: forward ( -- offset )
+  rom-offset $42 rom, $42 rom, ;
+
+: lower-byte ( n1n2 -- n2 )
+   $ff and ;
+
+: higher-byte ( n1n2 -- n1 )
+  $8 rshift ;
+
+: <here> ( offset -- )
+  >r
+  rom-offset lower-byte  r@ 0 + rom!
+  rom-offset higher-byte r> 1 + rom! ;
+
+( start entry point )
+
+nop
+jmp forward
+
+( start header )
 
 logo
 title
-
 gbgame
 
-$00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $01 rom, $33 rom, $00 rom, $a7 rom, $f8 rom, $9c rom,
+$00 rom, $00 rom, ( licensee code )
+$00 rom,          ( gb 00 or super gameboy 03 )
+$00 rom,          ( cartridge type - rom only )
+$00 rom,          ( rom size )
+$00 rom,          ( ram size )
+$01 rom,          ( market code jp/int )
+$33 rom,          ( licensee code )
+$00 rom,          ( mask rom version number )
+$a7 rom,          ( complement check )
+$f8 rom, $9c rom, ( checksum )
+
+( header end )
+
+<here>
+
+( program start )
+
 $f3 rom, $31 rom, $ff rom, $ff rom, $3e rom, $e4 rom, $e0 rom, $47 rom, $3e rom, $00 rom, $e0 rom, $43 rom, $e0 rom, $42 rom, $cd rom, $9b rom,
 $01 rom, $21 rom, $ac rom, $01 rom, $11 rom, $00 rom, $80 rom, $01 rom, $00 rom, $08 rom, $cd rom, $7b rom, $00 rom, $3e rom, $95 rom, $e0 rom,
 $40 rom, $3e rom, $20 rom, $21 rom, $00 rom, $98 rom, $01 rom, $00 rom, $04 rom, $cd rom, $8b rom, $00 rom, $21 rom, $8d rom, $01 rom, $11 rom,

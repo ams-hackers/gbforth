@@ -18,8 +18,11 @@ variable rom-offset-variable
 
 : rom rom-base rom-size ;
 
+: rom! ( val offset -- )
+  rom-base + c! ;
+
 : rom,
-  rom-base rom-offset + c!
+  rom-offset rom!
   $1 rom-offset+! ;
 
 : logo
@@ -32,7 +35,7 @@ variable rom-offset-variable
 
 : title
   $45 rom, $58 rom, $41 rom, $4d rom, $50 rom, $4c rom, $45 rom, $00 rom,
-  $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, ;
+  $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, ;
 
 : gbgame $00 rom, ; ( non color )
 
