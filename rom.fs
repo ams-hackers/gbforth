@@ -61,8 +61,9 @@ jmp forward
 $0104 ==> ( nintendo logo )
 logo
 title: EXAMPLE
-$143 ==> gbgame
+gbgame
 
+$144 ==>
 $00 rom, $00 rom, ( licensee code )
 $00 rom,          ( gb 00 or super gameboy 03 )
 $00 rom,          ( cartridge type - rom only )

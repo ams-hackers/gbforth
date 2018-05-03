@@ -55,7 +55,7 @@ variable rom-offset-variable
   dup #4 > abort" Manufacturer Code is too long"
   $013F offset>addr swap move ;
 
-: gbgame $00 rom, ; ( non color )
+: gbgame $00 $0143 rom! ; ( non color )
 
 : nop $0 rom, ;
 
