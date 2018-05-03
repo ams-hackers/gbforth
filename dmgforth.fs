@@ -56,6 +56,9 @@ variable rom-offset-variable
   $013F offset>addr swap move ;
 
 : gbgame $00 $0143 rom! ; ( non color )
+: cgbgame $c0 $0143 rom! ; ( Game works on CGB only )
+: (c)gbgame $80 $0143 rom! ; ( Game supports CGB functions, but works on old gameboys also )
+
 
 : nop $0 rom, ;
 
