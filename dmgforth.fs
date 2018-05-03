@@ -50,6 +50,11 @@ variable rom-offset-variable
   dup #15 > abort" Title is too long"
   $134 offset>addr swap move ;
 
+: manufacturer:
+  parse-line
+  dup #4 > abort" Manufacturer Code is too long"
+  $013F offset>addr swap move ;
+
 : gbgame $00 rom, ; ( non color )
 
 : nop $0 rom, ;
