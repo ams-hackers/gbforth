@@ -55,10 +55,13 @@ variable rom-offset-variable
   dup #4 > abort" Manufacturer Code is too long"
   $013F offset>addr swap move ;
 
-: gbgame $00 $0143 rom! ; ( non color )
-: cgbgame $c0 $0143 rom! ; ( Game works on CGB only )
-: (c)gbgame $80 $0143 rom! ; ( Game supports CGB functions, but works on old gameboys also )
+: licensee:
+  parse-line
+  dup #2 > abort" Licensee Code is too long"
+  $0144 offset>addr swap move
+  $33 $014B rom!;
 
+: gbgame $00 $0143 rom! ; ( non color )
 
 : nop $0 rom, ;
 
