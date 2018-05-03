@@ -11,7 +11,7 @@ FIX_FLAGS = -v -p 0
 INCDIR = inc
 OBJECTS = $(SOURCES:%.asm=%.o)
 
-all: $(ROM_NAME)
+build: $(ROM_NAME)
 
 $(ROM_NAME): $(OBJECTS)
 	$(LINK) -o $@.gb -n $@.sym $(OBJECTS)
