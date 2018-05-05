@@ -1,14 +1,15 @@
 SHELL := /bin/bash
 
+.PHONY: build build-org buildall test watch
+
 build-org:
 	$(MAKE) -C rgbds-hello-world
 
-build:
+output.gb:
 	./dmgforth.fs
 
-buildall:
-	$(MAKE) build-org
-	$(MAKE) build
+build: output.gb
+buildall: build-org build
 
 test:
 	@$(MAKE) build
