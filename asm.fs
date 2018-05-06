@@ -60,15 +60,25 @@ bits of the words are used to tag the values with type information. )
 
 : op-2drop 2drop 2drop ;
 
+
+: dispatch
+  postpone dup2types
+  postpone 2>r
+; immediate
+
 : ~>
   postpone 2r@
   postpone 2types-match?
   postpone if
 ; immediate
 
+: end-dispatch
+  postpone 2rdrop
+; immediate
+  
 
 : ld, ( from from-type to to-type -- )
-  dup2types 2>r
+  dispatch
   
   ~r ~r ~>
     op-2drop
@@ -85,8 +95,8 @@ bits of the words are used to tag the values with type information. )
       
     then
   then
-  
-  2rdrop 
+
+  end-dispatch
 ;
 
 
