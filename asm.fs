@@ -60,28 +60,29 @@ bits of the words are used to tag the values with type information. )
 
 : op-2drop 2drop 2drop ;
 
+
 : ld, ( from from-type to to-type -- )
-  dup2types
+  dup2types 2>r
   
-  2dup ~r ~r 2types-match? if
-    2drop
+  ~r ~r 2r@ 2types-match? if
     op-2drop
     ." r -> r "
   else
 
-    2dup ~imm ~r 2types-match? if
-      2drop
+    ~imm ~r 2r@ 2types-match? if
       op-2drop
       ." imm -> r "
     else
       
+      2rdrop
       true abort" Unknown parameters to LD"
       
-      2drop
-      op-2drop
     then
   then
+  
+  2rdrop 
 ;
+
 
 
 : nop,   %00000000 emit ;
