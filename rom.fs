@@ -1,3 +1,7 @@
+ALSO ASSEMBLER
+
+' rom, IS emit
+
 $00 ==> $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, ( restart $00 address )
 $08 ==> $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, ( restart $08 address )
 $10 ==> $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, ( restart $10 address )
@@ -40,12 +44,6 @@ $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
 : forward ( -- offset )
   rom-offset $xx rom, $xx rom, ;
 
-: lower-byte ( n1n2 -- n2 )
-   $ff and ;
-
-: higher-byte ( n1n2 -- n1 )
-  $8 rshift ;
-
 : <here> ( offset -- )
   >r
   rom-offset lower-byte  r@ 0 + rom!
@@ -53,7 +51,7 @@ $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
 
 $100 ==> ( start entry point )
 
-nop
+nop,
 jmp forward
 
 ( start header )
@@ -81,7 +79,10 @@ $f8 rom, $9c rom, ( checksum )
 
 ( program start )
 
-$f3 rom, $31 rom, $ff rom, $ff rom, $3e rom, $e4 rom, $e0 rom, $47 rom, $3e rom, $00 rom, $e0 rom, $43 rom, $e0 rom, $42 rom, $cd rom, $9b rom,
+di,
+$ffff # sp ld,
+
+                                    $3e rom, $e4 rom, $e0 rom, $47 rom, $3e rom, $00 rom, $e0 rom, $43 rom, $e0 rom, $42 rom, $cd rom, $9b rom,
 $01 rom, $21 rom, $ac rom, $01 rom, $11 rom, $00 rom, $80 rom, $01 rom, $00 rom, $08 rom, $cd rom, $7b rom, $00 rom, $3e rom, $95 rom, $e0 rom,
 $40 rom, $3e rom, $20 rom, $21 rom, $00 rom, $98 rom, $01 rom, $00 rom, $04 rom, $cd rom, $8b rom, $00 rom, $21 rom, $8d rom, $01 rom, $11 rom,
 $e3 rom, $98 rom, $01 rom, $0d rom, $00 rom, $cd rom, $a1 rom, $00 rom, $76 rom, $00 rom, $00 rom, $18 rom, $fb rom, $48 rom, $65 rom, $6c rom,
@@ -2108,3 +2109,5 @@ $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
 $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
 $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
 $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
+
+PREVIOUS

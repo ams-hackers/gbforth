@@ -3,8 +3,9 @@
 dmgforth.fs ---
 )
 
-vocabulary dmgforth
-dmgforth definitions
+VOCABULARY DMGFORTH
+ALSO DMGFORTH DEFINITIONS
+
 
 : kB 1024 * ;
 
@@ -59,15 +60,15 @@ variable rom-offset-variable
   parse-line
   dup #2 > abort" Licensee Code is too long"
   $0144 offset>addr swap move
-  $33 $014B rom!;
+  $33 $014B rom! ;
 
 : gbgame $00 $0143 rom! ; ( non color )
 
-: nop $0 rom, ;
+require ./utils.fs
+require ./asm.fs
 
 rom erase
-
-include rom.fs
+include ./rom.fs
 
 : header-complement
   0
