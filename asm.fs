@@ -72,6 +72,10 @@ bits of the words are used to tag the values with type information. )
   postpone if
 ; immediate
 
+: ::
+  postpone else
+; immediate
+
 : end-dispatch
   postpone 2rdrop
 ; immediate
@@ -80,20 +84,13 @@ bits of the words are used to tag the values with type information. )
 : ld, ( from from-type to to-type -- )
   dispatch
   
-  ~r ~r ~>
-    op-2drop
-    ." r -> r "
-  else
-
-    ~imm ~r ~>
-      op-2drop
-      ." imm -> r "
-    else
+  ~r   ~r ~> op-2drop ." r -> r "   ::
+  ~imm ~r ~> op-2drop ." imm -> r " ::
       
-      2rdrop
-      true abort" Unknown parameters to LD"
-      
-    then
+  2rdrop
+  true abort" Unknown parameters to LD"
+  
+  then
   then
 
   end-dispatch
