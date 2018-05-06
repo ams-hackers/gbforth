@@ -58,11 +58,9 @@ bits of the words are used to tag the values with type information. )
   type2 type2' type-match? r>
   and ;
 
-
 : op-2drop 2drop 2drop ;
 
-
-: ld ( from from-type to to-type -- )
+: ld, ( from from-type to to-type -- )
   dup2types
   
   2dup ~r ~r 2types-match? if
@@ -86,18 +84,18 @@ bits of the words are used to tag the values with type information. )
 ;
 
 
-: nop   %00000000 emit ;
+: nop,   %00000000 emit ;
 
-: di    %11110011 emit ;
-: ei    %11111011 emit ; 
+: di,    %11110011 emit ;
+: ei,    %11111011 emit ; 
 
-: halt%  %01110110 emit ;
+: halt%,  %01110110 emit ;
 ( Bug in game boy forces us to emit a NOP after halt, because HALT has
   an inconsistent skipping of the next instruction depending on if the
   interruptions are enabled or not ) 
-: halt halt% nop ;
+: halt, halt%, nop, ;
 
-: stop
+: stop,
   %00010000 emit
   %00000000 emit ;
 
