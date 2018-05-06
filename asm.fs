@@ -7,6 +7,10 @@ stack. The Z80 architecture supports 8 and 16 bits operands, but for
 the host assembly system we require words of at least 32 bits, so high
 bits of the words are used to tag the values with type information. )
 
+require ./utils.fs
+
+VOCABULARY ASSEMBLER
+ALSO ASSEMBLER DEFINITIONS
 
 ( INSTRUCTION ARGUMENTS STACK
 
@@ -43,9 +47,9 @@ create args 2 arg-size * allot
 : .args
   ." args# = " args# . CR
   ." arg1-value " arg1-value . CR
-  ." arg1-type  " arg1-type . CR
+  ." arg1-type  " arg1-type  . CR
   ." arg2-value " arg2-value . CR
-  ." arg2-type  " arg2-type . CR ;
+  ." arg2-type  " arg2-type  . CR ;
 
 
 
@@ -78,11 +82,9 @@ create args 2 arg-size * allot
 ( Push an immediate value to the arguments stack )
 : # ~imm push-arg ;
 
-: istype? ( type1 type2 -- bool )
-  and 0<> ;
+( Arguments pattern matching )
 
-
-( Arguments pattern maching )
+: ` postpone postpone ; immediate
 
 : type-match ( type type' -- bool )
   and 0<> ;
@@ -92,25 +94,19 @@ create args 2 arg-size * allot
   arg1-type type-match and
   args# 2 = and ;
 
-
-( Instructions )
-
-: emit hex. ;
-
 : begin-dispatch
   0
 ; immediate
 
-: ~>
+: ~~>
   1+ >r
-  postpone 2arg-match?
-  postpone if
+  ` 2arg-match? ` if
   r>
 ; immediate
 
 : ::
   >r
-  postpone else
+  ` else 
   r>
 ; immediate
 
@@ -119,14 +115,30 @@ create args 2 arg-size * allot
   true abort" Unknown parameters" ;
 
 : end-dispatch
-  postpone (unknown-args)
-  0 ?do postpone then loop
+  ` (unknown-args)
+  0 ?do ` then loop
 ; immediate
   
+defer emit
+' hex. is emit 
+
+
+: | or ;
+
+: ..  6 rshift ;
+: r  arg2-value 3 lshift | ;
+: r' arg1-value | ;
+: dd0 arg2-value 4 lshift | ;
+: n arg1-value emit ;
+: nn
+  arg1-value lower-byte  emit
+  arg1-value higher-byte emit ;
+
 : ld,
   begin-dispatch
-  ~r ~r   ~> ." r -> r"   ::
-  ~imm ~r ~> ." imm -> r" ::
+  ~r   ~r   ~~> %01 .. r   r'     emit     ::
+  ~imm ~r   ~~> %00 .. r   %110 | emit   n ::
+  ~imm ~dd  ~~> %00 .. dd0 %001 | emit  nn ::
   end-dispatch
   flush-args ;
 
@@ -185,3 +197,5 @@ create args 2 arg-size * allot
 \   ...
 \   ( n ) default-code ( n )
 \ ENDCASE ( )
+
+PREVIOUS DEFINITIONS
