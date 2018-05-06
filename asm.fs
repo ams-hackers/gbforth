@@ -7,8 +7,49 @@ stack. The Z80 architecture supports 8 and 16 bits operands, but for
 the host assembly system we require words of at least 32 bits, so high
 bits of the words are used to tag the values with type information. )
 
-( Instruction operands  )
 
+( INSTRUCTION ARGUMENTS STACK
+
+Instruction arguments are represented with two words [ value type ].
+
+We define an auxiliary stack to hold the arguments for the next
+aasembly instruction. Having a dedicate stack has some benefits like,
+we will be able to override the instruction based on the number of
+arguments provided. )
+
+2 cells constant arg-size
+
+create args 2 arg-size * allot
+0 value args#
+
+: flush-args 0 to args# ;
+
+: check-full-args
+  args# 1 > abort" Too many arguments for an assembly instruction." ;
+
+: push-arg ( value type -- )
+  check-full-args
+  swap args# arg-size * args + 2!
+  args# 1+ to args# ;
+
+( Those words allow us to extract the argument value and type for the
+  current instruction )
+: arg1-value args 0 cells + @ ;
+: arg1-type  args 1 cells + @ ;
+: arg2-value args 2 cells + @ ;
+: arg2-type  args 3 cells + @ ;
+
+( for debugging )
+: .args
+  ." args# = " args# . CR
+  ." arg1-value " arg1-value . CR
+  ." arg1-type  " arg1-type . CR
+  ." arg2-value " arg2-value . CR
+  ." arg2-type  " arg2-type . CR ;
+
+
+
+( Argument Types )
 %0001 constant ~r
 %0010 constant ~dd
 %0100 constant ~qq
@@ -17,8 +58,9 @@ bits of the words are used to tag the values with type information. )
 : ~qq|dd ~dd ~qq or ;
 
 : operand ( value type )
-  create , , does> 2@ ;
+  create , , does> 2@ push-arg ;
 
+( Define register operands )
 %111 ~r operand A
 %000 ~r operand B
 %001 ~r operand C
@@ -33,44 +75,35 @@ bits of the words are used to tag the values with type information. )
 %11    ~dd operand SP
 %11 ~qq    operand AF
 
-( Mark the value on the stack as an immediate value )
-: # ~imm ;
+( Push an immediate value to the arguments stack )
+: # ~imm push-arg ;
 
-: istype? ( value type type -- bool )
-  and 0<> swap drop ;
+: istype? ( type1 type2 -- bool )
+  and 0<> ;
 
-: duptype ( value type -- value type type )
-  dup ;
 
-: dup2types
-  2 pick over ;
+( Arguments pattern maching )
+
+: type-match ( type type' -- bool )
+  and 0<> ;
+
+: 2arg-match? ( type1 type2 -- bool )
+  arg2-type type-match swap
+  arg1-type type-match and
+  args# 2 = and ;
 
 
 ( Instructions )
 
 : emit hex. ;
 
-: type-match? ( type1 type2 -- bool )
-  and 0<> ;
-
-: 2types-match? { type1 type2 type1' type2' -- bool }
-  type1 type1' type-match? >r
-  type2 type2' type-match? r>
-  and ;
-
-: op-2drop 2drop 2drop ;
-
-
-: dispatch
+: begin-dispatch
   0
-  postpone dup2types
-  postpone 2>r
 ; immediate
 
 : ~>
   1+ >r
-  postpone 2r@
-  postpone 2types-match?
+  postpone 2arg-match?
   postpone if
   r>
 ; immediate
@@ -81,32 +114,27 @@ bits of the words are used to tag the values with type information. )
   r>
 ; immediate
 
+: (unknown-args)
+  flush-args
+  true abort" Unknown parameters" ;
+
 : end-dispatch
+  postpone (unknown-args)
   0 ?do postpone then loop
-  postpone 2rdrop
 ; immediate
   
-
 : ld,
-  dispatch
-  
-  ~r   ~r ~> op-2drop ." r -> r "   ::
-  ~imm ~r ~> op-2drop ." imm -> r " ::
-      
-  2rdrop
-  true abort" Unknown parameters"
-  
+  begin-dispatch
+  ~r ~r   ~> ." r -> r"   ::
+  ~imm ~r ~> ." imm -> r" ::
   end-dispatch
-;
-
-
+  flush-args ;
 
 : nop,   %00000000 emit ;
-
 : di,    %11110011 emit ;
 : ei,    %11111011 emit ; 
+: halt%, %01110110 emit ;
 
-: halt%,  %01110110 emit ;
 ( Bug in game boy forces us to emit a NOP after halt, because HALT has
   an inconsistent skipping of the next instruction depending on if the
   interruptions are enabled or not ) 
