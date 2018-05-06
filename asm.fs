@@ -81,7 +81,7 @@ bits of the words are used to tag the values with type information. )
 ; immediate
   
 
-: ld, ( from from-type to to-type -- )
+: ld,
   dispatch
   
   ~r   ~r ~> op-2drop ." r -> r "   ::
