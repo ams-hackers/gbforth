@@ -1,3 +1,4 @@
+: kB 1024 * ;
 
 : lower-byte ( n1n2 -- n2 )
   $ff and ;

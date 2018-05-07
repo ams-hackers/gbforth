@@ -9,8 +9,11 @@ bits of the words are used to tag the values with type information. )
 
 require ./utils.fs
 
-VOCABULARY ASSEMBLER
-ALSO ASSEMBLER DEFINITIONS
+[IFUNDEF] GB-ASSEMBLER
+VOCABULARY GB-ASSEMBLER
+[ENDIF]
+
+ALSO GB-ASSEMBLER DEFINITIONS
 
 ( INSTRUCTION ARGUMENTS STACK
 
