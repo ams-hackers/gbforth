@@ -3,9 +3,9 @@ ALSO ASSEMBLER
 ' rom, IS emit
 
 ( Special registers! )
-$FF47 constant rGBP
-
-: [rGBP] rGBP ]* ;
+: [rGBP] $FF47 ]* ;
+: [rSCY] $FF42 ]* ;
+: [rSCX] $FF43 ]* ;
 
 
 $00 ==> $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, ( restart $00 address )
@@ -92,7 +92,11 @@ $ffff # sp ld,
 
 a [rGBP] ld,
 
-                                                                        $3e rom, $00 rom, $e0 rom, $43 rom, $e0 rom, $42 rom, $cd rom, $9b rom,
+0 # a ld,
+a [rSCX] ld,
+a [rSCY] ld,
+
+                                                                                                                              $cd rom, $9b rom,
 $01 rom, $21 rom, $ac rom, $01 rom, $11 rom, $00 rom, $80 rom, $01 rom, $00 rom, $08 rom, $cd rom, $7b rom, $00 rom, $3e rom, $95 rom, $e0 rom,
 $40 rom, $3e rom, $20 rom, $21 rom, $00 rom, $98 rom, $01 rom, $00 rom, $04 rom, $cd rom, $8b rom, $00 rom, $21 rom, $8d rom, $01 rom, $11 rom,
 $e3 rom, $98 rom, $01 rom, $0d rom, $00 rom, $cd rom, $a1 rom, $00 rom, $76 rom, $00 rom, $00 rom, $18 rom, $fb rom, $48 rom, $65 rom, $6c rom,
