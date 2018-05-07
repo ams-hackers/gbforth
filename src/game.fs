@@ -1,7 +1,7 @@
 require ./asm.fs
 require ./gbhw.fs
 
-ALSO GB-ASSEMBLER
+also gb-assembler
 
 ' rom, IS emit
 

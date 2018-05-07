@@ -9,11 +9,14 @@ bits of the words are used to tag the values with type information. )
 
 require ./utils.fs
 
-[IFUNDEF] GB-ASSEMBLER
-VOCABULARY GB-ASSEMBLER
+[IFUNDEF] gb-assembler
+vocabulary gb-assembler
 [ENDIF]
 
-ALSO GB-ASSEMBLER DEFINITIONS
+get-current
+also gb-assembler definitions
+constant previous-wid
+
 
 ( INSTRUCTION ARGUMENTS STACK
 
@@ -221,4 +224,6 @@ defer emit
 \   ( n ) default-code ( n )
 \ ENDCASE ( )
 
-PREVIOUS DEFINITIONS
+
+previous-wid set-current
+previous
