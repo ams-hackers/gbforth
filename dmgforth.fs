@@ -64,6 +64,7 @@ variable rom-offset-variable
 
 : gbgame $00 $0143 rom! ; ( non color )
 
+
 require ./utils.fs
 require ./asm.fs
 

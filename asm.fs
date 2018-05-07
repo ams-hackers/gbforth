@@ -54,24 +54,29 @@ create args 2 arg-size * allot
 
 
 ( Argument Types )
-%0001 constant ~r
-%0010 constant ~dd
-%0100 constant ~qq
-%1000 constant ~imm
+%0000001 constant ~r
+%0000010 constant ~dd
+%0000100 constant ~qq
+%0001000 constant ~imm
+%0110000 constant ~(n)          ( overlaps with ~nn )
+%0100000 constant ~(nn)
+%1000000 constant ~A
 
-: ~qq|dd ~dd ~qq or ;
+: | or ;
+
+: ~qq|dd ~dd ~qq | ;
 
 : operand ( value type )
   create , , does> 2@ push-arg ;
 
 ( Define register operands )
-%111 ~r operand A
-%000 ~r operand B
-%001 ~r operand C
-%101 ~r operand D
-%011 ~r operand E
-%100 ~r operand H
-%101 ~r operand L
+%111 ~r ~A | operand A
+%000 ~r      operand B
+%001 ~r      operand C
+%101 ~r      operand D
+%011 ~r      operand E
+%100 ~r      operand H
+%101 ~r      operand L
 
 %00 ~qq|dd operand BC
 %01 ~qq|dd operand DE
@@ -81,6 +86,12 @@ create args 2 arg-size * allot
 
 ( Push an immediate value to the arguments stack )
 : # ~imm push-arg ;
+: ]*
+  dup $FF00 >= if
+    ~(n) push-arg
+  else
+    ~(nn) push-arg
+  then ;
 
 ( Arguments pattern matching )
 
@@ -123,22 +134,31 @@ defer emit
 ' hex. is emit 
 
 
-: | or ;
-
 : ..  6 rshift ;
 : r  arg2-value 3 lshift | ;
 : r' arg1-value | ;
 : dd0 arg2-value 4 lshift | ;
-: n arg1-value emit ;
-: nn
-  arg1-value lower-byte  emit
-  arg1-value higher-byte emit ;
+
+:  8lit $ff and emit ;
+: 16lit 
+  dup lower-byte  emit
+      higher-byte emit ;
+
+: n   arg1-value  8lit ;
+: nn  arg1-value 16lit ;
+: n'  arg2-value  8lit ;
+: nn' arg2-value 16lit ;
+
 
 : ld,
   begin-dispatch
-  ~r   ~r   ~~> %01 .. r   r'     emit     ::
-  ~imm ~r   ~~> %00 .. r   %110 | emit   n ::
-  ~imm ~dd  ~~> %00 .. dd0 %001 | emit  nn ::
+  ~r   ~r   ~~> %01 .. r   r'      emit     ::
+  ~imm ~r   ~~> %00 .. r   %110  | emit  n  ::
+  ~imm ~dd  ~~> %00 .. dd0 %001  | emit nn  ::
+
+  ~(n) ~A   ~~>      %11110000     emit  n  ::
+  ~A   ~(n) ~~>      %11100000     emit  n' ::
+
   end-dispatch
   flush-args ;
 
