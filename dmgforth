@@ -1,13 +1,22 @@
 #! /usr/bin/env gforth
+\                                           -*- forth -*-
 
 require ./src/dmgforth.fs
 also dmgforth
 
 : output-file s" output.gb" ;
 
+: usage
+  ." Usage: dmgforth game.fs" cr
+  1 (bye) ;
+
+argc @ 2 <> [if]
+  ' usage stderr outfile-execute
+[then]
+
 rom erase
 
-include src/game.fs
+next-arg included
 
 fix-header-complement
 output-file dump-rom
