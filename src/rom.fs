@@ -1,12 +1,4 @@
-#! /usr/bin/env gforth
-(
-dmgforth.fs ---
-)
-
-vocabulary dmgforth
-dmgforth definitions
-
-: kB 1024 * ;
+require ./utils.fs
 
 32 kB constant rom-size
 create rom-base rom-size allot
@@ -17,6 +9,10 @@ variable rom-offset-variable
 : rom-offset+! rom-offset-variable +! ;
 
 : rom rom-base rom-size ;
+
+( Initialize the room to zeros )
+rom erase
+
 
 : offset>addr
   rom-base + ;
@@ -59,15 +55,10 @@ variable rom-offset-variable
   parse-line
   dup #2 > abort" Licensee Code is too long"
   $0144 offset>addr swap move
-  $33 $014B rom!;
+  $33 $014B rom! ;
 
 : gbgame $00 $0143 rom! ; ( non color )
 
-: nop $0 rom, ;
-
-rom erase
-
-include rom.fs
 
 : header-complement
   0
@@ -79,16 +70,9 @@ include rom.fs
 : fix-header-complement
   header-complement $014D rom! ;
 
+
 0 Value rom-fd
 : dump-rom ( c-addr u -- )
-  s" ./output.gb" w/o bin create-file throw TO rom-fd
+  w/o bin create-file throw TO rom-fd
   rom rom-fd write-file throw
   rom-fd close-file throw ;
-
-
-fix-header-complement
-
-dump-rom
-." Generated file output.gb" cr
-
-bye
