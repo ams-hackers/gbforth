@@ -93,8 +93,12 @@ a [rGBP] ld,
 a [rSCX] ld,
 a [rSCY] ld,
 
-                                                                                                                              $cd rom, $9b rom,
-$01 rom, $21 rom, $ac rom, $01 rom, $11 rom, $00 rom, $80 rom, $01 rom, $00 rom, $08 rom, $cd rom, $7b rom, $00 rom, $3e rom, $95 rom, $e0 rom,
+
+: StopLCD $019b # ;
+
+StopLCD call,
+
+         $21 rom, $ac rom, $01 rom, $11 rom, $00 rom, $80 rom, $01 rom, $00 rom, $08 rom, $cd rom, $7b rom, $00 rom, $3e rom, $95 rom, $e0 rom,
 $40 rom, $3e rom, $20 rom, $21 rom, $00 rom, $98 rom, $01 rom, $00 rom, $04 rom, $cd rom, $8b rom, $00 rom, $21 rom, $8d rom, $01 rom, $11 rom,
 $e3 rom, $98 rom, $01 rom, $0d rom, $00 rom, $cd rom, $a1 rom, $00 rom, $76 rom, $00 rom, $00 rom, $18 rom, $fb rom, $48 rom, $65 rom, $6c rom,
 $6c rom, $6f rom, $20 rom, $57 rom, $6f rom, $72 rom, $6c rom, $64 rom, $20 rom, $21 rom, $00 rom, $f0 rom, $40 rom, $07 rom, $d0 rom, $f0 rom,
