@@ -63,7 +63,6 @@ variable counter
   here -rot swap 2, ;
 
 : reflist-resolve ( real-value reflist -- )
-  dup .reflist
   begin dup @ 0<> while
     2dup @ emit-16bits-to
     cell+ @

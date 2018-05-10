@@ -130,19 +130,21 @@ SCRN_VX_B SCRN_VY_B * # bc ld,
 
 mem_SetVRAM call,
 
-presume Title
+
+: %Title s" Hello World !" ;
+PRESUME Title
 
 Title hl ld,
+_SCRN0 3 + SCRN_VY_B 7 * + # de ld,
 
-                                                                                                                                       $11 rom,
+%Title nip # bc ld,
 
 
-$e3 rom, $98 rom, $01 rom, $0d rom, $00 rom, $cd rom, $a1 rom, $00 rom, $76 rom, $00 rom, $00 rom, $18 rom, $fb rom, 
+                                             $cd rom, $a1 rom, $00 rom, $76 rom, $00 rom, $00 rom, $18 rom, $fb rom, 
 
 
 label Title
-
-rom" Hello World !"
+%title rom-move
 
 nop,
 
