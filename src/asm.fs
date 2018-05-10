@@ -11,6 +11,7 @@ require ./utils.fs
 
 [IFUNDEF] gb-assembler
 vocabulary gb-assembler
+vocabulary gb-assembler-emiters
 [ENDIF]
 
 get-current
@@ -22,16 +23,19 @@ constant previous-wid
 
 defer emit ( value -- )
 defer offset ( -- offset )
-defer emit-to ( addr offset -- )
+defer emit-to ( value offset -- )
 
 variable counter
 :noname hex. 1 counter +! ; is emit
 :noname counter @ ; is offset
 :noname 2drop ; is emit-to
 
-: emit-16bits-to { n addr -- }
-  n lower-byte   addr     emit-to
-  n higher-byte  addr 1+  emit-to ;
+: emit-rel-to ( n offset -- )
+  swap offset swap - swap emit-to ;
+
+: emit-16bits-to { n offset -- }
+  n lower-byte   offset     emit-to
+  n higher-byte  offset 1+  emit-to ;
 
 
 ( REFERENCES LIST )
@@ -52,6 +56,9 @@ struct
     cell% field fwdref-info
     cell% field fwdref-next
 end-struct fwdref%
+
+$0 constant FWDREF_INFO_ABSOLUTE
+$1 constant FWDREF_INFO_RELATIVE
 
 : empty-reflist? ( reflist -- bool )
   fwdref-offset @ 0<> ;
@@ -75,9 +82,15 @@ end-struct fwdref%
   r@ fwdref-offset ! 
   r> ;
 
+: patch-fwdref ( real-value fwdref -- )
+  dup fwdref-info @ case
+    FWDREF_INFO_ABSOLUTE of fwdref-offset @ emit-16bits-to endof
+    FWDREF_INFO_RELATIVE of fwdref-offset @ emit-rel-to    endof
+  endcase ;
+
 : reflist-resolve ( real-value reflist -- )
   begin dup empty-reflist? while
-    2dup fwdref-offset @ emit-16bits-to
+    2dup patch-fwdref
     fwdref-next @
   repeat
   2drop ;
@@ -236,12 +249,14 @@ end-types
 
 : ~~>
   1+ >r
+  also gb-assembler-emiters
   `#patterns ` args-match? ` if
   r>
 ; immediate
 
 : ::
   >r
+  previous
   ` else 
   r>
 ; immediate
@@ -259,6 +274,12 @@ end-types
 
 ( Instructions helpers )
 
+: reflist-add! ( value info &reflist -- )
+  dup >r @ reflist-add r> ! ;
+
+ALSO GB-ASSEMBLER-EMITERS
+DEFINITIONS
+
 : ..  6 lshift ;
 : r  arg2-value 3 lshift | ;
 : r' arg1-value | ;
@@ -270,31 +291,38 @@ end-types
   dup lower-byte  emit
       higher-byte emit ;
 
-: n   arg1-value  8lit ;
-: n'  arg2-value  8lit ;
-
-: reflist-add! ( value info &reflist -- )
-  dup >r @ reflist-add r> ! ;
-
 : emit-addr ( arg-value arg-type )
   dup ~unresolved-reference type-match if
     drop
-    offset 0 rot reflist-add!
+    offset FWDREF_INFO_ABSOLUTE rot reflist-add!
     $4242 16lit
   else
     drop 16lit
   then ;
 
+: emit-rel-addr ( arg-value arg-type )
+  dup ~unresolved-reference type-match if
+    drop
+    offset 1+ FWDREF_INFO_RELATIVE rot reflist-add!
+    $42 8lit
+  else
+    drop 1+ offset - 8lit
+  then ;
+
+: n   arg1-value  8lit ;
+: n'  arg2-value  8lit ;
+: e arg1-value arg1-type emit-rel-addr ;
 : nn  arg1-value arg1-type emit-addr ;
 : nn' arg2-value arg2-type emit-addr ;
+
+PREVIOUS DEFINITIONS
 
 
 : simple-instruction
   create , does> @ emit flush-args ;
 
 : instruction :
-  ` begin-dispatch
-;
+  ` begin-dispatch ;
 
 : end-instruction
   ` end-dispatch
@@ -322,6 +350,10 @@ end-instruction
 
 instruction jp,
   ~imm ~~> %11000011 emit   n ::
+end-instruction
+
+instruction jr,
+  ~imm ~~> %00011000 emit   e ::
 end-instruction
 
 instruction ld,
