@@ -187,6 +187,21 @@ defer emit
   end-dispatch
   flush-args ;
 
+: di,    %11110011 emit ;
+: ei,    %11111011 emit ;
+
+( Bug in game boy forces us to emit a NOP after halt, because HALT has
+  an inconsistent skipping of the next instruction depending on if the
+  interruptions are enabled or not )
+: halt%, %01110110 emit ;
+: halt, halt%, 0 emit ;
+
+: jp,
+  begin-dispatch
+  ~imm ~~> %11000011 emit   n ::
+  end-dispatch
+  flush-args ;
+
 : ld,
   begin-dispatch
   ~r   ~r   ~~> %01 .. r   r'      emit     ::
@@ -200,14 +215,6 @@ defer emit
   flush-args ;
 
 : nop,   %00000000 emit ;
-: di,    %11110011 emit ;
-: ei,    %11111011 emit ; 
-: halt%, %01110110 emit ;
-
-( Bug in game boy forces us to emit a NOP after halt, because HALT has
-  an inconsistent skipping of the next instruction depending on if the
-  interruptions are enabled or not ) 
-: halt, halt%, nop, ;
 
 : stop,
   %00010000 emit
