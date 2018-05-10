@@ -17,6 +17,15 @@ get-current
 also gb-assembler definitions
 constant previous-wid
 
+( You can override this vectored words in order to customize where the
+( assembler will write its output )
+
+defer emit
+defer offset
+
+' hex. is emit 
+:noname 0 ; is offset
+
 
 ( INSTRUCTION ARGUMENTS STACK
 
@@ -158,9 +167,6 @@ create args 2 arg-size * allot
   0 ?do ` then loop
   ` rdrop
 ; immediate
-  
-defer emit
-' hex. is emit 
 
 
 : ..  6 lshift ;
