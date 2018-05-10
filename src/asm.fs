@@ -48,37 +48,37 @@ variable counter
 )
 
 struct
-    cell% field reflist-item-offset
-    cell% field reflist-item-info
-    cell% field reflist-item-next
-end-struct reflist-item%
+    cell% field fwdref-offset
+    cell% field fwdref-info
+    cell% field fwdref-next
+end-struct fwdref%
 
 : empty-reflist? ( reflist -- bool )
-  reflist-item-offset @ 0<> ;
+  fwdref-offset @ 0<> ;
 
 : .reflist ( reflist -- )
   ." REFLIST:"
   begin dup empty-reflist? while
-    ." " dup reflist-item-offset @ hex.
-    reflist-item-next @
+    ." " dup fwdref-offset @ hex.
+    fwdref-next @
   repeat
   CR
   drop ;
 
 : create-empty-reflist ( -- reflist )
-  reflist-item% %allot ;
+  fwdref% %allot ;
 
 : reflist-add ( offset info reflist -- reflist* )
   create-empty-reflist >r
-  r@ reflist-item-next !
-  r@ reflist-item-info !
-  r@ reflist-item-offset ! 
+  r@ fwdref-next !
+  r@ fwdref-info !
+  r@ fwdref-offset ! 
   r> ;
 
 : reflist-resolve ( real-value reflist -- )
   begin dup empty-reflist? while
-    2dup reflist-item-offset @ emit-16bits-to
-    reflist-item-next @
+    2dup fwdref-offset @ emit-16bits-to
+    fwdref-next @
   repeat
   2drop ;
 
