@@ -210,9 +210,18 @@ end-types
 : resolve-label-references ( xt -- )
   offset swap >body @ reflist-resolve ;
 
-: label '
-  dup resolve-label-references
-  redefine-label-forward ;
+: fresh-label
+  create offset , does> @ ~imm push-arg ;
+
+: label
+  parse-name
+  2dup find-name ?dup if
+    name>int
+    dup resolve-label-references
+    redefine-label-forward
+  else
+    nextname fresh-label
+  then ;
 
 
 ( Arguments pattern matching )
