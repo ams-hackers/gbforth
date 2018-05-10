@@ -27,6 +27,14 @@ rom erase
   rom-offset rom!
   $1 rom-offset+! ;
 
+: rom-move ( addr u -- )
+  dup >r
+  rom-offset offset>addr swap move
+  r> rom-offset+! ;
+
+: rom"
+  [char] " parse rom-move ;
+
 : ==> ( n -- )
   rom-offset! ;
 

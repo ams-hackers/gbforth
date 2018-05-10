@@ -128,8 +128,13 @@ SCRN_VX_B SCRN_VY_B * # bc ld,
 
 mem_SetVRAM call,
                                                                                                             $21 rom, $8d rom, $01 rom, $11 rom,
-$e3 rom, $98 rom, $01 rom, $0d rom, $00 rom, $cd rom, $a1 rom, $00 rom, $76 rom, $00 rom, $00 rom, $18 rom, $fb rom, $48 rom, $65 rom, $6c rom,
-$6c rom, $6f rom, $20 rom, $57 rom, $6f rom, $72 rom, $6c rom, $64 rom, $20 rom, $21 rom, $00 rom, $f0 rom, $40 rom, $07 rom, $d0 rom, $f0 rom,
+$e3 rom, $98 rom, $01 rom, $0d rom, $00 rom, $cd rom, $a1 rom, $00 rom, $76 rom, $00 rom, $00 rom, $18 rom, $fb rom, 
+
+rom" Hello World !"
+
+nop,
+
+$f0 rom, $40 rom, $07 rom, $d0 rom, $f0 rom,
 $44 rom, $fe rom, $91 rom, $20 rom, $fa rom, $f0 rom, $40 rom, $cb rom, $bf rom, $e0 rom, $40 rom, $c9 rom, $7e rom, $42 rom, $42 rom, $42 rom,
 $42 rom, $42 rom, $42 rom, $7e rom, $7e rom, $81 rom, $a5 rom, $81 rom, $bd rom, $99 rom, $81 rom, $7e rom, $7e rom, $ff rom, $db rom, $ff rom,
 $c3 rom, $e7 rom, $ff rom, $7e rom, $6c rom, $fe rom, $fe rom, $fe rom, $7c rom, $38 rom, $10 rom, $00 rom, $10 rom, $38 rom, $7c rom, $fe rom,
