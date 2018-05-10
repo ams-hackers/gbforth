@@ -4,6 +4,8 @@ require ./src/gbhw.fs
 also gb-assembler
 
 ' rom, IS emit
+' rom-offset IS offset
+' rom! IS emit-to
 
 $00 ==> $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, ( restart $00 address )
 $08 ==> $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, ( restart $08 address )
@@ -127,8 +129,18 @@ SCRN_VX_B SCRN_VY_B * # bc ld,
 : mem_SetVRAM $008b # ;
 
 mem_SetVRAM call,
-                                                                                                            $21 rom, $8d rom, $01 rom, $11 rom,
+
+presume Title
+
+Title hl ld,
+
+                                                                                                                                       $11 rom,
+
+
 $e3 rom, $98 rom, $01 rom, $0d rom, $00 rom, $cd rom, $a1 rom, $00 rom, $76 rom, $00 rom, $00 rom, $18 rom, $fb rom, 
+
+
+label Title
 
 rom" Hello World !"
 
