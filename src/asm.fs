@@ -30,8 +30,14 @@ variable counter
 :noname counter @ ; is offset
 :noname 2drop ; is emit-to
 
-: emit-rel-to ( n offset -- )
-  swap offset swap - swap emit-to ;
+: ensure-short-jr { e -- e }
+  e -128 >= e 127 <= and 
+  invert abort" The relative jump is out of range"
+  e ;
+  
+
+: emit-rel-to ( n source-offset -- )
+  true abort" Implement me!" ;
 
 : emit-16bits-to { n offset -- }
   n lower-byte   offset     emit-to
@@ -315,7 +321,7 @@ DEFINITIONS
     offset 1+ FWDREF_INFO_RELATIVE rot reflist-add!
     $42 8lit
   else
-    drop offset 1+ - 8lit
+    drop offset 1+ - ensure-short-jr 8lit
   then ;
 
 : n   arg1-value  8lit ;
