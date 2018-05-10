@@ -139,9 +139,13 @@ _SCRN0 3 + SCRN_VY_B 7 * + # de ld,
 
 %Title nip # bc ld,
 
+: mem_CopyVRAM $00a1 # ;
+mem_CopyVRAM call,
 
-                                             $cd rom, $a1 rom, $00 rom, $76 rom, $00 rom, $00 rom, $18 rom, $fb rom, 
-
+( wait ) rom-offset
+halt,
+nop,
+( wait) # jr,
 
 label Title
 %title rom-move

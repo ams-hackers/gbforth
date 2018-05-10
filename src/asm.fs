@@ -306,7 +306,7 @@ DEFINITIONS
     offset 1+ FWDREF_INFO_RELATIVE rot reflist-add!
     $42 8lit
   else
-    drop 1+ offset - 8lit
+    drop offset 1+ - 8lit
   then ;
 
 : n   arg1-value  8lit ;
