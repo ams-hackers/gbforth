@@ -142,10 +142,10 @@ _SCRN0 3 + SCRN_VY_B 7 * + # de ld,
 : mem_CopyVRAM $00a1 # ;
 mem_CopyVRAM call,
 
-( wait ) rom-offset
+label wait
 halt,
 nop,
-( wait) # jr,
+wait jr,
 
 label Title
 %title rom-move
