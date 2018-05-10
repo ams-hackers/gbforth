@@ -257,6 +257,8 @@ end-types
 ; immediate
 
 
+( Instructions helpers )
+
 : ..  6 lshift ;
 : r  arg2-value 3 lshift | ;
 : r' arg1-value | ;
@@ -287,45 +289,60 @@ end-types
 : nn' arg2-value arg2-type emit-addr ;
 
 
-: call,
-  begin-dispatch
+: simple-instruction
+  create , does> @ emit flush-args ;
+
+: instruction :
+  ` begin-dispatch
+;
+
+: end-instruction
+  ` end-dispatch
+  ` flush-args
+  ` ;
+; immediate
+
+
+
+( INSTRUCTIONS )
+
+instruction call,
   ~imm      ~~> %11001101 emit              nn  ::
   ~imm ~cc  ~~> %11 .. 0cc %100 | emit      nn  ::
-  end-dispatch
-  flush-args ;
+end-instruction
 
-: di,    %11110011 emit ;
-: ei,    %11111011 emit ;
+%11110011 simple-instruction di,
+%11111011 simple-instruction ei,
 
 ( Bug in game boy forces us to emit a NOP after halt, because HALT has
   an inconsistent skipping of the next instruction depending on if the
   interruptions are enabled or not )
-: halt%, %01110110 emit ;
-: halt, halt%, 0 emit ;
+%01110110 simple-instruction halt%,
 
-: jp,
-  begin-dispatch
+
+instruction jp,
   ~imm ~~> %11000011 emit   n ::
-  end-dispatch
-  flush-args ;
+end-instruction
 
-: ld,
-  begin-dispatch
+instruction ld,
   ~r   ~r   ~~> %01 .. r   r'      emit     ::
   ~imm ~r   ~~> %00 .. r   %110  | emit  n  ::
   ~imm ~dd  ~~> %00 .. dd0 %001  | emit nn  ::
 
   ~(n) ~A   ~~>      %11110000     emit  n  ::
   ~A   ~(n) ~~>      %11100000     emit  n' ::
+end-instruction
 
-  end-dispatch
-  flush-args ;
-
-: nop,   %00000000 emit ;
+%00000000 simple-instruction nop,
 
 : stop,
   %00010000 emit
-  %00000000 emit ;
+  %00000000 emit
+  flush-args ;
+
+
+( Prevent the halt bug by emitting a NOP right after halt )
+: halt, halt%, nop, ;
 
 
 previous-wid set-current
