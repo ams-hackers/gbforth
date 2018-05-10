@@ -69,17 +69,25 @@ create args 2 arg-size * allot
 
 
 ( Argument Types )
-%00000001 constant ~r
-%00000010 constant ~dd
-%00000100 constant ~qq
-%00001000 constant ~imm
-%00110000 constant ~(n)          ( overlaps with ~nn )
-%00100000 constant ~(nn)
-%01000000 constant ~A
-%10000000 constant ~cc           ( flags )
+
+: begin-types 1 ;
+: type dup constant 1 lshift ;
+: end-types drop ;
+
+begin-types
+  type ~r
+  type ~dd
+  type ~qq
+  type ~imm
+  type ~(n)_
+  type ~(nn)
+  type ~A
+  type ~cc
+end-types
 
 : | or ;
 
+: ~(n) ~(n)_ ~(nn) | ;
 : ~qq|dd ~dd ~qq | ;
 
 : operand ( value type )
