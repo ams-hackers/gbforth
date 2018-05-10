@@ -20,11 +20,55 @@ constant previous-wid
 ( You can override this vectored words in order to customize where the
 ( assembler will write its output )
 
-defer emit
-defer offset
+defer emit ( value -- )
+defer offset ( -- offset )
+defer emit-to ( addr offset -- )
 
-' hex. is emit 
-:noname 0 ; is offset
+variable counter
+:noname hex. 1 counter +! ; is emit
+:noname counter @ ; is offset
+:noname 2drop ; is emit-to
+
+: emit-16bits-to { n addr -- }
+  n lower-byte   addr     emit-to
+  n higher-byte  addr 1+  emit-to ;
+
+
+( REFERENCES LIST )
+(
+  reflist
+  +---+---+   +---+---+   +---+---+
+  |   |  ---->|   |  ---->| 0 | 0 |
+  +---+---+   +-|-+---+   +---+---+
+                |
+                 \
+             call \> xxxx
+
+        [the address of ther eference]
+)
+
+: .reflist ( reflist -- )
+  ." REFLIST:"
+  begin dup @ 0<> while
+    ." " dup @ hex.
+    cell+ @
+  repeat
+  CR
+  drop ;
+
+: create-empty-reflist ( -- reflist )
+  here 0 0 2, ;
+
+: reflist-add ( value reflist -- reflist* )
+  here -rot swap 2, ;
+
+: reflist-resolve ( real-value reflist -- )
+  dup .reflist
+  begin dup @ 0<> while
+    2dup @ emit-16bits-to
+    cell+ @
+  repeat
+  2drop ;
 
 
 ( INSTRUCTION ARGUMENTS STACK
@@ -83,6 +127,7 @@ begin-types
   type ~(nn)
   type ~A
   type ~cc
+  type ~unresolved-reference
 end-types
 
 : | or ;
@@ -121,6 +166,29 @@ end-types
   else
     ~(nn) push-arg
   then ;
+
+
+( LABEL & REFERENCES )
+
+: presume
+  create
+  here
+  0 , ~unresolved-reference ~imm | ,
+  create-empty-reflist swap !
+  does> dup cell+ @ push-arg ;
+
+: redefine-label-forward ( xt -- )
+  >body
+  offset over !
+  ~imm swap cell+ ! ;
+
+: resolve-label-references ( xt -- )
+  offset swap >body @ reflist-resolve ;
+
+: label '
+  dup resolve-label-references
+  redefine-label-forward ;
+
 
 ( Arguments pattern matching )
 
@@ -189,9 +257,22 @@ end-types
       higher-byte emit ;
 
 : n   arg1-value  8lit ;
-: nn  arg1-value 16lit ;
 : n'  arg2-value  8lit ;
-: nn' arg2-value 16lit ;
+
+: reflist-add! ( value &reflist -- )
+  dup >r @ reflist-add r> ! ;
+
+: emit-addr ( arg-value arg-type )
+  dup ~unresolved-reference type-match if
+    drop
+    offset swap reflist-add!
+    $4242 16lit
+  else
+    drop 16lit
+  then ;
+
+: nn  arg1-value arg1-type emit-addr ;
+: nn' arg2-value arg2-type emit-addr ;
 
 
 : call,
