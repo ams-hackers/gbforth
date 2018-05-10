@@ -37,35 +37,48 @@ variable counter
 ( REFERENCES LIST )
 (
   reflist
-  +---+---+   +---+---+   +---+---+
-  |   |  ---->|   |  ---->| 0 | 0 |
-  +---+---+   +-|-+---+   +---+---+
-                |
-                 \
-             call \> xxxx
+  +---+---+---+   +---+---+---+   +---+---+---+
+  |   |   |  ---->|   |   |  ---->| 0 | 0 | 0 |
+  +---+---+---+   +---+---+---+   +---+---+---+
+                    |   \
+                     \   ----- info
+                 call \> xxxx
 
         [the address of ther eference]
 )
 
+struct
+    cell% field reflist-item-offset
+    cell% field reflist-item-info
+    cell% field reflist-item-next
+end-struct reflist-item%
+
+: empty-reflist? ( reflist -- bool )
+  reflist-item-offset @ 0<> ;
+
 : .reflist ( reflist -- )
   ." REFLIST:"
-  begin dup @ 0<> while
-    ." " dup @ hex.
-    cell+ @
+  begin dup empty-reflist? while
+    ." " dup reflist-item-offset @ hex.
+    reflist-item-next @
   repeat
   CR
   drop ;
 
 : create-empty-reflist ( -- reflist )
-  here 0 0 2, ;
+  reflist-item% %allot ;
 
-: reflist-add ( value reflist -- reflist* )
-  here -rot swap 2, ;
+: reflist-add ( offset info reflist -- reflist* )
+  create-empty-reflist >r
+  r@ reflist-item-next !
+  r@ reflist-item-info !
+  r@ reflist-item-offset ! 
+  r> ;
 
 : reflist-resolve ( real-value reflist -- )
-  begin dup @ 0<> while
-    2dup @ emit-16bits-to
-    cell+ @
+  begin dup empty-reflist? while
+    2dup reflist-item-offset @ emit-16bits-to
+    reflist-item-next @
   repeat
   2drop ;
 
@@ -258,13 +271,13 @@ end-types
 : n   arg1-value  8lit ;
 : n'  arg2-value  8lit ;
 
-: reflist-add! ( value &reflist -- )
+: reflist-add! ( value info &reflist -- )
   dup >r @ reflist-add r> ! ;
 
 : emit-addr ( arg-value arg-type )
   dup ~unresolved-reference type-match if
     drop
-    offset swap reflist-add!
+    offset 0 rot reflist-add!
     $4242 16lit
   else
     drop 16lit
