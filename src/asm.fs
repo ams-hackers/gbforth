@@ -60,13 +60,14 @@ create args 2 arg-size * allot
 
 
 ( Argument Types )
-%0000001 constant ~r
-%0000010 constant ~dd
-%0000100 constant ~qq
-%0001000 constant ~imm
-%0110000 constant ~(n)          ( overlaps with ~nn )
-%0100000 constant ~(nn)
-%1000000 constant ~A
+%00000001 constant ~r
+%00000010 constant ~dd
+%00000100 constant ~qq
+%00001000 constant ~imm
+%00110000 constant ~(n)          ( overlaps with ~nn )
+%00100000 constant ~(nn)
+%01000000 constant ~A
+%10000000 constant ~cc           ( flags )
 
 : | or ;
 
@@ -90,6 +91,11 @@ create args 2 arg-size * allot
 %11    ~dd operand SP
 %11 ~qq    operand AF
 
+%00 ~cc operand NZ
+%01 ~cc operand Z
+%10 ~cc operand NC
+%11 ~cc operand C
+
 ( Push an immediate value to the arguments stack )
 : # ~imm push-arg ;
 : ]*
@@ -106,18 +112,34 @@ create args 2 arg-size * allot
 : type-match ( type type' -- bool )
   and 0<> ;
 
+: 1arg-match? ( type -- bool )
+  arg1-type type-match
+  args# 1 = and ;
+
 : 2arg-match? ( type1 type2 -- bool )
   arg2-type type-match swap
   arg1-type type-match and
   args# 2 = and ;
 
+: args-match? ( ... #number-of-args -- bool )
+  case
+    1 of 1arg-match? endof
+    2 of 2arg-match? endof
+    abort" Unknown number of parameters"
+  endcase ;
+
+
 : begin-dispatch
   0
+  ` depth
+  ` >r
 ; immediate
+
+: `#patterns ` depth ` r@ ` - ;
 
 : ~~>
   1+ >r
-  ` 2arg-match? ` if
+  `#patterns ` args-match? ` if
   r>
 ; immediate
 
@@ -134,16 +156,18 @@ create args 2 arg-size * allot
 : end-dispatch
   ` (unknown-args)
   0 ?do ` then loop
+  ` rdrop
 ; immediate
   
 defer emit
 ' hex. is emit 
 
 
-: ..  6 rshift ;
+: ..  6 lshift ;
 : r  arg2-value 3 lshift | ;
 : r' arg1-value | ;
 : dd0 arg2-value 4 lshift | ;
+: 0cc arg2-value 3 lshift | ;
 
 :  8lit $ff and emit ;
 : 16lit 
@@ -155,6 +179,13 @@ defer emit
 : n'  arg2-value  8lit ;
 : nn' arg2-value 16lit ;
 
+
+: call,
+  begin-dispatch
+  ~imm      ~~> %11001101 emit              nn  ::
+  ~imm ~cc  ~~> %11 .. 0cc %100 | emit      nn  ::
+  end-dispatch
+  flush-args ;
 
 : ld,
   begin-dispatch
