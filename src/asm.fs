@@ -227,47 +227,5 @@ create args 2 arg-size * allot
   %00000000 emit ;
 
 
-
-\ ld 8reg 8imm        00 r   110      n
-
-\ ld (hl) imm8        00 110 110      n
-
-\ ld A (bc)           00 001 010
-\ ld A (de)           00 011 010
-
-\ ld A (hli)          00 101 010
-\ ld A (hld)          00 111 010
-
-\ ld (bc) A           00 000 010
-\ ld (de) A           00 010 010
-\ ld (hli) A          00 100 010
-\ ld (hld) A          00 110 010
-
-\ ld 8reg 8reg        01 r r'
-
-\ ld 8reg (hl)        01 r   110
-\ ld (hl) 8reg        01 110 r
-
-
-
-\ ld A (C)            11 110 010
-\ ld (C) A            11 100 010
-
-\ ld A (n) FFnn -> A  11 110 000      n
-\ ld (n) A            11 100 000      n
-
-\ ld A (nn)           11 111 010      n    n
-\ ld (nn) A           11 101 010      n    n
-
-
-\ n
-\ CASE
-\   n1 OF code1 ENDOF
-\   n2 OF code2 ENDOF
-\   ...
-\   ( n ) default-code ( n )
-\ ENDCASE ( )
-
-
 previous-wid set-current
 previous
