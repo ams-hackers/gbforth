@@ -91,10 +91,10 @@ create args 2 arg-size * allot
 %11    ~dd operand SP
 %11 ~qq    operand AF
 
-%00 ~cc operand NZ
-%01 ~cc operand Z
-%10 ~cc operand NC
-%11 ~cc operand C
+%00 ~cc operand #NZ
+%01 ~cc operand #Z
+%10 ~cc operand #NC
+%11 ~cc operand #C
 
 ( Push an immediate value to the arguments stack )
 : # ~imm push-arg ;
