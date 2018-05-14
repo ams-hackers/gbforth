@@ -95,10 +95,10 @@ a [rGBP] ld,
 a [rSCX] ld,
 a [rSCY] ld,
 
-
-: StopLCD $019b # ;
+presume StopLCD
 
 StopLCD call,
+
 
 : TileData $01ac # ;
 : _VRAM $8000 # ;
@@ -130,7 +130,6 @@ SCRN_VX_B SCRN_VY_B * # bc ld,
 
 mem_SetVRAM call,
 
-
 : %Title s" Hello World !" ;
 PRESUME Title
 
@@ -150,9 +149,16 @@ wait jr,
 label Title
 %title rom-move
 
+
 nop,
 
-$f0 rom, $40 rom, $07 rom, $d0 rom, $f0 rom,
+label StopLCD
+[rLCDC] A ld,
+rlca,
+
+#NC ret,
+
+                                    $f0 rom,
 $44 rom, $fe rom, $91 rom, $20 rom, $fa rom, $f0 rom, $40 rom, $cb rom, $bf rom, $e0 rom, $40 rom, $c9 rom, $7e rom, $42 rom, $42 rom, $42 rom,
 $42 rom, $42 rom, $42 rom, $7e rom, $7e rom, $81 rom, $a5 rom, $81 rom, $bd rom, $99 rom, $81 rom, $7e rom, $7e rom, $ff rom, $db rom, $ff rom,
 $c3 rom, $e7 rom, $ff rom, $7e rom, $6c rom, $fe rom, $fe rom, $fe rom, $7c rom, $38 rom, $10 rom, $00 rom, $10 rom, $38 rom, $7c rom, $fe rom,
@@ -2175,5 +2181,9 @@ $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
 $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
 $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
 $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
+
+depth 0<> [if]
+  ." The stack is not empty!" cr
+[endif]
 
 PREVIOUS

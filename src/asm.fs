@@ -301,7 +301,8 @@ DEFINITIONS
 : r  arg2-value 3 lshift | ;
 : r' arg1-value | ;
 : dd0 arg2-value 4 lshift | ;
-: 0cc arg2-value 3 lshift | ;
+: 0cc arg1-value 3 lshift | ;
+: 0cc' arg2-value 3 lshift | ;
 
 :  8lit $ff and emit ;
 : 16lit 
@@ -353,7 +354,7 @@ PREVIOUS DEFINITIONS
 
 instruction call,
   ~imm      ~~> %11001101 emit              nn  ::
-  ~imm ~cc  ~~> %11 .. 0cc %100 | emit      nn  ::
+  ~imm ~cc  ~~> %11 .. 0cc' %100 | emit     nn  ::
 end-instruction
 
 %11110011 simple-instruction di,
@@ -383,6 +384,13 @@ instruction ld,
 end-instruction
 
 %00000000 simple-instruction nop,
+
+
+instruction ret,
+        ~cc ~~> %11 .. 0cc 000 | emit   ::
+end-instruction
+
+%00000111 simple-instruction rlca,
 
 : stop,
   %00010000 emit
