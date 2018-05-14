@@ -306,10 +306,13 @@ end-types
 : reflist-add! ( value info &reflist -- )
   dup >r @ reflist-add r> ! ;
 
+: ..  3 lshift ;
+: op { prefix tribble1 tribble2 -- opcode }
+  prefix .. tribble1 | .. tribble2 | ;
+
 ALSO GB-ASSEMBLER-EMITERS
 DEFINITIONS
 
-: ..  3 lshift ;
 : r  arg1-value ;
 : r' arg2-value ;
 : dd0' arg2-value 1 lshift ;
@@ -345,14 +348,13 @@ DEFINITIONS
 : nn,  arg1-value arg1-type emit-addr ;
 : nn', arg2-value arg2-type emit-addr ;
 
-: op, { prefix tribble1 tribble2 -- opcode }
-    prefix .. tribble1 | .. tribble2 | emit ;
+: op, op emit ;
 
 PREVIOUS DEFINITIONS
 
 
 : simple-instruction
-  create , does> @ emit flush-args ;
+  create op , does> @ emit flush-args ;
 
 : instruction :
   ` begin-dispatch ;
@@ -372,13 +374,13 @@ instruction call,
   ~nn ~cc  ~~> %11 0cc' %100 op, nn, ::
 end-instruction
 
-%11110011 simple-instruction di,
-%11111011 simple-instruction ei,
+%11 %110 %011 simple-instruction di,
+%11 %111 %011 simple-instruction ei,
 
 ( Bug in game boy forces us to emit a NOP after halt, because HALT has
   an inconsistent skipping of the next instruction depending on if the
   interruptions are enabled or not )
-%01110110 simple-instruction halt%,
+%01 %110 %110 simple-instruction halt%,
 
 
 instruction jp,
@@ -398,13 +400,13 @@ instruction ld,
   ~A   ~(n) ~~> %11 %100 %000 op, n', ::
 end-instruction
 
-%00000000 simple-instruction nop,
+%00 %000 %000 simple-instruction nop,
 
 instruction ret,
         ~cc ~~> %11 0cc %000 op, ::
 end-instruction
 
-%00000111 simple-instruction rlca,
+%00 %000 %111 simple-instruction rlca,
 
 instruction stop,
   ~~> %00 %010 %000 op,
