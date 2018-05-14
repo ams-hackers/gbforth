@@ -352,10 +352,6 @@ DEFINITIONS
 
 PREVIOUS DEFINITIONS
 
-
-: simple-instruction
-  create op , does> @ emit flush-args ;
-
 : instruction :
   ` begin-dispatch ;
 
@@ -365,7 +361,11 @@ PREVIOUS DEFINITIONS
   ` ;
 ; immediate
 
-
+: simple-instruction
+  op >r
+  instruction
+  ` ~~> r> ` literal  ` emit ` ::
+  ` end-instruction ;
 
 ( INSTRUCTIONS )
 
