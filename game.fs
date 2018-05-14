@@ -163,9 +163,9 @@ label .wait
 #145 # cp,
 .wait #NZ jr,
 [rLCDC] A ld,
+A #7 # res,
 
-
-$cb rom, $bf rom, $e0 rom, $40 rom, $c9 rom, 
+$e0 rom, $40 rom, $c9 rom, 
 
 require ./src/fonts.fs
 

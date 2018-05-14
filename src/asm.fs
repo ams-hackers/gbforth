@@ -314,6 +314,7 @@ end-types
 ALSO GB-ASSEMBLER-EMITERS
 DEFINITIONS
 
+: n  arg1-value ;
 : r  arg1-value ;
 : r' arg2-value ;
 : dd0' arg2-value 1 lshift ;
@@ -418,6 +419,11 @@ end-instruction
 instruction stop,
   ~~> %00 %010 %000 op,
       %00 %000 %000 op, ::
+end-instruction
+
+instruction res,
+  ~r ~n   ~~>  %11 %001 %011 op,
+               %10    n   r' op, ::
 end-instruction
 
 ( Prevent the halt bug by emitting a NOP right after halt )
