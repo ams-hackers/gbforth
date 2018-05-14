@@ -364,8 +364,8 @@ PREVIOUS DEFINITIONS
 ( INSTRUCTIONS )
 
 instruction call,
-  ~nn      ~~> %11001101             emit    nn  ::
-  ~nn ~cc  ~~> %11 .. 0cc' .. %100 | emit    nn  ::
+  ~nn      ~~> %11 %001 %101            op,   nn,  ::
+  ~nn ~cc  ~~> %11 0cc' %100 op,    nn,  ::
 end-instruction
 
 %11110011 simple-instruction di,
@@ -378,11 +378,11 @@ end-instruction
 
 
 instruction jp,
-  ~n ~~> %11000011 emit   n ::
+  ~n ~~> %11 %000 %011 op,   n ::
 end-instruction
 
 instruction jr,
-  ~nn ~~> %00011000 emit   e ::
+  ~nn ~~> %00 %011 %000 op,   e ::
 end-instruction
 
 instruction ld,
@@ -403,8 +403,8 @@ end-instruction
 %00000111 simple-instruction rlca,
 
 : stop,
-  %00010000 emit
-  %00000000 emit
+  %00 %010 %000 op,
+  %00 %000 %000 op,
   flush-args ;
 
 ( Prevent the halt bug by emitting a NOP right after halt )
