@@ -247,6 +247,9 @@ end-types
 : type-match ( type type' -- bool )
   and 0<> ;
 
+: 0arg-match? ( -- bool )
+  args# 0 = ;
+
 : 1arg-match? ( type -- bool )
   arg1-type type-match
   args# 1 = and ;
@@ -258,6 +261,7 @@ end-types
 
 : args-match? ( ... #number-of-args -- bool )
   case
+    0 of 0arg-match? endof
     1 of 1arg-match? endof
     2 of 2arg-match? endof
     abort" Unknown number of parameters"
@@ -312,8 +316,8 @@ DEFINITIONS
 : 0cc  arg1-value ;
 : 0cc' arg2-value ;
 
-:  8lit $ff and emit ;
-: 16lit
+:  8lit, $ff and emit ;
+: 16lit,
   dup lower-byte  emit
       higher-byte emit ;
 
@@ -321,25 +325,25 @@ DEFINITIONS
   dup ~unresolved-reference type-match if
     drop
     offset FWDREF_INFO_ABSOLUTE rot reflist-add!
-    $4242 16lit
+    $4242 16lit,
   else
-    drop 16lit
+    drop 16lit,
   then ;
 
 : emit-rel-addr ( arg-value arg-type )
   dup ~unresolved-reference type-match if
     drop
     offset 1+ FWDREF_INFO_RELATIVE rot reflist-add!
-    $42 8lit
+    $42 8lit,
   else
-    drop offset 1+ - ensure-short-jr 8lit
+    drop offset 1+ - ensure-short-jr 8lit,
   then ;
 
-: n   arg1-value  8lit ;
-: n'  arg2-value  8lit ;
-: e arg1-value arg1-type emit-rel-addr ;
-: nn  arg1-value arg1-type emit-addr ;
-: nn' arg2-value arg2-type emit-addr ;
+: n,   arg1-value 8lit, ;
+: n',  arg2-value 8lit, ;
+: e,   arg1-value arg1-type emit-rel-addr ;
+: nn,  arg1-value arg1-type emit-addr ;
+: nn', arg2-value arg2-type emit-addr ;
 
 : op, { prefix tribble1 tribble2 -- opcode }
     prefix .. tribble1 | .. tribble2 | emit ;
@@ -364,8 +368,8 @@ PREVIOUS DEFINITIONS
 ( INSTRUCTIONS )
 
 instruction call,
-  ~nn      ~~> %11 %001 %101            op,   nn,  ::
-  ~nn ~cc  ~~> %11 0cc' %100 op,    nn,  ::
+  ~nn      ~~> %11 %001 %101 op, nn, ::
+  ~nn ~cc  ~~> %11 0cc' %100 op, nn, ::
 end-instruction
 
 %11110011 simple-instruction di,
@@ -378,20 +382,20 @@ end-instruction
 
 
 instruction jp,
-  ~n ~~> %11 %000 %011 op,   n ::
+  ~n ~~> %11 %000 %011 op, n, ::
 end-instruction
 
 instruction jr,
-  ~nn ~~> %00 %011 %000 op,   e ::
+  ~nn ~~> %00 %011 %000 op, e, ::
 end-instruction
 
 instruction ld,
-  ~r   ~r   ~~> %01 r'  r      op,      ::
-  ~n   ~r   ~~> %00 r'  %110 op, n  ::
-  ~nn ~dd   ~~> %00 dd0'  %001 op, nn  ::
+  ~r   ~r   ~~> %01 r'   r    op,     ::
+  ~n   ~r   ~~> %00 r'   %110 op, n,  ::
+  ~nn ~dd   ~~> %00 dd0' %001 op, nn, ::
 
-  ~(n) ~A   ~~> %11 %110 %000 op, n  ::
-  ~A   ~(n) ~~> %11 %100 %000 op, n' ::
+  ~(n) ~A   ~~> %11 %110 %000 op, n,  ::
+  ~A   ~(n) ~~> %11 %100 %000 op, n', ::
 end-instruction
 
 %00000000 simple-instruction nop,
@@ -402,10 +406,10 @@ end-instruction
 
 %00000111 simple-instruction rlca,
 
-: stop,
-  %00 %010 %000 op,
-  %00 %000 %000 op,
-  flush-args ;
+instruction stop,
+  ~~> %00 %010 %000 op,
+      %00 %000 %000 op, ::
+end-instruction
 
 ( Prevent the halt bug by emitting a NOP right after halt )
 : halt, halt%, nop, ;
