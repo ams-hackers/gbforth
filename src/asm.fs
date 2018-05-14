@@ -31,10 +31,10 @@ variable counter
 :noname 2drop ; is emit-to
 
 : ensure-short-jr { e -- e }
-  e -128 >= e 127 <= and 
+  e -128 >= e 127 <= and
   invert abort" The relative jump is out of range"
   e ;
-  
+
 
 : emit-rel-to ( n source-offset -- )
   true abort" Implement me!" ;
@@ -86,7 +86,7 @@ $1 constant FWDREF_INFO_RELATIVE
   create-empty-reflist >r
   r@ fwdref-next !
   r@ fwdref-info !
-  r@ fwdref-offset ! 
+  r@ fwdref-offset !
   r> ;
 
 : patch-fwdref ( real-value fwdref -- )
@@ -274,7 +274,7 @@ end-types
 : ::
   >r
   previous
-  ` else 
+  ` else
   r>
 ; immediate
 
@@ -297,15 +297,15 @@ end-types
 ALSO GB-ASSEMBLER-EMITERS
 DEFINITIONS
 
-: ..  6 lshift ;
-: r  arg2-value 3 lshift | ;
-: r' arg1-value | ;
-: dd0 arg2-value 4 lshift | ;
-: 0cc arg1-value 3 lshift | ;
-: 0cc' arg2-value 3 lshift | ;
+: ..  3 lshift ;
+: r  arg1-value | ;
+: r' arg2-value | ;
+: dd0' arg2-value 1 lshift | ;
+: 0cc  arg1-value | ;
+: 0cc' arg2-value | ;
 
 :  8lit $ff and emit ;
-: 16lit 
+: 16lit
   dup lower-byte  emit
       higher-byte emit ;
 
@@ -353,8 +353,8 @@ PREVIOUS DEFINITIONS
 ( INSTRUCTIONS )
 
 instruction call,
-  ~imm      ~~> %11001101 emit              nn  ::
-  ~imm ~cc  ~~> %11 .. 0cc' %100 | emit     nn  ::
+  ~imm      ~~> %11001101             emit    nn  ::
+  ~imm ~cc  ~~> %11 .. 0cc' .. %100 | emit    nn  ::
 end-instruction
 
 %11110011 simple-instruction di,
@@ -375,19 +375,18 @@ instruction jr,
 end-instruction
 
 instruction ld,
-  ~r   ~r   ~~> %01 .. r   r'      emit     ::
-  ~imm ~r   ~~> %00 .. r   %110  | emit  n  ::
-  ~imm ~dd  ~~> %00 .. dd0 %001  | emit nn  ::
+  ~r   ~r   ~~> %01 .. r'   .. r      emit      ::
+  ~imm ~r   ~~> %00 .. r'   .. %110 | emit   n  ::
+  ~imm ~dd  ~~> %00 .. dd0' .. %001 | emit  nn  ::
 
-  ~(n) ~A   ~~>      %11110000     emit  n  ::
-  ~A   ~(n) ~~>      %11100000     emit  n' ::
+  ~(n) ~A   ~~> %11110000 emit    n  ::
+  ~A   ~(n) ~~> %11100000 emit    n' ::
 end-instruction
 
 %00000000 simple-instruction nop,
 
-
 instruction ret,
-        ~cc ~~> %11 .. 0cc 000 | emit   ::
+        ~cc ~~> %11 .. 0cc .. 000 | emit   ::
 end-instruction
 
 %00000111 simple-instruction rlca,
@@ -396,7 +395,6 @@ end-instruction
   %00010000 emit
   %00000000 emit
   flush-args ;
-
 
 ( Prevent the halt bug by emitting a NOP right after halt )
 : halt, halt%, nop, ;
