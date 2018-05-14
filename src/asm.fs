@@ -319,6 +319,7 @@ DEFINITIONS
 : dd0' arg2-value 1 lshift ;
 : 0cc  arg1-value ;
 : 0cc' arg2-value ;
+: 1cc' 0cc' %100 + ;
 
 :  8lit, $ff and emit ;
 : 16lit,
@@ -389,7 +390,8 @@ instruction jp,
 end-instruction
 
 instruction jr,
-  ~e ~~> %00 %011 %000 op, e, ::
+  ~e     ~~> %00 %011 %000 op, e, ::
+  ~e ~cc ~~> %00 1cc' %000 op, e, ::
 end-instruction
 
 instruction ld,
@@ -408,6 +410,10 @@ instruction ret,
 end-instruction
 
 %00 %000 %111 simple-instruction rlca,
+
+instruction cp,
+  ~n ~~> %11 %111 %110 op, n, ::
+end-instruction
 
 instruction stop,
   ~~> %00 %010 %000 op,

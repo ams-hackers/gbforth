@@ -8,6 +8,8 @@ also gb-assembler
 
 : [rLCDC] $FF40 ]* ;
 
+: [rLY]   $FF44 ]* ;
+
 
 %00000000 constant LCDCF_OFF        ( LCD Control Operation)
 %10000000 constant LCDCF_ON         ( LCD Control Operation)
