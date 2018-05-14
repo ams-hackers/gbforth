@@ -154,9 +154,10 @@ begin-types
   type ~r
   type ~dd
   type ~qq
-  type ~imm
-  type ~(n)_
-  type ~(nn)
+  type ~n
+  type ~nn_
+  type ~(n)
+  type ~(nn)_
   type ~A
   type ~cc
   type ~unresolved-reference
@@ -164,7 +165,8 @@ end-types
 
 : | or ;
 
-: ~(n) ~(n)_ ~(nn) | ;
+: ~(nn) ~(n) ~(nn)_ | ;
+: ~nn ~n ~nn_ | ;
 : ~qq|dd ~dd ~qq | ;
 
 : operand ( value type )
@@ -191,7 +193,13 @@ end-types
 %11 ~cc operand #C
 
 ( Push an immediate value to the arguments stack )
-: # ~imm push-arg ;
+: #
+  dup $FF <= if
+    ~n push-arg
+  else
+    ~nn push-arg
+  then ;
+
 : ]*
   dup $FF00 >= if
     ~(n) push-arg
@@ -205,20 +213,20 @@ end-types
 : presume
   create
   here
-  0 , ~unresolved-reference ~imm | ,
+  0 , ~unresolved-reference ~nn | ,
   create-empty-reflist swap !
   does> dup cell+ @ push-arg ;
 
 : redefine-label-forward ( xt -- )
   >body
   offset over !
-  ~imm swap cell+ ! ;
+  ~nn swap cell+ ! ;
 
 : resolve-label-references ( xt -- )
   offset swap >body @ reflist-resolve ;
 
 : fresh-label
-  create offset , does> @ ~imm push-arg ;
+  create offset , does> @ ~nn push-arg ;
 
 : label
   parse-name
@@ -353,8 +361,8 @@ PREVIOUS DEFINITIONS
 ( INSTRUCTIONS )
 
 instruction call,
-  ~imm      ~~> %11001101             emit    nn  ::
-  ~imm ~cc  ~~> %11 .. 0cc' .. %100 | emit    nn  ::
+  ~nn      ~~> %11001101             emit    nn  ::
+  ~nn ~cc  ~~> %11 .. 0cc' .. %100 | emit    nn  ::
 end-instruction
 
 %11110011 simple-instruction di,
@@ -367,17 +375,17 @@ end-instruction
 
 
 instruction jp,
-  ~imm ~~> %11000011 emit   n ::
+  ~n ~~> %11000011 emit   n ::
 end-instruction
 
 instruction jr,
-  ~imm ~~> %00011000 emit   e ::
+  ~nn ~~> %00011000 emit   e ::
 end-instruction
 
 instruction ld,
   ~r   ~r   ~~> %01 .. r'   .. r      emit      ::
-  ~imm ~r   ~~> %00 .. r'   .. %110 | emit   n  ::
-  ~imm ~dd  ~~> %00 .. dd0' .. %001 | emit  nn  ::
+  ~n   ~r   ~~> %00 .. r'   .. %110 | emit   n  ::
+  ~nn ~dd   ~~> %00 .. dd0' .. %001 | emit  nn  ::
 
   ~(n) ~A   ~~> %11110000 emit    n  ::
   ~A   ~(n) ~~> %11100000 emit    n' ::
