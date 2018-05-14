@@ -306,11 +306,11 @@ ALSO GB-ASSEMBLER-EMITERS
 DEFINITIONS
 
 : ..  3 lshift ;
-: r  arg1-value | ;
-: r' arg2-value | ;
-: dd0' arg2-value 1 lshift | ;
-: 0cc  arg1-value | ;
-: 0cc' arg2-value | ;
+: r  arg1-value ;
+: r' arg2-value ;
+: dd0' arg2-value 1 lshift ;
+: 0cc  arg1-value ;
+: 0cc' arg2-value ;
 
 :  8lit $ff and emit ;
 : 16lit
@@ -340,6 +340,9 @@ DEFINITIONS
 : e arg1-value arg1-type emit-rel-addr ;
 : nn  arg1-value arg1-type emit-addr ;
 : nn' arg2-value arg2-type emit-addr ;
+
+: op, { prefix tribble1 tribble2 -- opcode }
+    prefix .. tribble1 | .. tribble2 | emit ;
 
 PREVIOUS DEFINITIONS
 
@@ -383,18 +386,18 @@ instruction jr,
 end-instruction
 
 instruction ld,
-  ~r   ~r   ~~> %01 .. r'   .. r      emit      ::
-  ~n   ~r   ~~> %00 .. r'   .. %110 | emit   n  ::
-  ~nn ~dd   ~~> %00 .. dd0' .. %001 | emit  nn  ::
+  ~r   ~r   ~~> %01 r'  r      op,      ::
+  ~n   ~r   ~~> %00 r'  %110 op, n  ::
+  ~nn ~dd   ~~> %00 dd0'  %001 op, nn  ::
 
-  ~(n) ~A   ~~> %11110000 emit    n  ::
-  ~A   ~(n) ~~> %11100000 emit    n' ::
+  ~(n) ~A   ~~> %11 %110 %000 op, n  ::
+  ~A   ~(n) ~~> %11 %100 %000 op, n' ::
 end-instruction
 
 %00000000 simple-instruction nop,
 
 instruction ret,
-        ~cc ~~> %11 .. 0cc .. 000 | emit   ::
+        ~cc ~~> %11 0cc %000 op, ::
 end-instruction
 
 %00000111 simple-instruction rlca,
