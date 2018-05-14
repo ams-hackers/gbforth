@@ -63,6 +63,7 @@ struct
     cell% field fwdref-next
 end-struct fwdref%
 
+
 $0 constant FWDREF_INFO_ABSOLUTE
 $1 constant FWDREF_INFO_RELATIVE
 
@@ -222,6 +223,7 @@ end-types
 : label
   parse-name
   2dup find-name ?dup if
+    nip nip ( discard name )
     name>int
     dup resolve-label-references
     redefine-label-forward
