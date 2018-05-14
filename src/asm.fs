@@ -407,7 +407,8 @@ end-instruction
 %00 %000 %000 simple-instruction nop,
 
 instruction ret,
-        ~cc ~~> %11 0cc %000 op, ::
+        ~cc ~~> %11  0cc %000 op, ::
+            ~~> %11 %001 %001 op, ::
 end-instruction
 
 %00 %000 %111 simple-instruction rlca,
