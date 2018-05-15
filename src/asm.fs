@@ -422,6 +422,10 @@ instruction ret,
             ~~> %11 %001 %001 op, ::
 end-instruction
 
+instruction reti,
+            ~~> %11 %011 %001 op, ::
+end-instruction
+
 %00 %000 %111 simple-instruction rlca,
 
 instruction cp,
