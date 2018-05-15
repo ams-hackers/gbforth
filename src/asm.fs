@@ -154,6 +154,7 @@ begin-types
   type ~r
   type ~dd
   type ~qq
+  type ~b
   type ~n/8
   type ~n/16
   type ~(n/8)
@@ -192,10 +193,14 @@ end-types
 
 ( Push an immediate value to the arguments stack )
 : #
-  dup $FF <= if
-    ~n/8 ~n/16 | push-arg
+  dup %111 <= if
+    ~b ~n/8 | ~n/16 | push-arg
   else
-    ~n/16 push-arg
+    dup $FF <= if
+      ~n/8 ~n/16 | push-arg
+    else
+      ~n/16 push-arg
+    then
   then ;
 
 : ]*
@@ -311,7 +316,7 @@ end-types
 ALSO GB-ASSEMBLER-EMITERS
 DEFINITIONS
 
-: n' arg2-value ;
+: b' arg2-value ;
 : r  arg1-value ;
 : r' arg2-value ;
 : dd0' arg2-value 1 lshift ;
@@ -432,8 +437,8 @@ instruction res,
 \ Actually takes r and b, where b is an immediate value in the range
 \ 0-7 (i.e. a byte). Simply using # and defined n (same as r) for
 \ now, there might be room for improvement.
-  ~r ~n   ~~>  %11 %001 %011 op,
-               %10   n'    r op, ::
+  ~r ~b   ~~>  %11 %001 %011 op,
+               %10   b'    r op, ::
 end-instruction
 
 ( Prevent the halt bug by emitting a NOP right after halt )
