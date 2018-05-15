@@ -158,9 +158,15 @@ rlca,
 
 #NC ret,
 
-                                    $f0 rom,
-$44 rom, $fe rom, $91 rom, $20 rom, $fa rom, $f0 rom, $40 rom, $cb rom, $bf rom, $e0 rom, $40 rom, $c9 rom, 
+label .wait
+[rLY] A ld,
+#145 # cp,
+.wait #NZ jr,
+[rLCDC] A ld,
+A #7 # res,
+A [rLCDC] ld,
 
+$c9 rom, 
 
 require ./src/fonts.fs
 

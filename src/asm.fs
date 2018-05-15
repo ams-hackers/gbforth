@@ -154,10 +154,11 @@ begin-types
   type ~r
   type ~dd
   type ~qq
-  type ~n
-  type ~nn_
-  type ~(n)
-  type ~(nn)_
+  type ~b
+  type ~n/8
+  type ~n/16
+  type ~(n/8)
+  type ~(n/16)
   type ~A
   type ~cc
   type ~unresolved-reference
@@ -165,10 +166,7 @@ end-types
 
 : | or ;
 
-: ~(nn) ~(n) ~(nn)_ | ;
-: ~nn ~n ~nn_ | ;
 : ~qq|dd ~dd ~qq | ;
-: ~e ~n ;
 
 : operand ( value type )
   create , , does> 2@ push-arg ;
@@ -195,17 +193,21 @@ end-types
 
 ( Push an immediate value to the arguments stack )
 : #
-  dup $FF <= if
-    ~n push-arg
+  dup %111 <= if
+    ~b ~n/8 | ~n/16 | push-arg
   else
-    ~nn push-arg
+    dup $FF <= if
+      ~n/8 ~n/16 | push-arg
+    else
+      ~n/16 push-arg
+    then
   then ;
 
 : ]*
   dup $FF00 >= if
-    ~(n) push-arg
+    ~(n/8) ~(n/16) | push-arg
   else
-    ~(nn) push-arg
+    ~(n/16) push-arg
   then ;
 
 
@@ -214,20 +216,20 @@ end-types
 : presume
   create
   here
-  0 , ~unresolved-reference ~nn | ,
+  0 , ~unresolved-reference ~n/16 | ,
   create-empty-reflist swap !
   does> dup cell+ @ push-arg ;
 
 : redefine-label-forward ( xt -- )
   >body
   offset over !
-  ~nn swap cell+ ! ;
+  ~n/16 swap cell+ ! ;
 
 : resolve-label-references ( xt -- )
   offset swap >body @ reflist-resolve ;
 
 : fresh-label
-  create offset , does> @ ~nn push-arg ;
+  create offset , does> @ ~n/16 push-arg ;
 
 : label
   parse-name
@@ -314,11 +316,13 @@ end-types
 ALSO GB-ASSEMBLER-EMITERS
 DEFINITIONS
 
+: b' arg2-value ;
 : r  arg1-value ;
 : r' arg2-value ;
 : dd0' arg2-value 1 lshift ;
 : 0cc  arg1-value ;
 : 0cc' arg2-value ;
+: 1cc' 0cc' %100 + ;
 
 :  8lit, $ff and emit ;
 : 16lit,
@@ -368,7 +372,16 @@ PREVIOUS DEFINITIONS
   ` ~~> r> ` literal  ` emit ` ::
   ` end-instruction ;
 
+
 ( INSTRUCTIONS )
+
+( Argument patterns )
+: ~n ~n/8 ;
+: ~e ~n/16 ;
+: ~nn ~n/8 ~n/16 | ;
+: ~(n) ~(n/8) ;
+: ~(nn) ~(n/8) ~(n/16) | ;
+
 
 instruction call,
   ~nn      ~~> %11 %001 %101 op, nn, ::
@@ -389,7 +402,8 @@ instruction jp,
 end-instruction
 
 instruction jr,
-  ~e ~~> %00 %011 %000 op, e, ::
+  ~e     ~~> %00 %011 %000 op, e, ::
+  ~e ~cc ~~> %00 1cc' %000 op, e, ::
 end-instruction
 
 instruction ld,
@@ -404,14 +418,27 @@ end-instruction
 %00 %000 %000 simple-instruction nop,
 
 instruction ret,
-        ~cc ~~> %11 0cc %000 op, ::
+        ~cc ~~> %11  0cc %000 op, ::
+            ~~> %11 %001 %001 op, ::
 end-instruction
 
 %00 %000 %111 simple-instruction rlca,
 
+instruction cp,
+  ~n ~~> %11 %111 %110 op, n, ::
+end-instruction
+
 instruction stop,
   ~~> %00 %010 %000 op,
       %00 %000 %000 op, ::
+end-instruction
+
+instruction res,
+\ Actually takes r and b, where b is an immediate value in the range
+\ 0-7 (i.e. a byte). Simply using # and defined n (same as r) for
+\ now, there might be room for improvement.
+  ~r ~b   ~~>  %11 %001 %011 op,
+               %10   b'    r op, ::
 end-instruction
 
 ( Prevent the halt bug by emitting a NOP right after halt )
