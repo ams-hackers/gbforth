@@ -423,6 +423,9 @@ instruction stop,
 end-instruction
 
 instruction res,
+\ Actually takes b and r, where b is an immediate value in the range
+\ 0-7 (i.e. a byte). Simply using # and defined n (same as r) for
+\ now, there might be room for improvement.
   ~r ~n   ~~>  %11 %001 %011 op,
                %10    n   r' op, ::
 end-instruction
