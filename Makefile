@@ -1,4 +1,4 @@
-nSHELL := /bin/bash
+SHELL := /bin/bash
 
 .PHONY: build build-org buildall test watch
 
