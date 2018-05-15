@@ -250,6 +250,18 @@ end-types
   then ;
 
 
+( Utility words to define local labels )
+: local ( -- wid )
+  get-current
+  wordlist
+  dup >order 
+  set-current ;
+
+: end-local
+  previous
+  set-current ;
+
+
 ( Arguments pattern matching )
 
 : ` postpone postpone ; immediate
