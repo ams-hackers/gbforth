@@ -22,7 +22,14 @@ $58 ==> reti,   ( serial transfer completion interrupt start address  )
 $60 ==> reti,   $04 rom, $0c rom, $18 rom, $01 rom, $22 rom, $0d rom, $20 rom,  ( high-to-low of p10 interrupt start address )
 $68 ==> $fc rom, $05 rom, $20 rom, $f9 rom, $c9 rom, $04 rom, $0c rom, $18 rom, ( high-to-low of p11 interrupt start address )
 $70 ==> $03 rom, $2a rom, $12 rom, $13 rom, $0d rom, $20 rom, $fa rom, $05 rom, ( high-to-low of p12 interrupt start address )
-$78 ==> $20 rom, $f7 rom, $c9 rom, $04 rom, $0c rom, $18 rom, $05 rom, $2a rom, ( high-to-low of p13 interrupt start address )
+$78 ==> $20 rom, $f7 rom, $c9 rom,                                              ( high-to-low of p13 interrupt start address )
+
+label mem_CopyMono
+b inc,
+c inc,
+
+$18 rom, $05 rom, $2a rom,
+
 
 $80 ==> ( code maybe? )
 $12 rom, $13 rom, $12 rom, $13 rom, $0d rom, $20 rom, $f8 rom, $05 rom,
@@ -99,8 +106,6 @@ StopLCD call,
 TileData hl ld,
 _VRAM de ld,
 256 8 * # bc ld,
-
-: mem_CopyMono $007b # ;
 
 mem_CopyMono call,
 

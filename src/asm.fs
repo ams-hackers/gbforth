@@ -396,6 +396,9 @@ end-instruction
   interruptions are enabled or not )
 %01 %110 %110 simple-instruction halt%,
 
+instruction inc,
+  ~r ~~> %00 r %100 op, ::
+end-instruction
 
 instruction jp,
   ~nn ~~> %11 %000 %011 op, nn, ::
