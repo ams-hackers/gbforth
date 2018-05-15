@@ -25,15 +25,27 @@ $70 ==> $03 rom, $2a rom, $12 rom, $13 rom, $0d rom, $20 rom, $fa rom, $05 rom, 
 $78 ==> $20 rom, $f7 rom, $c9 rom,                                              ( high-to-low of p13 interrupt start address )
 
 label mem_CopyMono
-b inc,
-c inc,
+presume .skip
+    b inc,
+    c inc,
+    .skip jr,
 
-$18 rom, $05 rom, $2a rom,
+label .loop
+    [HL+] a ld,
+    [DE] a ld,
+    de inc,
+    [DE] a ld,
+    de inc,
+
+label .skip
+    c dec,
+    .loop #nz jr,
+    b dec,
+    .loop #nz jr,
+    ret,
 
 
-$80 ==> ( code maybe? )
-$12 rom, $13 rom, $12 rom, $13 rom, $0d rom, $20 rom, $f8 rom, $05 rom,
-$20 rom, $f5 rom, $c9 rom, $04 rom, $0c rom, $18 rom, $0b rom, $f5 rom,
+$04 rom, $0c rom, $18 rom, $0b rom, $f5 rom,
 $f3 rom, $f0 rom, $41 rom, $e6 rom, $02 rom, $20 rom, $fa rom, $f1 rom,
 $22 rom, $fb rom, $0d rom, $20 rom, $f2 rom, $05 rom, $20 rom, $ef rom,
 $c9 rom, $04 rom, $0c rom, $18 rom, $0b rom, $f3 rom, $f0 rom, $41 rom,
