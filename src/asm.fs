@@ -154,10 +154,10 @@ begin-types
   type ~r
   type ~dd
   type ~qq
-  type ~n
-  type ~nn_
-  type ~(n)
-  type ~(nn)_
+  type ~n/8
+  type ~n/16
+  type ~(n/8)
+  type ~(n/16)
   type ~A
   type ~cc
   type ~unresolved-reference
@@ -165,10 +165,7 @@ end-types
 
 : | or ;
 
-: ~(nn) ~(n) ~(nn)_ | ;
-: ~nn ~n ~nn_ | ;
 : ~qq|dd ~dd ~qq | ;
-: ~e ~n ;
 
 : operand ( value type )
   create , , does> 2@ push-arg ;
@@ -196,16 +193,16 @@ end-types
 ( Push an immediate value to the arguments stack )
 : #
   dup $FF <= if
-    ~n push-arg
+    ~n/8 ~n/16 | push-arg
   else
-    ~nn push-arg
+    ~n/16 push-arg
   then ;
 
 : ]*
   dup $FF00 >= if
-    ~(n) push-arg
+    ~(n/8) ~(n/16) | push-arg
   else
-    ~(nn) push-arg
+    ~(n/16) push-arg
   then ;
 
 
@@ -214,20 +211,20 @@ end-types
 : presume
   create
   here
-  0 , ~unresolved-reference ~nn | ,
+  0 , ~unresolved-reference ~n/16 | ,
   create-empty-reflist swap !
   does> dup cell+ @ push-arg ;
 
 : redefine-label-forward ( xt -- )
   >body
   offset over !
-  ~nn swap cell+ ! ;
+  ~n/16 swap cell+ ! ;
 
 : resolve-label-references ( xt -- )
   offset swap >body @ reflist-resolve ;
 
 : fresh-label
-  create offset , does> @ ~nn push-arg ;
+  create offset , does> @ ~n/16 push-arg ;
 
 : label
   parse-name
@@ -370,7 +367,16 @@ PREVIOUS DEFINITIONS
   ` ~~> r> ` literal  ` emit ` ::
   ` end-instruction ;
 
+
 ( INSTRUCTIONS )
+
+( Argument patterns )
+: ~n ~n/8 ;
+: ~e ~n/16 ;
+: ~nn ~n/8 ~n/16 | ;
+: ~(n) ~(n/8) ;
+: ~(nn) ~(n/8) ~(n/16) | ;
+
 
 instruction call,
   ~nn      ~~> %11 %001 %101 op, nn, ::
