@@ -45,19 +45,12 @@ $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
 ( A placeholder for values)
 : $xx $42 ;
 
-: jmp $c3 rom, ;
-: forward ( -- offset )
-  rom-offset $xx rom, $xx rom, ;
-
-: <here> ( offset -- )
-  >r
-  rom-offset lower-byte  r@ 0 + rom!
-  rom-offset higher-byte r> 1 + rom! ;
-
 $100 ==> ( start entry point )
 
+presume main
+
 nop,
-jmp forward
+main jp,
 
 ( start header )
 
@@ -80,7 +73,7 @@ $f8 rom, $9c rom, ( checksum )
 
 ( header end )
 
-<here>
+label main
 
 ( program start )
 

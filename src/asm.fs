@@ -398,7 +398,7 @@ end-instruction
 
 
 instruction jp,
-  ~n ~~> %11 %000 %011 op, n, ::
+  ~nn ~~> %11 %000 %011 op, nn, ::
 end-instruction
 
 instruction jr,
