@@ -168,6 +168,7 @@ end-types
 : ~(nn) ~(n) ~(nn)_ | ;
 : ~nn ~n ~nn_ | ;
 : ~qq|dd ~dd ~qq | ;
+: ~e ~n ;
 
 : operand ( value type )
   create , , does> 2@ push-arg ;
@@ -388,7 +389,7 @@ instruction jp,
 end-instruction
 
 instruction jr,
-  ~nn ~~> %00 %011 %000 op, e, ::
+  ~e ~~> %00 %011 %000 op, e, ::
 end-instruction
 
 instruction ld,
