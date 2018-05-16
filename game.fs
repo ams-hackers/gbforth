@@ -21,6 +21,7 @@ $50 ==> reti,   ( LCDC status interrupt start address )
 $58 ==> reti,   ( serial transfer completion interrupt start address  )
 $60 ==> reti,
 
+( these are written to the memory reserved for high-to-low of p10-p13 interrupt start addresses )
 (
 ;***************************************************************************
 ;*
@@ -50,13 +51,23 @@ label .skip
 end-local
 
 
-
-
-
- ( high-to-low of p10 interrupt start address )
-$04 rom, $0c rom, $18 rom, ( high-to-low of p11 interrupt start address )
-$70 ==> $03 rom, $2a rom, $12 rom, $13 rom, $0d rom, $20 rom, $fa rom, $05 rom, ( high-to-low of p12 interrupt start address )
-$78 ==> $20 rom, $f7 rom, $c9 rom,                                              ( high-to-low of p13 interrupt start address )
+label mem_Copy
+local
+presume .skip
+  b inc,
+  c inc,
+  .skip jr,
+label .loop
+  [hl+] a ld,
+  a [de] ld,
+  de inc,
+label .skip
+  c dec,
+  .loop #nz jr,
+  b dec,
+  .loop #nz jr,
+  ret,
+end-local
 
 (
 ;***************************************************************************
