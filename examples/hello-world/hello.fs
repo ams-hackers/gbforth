@@ -27,7 +27,7 @@ presume StopLCD
 StopLCD call,
 
 
-: TileData $01ac # ;
+presume TileData
 
 TileData hl ld,
 _VRAM # de ld,
@@ -89,6 +89,7 @@ A [rLCDC] ld,
 
 ret,
 
+label TileData
 include ibm-font.fs
 
 previous
