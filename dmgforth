@@ -2,6 +2,8 @@
 \                                           -*- forth -*-
 
 vocabulary dmgforth
+vocabulary dmgforth-user
+
 get-current
 also dmgforth definitions
 constant previous-wid
@@ -37,9 +39,29 @@ argc @ 3 <> [if]
   ' usage stderr outfile-execute
 [then]
 
-next-arg included
-
+next-arg 2constant input-file
 next-arg 2constant output-file
+
+require ./src/user.fs
+
+( We want to load the input file sealed in the DMGFORTH-USER
+( vocabulary. The problem is that we do not want to populate this
+  vocabulary with auxiliary words to load the input-file.
+
+  Instead, we put all the words in this colon-definition to resolve
+  the word into addresses before we seal and load the game.
+)
+:noname
+  get-order
+  get-current
+  also dmgforth-user definitions
+  seal
+
+  input-file included 
+
+  set-current 
+  set-order
+; execute
 
 depth 0<> [if]
   ." The stac2k is not empty!" cr

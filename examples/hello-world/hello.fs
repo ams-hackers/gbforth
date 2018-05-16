@@ -31,16 +31,18 @@ presume TileData
 
 TileData hl ld,
 _VRAM # de ld,
-256 8 * # bc ld,
+[host] 256 8 * [endhost] # bc ld,
 
 mem_CopyMono call,
 
-LCDCF_ON
-LCDCF_BG8000 or
-LCDCF_BG9800 or
-LCDCF_BGON or
-LCDCF_OBJ16 or
-LCDCF_OBJOFF or # a ld,
+[host]
+  LCDCF_ON
+  LCDCF_BG8000 or
+  LCDCF_BG9800 or
+  LCDCF_BGON or
+  LCDCF_OBJ16 or
+  LCDCF_OBJOFF or
+[endhost] # a ld,
 
 a [rLCDC] ld,
 
@@ -48,17 +50,20 @@ a [rLCDC] ld,
 
 _SCRN0 # hl ld,
 
-SCRN_VX_B SCRN_VY_B * # bc ld,
+[host] SCRN_VX_B SCRN_VY_B * [endhost] # bc ld,
 
 mem_SetVRAM call,
 
+[host]
 : %Title s" Hello World !" ;
+[endhost]
+
 PRESUME Title
 
 Title hl ld,
-_SCRN0 3 + SCRN_VY_B 7 * + # de ld,
+[host] _SCRN0 3 + SCRN_VY_B 7 * + [endhost] # de ld,
 
-%Title nip # bc ld,
+[host] %Title nip [endhost] # bc ld,
 
 mem_CopyVRAM call,
 
@@ -67,9 +72,13 @@ halt,
 nop,
 wait jr,
 
+( HACK: Don't use dmgforth internals here )
 label Title
+[host]
+also dmgforth
 %title rom-move
-
+previous
+[endhost]
 
 nop,
 

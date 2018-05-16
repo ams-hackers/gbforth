@@ -2,6 +2,7 @@ require ./asm.fs
 also gb-assembler
 
 ( Special registers! )
+[host]
 : [rGBP]  $FF47 ]* ;
 : [rSCY]  $FF42 ]* ;
 : [rSCX]  $FF43 ]* ;
@@ -10,6 +11,7 @@ also gb-assembler
 
 : [rLY]   $FF44 ]* ;
 : [rSTAT] $FF41 ]* ;
+[endhost]
 
 %00000000 constant LCDCF_OFF        ( LCD Control Operation)
 %10000000 constant LCDCF_ON         ( LCD Control Operation)
