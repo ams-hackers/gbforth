@@ -1,4 +1,6 @@
 require ./asm.fs
+require ./user.fs
+
 also gb-assembler
 
 ( Cartridge structure )
@@ -23,13 +25,11 @@ $60 ==> reti,
 
 $100 ==> ( start entry point )
 
-get-order
-get-current 
-also dmgforth-user definitions
 presume main
-set-current
+
+[user-definitions]
 ' main alias main
-set-order
+[end-user-definitions]
 
 nop,
 main jp,
