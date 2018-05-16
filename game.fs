@@ -7,20 +7,54 @@ also gb-assembler
 ' rom-offset IS offset
 ' rom! IS emit-to
 
-$00 ==> $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, ( restart $00 address )
-$08 ==> $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, ( restart $08 address )
-$10 ==> $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, ( restart $10 address )
-$18 ==> $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, ( restart $18 address )
-$20 ==> $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, ( restart $20 address )
-$28 ==> $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, ( restart $28 address )
-$30 ==> $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, ( restart $30 address )
-$38 ==> $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, ( restart $38 address )
+$00 ==> ( restart $00 address )
+$08 ==> ( restart $08 address )
+$10 ==> ( restart $10 address )
+$18 ==> ( restart $18 address )
+$20 ==> ( restart $20 address )
+$28 ==> ( restart $28 address )
+$30 ==> ( restart $30 address )
+$38 ==> ( restart $38 address )
 $40 ==> reti,   ( vertical blank interrupt start address )
 $48 ==> reti,   ( timer overflowInterrupt start address )
 $50 ==> reti,   ( LCDC status interrupt start address )
 $58 ==> reti,   ( serial transfer completion interrupt start address  )
-$60 ==> reti,   $04 rom, $0c rom, $18 rom, $01 rom, $22 rom, $0d rom, $20 rom,  ( high-to-low of p10 interrupt start address )
-$68 ==> $fc rom, $05 rom, $20 rom, $f9 rom, $c9 rom, $04 rom, $0c rom, $18 rom, ( high-to-low of p11 interrupt start address )
+$60 ==> reti,
+
+(
+;***************************************************************************
+;*
+;* mem_Set - "Set" a memory region
+;*
+;* input:
+;*    a - value
+;*   hl - pMem
+;*   bc - bytecount
+;*
+;***************************************************************************
+)
+label mem_Set
+local
+presume .skip
+  b inc,
+  c inc,
+  .skip jr,
+label .loop
+  a [hl+] ld,
+label .skip
+  c dec,
+  .loop #nz jr,
+  b dec,
+  .loop #nz jr,
+  ret,
+end-local
+
+
+
+
+
+ ( high-to-low of p10 interrupt start address )
+$04 rom, $0c rom, $18 rom, ( high-to-low of p11 interrupt start address )
 $70 ==> $03 rom, $2a rom, $12 rom, $13 rom, $0d rom, $20 rom, $fa rom, $05 rom, ( high-to-low of p12 interrupt start address )
 $78 ==> $20 rom, $f7 rom, $c9 rom,                                              ( high-to-low of p13 interrupt start address )
 
