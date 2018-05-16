@@ -4,7 +4,7 @@ require ../../src/gbhw.fs
 also gb-assembler
 
 $61 ==> 
-include ../../lib/memory.fs
+include memory.fs
 
 $150 ==>
 label main
@@ -89,6 +89,6 @@ A [rLCDC] ld,
 
 ret,
 
-include ../../lib/ibm-font.fs
+include ibm-font.fs
 
 previous

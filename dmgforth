@@ -23,6 +23,12 @@ include ./src/cartridge.fs
 
 ( command line arguments processing )
 
+( Add lib/ to the search path of the game )
+s" DMGFORTH_PATH" getenv 2constant dmgforth-path
+fpath clear-path
+dmgforth-path fpath also-path
+fpath path+ ./
+
 : usage
   ." Usage: dmgforth <input> <output>" cr
   1 (bye) ;
@@ -41,5 +47,4 @@ depth 0<> [if]
 
 fix-header-complement
 output-file dump-rom
-." Generated file " output-file type cr
 bye

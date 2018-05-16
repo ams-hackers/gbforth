@@ -1,4 +1,4 @@
-require asm.fs
+require ./asm.fs
 also gb-assembler
 
 ( Cartridge structure )

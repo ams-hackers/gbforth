@@ -1,5 +1,7 @@
 SHELL := /bin/bash
 
+export DMGFORTH_PATH := $(shell pwd)/lib
+
 .PHONY: all examples
 
 all: examples
