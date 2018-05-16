@@ -28,8 +28,15 @@ also gb-assembler
 %00000000 constant LCDCF_BGOFF      ( BG Display)
 %00000001 constant LCDCF_BGON       ( BG Display)
 
+$FF00 constant _HW
 
-$9800 constant _SCRN0 ( $9800->$9BFF)
+$8000 constant _VRAM         ( $8000->$A000 )
+$9800 constant _SCRN0        ( $9800->$9BFF)
+$9C00 constant _SCRN1        ( $9C00->$9FFF )
+$C000 constant _RAM          ( $C000->$E000 )
+$F800 constant _HRAM         ( $F800->$FFFE )
+$FE00 constant _OAMRAM       ( $FE00->$FE9F )
+$FF30 constant _AUD3WAVERAM  ( $FF30->$FF3F )
 
 #160 constant SCRN_X    ( Width of screen in pixels )
 #144 constant SCRN_Y    ( Height of screen in pixels )
