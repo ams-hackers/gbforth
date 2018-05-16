@@ -257,7 +257,7 @@ end-types
 : local ( -- wid )
   get-current
   wordlist
-  dup >order 
+  dup >order
   set-current immediate ;
 
 : end-local
@@ -449,8 +449,8 @@ instruction ld,
   ~n   ~r    ~~> %00 r'   %110 op, n,  ::
   ~nn ~dd    ~~> %00 dd0' %001 op, nn, ::
 
-  ~A   ~[DE] ~~> %00 %011 %010 op,     ::
-  ~[DE]  ~A  ~~> %00 %010 %010 op,     ::
+  ~A   ~[DE] ~~> %00 %010 %010 op,     ::
+  ~[DE]  ~A  ~~> %00 %011 %010 op,     ::
   ~[HL+] ~A  ~~> %00 %101 %010 op,     ::
   ~A ~[HL+]  ~~> %00 %100 %010 op,     ::
 

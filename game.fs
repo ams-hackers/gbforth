@@ -44,9 +44,9 @@ presume .skip
 
 label .loop
     [HL+] a ld,
-    [DE] a ld,
+    a [DE] ld,
     de inc,
-    [DE] a ld,
+    a [DE] ld,
     de inc,
 
 label .skip
@@ -98,19 +98,38 @@ label .skip
     ret,
 end-local
 
-
-$04 rom, $0c rom, $18 rom, $0b rom, $f3 rom, $f0 rom, $41 rom,
-$e6 rom, $02 rom, $20 rom, $fa rom, $2a rom, $12 rom, $fb rom, $13 rom,
-$0d rom, $20 rom, $f2 rom, $05 rom, $20 rom, $ef rom, $c9 rom, $00 rom,
-$00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
-$00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
-$00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
-$00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
-$00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
-$00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
-$00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
-$00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
-$00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
+(
+;***************************************************************************
+;*
+;* mem_CopyVRAM - "Copy" a memory region to or from VRAM
+;*
+;* input:
+;*   hl - pSource
+;*   de - pDest
+;*   bc - bytecount
+;*
+;***************************************************************************
+)
+label mem_CopyVRAM
+local
+presume .skip
+  b inc,
+  c inc,
+  .skip jr,
+label .loop
+  di,
+  lcd_WaitVRAM
+  [hl+] a ld,
+  a [de] ld,
+  ei,
+  de inc,
+label .skip
+  c dec,
+  .loop #nz jr,
+  b dec,
+  .loop #nz jr,
+  ret,
+end-local
 
 ( A placeholder for values)
 : $xx $42 ;
@@ -164,10 +183,9 @@ StopLCD call,
 
 
 : TileData $01ac # ;
-: _VRAM $8000 # ;
 
 TileData hl ld,
-_VRAM de ld,
+_VRAM # de ld,
 256 8 * # bc ld,
 
 mem_CopyMono call,
@@ -197,7 +215,6 @@ _SCRN0 3 + SCRN_VY_B 7 * + # de ld,
 
 %Title nip # bc ld,
 
-: mem_CopyVRAM $00a1 # ;
 mem_CopyVRAM call,
 
 label wait
