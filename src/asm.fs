@@ -399,9 +399,9 @@ PREVIOUS DEFINITIONS
 ( Argument patterns )
 : ~n ~n/8 ;
 : ~e ~n/16 ;
-: ~nn ~n/8 ~n/16 | ;
+: ~nn ~n/16 ;
 : ~(n) ~(n/8) ;
-: ~(nn) ~(n/8) ~(n/16) | ;
+: ~(nn) ~(n/16) | ;
 
 
 instruction call,
