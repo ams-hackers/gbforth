@@ -13,7 +13,7 @@ also dmgforth
 require ./src/rom.fs
 require ./src/asm.fs
 
-also gb-assembler
+also gb-assembler-impl
 ' rom, IS emit
 ' rom-offset IS offset
 ' rom! IS emit-to

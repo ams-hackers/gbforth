@@ -9,14 +9,23 @@ bits of the words are used to tag the values with type information. )
 
 require ./utils.fs
 
-[IFUNDEF] gb-assembler
+[IFUNDEF] gb-assembler-impl
 vocabulary gb-assembler
+vocabulary gb-assembler-impl
 vocabulary gb-assembler-emiters
 [ENDIF]
 
 get-current
-also gb-assembler definitions
+also gb-assembler-impl definitions
 constant previous-wid
+
+: [public]
+  get-current
+  also gb-assembler definitions ;
+
+: [endpublic]
+  previous set-current ;
+
 
 ( You can override this vectored words in order to customize where the
 ( assembler will write its output )
@@ -174,6 +183,8 @@ end-types
 : operand ( value type )
   create , , does> 2@ push-arg ;
 
+[public]
+
 ( Define register operands )
 %111 ~r ~A | operand A
 %000 ~r      operand B
@@ -197,7 +208,6 @@ end-types
 %0 ~[DE]  operand [DE]
 %0 ~[HL+] operand [HL+]
 
-
 ( Push an immediate value to the arguments stack )
 : #
   dup %111 <= if
@@ -218,9 +228,15 @@ end-types
   then ;
 
 
+[endpublic]
+
+
+
 ( LABEL & REFERENCES )
 
-: here< rom-offset ;
+[public]
+
+: here< offset ;
 : <there # ;
 
 : presume
@@ -229,6 +245,9 @@ end-types
   0 , ~unresolved-reference ~n/16 | ,
   create-empty-reflist swap !
   does> dup cell+ @ push-arg ;
+
+[endpublic]
+
 
 : redefine-label-forward ( xt -- )
   >body
@@ -241,6 +260,7 @@ end-types
 : fresh-label
   create offset , does> @ ~n/16 push-arg ;
 
+[public]
 : label
   parse-name
   2dup find-name ?dup if
@@ -251,8 +271,10 @@ end-types
   else
     nextname fresh-label
   then ;
+[endpublic]
 
 
+[public]
 ( Utility words to define local labels )
 : local ( -- wid )
   get-current
@@ -263,6 +285,8 @@ end-types
 : end-local
   previous
   set-current immediate ;
+
+[endpublic]
 
 
 ( Arguments pattern matching )
@@ -408,6 +432,8 @@ PREVIOUS DEFINITIONS
 : ~(nn) ~(n/16) | ;
 
 
+[public]
+
 instruction and,
   ~n ~~> %11 %100 %110 op, n, ::
 end-instruction
@@ -496,6 +522,7 @@ end-instruction
 ( Prevent the halt bug by emitting a NOP right after halt )
 : halt, halt%, nop, ;
 
+[endpublic]
 
 previous-wid set-current
 previous
