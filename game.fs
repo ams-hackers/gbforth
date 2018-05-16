@@ -60,7 +60,7 @@ end-local
 : lcd_WaitVRAM
   here<
     [rSTAT] a ld,
-    STATF_BUSY # and, 
+    STATF_BUSY # and,
   <there #nz jr, ;
 
 
@@ -225,7 +225,7 @@ label .wait
 A #7 # res,
 A [rLCDC] ld,
 
-$c9 rom,
+ret,
 
 require ./src/fonts.fs
 
