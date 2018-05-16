@@ -24,6 +24,17 @@ $68 ==> $fc rom, $05 rom, $20 rom, $f9 rom, $c9 rom, $04 rom, $0c rom, $18 rom, 
 $70 ==> $03 rom, $2a rom, $12 rom, $13 rom, $0d rom, $20 rom, $fa rom, $05 rom, ( high-to-low of p12 interrupt start address )
 $78 ==> $20 rom, $f7 rom, $c9 rom,                                              ( high-to-low of p13 interrupt start address )
 
+(
+;***************************************************************************
+;*
+;* mem_Copy - "Copy" a monochrome font from ROM to RAM
+;*
+;* input:
+;*   hl - pSource
+;*   de - pDest
+;*   bc - bytecount of Source
+;*
+;*************************************************************************** )
 label mem_CopyMono
 local
 presume .skip
