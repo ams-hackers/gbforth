@@ -23,23 +23,21 @@ include ./src/cartridge.fs
 
 ( command line arguments processing )
 
-: output-file s" output.gb" ;
 : usage
-  ." Usage: dmgforth game.fs" cr
+  ." Usage: dmgforth <input> <output>" cr
   1 (bye) ;
 
-argc @ 2 <> [if]
+argc @ 3 <> [if]
   ' usage stderr outfile-execute
 [then]
 
 next-arg included
 
+next-arg 2constant output-file
 
 depth 0<> [if]
   ." The stac2k is not empty!" cr
 [endif]
-
-
 
 fix-header-complement
 output-file dump-rom

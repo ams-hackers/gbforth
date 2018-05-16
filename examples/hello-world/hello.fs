@@ -1,10 +1,10 @@
-require ./src/asm.fs
-require ./src/gbhw.fs
+require ../../src/asm.fs
+require ../../src/gbhw.fs
 
 also gb-assembler
 
 $61 ==> 
-include ./lib/memory.fs
+include ../../lib/memory.fs
 
 $150 ==>
 label main
@@ -89,6 +89,6 @@ A [rLCDC] ld,
 
 ret,
 
-include ./lib/ibm-font.fs
+include ../../lib/ibm-font.fs
 
 previous
