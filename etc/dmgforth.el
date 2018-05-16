@@ -20,17 +20,17 @@
 (require 'forth-mode)
 
 (defvar dmgforth-defining-words
-  '("simple-instruction" "instruction"))
-
-(defvar dmgforth-keywords
-  '("begin-dispatch" "end-dispatch" "~~>" "::"
-    "end-instruction" "tile"))
-
-(dolist (w dmgforth-keywords)
-  (forth-syntax--define w #'forth-syntax--state-font-lock-keyword))
+  '("simple-instruction" "instruction" "label" "presume"))
 
 (dolist (w dmgforth-defining-words)
   (forth-syntax--define w #'forth-syntax--state-defining-word))
+
+(defvar dmgforth-keywords
+  '("begin-dispatch" "end-dispatch" "~~>" "::"
+    "end-instruction" "tile" "local" "end-local"))
+
+(dolist (w dmgforth-keywords)
+  (forth-syntax--define w #'forth-syntax--state-font-lock-keyword))
 
 (provide 'dmgforth)
 ;;; dmgforth.el ends here

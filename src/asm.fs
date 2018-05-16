@@ -37,7 +37,7 @@ variable counter
 
 
 : emit-rel-to ( n source-offset -- )
-  true abort" Implement me!" ;
+  dup >r 1+ - r> emit-to ;
 
 : emit-16bits-to { n offset -- }
   n lower-byte   offset     emit-to
@@ -154,6 +154,8 @@ begin-types
   type ~r
   type ~dd
   type ~qq
+  type ~[DE]
+  type ~[HL+]
   type ~b
   type ~n/8
   type ~n/16
@@ -166,6 +168,7 @@ end-types
 
 : | or ;
 
+: ~ss ~dd ;
 : ~qq|dd ~dd ~qq | ;
 
 : operand ( value type )
@@ -190,6 +193,10 @@ end-types
 %01 ~cc operand #Z
 %10 ~cc operand #NC
 %11 ~cc operand #C
+
+%0 ~[DE]  operand [DE]
+%0 ~[HL+] operand [HL+]
+
 
 ( Push an immediate value to the arguments stack )
 : #
@@ -241,6 +248,18 @@ end-types
   else
     nextname fresh-label
   then ;
+
+
+( Utility words to define local labels )
+: local ( -- wid )
+  get-current
+  wordlist
+  dup >order 
+  set-current ;
+
+: end-local
+  previous
+  set-current ;
 
 
 ( Arguments pattern matching )
@@ -323,6 +342,8 @@ DEFINITIONS
 : 0cc  arg1-value ;
 : 0cc' arg2-value ;
 : 1cc' 0cc' %100 + ;
+: ss0 arg1-value 1 lshift ;
+: ss1 ss0 %1 | ;
 
 :  8lit, $ff and emit ;
 : 16lit,
@@ -341,7 +362,7 @@ DEFINITIONS
 : emit-rel-addr ( arg-value arg-type )
   dup ~unresolved-reference type-match if
     drop
-    offset 1+ FWDREF_INFO_RELATIVE rot reflist-add!
+    offset FWDREF_INFO_RELATIVE rot reflist-add!
     $42 8lit,
   else
     drop offset 1+ - ensure-short-jr 8lit,
@@ -388,6 +409,11 @@ instruction call,
   ~nn ~cc  ~~> %11 0cc' %100 op, nn, ::
 end-instruction
 
+instruction dec,
+  ~r  ~~> %00 r   %101 op, ::
+  ~ss ~~> %00 ss1 %011 op, ::
+end-instruction
+
 %11 %110 %011 simple-instruction di,
 %11 %111 %011 simple-instruction ei,
 
@@ -396,6 +422,10 @@ end-instruction
   interruptions are enabled or not )
 %01 %110 %110 simple-instruction halt%,
 
+instruction inc,
+  ~r  ~~> %00   r %100 op, ::
+  ~ss ~~> %00 ss0 %011 op, ::
+end-instruction
 
 instruction jp,
   ~nn ~~> %11 %000 %011 op, nn, ::
@@ -407,12 +437,16 @@ instruction jr,
 end-instruction
 
 instruction ld,
-  ~r   ~r   ~~> %01 r'   r    op,     ::
-  ~n   ~r   ~~> %00 r'   %110 op, n,  ::
-  ~nn ~dd   ~~> %00 dd0' %001 op, nn, ::
+  ~r   ~r    ~~> %01 r'   r    op,     ::
+  ~n   ~r    ~~> %00 r'   %110 op, n,  ::
+  ~nn ~dd    ~~> %00 dd0' %001 op, nn, ::
 
-  ~(n) ~A   ~~> %11 %110 %000 op, n,  ::
-  ~A   ~(n) ~~> %11 %100 %000 op, n', ::
+  ~A   ~[DE] ~~> %00 %011 %010 op,     ::
+  ~[DE]  ~A  ~~> %00 %010 %010 op,     ::
+  ~[HL+] ~A  ~~> %00 %101 %010 op,     ::
+
+  ~(n) ~A    ~~> %11 %110 %000 op, n,  ::
+  ~A   ~(n)  ~~> %11 %100 %000 op, n', ::
 end-instruction
 
 %00 %000 %000 simple-instruction nop,
@@ -420,6 +454,10 @@ end-instruction
 instruction ret,
         ~cc ~~> %11  0cc %000 op, ::
             ~~> %11 %001 %001 op, ::
+end-instruction
+
+instruction reti,
+            ~~> %11 %011 %001 op, ::
 end-instruction
 
 %00 %000 %111 simple-instruction rlca,

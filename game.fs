@@ -15,18 +15,38 @@ $20 ==> $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, 
 $28 ==> $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, ( restart $28 address )
 $30 ==> $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, ( restart $30 address )
 $38 ==> $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, ( restart $38 address )
-$40 ==> $d9 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, ( vertical blank interrupt start address )
-$48 ==> $d9 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, ( timer overflowInterrupt start address )
-$50 ==> $d9 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, ( LCDC status interrupt start address )
-$58 ==> $d9 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, ( serial transfer completion interrupt start address  )
-$60 ==> $d9 rom, $04 rom, $0c rom, $18 rom, $01 rom, $22 rom, $0d rom, $20 rom, ( high-to-low of p10 interrupt start address )
+$40 ==> reti,   ( vertical blank interrupt start address )
+$48 ==> reti,   ( timer overflowInterrupt start address )
+$50 ==> reti,   ( LCDC status interrupt start address )
+$58 ==> reti,   ( serial transfer completion interrupt start address  )
+$60 ==> reti,   $04 rom, $0c rom, $18 rom, $01 rom, $22 rom, $0d rom, $20 rom,  ( high-to-low of p10 interrupt start address )
 $68 ==> $fc rom, $05 rom, $20 rom, $f9 rom, $c9 rom, $04 rom, $0c rom, $18 rom, ( high-to-low of p11 interrupt start address )
 $70 ==> $03 rom, $2a rom, $12 rom, $13 rom, $0d rom, $20 rom, $fa rom, $05 rom, ( high-to-low of p12 interrupt start address )
-$78 ==> $20 rom, $f7 rom, $c9 rom, $04 rom, $0c rom, $18 rom, $05 rom, $2a rom, ( high-to-low of p13 interrupt start address )
+$78 ==> $20 rom, $f7 rom, $c9 rom,                                              ( high-to-low of p13 interrupt start address )
 
-$80 ==> ( code maybe? )
-$12 rom, $13 rom, $12 rom, $13 rom, $0d rom, $20 rom, $f8 rom, $05 rom,
-$20 rom, $f5 rom, $c9 rom, $04 rom, $0c rom, $18 rom, $0b rom, $f5 rom,
+label mem_CopyMono
+local
+presume .skip
+    b inc,
+    c inc,
+    .skip jr,
+
+label .loop
+    [HL+] a ld,
+    [DE] a ld,
+    de inc,
+    [DE] a ld,
+    de inc,
+
+label .skip
+    c dec,
+    .loop #nz jr,
+    b dec,
+    .loop #nz jr,
+    ret,
+end-local
+
+$04 rom, $0c rom, $18 rom, $0b rom, $f5 rom,
 $f3 rom, $f0 rom, $41 rom, $e6 rom, $02 rom, $20 rom, $fa rom, $f1 rom,
 $22 rom, $fb rom, $0d rom, $20 rom, $f2 rom, $05 rom, $20 rom, $ef rom,
 $c9 rom, $04 rom, $0c rom, $18 rom, $0b rom, $f3 rom, $f0 rom, $41 rom,
@@ -99,8 +119,6 @@ StopLCD call,
 TileData hl ld,
 _VRAM de ld,
 256 8 * # bc ld,
-
-: mem_CopyMono $007b # ;
 
 mem_CopyMono call,
 
