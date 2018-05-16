@@ -57,10 +57,49 @@ label .skip
     ret,
 end-local
 
-$04 rom, $0c rom, $18 rom, $0b rom, $f5 rom,
-$f3 rom, $f0 rom, $41 rom, $e6 rom, $02 rom, $20 rom, $fa rom, $f1 rom,
-$22 rom, $fb rom, $0d rom, $20 rom, $f2 rom, $05 rom, $20 rom, $ef rom,
-$c9 rom, $04 rom, $0c rom, $18 rom, $0b rom, $f3 rom, $f0 rom, $41 rom,
+: lcd_WaitVRAM
+  here<
+    [rSTAT] a ld,
+    STATF_BUSY # and, 
+  <there #nz jr, ;
+
+
+(
+;***************************************************************************
+;*
+;* mem_SetVRAM - "Set" a memory region in VRAM
+;*
+;* input:
+;*    a - value
+;*   hl - pMem
+;*   bc - bytecount
+;*
+;***************************************************************************
+)
+label mem_SetVRam
+local
+presume .skip
+    b inc,
+    c inc,
+    .skip jr,
+label .loop
+    af push,
+    di,
+    lcd_WaitVRAM
+    af pop,
+    a [hl+] ld,
+    ei,
+
+label .skip
+    c dec,
+    .loop #nz jr,
+    b dec,
+    .loop #nz jr,
+    ret,
+end-local
+
+
+$04 rom, $0c rom, $18 rom, $0b rom, $f3 rom, $f0 rom, $41 rom,
 $e6 rom, $02 rom, $20 rom, $fa rom, $2a rom, $12 rom, $fb rom, $13 rom,
 $0d rom, $20 rom, $f2 rom, $05 rom, $20 rom, $ef rom, $c9 rom, $00 rom,
 $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom, $00 rom,
@@ -147,8 +186,6 @@ a [rLCDC] ld,
 _SCRN0 # hl ld,
 
 SCRN_VX_B SCRN_VY_B * # bc ld,
-
-: mem_SetVRAM $008b # ;
 
 mem_SetVRAM call,
 

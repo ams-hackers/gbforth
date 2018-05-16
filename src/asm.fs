@@ -220,6 +220,9 @@ end-types
 
 ( LABEL & REFERENCES )
 
+: here< rom-offset ;
+: <there # ;
+
 : presume
   create
   here
@@ -255,11 +258,11 @@ end-types
   get-current
   wordlist
   dup >order 
-  set-current ;
+  set-current immediate ;
 
 : end-local
   previous
-  set-current ;
+  set-current immediate ;
 
 
 ( Arguments pattern matching )
@@ -344,6 +347,7 @@ DEFINITIONS
 : 1cc' 0cc' %100 + ;
 : ss0 arg1-value 1 lshift ;
 : ss1 ss0 %1 | ;
+: qq0 arg1-value 1 lshift ;
 
 :  8lit, $ff and emit ;
 : 16lit,
@@ -404,6 +408,10 @@ PREVIOUS DEFINITIONS
 : ~(nn) ~(n/16) | ;
 
 
+instruction and,
+  ~n ~~> %11 %100 %110 op, n, ::
+end-instruction
+
 instruction call,
   ~nn      ~~> %11 %001 %101 op, nn, ::
   ~nn ~cc  ~~> %11 0cc' %100 op, nn, ::
@@ -444,6 +452,7 @@ instruction ld,
   ~A   ~[DE] ~~> %00 %011 %010 op,     ::
   ~[DE]  ~A  ~~> %00 %010 %010 op,     ::
   ~[HL+] ~A  ~~> %00 %101 %010 op,     ::
+  ~A ~[HL+]  ~~> %00 %100 %010 op,     ::
 
   ~(n) ~A    ~~> %11 %110 %000 op, n,  ::
   ~A   ~(n)  ~~> %11 %100 %000 op, n', ::
@@ -472,11 +481,16 @@ instruction stop,
 end-instruction
 
 instruction res,
-\ Actually takes r and b, where b is an immediate value in the range
-\ 0-7 (i.e. a byte). Simply using # and defined n (same as r) for
-\ now, there might be room for improvement.
   ~r ~b   ~~>  %11 %001 %011 op,
                %10   b'    r op, ::
+end-instruction
+
+instruction pop,
+  ~qq ~~> %11 qq0 %001 op, ::
+end-instruction
+
+instruction push,
+  ~qq ~~> %11 qq0 %101 op, ::
 end-instruction
 
 ( Prevent the halt bug by emitting a NOP right after halt )

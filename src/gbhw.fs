@@ -9,7 +9,7 @@ also gb-assembler
 : [rLCDC] $FF40 ]* ;
 
 : [rLY]   $FF44 ]* ;
-
+: [rSTAT] $FF41 ]* ;
 
 %00000000 constant LCDCF_OFF        ( LCD Control Operation)
 %10000000 constant LCDCF_ON         ( LCD Control Operation)
@@ -40,5 +40,18 @@ $9800 constant _SCRN0 ( $9800->$9BFF)
 #256 constant SCRN_VY   ( Virtual height of screen in pixels )
 #32  constant SCRN_VX_B ( Virtual width of screen in bytes )
 #32  constant SCRN_VY_B ( Virtual height of screen in bytes )
+
+
+%01000000 constant STATF_LYC    ( LYCEQULY Coincidence [Selectable])
+%00100000 constant STATF_MODE10 ( Mode 10)
+%00010000 constant STATF_MODE01 ( Mode 01 [V-Blank])
+%00001000 constant STATF_MODE00 ( Mode 00 [H-Blank])
+%00000100 constant STATF_LYCF   ( Coincidence Flag)
+%00000000 constant STATF_HB     ( H-Blank)
+%00000001 constant STATF_VB     ( V-Blank)
+%00000010 constant STATF_OAM    ( OAM-RAM is used by system)
+%00000011 constant STATF_LCD    ( Both OAM and VRAM used by system)
+%00000010 constant STATF_BUSY   ( When set, VRAM access is unsafe )
+
 
 previous
