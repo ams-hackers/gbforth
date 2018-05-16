@@ -53,13 +53,12 @@ require ./src/user.fs
 )
 :noname
   get-order
-  get-current
-  also dmgforth-user definitions
-  seal
-
+  
+  [user-definitions]
+  seal also
   input-file included 
+  [end-user-definitions]
 
-  set-current 
   set-order
 ; execute
 
