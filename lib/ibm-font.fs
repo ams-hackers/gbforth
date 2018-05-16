@@ -1,7 +1,5 @@
 ( IBMPC1 8x8 Character Set Macros V1.2 )
 
-require ./rom.fs
-
 vocabulary fonts
 
 get-current

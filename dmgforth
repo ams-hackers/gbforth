@@ -1,11 +1,29 @@
 #! /usr/bin/env gforth
 \                                           -*- forth -*-
 
-require ./src/dmgforth.fs
+vocabulary dmgforth
+get-current
+also dmgforth definitions
+constant previous-wid
+
 also dmgforth
 
-: output-file s" output.gb" ;
+require ./src/rom.fs
+require ./src/asm.fs
 
+also gb-assembler
+' rom, IS emit
+' rom-offset IS offset
+' rom! IS emit-to
+previous
+
+rom erase
+
+include ./src/cartridge.fs
+
+( command line arguments processing )
+
+: output-file s" output.gb" ;
 : usage
   ." Usage: dmgforth game.fs" cr
   1 (bye) ;
@@ -14,9 +32,14 @@ argc @ 2 <> [if]
   ' usage stderr outfile-execute
 [then]
 
-rom erase
-
 next-arg included
+
+
+depth 0<> [if]
+  ." The stac2k is not empty!" cr
+[endif]
+
+
 
 fix-header-complement
 output-file dump-rom

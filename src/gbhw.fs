@@ -1,4 +1,4 @@
-require ./asm.fs
+require ../src/asm.fs
 also gb-assembler
 
 ( Special registers! )
