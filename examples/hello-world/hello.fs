@@ -1,5 +1,4 @@
-require ../../src/asm.fs
-require ../../src/gbhw.fs
+require gbhw.fs
 
 also gb-assembler
 
