@@ -1,12 +1,7 @@
 ( IBMPC1 8x8 Character Set Macros V1.2 )
 
-vocabulary fonts
-
-get-current
-also fonts definitions
-constant previous-wid
-
-: discard-line 10 parse 2drop ;
+[host]
+also dmgforth
 
 : >
   parse-name
@@ -20,9 +15,11 @@ constant previous-wid
       true abort" Wrong character!"
     endcase
   loop 
-  nip 
+  nip
   rom, ;
 
+previous
+[endhost]
 
 > .XXXXXX.  \ Use to be a space ?????
 > .X....X.
@@ -2329,6 +2326,3 @@ constant previous-wid
 > ........
 > ........
 > ........
-
-previous-wid set-current
-previous

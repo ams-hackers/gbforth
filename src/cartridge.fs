@@ -1,4 +1,6 @@
 require ./asm.fs
+require ./user.fs
+
 also gb-assembler
 
 ( Cartridge structure )
@@ -26,6 +28,10 @@ $78 ==>         ( high-to-low of p13 interrupt start address )
 $100 ==> ( start entry point )
 
 presume main
+
+[user-definitions]
+' main alias main
+[end-user-definitions]
 
 nop,
 main jp,

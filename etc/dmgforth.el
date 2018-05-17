@@ -20,7 +20,7 @@
 (require 'forth-mode)
 
 (defvar dmgforth-defining-words
-  '("simple-instruction" "instruction" "label" "presume"))
+  '("simple-instruction" "instruction" "label" "presume" "export"))
 
 (dolist (w dmgforth-defining-words)
   (forth-syntax--define w #'forth-syntax--state-defining-word))
