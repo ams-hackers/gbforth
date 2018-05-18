@@ -166,14 +166,16 @@ begin-types
   type ~[DE]
   type ~[HL+]
   type ~b
-  type ~n/8
-  type ~n/16
-  type ~(n/8)
-  type ~(n/16)
+  type ~n
+  type ~nn
+  type ~(n)
+  type ~(nn)
   type ~A
   type ~cc
   type ~unresolved-reference
 end-types
+
+: ~e ~nn ;
 
 : | or ;
 
@@ -211,20 +213,20 @@ end-types
 ( Push an immediate value to the arguments stack )
 : #
   dup %111 <= if
-    ~b ~n/8 | ~n/16 | push-arg
+    ~b ~n | ~nn | push-arg
   else
     dup $FF <= if
-      ~n/8 ~n/16 | push-arg
+      ~n ~nn | push-arg
     else
-      ~n/16 push-arg
+      ~nn push-arg
     then
   then ;
 
 : ]*
   dup $FF00 >= if
-    ~(n/8) ~(n/16) | push-arg
+    ~(n) ~(nn) | push-arg
   else
-    ~(n/16) push-arg
+    ~(nn) push-arg
   then ;
 
 
@@ -242,7 +244,7 @@ end-types
 : presume
   create
   here
-  0 , ~unresolved-reference ~n/16 | ,
+  0 , ~unresolved-reference ~nn | ,
   create-empty-reflist swap !
   does> dup cell+ @ push-arg ;
 
@@ -252,13 +254,13 @@ end-types
 : redefine-label-forward ( xt -- )
   >body
   offset over !
-  ~n/16 swap cell+ ! ;
+  ~nn swap cell+ ! ;
 
 : resolve-label-references ( xt -- )
   offset swap >body @ reflist-resolve ;
 
 : fresh-label
-  create offset , does> @ ~n/16 push-arg ;
+  create offset , does> @ ~nn push-arg ;
 
 [public]
 : label
@@ -423,14 +425,6 @@ PREVIOUS DEFINITIONS
 
 
 ( INSTRUCTIONS )
-
-( Argument patterns )
-: ~n ~n/8 ;
-: ~e ~n/16 ;
-: ~nn ~n/16 ;
-: ~(n) ~(n/8) ;
-: ~(nn) ~(n/16) | ;
-
 
 [public]
 
