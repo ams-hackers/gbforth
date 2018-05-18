@@ -7,7 +7,7 @@ A Forth-based Game Boy development kit
 ### Dependencies
 
 ```
-brew install watch colordiff gforth rgbds
+brew install gforth
 ```
 
 ### Build
