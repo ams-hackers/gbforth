@@ -1,12 +1,16 @@
 require ./asm.fs
 
+also gb-assembler-impl
 also gb-assembler
 
+: istype
+  arg1-type type-match flush-args ;
+  
 :noname
-  assert( ~r  ~r    type-match )
-  assert( ~n  ~n/8  type-match )
-  assert( ~n  ~n/16 type-match invert )
-  assert( ~nn ~n/8  type-match )
-  assert( ~nn ~n/16 type-match )
-  ." Test passed" ;
+  assert( A       ~r  istype )
+  assert( $0 #    ~n  istype )
+  assert( $0 #    ~nn istype )
+  assert( $FFFF # ~n  istype invert )
+  assert( $FFFF # ~nn istype )
+  ." Test passed" CR ;
 execute
