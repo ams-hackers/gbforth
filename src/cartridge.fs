@@ -3,27 +3,27 @@ require ./user.fs
 
 also gb-assembler
 
-( Cartridge structure )
-
-$00 ==>         ( restart $00 address )
-$08 ==>         ( restart $08 address )
-$10 ==>         ( restart $10 address )
-$18 ==>         ( restart $18 address )
-$20 ==>         ( restart $20 address )
-$28 ==>         ( restart $28 address )
-$30 ==>         ( restart $30 address )
-$38 ==>         ( restart $38 address )
-$40 ==> reti,   ( vertical blank interrupt start address )
-$48 ==> reti,   ( timer overflowInterrupt start address )
-$50 ==> reti,   ( LCDC status interrupt start address )
-$58 ==> reti,   ( serial transfer completion interrupt start address  )
-$60 ==> reti,   ( high-to-low of p10 interrupt start address )
-$68 ==>         ( high-to-low of p11 interrupt start address )
-$70 ==>         ( high-to-low of p12 interrupt start address )
-$78 ==>         ( high-to-low of p13 interrupt start address )
-
 ( A placeholder for values)
 : $xx $42 ;
+
+( Cartridge structure )
+
+$00 ==> ( restart $00 address )
+$08 ==> ( restart $08 address )
+$10 ==> ( restart $10 address )
+$18 ==> ( restart $18 address )
+$20 ==> ( restart $20 address )
+$28 ==> ( restart $28 address )
+$30 ==> ( restart $30 address )
+$38 ==> ( restart $38 address )
+$40 ==> ( vertical blank interrupt start address )
+$48 ==> ( timer overflowInterrupt start address )
+$50 ==> ( LCDC status interrupt start address )
+$58 ==> ( serial transfer completion interrupt start address  )
+$60 ==> ( high-to-low of p10 interrupt start address )
+$68 ==> ( high-to-low of p11 interrupt start address )
+$70 ==> ( high-to-low of p12 interrupt start address )
+$78 ==> ( high-to-low of p13 interrupt start address )
 
 $100 ==> ( start entry point )
 

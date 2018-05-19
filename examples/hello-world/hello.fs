@@ -2,7 +2,12 @@ require gbhw.fs
 
 also gb-assembler
 
-$61 ==> 
+$40 ==> reti,
+$48 ==> reti,
+$50 ==> reti,
+$58 ==> reti,
+$60 ==> reti,
+$61 ==>
 include memory.fs
 
 $150 ==>
