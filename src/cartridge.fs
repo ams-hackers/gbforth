@@ -5,6 +5,14 @@ also gb-assembler
 
 ( Constants used in cartridge header )
 
+( CGB flag [$0143] )
+$80 constant CGB_SUPPORTED
+$C0 constant CGB_ONLY
+
+( SGB flag [$0146] )
+$00 constant SGB_DISABLED
+$03 constant SGB_ENABLED
+
 ( Cartridge type [$0147] )
 $00 constant ROM_NOMBC
 $01 constant ROM_MBC1
