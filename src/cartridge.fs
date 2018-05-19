@@ -3,6 +3,45 @@ require ./user.fs
 
 also gb-assembler
 
+( Constants used in cartridge header )
+
+#0 constant ROM_NOMBC
+#1 constant ROM_MBC1
+#2 constant ROM_MBC1_RAM
+#3 constant ROM_MBC1_RAM_BAT
+#5 constant ROM_MBC2
+#6 constant ROM_MBC2_BAT
+#8 constant ROM_NOMBC_RAM
+#9 constant ROM_NOMBC_RAM_BAT
+
+#0 constant ROM_SIZE_256KBIT
+#1 constant ROM_SIZE_512KBIT
+#2 constant ROM_SIZE_1M
+#3 constant ROM_SIZE_2M
+#4 constant ROM_SIZE_4M
+#5 constant ROM_SIZE_8M
+#6 constant ROM_SIZE_16M
+
+#0 constant ROM_SIZE_32KBYTE
+#1 constant ROM_SIZE_64KBYTE
+#2 constant ROM_SIZE_128KBYTE
+#3 constant ROM_SIZE_256KBYTE
+#4 constant ROM_SIZE_512KBYTE
+#5 constant ROM_SIZE_1MBYTE
+#6 constant ROM_SIZE_2MBYTE
+
+#0 constant RAM_SIZE_0KBIT
+#1 constant RAM_SIZE_16KBIT
+#2 constant RAM_SIZE_64KBIT
+#3 constant RAM_SIZE_256KBIT
+#4 constant RAM_SIZE_1MBIT
+
+#0 constant RAM_SIZE_0KBYTE
+#1 constant RAM_SIZE_2KBYTE
+#2 constant RAM_SIZE_8KBYTE
+#3 constant RAM_SIZE_32KBYTE
+#4 constant RAM_SIZE_128KBYTE
+
 ( A placeholder for values)
 : $xx $42 ;
 
