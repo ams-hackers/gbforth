@@ -149,6 +149,7 @@ presume main
 
 [user-definitions]
 ' main alias main
+' title: alias title:
 [end-user-definitions]
 
 nop,
@@ -157,9 +158,7 @@ main jp,
 ( start header )
 
 $0104 ==> nintendo-logo,
-title: EXAMPLE
-$0143 ==> CGB_DISABLED rom,
-
+$0143 ==> CGB_DISABLED rom,         ( color GB function support )
 $0144 ==> $00 rom, $00 rom,         ( new licensee code )
 $0146 ==> $00 rom,                  ( gb 00 or super gameboy 03 )
 $0147 ==> $00 rom,                  ( cartridge type - rom only )

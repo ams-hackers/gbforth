@@ -2,6 +2,8 @@ require gbhw.fs
 
 also gb-assembler
 
+title: EXAMPLE
+
 $40 ==> reti,
 $48 ==> reti,
 $50 ==> reti,
