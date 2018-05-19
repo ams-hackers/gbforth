@@ -106,6 +106,21 @@ $33 constant USE_NEW_LICENCE_CODE
 : fix-header-complement
   header-complement $014D rom! ;
 
+: global-checksum
+  0
+  $014E $0 ?do
+    i rom@ +
+  loop
+  rom-size $0150 ?do
+    i rom@ +
+  loop
+  $FFFF and ;
+
+: fix-global-checksum
+  global-checksum dup
+  higher-byte $014E rom!
+  lower-byte $014F rom! ;
+
 ( Cartridge structure )
 
 ( A placeholder for values)
@@ -154,7 +169,7 @@ $014A ==> $01 rom,                  ( market code jp/int )
 $014B ==> USE_NEW_LICENCE_CODE rom, ( old licensee code )
 $014C ==> $00 rom,                  ( mask rom version number )
 $014D ==> $xx rom,                  ( complement checksum )
-$014E ==> $f8 rom, $9c rom,         ( global checksum )
+$014E ==> $xx rom, $xx rom,         ( global checksum )
 
 ( header end )
 
