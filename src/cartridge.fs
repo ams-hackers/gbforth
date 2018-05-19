@@ -5,21 +5,14 @@ also gb-assembler
 
 ( Constants used in cartridge header )
 
-: logo
-  $ce rom, $ed rom, $66 rom, $66 rom, $cc rom, $0d rom, $00 rom, $0b rom,
-  $03 rom, $73 rom, $00 rom, $83 rom, $00 rom, $0c rom, $00 rom, $0d rom,
-  $00 rom, $08 rom, $11 rom, $1f rom, $88 rom, $89 rom, $00 rom, $0e rom,
-  $dc rom, $cc rom, $6e rom, $e6 rom, $dd rom, $dd rom, $d9 rom, $99 rom,
-  $bb rom, $bb rom, $67 rom, $63 rom, $6e rom, $0e rom, $ec rom, $cc rom,
-  $dd rom, $dc rom, $99 rom, $9f rom, $bb rom, $b9 rom, $33 rom, $3e rom, ;
-
 ( CGB flag [$0143] )
+$00 constant CGB_DISABLED
 $80 constant CGB_SUPPORTED
 $C0 constant CGB_ONLY
 
 ( SGB flag [$0146] )
 $00 constant SGB_DISABLED
-$03 constant SGB_ENABLED
+$03 constant SGB_ENABLED  ( Requires $014B ==> $33, )
 
 ( Cartridge type [$0147] )
 $00 constant ROM_NOMBC
@@ -66,7 +59,23 @@ $03 constant RAM_SIZE_32KBYTE
 $04 constant RAM_SIZE_128KBYTE
 $05 constant RAM_SIZE_64KBYTE
 
+( Destination code [$014A] )
+$00 constant DEST_JAP
+$01 constant DEST_INT
+
+( Old licensee code [$014B] )
+$33 constant USE_NEW_LICENCE_CODE
+
 ( Words to modify header values )
+
+( Boot logo [$0104-0133] )
+: nintendo-logo,
+  $ce rom, $ed rom, $66 rom, $66 rom, $cc rom, $0d rom, $00 rom, $0b rom,
+  $03 rom, $73 rom, $00 rom, $83 rom, $00 rom, $0c rom, $00 rom, $0d rom,
+  $00 rom, $08 rom, $11 rom, $1f rom, $88 rom, $89 rom, $00 rom, $0e rom,
+  $dc rom, $cc rom, $6e rom, $e6 rom, $dd rom, $dd rom, $d9 rom, $99 rom,
+  $bb rom, $bb rom, $67 rom, $63 rom, $6e rom, $0e rom, $ec rom, $cc rom,
+  $dd rom, $dc rom, $99 rom, $9f rom, $bb rom, $b9 rom, $33 rom, $3e rom, ;
 
 : parse-line ( -- addr u )
   #10 parse ;
@@ -74,7 +83,7 @@ $05 constant RAM_SIZE_64KBYTE
 : title:
   parse-line
   dup #15 > abort" Title is too long"
-  $134 offset>addr swap move ;
+  $0134 offset>addr swap move ;
 
 : manufacturer:
   parse-line
@@ -85,10 +94,7 @@ $05 constant RAM_SIZE_64KBYTE
   parse-line
   dup #2 > abort" Licensee Code is too long"
   $0144 offset>addr swap move
-  $33 $014B rom! ;
-
-: gbgame $00 $0143 rom! ; ( non color )
-
+  USE_NEW_LICENCE_CODE $014B rom! ;
 
 : header-complement
   0
@@ -122,7 +128,7 @@ $68 ==> ( high-to-low of p11 interrupt start address )
 $70 ==> ( high-to-low of p12 interrupt start address )
 $78 ==> ( high-to-low of p13 interrupt start address )
 
-$100 ==> ( start entry point )
+$100 ==> ( start entry point [$100-$103] )
 
 presume main
 
@@ -135,22 +141,20 @@ main jp,
 
 ( start header )
 
-$0104 ==> ( nintendo logo )
-logo
+$0104 ==> nintendo-logo,
 title: EXAMPLE
-$143 ==> gbgame
+$0143 ==> CGB_DISABLED rom,
 
-$144 ==>
-$00 rom, $00 rom, ( licensee code )
-$00 rom,          ( gb 00 or super gameboy 03 )
-$00 rom,          ( cartridge type - rom only )
-$00 rom,          ( rom size )
-$00 rom,          ( ram size )
-$01 rom,          ( market code jp/int )
-$33 rom,          ( licensee code )
-$00 rom,          ( mask rom version number )
-$xx rom,          ( complement check )
-$f8 rom, $9c rom, ( checksum )
+$0144 ==> $00 rom, $00 rom,         ( new licensee code )
+$0146 ==> $00 rom,                  ( gb 00 or super gameboy 03 )
+$0147 ==> $00 rom,                  ( cartridge type - rom only )
+$0148 ==> $00 rom,                  ( rom size )
+$0149 ==> $00 rom,                  ( ram size )
+$014A ==> $01 rom,                  ( market code jp/int )
+$014B ==> USE_NEW_LICENCE_CODE rom, ( old licensee code )
+$014C ==> $00 rom,                  ( mask rom version number )
+$014D ==> $xx rom,                  ( complement checksum )
+$014E ==> $f8 rom, $9c rom,         ( global checksum )
 
 ( header end )
 
