@@ -53,10 +53,10 @@ require ./src/user.fs
 )
 :noname
   get-order
-  
+
   [user-definitions]
   seal also
-  input-file included 
+  input-file included
   [end-user-definitions]
 
   set-order
@@ -67,5 +67,6 @@ depth 0<> [if]
 [endif]
 
 fix-header-complement
+fix-global-checksum
 output-file dump-rom
 bye
