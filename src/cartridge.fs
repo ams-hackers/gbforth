@@ -143,9 +143,6 @@ $33 constant USE_NEW_LICENCE_CODE
 
 ( Cartridge structure )
 
-( A placeholder for values)
-: $xx $42 ;
-
 $00 ==> ( restart $00 address )
 $08 ==> ( restart $08 address )
 $10 ==> ( restart $10 address )
@@ -163,7 +160,7 @@ $68 ==> ( high-to-low of p11 interrupt start address )
 $70 ==> ( high-to-low of p12 interrupt start address )
 $78 ==> ( high-to-low of p13 interrupt start address )
 
-$100 ==> ( start entry point [$100-$103] )
+$100 ==> ( start entry point [$0100-$0103] )
 
 presume main
 
@@ -175,21 +172,23 @@ presume main
 nop,
 main jp,
 
-( start header )
+( start header [$0100-$014F] )
 
 $0104 ==> nintendo-logo,
+$0134 ==>                           ( title )
+$013F ==>                           ( manufacturer code )
 $0143 ==> CGB_DISABLED rom,         ( color GB function support )
-$0144 ==> $00 rom, $00 rom,         ( new licensee code )
-$0146 ==> $00 rom,                  ( gb 00 or super gameboy 03 )
-$0147 ==> $00 rom,                  ( cartridge type - rom only )
-$0148 ==> $00 rom,                  ( rom size )
-$0149 ==> $00 rom,                  ( ram size )
-$014A ==> $01 rom,                  ( market code jp/int )
+$0144 ==>                           ( new licensee code )
+$0146 ==> SGB_DISABLED rom,         ( gb 00 or super gameboy 03 )
+$0147 ==> ROM_NOMBC rom,            ( cartridge type - rom only )
+$0148 ==> ROM_SIZE_32KBYTE rom,     ( rom size )
+$0149 ==> RAM_SIZE_NONE rom,        ( ram size )
+$014A ==> DEST_INT rom,             ( market code jp/int )
 $014B ==> USE_NEW_LICENCE_CODE rom, ( old licensee code )
 $014C ==> $00 rom,                  ( mask rom version number )
-$014D ==> $xx rom,                  ( complement checksum )
-$014E ==> $xx rom, $xx rom,         ( global checksum )
+$014D ==>                           ( complement checksum )
+$014E ==>                           ( global checksum )
 
-( header end )
+( header end [$0150...] )
 
 previous
