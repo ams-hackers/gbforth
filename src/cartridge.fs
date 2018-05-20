@@ -44,38 +44,40 @@ $FD constant ROM_BANDAI_TAMA5
 $FE constant ROM_HUC3
 $FF constant ROM_HUC1_RAM_BAT
 
-\ #0 constant ROM_SIZE_256KBIT
-\ #1 constant ROM_SIZE_512KBIT
-\ #2 constant ROM_SIZE_1M
-\ #3 constant ROM_SIZE_2M
-\ #4 constant ROM_SIZE_4M
-\ #5 constant ROM_SIZE_8M
-\ #6 constant ROM_SIZE_16M
-
 ( ROM size [$0148] )
 $00 constant ROM_SIZE_32KBYTE
+$00 constant ROM_SIZE_256KBIT
 $01 constant ROM_SIZE_64KBYTE
+$01 constant ROM_SIZE_512KBIT
 $02 constant ROM_SIZE_128KBYTE
+$02 constant ROM_SIZE_1MBIT
 $03 constant ROM_SIZE_256KBYTE
+$03 constant ROM_SIZE_2MBIT
 $04 constant ROM_SIZE_512KBYTE
+$04 constant ROM_SIZE_4MBIT
 $05 constant ROM_SIZE_1MBYTE
+$05 constant ROM_SIZE_8MBIT
 $06 constant ROM_SIZE_2MBYTE
+$06 constant ROM_SIZE_16MBIT
 $07 constant ROM_SIZE_4MBYTE
+$07 constant ROM_SIZE_32MBIT
 $08 constant ROM_SIZE_8MBYTE
-
-\ #0 constant RAM_SIZE_0KBIT
-\ #1 constant RAM_SIZE_16KBIT
-\ #2 constant RAM_SIZE_64KBIT
-\ #3 constant RAM_SIZE_256KBIT
-\ #4 constant RAM_SIZE_1MBIT
+$08 constant ROM_SIZE_64MBIT
 
 ( RAM size [$0149] )
+$00 constant RAM_SIZE_NONE
 $00 constant RAM_SIZE_0KBYTE
+$00 constant RAM_SIZE_0KBIT
 $01 constant RAM_SIZE_2KBYTE
+$01 constant RAM_SIZE_16KBIT
 $02 constant RAM_SIZE_8KBYTE
+$02 constant RAM_SIZE_64KBIT
 $03 constant RAM_SIZE_32KBYTE
+$03 constant RAM_SIZE_256KBIT
 $04 constant RAM_SIZE_128KBYTE
+$04 constant RAM_SIZE_1MBIT
 $05 constant RAM_SIZE_64KBYTE
+$03 constant RAM_SIZE_512KBIT
 
 ( Destination code [$014A] )
 $00 constant DEST_JAP
