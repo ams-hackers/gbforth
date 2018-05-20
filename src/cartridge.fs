@@ -20,7 +20,7 @@ $01 constant ROM_MBC1
 $02 constant ROM_MBC1_RAM
 $03 constant ROM_MBC1_RAM_BAT
 $05 constant ROM_MBC2
-$06 constant ROM_MBC2_BAT
+$06 constant ROM_MBC2_RAM_BAT
 $08 constant ROM_NOMBC_RAM
 $09 constant ROM_NOMBC_RAM_BAT
 $0B constant ROM_MMM01
@@ -31,15 +31,14 @@ $10 constant ROM_MBC3_TIMER_RAM_BAT
 $11 constant ROM_MBC3
 $12 constant ROM_MBC3_RAM
 $13 constant ROM_MBC3_RAM_BAT
-$15 constant ROM_MBC4
-$16 constant ROM_MBC4_RAM
-$17 constant ROM_MBC4_RAM_BAT
 $19 constant ROM_MBC5
 $1A constant ROM_MBC5_RAM
 $1B constant ROM_MBC5_RAM_BAT
 $1C constant ROM_MBC5_RUMBLE
 $1D constant ROM_MBC5_RUMBLE_RAM
 $1E constant ROM_MBC5_RUMBLE_RAM_BAT
+$20 constant ROM_MBC6_RAM_BAT
+$22 constant ROM_MBC7_RAM_BAT_ACCELEROMETER
 $FC constant ROM_POCKET_CAMEREA
 $FD constant ROM_BANDAI_TAMA5
 $FE constant ROM_HUC3
@@ -62,9 +61,7 @@ $04 constant ROM_SIZE_512KBYTE
 $05 constant ROM_SIZE_1MBYTE
 $06 constant ROM_SIZE_2MBYTE
 $07 constant ROM_SIZE_4MBYTE
-$52 constant ROM_SIZE_1.1MBYTE
-$53 constant ROM_SIZE_1.2MBYTE
-$54 constant ROM_SIZE_1.5MBYTE
+$08 constant ROM_SIZE_8MBYTE
 
 \ #0 constant RAM_SIZE_0KBIT
 \ #1 constant RAM_SIZE_16KBIT
