@@ -1,0 +1,12 @@
+language: generic
+before_install:
+  - sudo apt-get update -y
+  - sudo apt-get remove emacs || true
+  - sudo apt-get remove emacs23 || true
+  - sudo apt-get remove emacs24 || true
+  - sudo apt-get remove emacs25 || true
+install: sudo apt-get install -y gforth
+script:
+  - gforth ./src/asm.spec.fs -e bye
+  - DMGFORTH_PATH=$(pwd)/lib ./dmgforth ./examples/hello-world/hello.fs ./examples/hello-world/hello.gb
+  - cd examples/hello-world/ && shasum -c hello.gb.sha

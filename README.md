@@ -1,5 +1,4 @@
-# dmg-forth
-
+# dmg-forth [![Build Status](https://travis-ci.org/ams-hackers/dmg-forth.svg?branch=master)](https://travis-ci.org/ams-hackers/dmg-forth)
 A Forth-based Game Boy development kit
 
 ## Install
