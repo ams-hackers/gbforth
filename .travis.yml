@@ -8,5 +8,5 @@ before_install:
 install: sudo apt-get install -y gforth
 script:
   - gforth ./src/asm.spec.fs -e bye
-  - DMGFORTH_PATH=$(pwd)/lib ./dmgforth ./examples/hello-world/hello.fs ./examples/hello-world/hello.gb
-  - cd examples/hello-world/ && shasum -c hello.gb.sha
+  - DMGFORTH_PATH=$(pwd)/lib ./dmgforth ./examples/hello-world-asm/hello.fs ./examples/hello-world-asm/hello.gb
+  - cd examples/hello-world-asm/ && shasum -c hello.gb.sha
