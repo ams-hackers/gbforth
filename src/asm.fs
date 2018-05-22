@@ -207,8 +207,8 @@ end-types
 %10 ~cc operand #NC
 %11 ~cc operand #C
 
-%0 ~(DE)  operand (DE)
-%0 ~(HL+) operand (HL+)
+%0 ~(DE)  operand [DE]
+%0 ~(HL+) operand [HL+]
 
 ( Push an immediate value to the arguments stack )
 : #
