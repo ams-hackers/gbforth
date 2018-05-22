@@ -163,8 +163,8 @@ begin-types
   type ~r
   type ~dd
   type ~qq
-  type ~[DE]
-  type ~[HL+]
+  type ~(DE)
+  type ~(HL+)
   type ~b
   type ~n
   type ~nn
@@ -207,8 +207,8 @@ end-types
 %10 ~cc operand #NC
 %11 ~cc operand #C
 
-%0 ~[DE]  operand [DE]
-%0 ~[HL+] operand [HL+]
+%0 ~(DE)  operand (DE)
+%0 ~(HL+) operand (HL+)
 
 ( Push an immediate value to the arguments stack )
 : #
@@ -469,10 +469,10 @@ instruction ld,
   ~n   ~r    ~~> %00 r'   %110 op, n,  ::
   ~nn ~dd    ~~> %00 dd0' %001 op, nn, ::
 
-  ~A   ~[DE] ~~> %00 %010 %010 op,     ::
-  ~[DE]  ~A  ~~> %00 %011 %010 op,     ::
-  ~[HL+] ~A  ~~> %00 %101 %010 op,     ::
-  ~A ~[HL+]  ~~> %00 %100 %010 op,     ::
+  ~A   ~(DE) ~~> %00 %010 %010 op,     ::
+  ~(DE)  ~A  ~~> %00 %011 %010 op,     ::
+  ~(HL+) ~A  ~~> %00 %101 %010 op,     ::
+  ~A ~(HL+)  ~~> %00 %100 %010 op,     ::
 
   ~(n) ~A    ~~> %11 %110 %000 op, n,  ::
   ~A   ~(n)  ~~> %11 %100 %000 op, n', ::
