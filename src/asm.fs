@@ -465,7 +465,7 @@ instruction jr,
 end-instruction
 
 instruction ld,
-  ~r   ~r    ~~> %01 r'   r    op,     ::
+  ~r   ~r    ~~> %01 r    r'   op,     ::
   ~n   ~r    ~~> %00 r'   %110 op, n,  ::
   ~nn ~dd    ~~> %00 dd0' %001 op, nn, ::
 
