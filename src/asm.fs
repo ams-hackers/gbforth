@@ -488,6 +488,7 @@ instruction ld,
   ~(DE)  ~A  ~~> %00 %011 %010 op,      2 cycles ::
 
   ~(BC)  ~A  ~~> %00 %001 %010 op,      2 cycles ::
+  ~A   ~(BC) ~~> %00 %000 %010 op,      2 cycles ::
 
   ~(HL+) ~A  ~~> %00 %101 %010 op,      2 cycles ::
   ~A ~(HL+)  ~~> %00 %100 %010 op,      2 cycles ::
