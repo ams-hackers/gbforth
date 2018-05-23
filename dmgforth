@@ -24,6 +24,10 @@ rom erase
 
 include ./src/cartridge.fs
 
+--no-kernel invert [IF] 
+include ./src/kernel.fs
+[THEN]
+
 fpath clear-path
 dmgforth-path fpath also-path
 fpath path+ ./
