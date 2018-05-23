@@ -365,6 +365,11 @@ end-types
 : op { prefix tribble1 tribble2 -- opcode }
   prefix .. tribble1 | .. tribble2 | ;
 
+:  8lit, $ff and emit ;
+: 16lit,
+  dup lower-byte  emit
+      higher-byte emit ;
+
 ALSO GB-ASSEMBLER-EMITERS
 DEFINITIONS
 
@@ -378,11 +383,6 @@ DEFINITIONS
 : ss0 arg1-value 1 lshift ;
 : ss1 ss0 %1 | ;
 : qq0 arg1-value 1 lshift ;
-
-:  8lit, $ff and emit ;
-: 16lit,
-  dup lower-byte  emit
-      higher-byte emit ;
 
 : emit-addr ( arg-value arg-type )
   dup ~unresolved-reference type-match if
@@ -431,6 +431,9 @@ PREVIOUS DEFINITIONS
 ( INSTRUCTIONS )
 
 [public]
+
+: 16lit, 16lit, ;
+: 8lit,  8lit, ;
 
 instruction and,
   ~n ~~> %11 %100 %110 op, n, ::
