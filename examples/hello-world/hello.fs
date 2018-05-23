@@ -14,6 +14,20 @@ include memory.fs
 
 $150 ==>
 label main
+presume start
+
+start DE ld,
+$C7F0 # BC ld,
+$C800 # SP ld,
+
+$11 # hl ld,
+hl push,
+
+next # jp,
+
+label start 
+double 16lit,
+
 
 ( program start )
 
