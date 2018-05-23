@@ -263,10 +263,10 @@ end-types
 : resolve-label-references ( xt -- )
   offset swap >body @ reflist-resolve ;
 
-: fresh-label
+[public]
+: newlabel
   create offset , does> @ ~nn push-arg ;
 
-[public]
 : label
   parse-name
   2dup find-name ?dup if
@@ -275,7 +275,7 @@ end-types
     dup resolve-label-references
     redefine-label-forward
   else
-    nextname fresh-label
+    nextname newlabel
   then ;
 [endpublic]
 
