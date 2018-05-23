@@ -19,13 +19,11 @@ presume start
 start DE ld,
 $C7F0 # BC ld,
 $C800 # SP ld,
-
-$11 # hl ld,
-hl push,
-
 next # jp,
 
 label start 
+lit 16lit,
+$11 16lit,
 double 16lit,
 
 

@@ -161,10 +161,19 @@ next # jp,
 
 : next next ;
 
+code lit
+[IP] A ld, A L ld,
+IP inc,
+[IP] A ld, A H ld,
+IP inc,
+HL push,
+next # jp,
+
 code dup
 HL pop,
 HL push,
 HL push,
+next # jp,
 
 code double
 enter # jp,
