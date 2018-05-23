@@ -5,44 +5,48 @@ also gb-assembler
 
 ( Constants used in cartridge header )
 
-( CGB flag [$0143] )
-$00 constant CGB_DISABLED
-$80 constant CGB_SUPPORTED
-$C0 constant CGB_ONLY
+( Game Boy Color flag [$0143] )
+$00 constant CGB_INCOMPATIBLE ( Does not use CGB functions, but still works on CGB )
+$80 constant CGB_COMPATIBLE ( Uses CGB functions, but also works on DMG )
+$C0 constant CGB_EXCLUSIVE ( Uses CGB functions, DMG not supported )
 
-( SGB flag [$0146] )
-$00 constant SGB_DISABLED
-$03 constant SGB_ENABLED  ( Requires $014B ==> $33, )
+( Super Game Boy flag [$0146] )
+$00 constant SGB_DISABLED ( Does not use SGB functions, but still works on SGB )
+$03 constant SGB_ENABLED  ( Uses SGB functions. Requires $014B ==> $33, )
 
 ( Cartridge type [$0147] )
-$00 constant ROM_NOMBC
-$01 constant ROM_MBC1
-$02 constant ROM_MBC1_RAM
-$03 constant ROM_MBC1_RAM_BAT
-$05 constant ROM_MBC2
-$06 constant ROM_MBC2_RAM_BAT
-$08 constant ROM_NOMBC_RAM
-$09 constant ROM_NOMBC_RAM_BAT
-$0B constant ROM_MMM01
-$0C constant ROM_MMM01_RAM
-$0D constant ROM_MMM01_RAM_BAT
-$0F constant ROM_MBC3_TIMER_BAT
-$10 constant ROM_MBC3_TIMER_RAM_BAT
-$11 constant ROM_MBC3
-$12 constant ROM_MBC3_RAM
-$13 constant ROM_MBC3_RAM_BAT
-$19 constant ROM_MBC5
-$1A constant ROM_MBC5_RAM
-$1B constant ROM_MBC5_RAM_BAT
-$1C constant ROM_MBC5_RUMBLE
-$1D constant ROM_MBC5_RUMBLE_RAM
-$1E constant ROM_MBC5_RUMBLE_RAM_BAT
-$20 constant ROM_MBC6_RAM_BAT
-$22 constant ROM_MBC7_RAM_BAT_ACCELEROMETER
-$FC constant ROM_POCKET_CAMEREA
-$FD constant ROM_BANDAI_TAMA5
-$FE constant ROM_HUC3
-$FF constant ROM_HUC1_RAM_BAT
+\ specifies whether the cart contains
+\ ROM, a Memory Bank Controller (MBC), SRAM, Backup Battery (BAT),
+\ and extra hardware like Timer (RTC) or Rumble.
+$00 constant CART_TYPE_ROM
+$01 constant CART_TYPE_ROM_MBC1
+$02 constant CART_TYPE_ROM_MBC1_RAM
+$03 constant CART_TYPE_ROM_MBC1_RAM_BAT
+$05 constant CART_TYPE_ROM_MBC2
+$06 constant CART_TYPE_ROM_MBC2_BAT     \ Not sure which is correct
+$06 constant CART_TYPE_ROM_MBC2_RAM_BAT \ Ram/non-ram?
+$08 constant CART_TYPE_ROM_RAM
+$09 constant CART_TYPE_ROM_RAM_BAT
+$0F constant CART_TYPE_ROM_MBC3_RTC_BAT
+$10 constant CART_TYPE_ROM_MBC3_RTC_RAM_BAT
+$0B constant CART_TYPE_ROM_MMM01
+$0C constant CART_TYPE_ROM_MMM01_RAM
+$0D constant CART_TYPE_ROM_MMM01_RAM_BAT
+$11 constant CART_TYPE_ROM_MBC3
+$12 constant CART_TYPE_ROM_MBC3_RAM
+$13 constant CART_TYPE_ROM_MBC3_RAM_BAT
+$19 constant CART_TYPE_ROM_MBC5
+$1A constant CART_TYPE_ROM_MBC5_RAM
+$1B constant CART_TYPE_ROM_MBC5_RAM_BAT
+$1C constant CART_TYPE_ROM_MBC5_RUMBLE
+$1D constant CART_TYPE_ROM_MBC5_RUMBLE_RAM
+$1E constant CART_TYPE_ROM_MBC5_RUMBLE_RAM_BAT
+$20 constant CART_TYPE_ROM_MBC6_RAM_BAT
+$22 constant CART_TYPE_ROM_MBC7_RAM_BAT_ACCELEROMETER
+$FC constant CART_TYPE_ROM_POCKET_CAMERA
+$FD constant CART_TYPE_ROM_BANDAI_TAMA5
+$FE constant CART_TYPE_ROM_HUC3
+$FF constant CART_TYPE_ROM_HUC1_RAM_BAT
 
 ( ROM size [$0148] )
 $00 constant ROM_SIZE_32KBYTE
@@ -80,11 +84,12 @@ $05 constant RAM_SIZE_64KBYTE
 $03 constant RAM_SIZE_512KBIT
 
 ( Destination code [$014A] )
-$00 constant DEST_JAP
-$01 constant DEST_INT
+$00 constant DEST_JAPAN
+$01 constant DEST_OTHER
 
 ( Old licensee code [$014B] )
-$33 constant USE_NEW_LICENCE_CODE
+\ Nowadays unused in favour of makercode at $0144
+$33 constant USE_MAKER_CODE
 
 ( Words to modify header values )
 
@@ -105,16 +110,16 @@ $33 constant USE_NEW_LICENCE_CODE
   dup #15 > abort" Title is too long"
   $0134 offset>addr swap move ;
 
-: manufacturer:
+: gamecode:
   parse-line
-  dup #4 > abort" Manufacturer Code is too long"
+  dup #4 > abort" Game Code is too long"
   $013F offset>addr swap move ;
 
-: licensee:
+: makercode:
   parse-line
-  dup #2 > abort" Licensee Code is too long"
+  dup #2 > abort" Maker Code is too long"
   $0144 offset>addr swap move
-  USE_NEW_LICENCE_CODE $014B rom! ;
+  USE_MAKER_CODE $014B rom! ;
 
 : header-complement
   0
@@ -174,17 +179,17 @@ main jp,
 
 ( start header [$0100-$014F] )
 
-$0104 ==> nintendo-logo,
+$0104 ==> nintendo-logo,            ( boot logo )
 $0134 ==>                           ( title )
 $013F ==>                           ( manufacturer code )
-$0143 ==> CGB_DISABLED rom,         ( color GB function support )
-$0144 ==>                           ( new licensee code )
+$0143 ==> CGB_INCOMPATIBLE rom,     ( color GB function support )
+$0144 ==>                           ( maker code )
 $0146 ==> SGB_DISABLED rom,         ( gb 00 or super gameboy 03 )
-$0147 ==> ROM_NOMBC rom,            ( cartridge type - rom only )
+$0147 ==> CART_TYPE_ROM rom,        ( cartridge type - rom only )
 $0148 ==> ROM_SIZE_32KBYTE rom,     ( rom size )
 $0149 ==> RAM_SIZE_NONE rom,        ( ram size )
-$014A ==> DEST_INT rom,             ( market code jp/int )
-$014B ==> USE_NEW_LICENCE_CODE rom, ( old licensee code )
+$014A ==> DEST_OTHER rom,           ( market code jp/int )
+$014B ==> USE_MAKER_CODE rom,       ( old licensee code )
 $014C ==> $00 rom,                  ( mask rom version number )
 $014D ==>                           ( complement checksum )
 $014E ==>                           ( global checksum )
