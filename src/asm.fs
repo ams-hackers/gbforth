@@ -163,7 +163,9 @@ begin-types
   type ~r
   type ~dd
   type ~qq
+  type ~(BC)
   type ~(DE)
+  type ~(HL)
   type ~(HL+)
   type ~b
   type ~n
@@ -207,7 +209,9 @@ end-types
 %10 ~cc operand #NC
 %11 ~cc operand #C
 
+%0 ~(BC)  operand [BC]
 %0 ~(DE)  operand [DE]
+%0 ~(HL)  operand [HL]
 %0 ~(HL+) operand [HL+]
 
 ( Push an immediate value to the arguments stack )
@@ -456,7 +460,8 @@ instruction inc,
 end-instruction
 
 instruction jp,
-  ~nn ~~> %11 %000 %011 op, nn, ::
+  ~(HL)  ~~> %11 %101 %001 op,     ::
+  ~nn    ~~> %11 %000 %011 op, nn, ::
 end-instruction
 
 instruction jr,
@@ -471,6 +476,9 @@ instruction ld,
 
   ~A   ~(DE) ~~> %00 %010 %010 op,     ::
   ~(DE)  ~A  ~~> %00 %011 %010 op,     ::
+
+  ~(BC)  ~A  ~~> %00 %001 %010 op,     ::
+
   ~(HL+) ~A  ~~> %00 %101 %010 op,     ::
   ~A ~(HL+)  ~~> %00 %100 %010 op,     ::
 
