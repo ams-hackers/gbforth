@@ -195,7 +195,7 @@ end-types
 %111 ~r ~A | operand A
 %000 ~r      operand B
 %001 ~r      operand C
-%101 ~r      operand D
+%010 ~r      operand D
 %011 ~r      operand E
 %100 ~r      operand H
 %101 ~r      operand L
