@@ -12,6 +12,7 @@ also dmgforth
 
 require ./src/rom.fs
 require ./src/asm.fs
+require ./src/cli.fs
 
 also gb-assembler-impl
 ' rom, IS emit
@@ -23,24 +24,9 @@ rom erase
 
 include ./src/cartridge.fs
 
-( command line arguments processing )
-
-( Add lib/ to the search path of the game )
-s" DMGFORTH_PATH" getenv 2constant dmgforth-path
 fpath clear-path
 dmgforth-path fpath also-path
 fpath path+ ./
-
-: usage
-  ." Usage: dmgforth <input> <output>" cr
-  1 (bye) ;
-
-argc @ 3 <> [if]
-  ' usage stderr outfile-execute
-[then]
-
-next-arg 2constant input-file
-next-arg 2constant output-file
 
 require ./src/user.fs
 
