@@ -9,9 +9,14 @@ all: examples
 LIB_FILES=lib/*.fs
 SOURCE_FILES=dmgforth src/*.fs
 
-examples: examples/hello-world-asm/hello.gb
+examples: \
+	examples/hello-world-asm/hello.gb \
+	examples/hello-world/hello.gb 
 
 # Examples
+examples/hello-world/hello.gb: examples/hello-world/hello.fs $(SOURCE_FILES) $(LIB_FILES)
+	./dmgforth $< $@
+
 examples/hello-world-asm/hello.gb: examples/hello-world-asm/hello.fs $(SOURCE_FILES) $(LIB_FILES)
 	./dmgforth $< $@
 	@cd examples/hello-world-asm/ && shasum -c hello.gb.sha
@@ -21,3 +26,4 @@ check:
 
 clean:
 	-rm examples/hello-world-asm/hello.gb
+	-rm examples/hello-world/hello.gb
