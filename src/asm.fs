@@ -39,6 +39,8 @@ variable counter
 :noname counter @ ; is offset
 :noname 2drop ; is emit-to
 
+variable countcycles
+
 : ensure-short-jr { e -- e }
   e -128 >= e 127 <= and
   invert abort" The relative jump is out of range"
@@ -421,107 +423,116 @@ PREVIOUS DEFINITIONS
   ` ;
 ; immediate
 
-: simple-instruction
-  op >r
-  instruction
-  ` ~~> r> ` literal  ` emit ` ::
-  ` end-instruction ;
-
 
 ( INSTRUCTIONS )
 
+: cycles countcycles +! ;
+
 [public]
+
+' countcycles alias countcycles
 
 : 16lit, 16lit, ;
 : 8lit,  8lit, ;
 
 instruction and,
-  ~n ~~> %11 %100 %110 op, n, ::
+  ~n ~~> %11 %100 %110 op, n,           1 cycles ::
 end-instruction
 
 instruction call,
-  ~nn      ~~> %11 %001 %101 op, nn, ::
-  ~nn ~cc  ~~> %11 0cc' %100 op, nn, ::
+  ~nn      ~~> %11 %001 %101 op, nn,    6 cycles ::
+  ~nn ~cc  ~~> %11 0cc' %100 op, nn,    6 cycles :: ( 3 if false )
 end-instruction
 
 instruction dec,
-  ~r  ~~> %00 r   %101 op, ::
-  ~ss ~~> %00 ss1 %011 op, ::
+  ~r  ~~> %00 r   %101 op,              1 cycles ::
+  ~ss ~~> %00 ss1 %011 op,              2 cycles ::
 end-instruction
 
-%11 %110 %011 simple-instruction di,
-%11 %111 %011 simple-instruction ei,
+instruction di,
+      ~~> %11 %110 %011 op,             1 cycles ::
+end-instruction
+
+instruction ei,
+      ~~> %11 %111 %011 op,             1 cycles ::
+end-instruction
 
 ( Bug in game boy forces us to emit a NOP after halt, because HALT has
   an inconsistent skipping of the next instruction depending on if the
   interruptions are enabled or not )
-%01 %110 %110 simple-instruction halt%,
+instruction halt%,
+      ~~> %01 %110 %110 op,             1 cycles ::
+end-instruction
 
 instruction inc,
-  ~r  ~~> %00   r %100 op, ::
-  ~ss ~~> %00 ss0 %011 op, ::
+  ~r  ~~> %00   r %100 op,              1 cycles ::
+  ~ss ~~> %00 ss0 %011 op,              2 cycles ::
 end-instruction
 
 instruction jp,
-  ~(HL)  ~~> %11 %101 %001 op,     ::
-  ~nn    ~~> %11 %000 %011 op, nn, ::
+  ~(HL)  ~~> %11 %101 %001 op,          1 cycles ::
+  ~nn    ~~> %11 %000 %011 op, nn,      4 cycles ::
 end-instruction
 
 instruction jr,
-  ~e     ~~> %00 %011 %000 op, e, ::
-  ~e ~cc ~~> %00 1cc' %000 op, e, ::
+  ~e     ~~> %00 %011 %000 op, e,       3 cycles ::
+  ~e ~cc ~~> %00 1cc' %000 op, e,       3 cycles ::
 end-instruction
 
 instruction ld,
-  ~r   ~r    ~~> %01 r'   r    op,     ::
-  ~n   ~r    ~~> %00 r'   %110 op, n,  ::
-  ~nn ~dd    ~~> %00 dd0' %001 op, nn, ::
+  ~r   ~r    ~~> %01 r'   r    op,      1 cycles ::
+  ~n   ~r    ~~> %00 r'   %110 op, n,   2 cycles ::
+  ~nn ~dd    ~~> %00 dd0' %001 op, nn,  3 cycles ::
 
-  ~A   ~(DE) ~~> %00 %010 %010 op,     ::
-  ~(DE)  ~A  ~~> %00 %011 %010 op,     ::
+  ~A   ~(DE) ~~> %00 %010 %010 op,      2 cycles ::
+  ~(DE)  ~A  ~~> %00 %011 %010 op,      2 cycles ::
 
-  ~(BC)  ~A  ~~> %00 %001 %010 op,     ::
+  ~(BC)  ~A  ~~> %00 %001 %010 op,      2 cycles ::
 
-  ~(HL+) ~A  ~~> %00 %101 %010 op,     ::
-  ~A ~(HL+)  ~~> %00 %100 %010 op,     ::
+  ~(HL+) ~A  ~~> %00 %101 %010 op,      2 cycles ::
+  ~A ~(HL+)  ~~> %00 %100 %010 op,      2 cycles ::
 
-  ~(n) ~A    ~~> %11 %110 %000 op, n,  ::
-  ~A   ~(n)  ~~> %11 %100 %000 op, n', ::
+  ~(n) ~A    ~~> %11 %110 %000 op, n,   3 cycles ::
+  ~A   ~(n)  ~~> %11 %100 %000 op, n',  3 cycles ::
 end-instruction
 
-%00 %000 %000 simple-instruction nop,
+instruction nop,
+             ~~> %00 %000 %000  op,     1 cycles ::
+end-instruction
 
 instruction ret,
-        ~cc ~~> %11  0cc %000 op, ::
-            ~~> %11 %001 %001 op, ::
+        ~cc ~~> %11  0cc %000 op,       4 cycles ::
+            ~~> %11 %001 %001 op,       4 cycles ::
 end-instruction
 
 instruction reti,
-            ~~> %11 %011 %001 op, ::
+            ~~> %11 %011 %001 op,       4 cycles ::
 end-instruction
 
-%00 %000 %111 simple-instruction rlca,
+instruction rlca,
+            ~~> %00 %000 %111 op,       1 cycles ::
+end-instruction
 
 instruction cp,
-  ~n ~~> %11 %111 %110 op, n, ::
+  ~n ~~> %11 %111 %110 op, n,           2 cycles ::
 end-instruction
 
 instruction stop,
-  ~~> %00 %010 %000 op,
-      %00 %000 %000 op, ::
+  ~~> %00 %010 %000 op,                 
+      %00 %000 %000 op,                 1 cycles ::
 end-instruction
 
 instruction res,
   ~r ~b   ~~>  %11 %001 %011 op,
-               %10   b'    r op, ::
+               %10   b'    r op,        2 cycles ::
 end-instruction
 
 instruction pop,
-  ~qq ~~> %11 qq0 %001 op, ::
+  ~qq ~~> %11 qq0 %001 op,              3 cycles ::
 end-instruction
 
 instruction push,
-  ~qq ~~> %11 qq0 %101 op, ::
+  ~qq ~~> %11 qq0 %101 op,              4 cycles ::
 end-instruction
 
 ( Prevent the halt bug by emitting a NOP right after halt )
