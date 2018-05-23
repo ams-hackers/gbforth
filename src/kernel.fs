@@ -161,6 +161,27 @@ next # jp,
 
 : next next ;
 
+: push-bc
+  BC dec, 
+  D A ld, A [BC] ld,
+  BC dec,
+  E A ld, A [BC] ld, ;
+
+: pop-bc
+  [BC] A ld, A E ld,
+  BC inc,
+  [BC] A ld, A D ld,
+  BC inc, ;
+  
+code !
+push-bc
+HL pop,
+BC pop,
+C A ld, A [HL+] ld,
+B A ld, A [HL+] ld,
+pop-bc
+next # jp,
+
 code lit
 [IP] A ld, A L ld,
 IP inc,
