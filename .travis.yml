@@ -5,8 +5,7 @@ before_install:
   - sudo apt-get remove emacs23 || true
   - sudo apt-get remove emacs24 || true
   - sudo apt-get remove emacs25 || true
-install: sudo apt-get install -y gforth
+install: sudo apt-get install -y make gforth
 script:
-  - gforth ./src/asm.spec.fs -e bye
-  - DMGFORTH_PATH=$(pwd)/lib ./dmgforth ./examples/hello-world-asm/hello.fs ./examples/hello-world-asm/hello.gb
-  - cd examples/hello-world-asm/ && shasum -c hello.gb.sha
+  - make
+  - make check
