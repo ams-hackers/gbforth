@@ -4,6 +4,16 @@ require ./asm.fs
 
 also gb-assembler
 
+: .start
+  rom-offset
+  countcycles @ ;
+
+: .end
+  countcycles @ swap - >r
+  rom-offset swap - r>
+  ." Cycles: " . CR
+  ." Bytes: " . CR ;
+
 
 ( TEMPORARY HACK: Don't break the game! )
 $4400 ==>
