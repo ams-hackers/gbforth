@@ -3,6 +3,18 @@ also gb-assembler
 ( Special registers! )
 [host]
 : [rP1]    $FF00 ]* ;  ( Register for reading joy pad info [R/W] )
+: [rSB]    $FF01 ]* ;  ( Serial Transfer Data [R/W] )
+: [rSC]    $FF02 ]* ;  ( Serial I/O Control [R/W] )
+
+: [rDIV]   $FF04 ]* ;  ( Divider register [R/W] )
+: [rTIMA]  $FF05 ]* ;  ( Timer counter [R/W] )
+: [rTMA]   $FF06 ]* ;  ( Timer modulo [R/W] )
+: [rTAC]   $FF07 ]* ;  ( Timer control [R/W] )
+
+: [rIF]    $FF0F ]* ;  ( Interrupt Flag [R/W] )
+
+\ TODO: Sound registers $FF10 - $FF3F
+
 : [rLCDC]  $FF40 ]* ;  ( LCD control [R/W] )
 : [rSTAT]  $FF41 ]* ;  ( LCD status [R/W] )
 : [rSCY]   $FF42 ]* ;  ( Scroll Y [R/W] )
@@ -13,16 +25,30 @@ also gb-assembler
 : [rGBP]   $FF47 ]* ;  ( BG Palette Data [W] )
 : [rOBP0]  $FF48 ]* ;  ( Object Palette 0 Data [W] )
 : [rOBP1]  $FF49 ]* ;  ( Object Palette 1 Data [W] )
-: [rSB]    $FF01 ]* ;  ( Serial Transfer Data [R/W] )
-: [rSC]    $FF02 ]* ;  ( Serial I/O Control [R/W] )
-: [rDIV]   $FF04 ]* ;  ( Divider register [R/W] )
-: [rTIMA]  $FF05 ]* ;  ( Timer counter [R/W] )
-: [rTMA]   $FF06 ]* ;  ( Timer modulo [R/W] )
-: [rTAC]   $FF07 ]* ;  ( Timer control [R/W] )
-: [rIF]    $FF0F ]* ;  ( Interrupt Flag [R/W] )
-: [rIE]    $FFFF ]* ;  ( Interrupt Enable [R/W] )
 : [rWY]    $FF4A ]* ;  ( Window Y Position [R/W] )
 : [rWX]    $FF4B ]* ;  ( Window X Position [R/W] )
+
+: [rKEY1]  $FF4D ]* ;  ( CPU speed switching [R/W] )
+
+: [rVBK]   $FF4F ]* ;  ( VRAM bank specification [R/W] )
+
+: [rHDMA1] $FF51 ]* ;  ( Higher-order address of HDMAtransfer source [W] )
+: [rHDMA2] $FF52 ]* ;  ( Lower-order address of HDMAtransfer source [W] )
+: [rHDMA3] $FF53 ]* ;  ( Higher-order address of HDMAtransfer destination [W] )
+: [rHDMA4] $FF54 ]* ;  ( Lower-order address of HDMAtransfer destination [W] )
+: [rHDMA5] $FF55 ]* ;  ( H-blank and general-purpose HDMA control [W] )
+: [rRP]    $FF56 ]* ;  ( Infrared communication port [R/W] )
+
+: [rBCPS]  $FF68 ]* ;  ( Color palette BG write specification [R/W] )
+: [rGCPD]  $FF69 ]* ;  ( Color palette BG write data [R/W] )
+: [rOCPS]  $FF6A ]* ;  ( Color palette OBJ write specification [R/W] )
+: [rOCPD]  $FF6B ]* ;  ( Color palette OBJ write data [R/W] )
+
+: [rSVBK]  $FF70 ]* ;  ( WRAM Bank specification [R/W] )
+
+\ TODO: Registers $FE00 - $FE03
+
+: [rIE]    $FFFF ]* ;  ( Interrupt Enable [R/W] )
 [endhost]
 
 $FF00 constant _HW
