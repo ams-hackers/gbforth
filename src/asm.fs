@@ -165,10 +165,12 @@ begin-types
   type ~r
   type ~dd
   type ~qq
+  type ~HL
   type ~(BC)
   type ~(DE)
   type ~(HL)
   type ~(HL+)
+  type ~(C)
   type ~b
   type ~n
   type ~nn
@@ -202,7 +204,7 @@ end-types
 
 %00 ~qq|dd operand BC
 %01 ~qq|dd operand DE
-%10 ~qq|dd operand HL
+%10 ~qq|dd ~HL | operand HL
 %11    ~dd operand SP
 %11 ~qq    operand AF
 
@@ -215,6 +217,7 @@ end-types
 %0 ~(DE)  operand [DE]
 %0 ~(HL)  operand [HL]
 %0 ~(HL+) operand [HL+]
+%0 ~(C)   operand [C]
 
 ( Push an immediate value to the arguments stack )
 : #
@@ -469,6 +472,10 @@ instruction inc,
   ~ss ~~> %00 ss0 %011 op,              2 cycles ::
 end-instruction
 
+instruction add,
+  ~ss ~HL ~~> %00 ss1 %001 op,          2 cycles ::
+end-instruction
+
 instruction jp,
   ~(HL)  ~~> %11 %101 %001 op,          1 cycles ::
   ~nn    ~~> %11 %000 %011 op, nn,      4 cycles ::
@@ -495,6 +502,9 @@ instruction ld,
 
   ~(n) ~A    ~~> %11 %110 %000 op, n,   3 cycles ::
   ~A   ~(n)  ~~> %11 %100 %000 op, n',  3 cycles ::
+
+  ~(C) ~A    ~~> %11 %110 %010 op,      2 cycles ::
+  ~A   ~(C)  ~~> %11 %100 %010 op,      2 cycles ::
 end-instruction
 
 instruction nop,
@@ -519,7 +529,7 @@ instruction cp,
 end-instruction
 
 instruction stop,
-  ~~> %00 %010 %000 op,                 
+  ~~> %00 %010 %000 op,
       %00 %000 %000 op,                 1 cycles ::
 end-instruction
 
