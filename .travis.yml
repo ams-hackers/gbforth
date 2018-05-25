@@ -1,11 +1,25 @@
 language: generic
+
 before_install:
   - sudo apt-get update -y
   - sudo apt-get remove emacs || true
   - sudo apt-get remove emacs23 || true
   - sudo apt-get remove emacs24 || true
   - sudo apt-get remove emacs25 || true
-install: sudo apt-get install -y make gforth
+
+install:
+  - sudo apt-get install -y make gforth
+
+  # Install test dependencies
+  - curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+  - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+  - echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+  - sudo apt-get update && sudo apt-get install libgif-dev nodejs yarn
+  
 script:
+  # Install test dependencies
+  - ( cd test/; yarn )
+
+  # Build and test
   - make
   - make check
