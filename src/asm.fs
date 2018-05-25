@@ -274,6 +274,7 @@ end-types
 
 : label
   parse-name
+  2dup offset add-to-sym,
   2dup find-name ?dup if
     nip nip ( discard name )
     name>int
