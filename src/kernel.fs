@@ -11,7 +11,7 @@ $4400 ==>
 : ps-clear,
   $EF # C ld, ;
 
-: ps-push-hl,
+: ps-dup,
   C dec,
   H A ld,
   A [C] ld,
@@ -20,11 +20,10 @@ $4400 ==>
   A [C] ld, ;
 
 : ps-push-lit,
-  ps-push-hl,
-  # HL ld,
-;
+  ps-dup,
+  # HL ld, ;
 
-: ps-pop-hl,
+: ps-drop,
   [C] A ld,
   A L ld,
   C inc,
@@ -32,7 +31,7 @@ $4400 ==>
   A H ld,
   C inc, ;
 
-: ps-pop-de,
+: ps-over-de,
   [C] A ld,
   A E ld,
   C inc,
@@ -79,14 +78,13 @@ $4400 ==>
 
 : ps-clear, ps-clear, ;
 : ps-push-lit, ps-push-lit, ;
-: ps-pop-hl, ps-pop-hl, ;
 
 code dup
-ps-push-hl,
+ps-dup,
 ret,
 
 code +
-ps-pop-de,
+ps-over-de,
 DE HL add,
 ret,
 
