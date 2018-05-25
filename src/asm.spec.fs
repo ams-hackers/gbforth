@@ -1,3 +1,5 @@
+: sym-emit drop drop drop ;
+
 require ./asm.fs
 
 also gb-assembler-impl
@@ -5,7 +7,7 @@ also gb-assembler
 
 : istype
   arg1-type type-match flush-args ;
-  
+
 :noname
   assert( A       ~r  istype )
   assert( $0 #    ~n  istype )
