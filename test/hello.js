@@ -27,6 +27,4 @@ gameboy.loadCart(fs.readFileSync(rompath));
 gameboy._init();
 runCycles(200);
 
-const memory = getMemory();
-
-assert(memory[0xff00 + gameboy._cpu.c] === 0x44);
+assert(gameboy._cpu.hl === 0x44);

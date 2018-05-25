@@ -26,8 +26,8 @@ $4400 ==>
 
 ( 11c/9b )
 : ps-push-lit,
-  ( nn ) # HL ld, ( 3c/3b )
   ps-push-hl,   ( 8c/6b )
+  ( nn ) # HL ld, ( 3c/3b )
 ;
 
 ( 8c/6b )
@@ -91,17 +91,13 @@ $4400 ==>
 
 ( 26c/19b )
 code dup
-ps-pop-hl,    ( 8c/6b )
-ps-push-hl,   ( 8c/6b )
 ps-push-hl,   ( 8c/6b )
 ret,          ( 4c/1b )
 
 ( 30c/20b )
 code +
 ps-pop-de,    ( 8c/6b )
-ps-pop-hl,    ( 8c/6b )
 DE HL add,    ( 2c/1b )
-ps-push-hl,   ( 8c/6b )
 ret,          ( 4c/1b )
 
 ( 16c/7b -> 72c/46b )
