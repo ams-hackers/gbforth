@@ -2,12 +2,13 @@ SHELL := /bin/bash
 
 export DMGFORTH_PATH := $(shell pwd)/lib
 
-.PHONY: all examples
-
-all: examples
-
 LIB_FILES=lib/*.fs
 SOURCE_FILES=dmgforth src/*.fs
+TESTS=test01
+
+.PHONY: all examples test $(TESTS)
+
+all: examples
 
 examples: \
 	examples/hello-world-asm/hello.gb \
@@ -21,8 +22,13 @@ examples/hello-world-asm/hello.gb: examples/hello-world-asm/hello.fs $(SOURCE_FI
 	./dmgforth --no-kernel $< $@
 	@cd examples/hello-world-asm/ && shasum -c hello.gb.sha
 
-check:
+check: test
 	gforth src/asm.spec.fs -e bye
+
+test: $(TESTS)
+
+test01: examples/hello-world/hello.gb
+	node test/hello.js
 
 clean:
 	-rm examples/hello-world-asm/hello.gb
