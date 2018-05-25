@@ -63,7 +63,7 @@ $4400 ==>
                 |
                /
        +----------+--------+------+
-       | CALL dup | CALL + | exit |             DOUBLE
+       | CALL dup | CALL + | RET  |             DOUBLE
        +----------+--------+------+
          ^
          \____________________
@@ -71,9 +71,6 @@ $4400 ==>
        +-------------+-------------+-----+
        | CALL double | CALL double | RET |      QUADRUPLE
        +-------------+-------------+-----+
-
-  Colon definitions only keep a code field for subroutine-threading.
-  The data field [as used in DTC] is unused.
 
   For all colon definitions, the code field simply contains CALLs to
   every word [or primitive] address that is part of the word definition.
