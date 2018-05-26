@@ -4,7 +4,7 @@ export DMGFORTH_PATH := $(shell pwd)/lib
 
 LIB_FILES=lib/*.fs
 SOURCE_FILES=dmgforth src/*.fs
-TESTS=test/test-dup.gb test/test-swap.gb
+TESTS=test/test-dup.gb test/test-swap.gb test/test-drop.gb
 
 .PHONY: all examples tests
 
@@ -39,3 +39,4 @@ clean:
 	-rm -f examples/hello-world/hello.gb
 	-rm -f test/test-dup.gb
 	-rm -f test/test-swap.gb
+	-rm -f test/test-drop.gb

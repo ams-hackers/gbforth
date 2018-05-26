@@ -42,3 +42,12 @@ runTest(
     assert(memory[0xffeb] === 0x11)
   }
 );
+
+runTest(
+  path.resolve(__dirname, "./test-drop.gb"),
+  { cycles: 200 },
+  (gameboy, memory) => {
+    assert(gameboy._cpu.hl === 0x11);
+    assert(gameboy._cpu.c === 0xed);
+  }
+);
