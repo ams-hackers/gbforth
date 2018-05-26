@@ -1,7 +1,8 @@
 also gb-assembler
 
-( Special registers! )
 [host]
+
+( port/mode registers )
 : [rP1]    $FF00 ]* ;  ( Register for reading joy pad info [R/W] )
 : [rSB]    $FF01 ]* ;  ( Serial Transfer Data [R/W] )
 : [rSC]    $FF02 ]* ;  ( Serial I/O Control [R/W] )
@@ -11,10 +12,73 @@ also gb-assembler
 : [rTMA]   $FF06 ]* ;  ( Timer modulo [R/W] )
 : [rTAC]   $FF07 ]* ;  ( Timer control [R/W] )
 
+: [rKEY1]  $FF4D ]* ;  ( [CGB only] CPU speed switching [R/W] )
+: [rRP]    $FF56 ]* ;  ( [CGB only] Infrared communication port [R/W] )
+
+( Bank control registers )
+: [rVBK]   $FF4F ]* ;  ( [CGB only] VRAM bank specification [R/W] )
+: [rSVBK]  $FF70 ]* ;  ( [CGB only] WRAM Bank specification [R/W] )
+
+( Interrupt flags )
 : [rIF]    $FF0F ]* ;  ( Interrupt Flag [R/W] )
+: [rIE]    $FFFF ]* ;  ( Interrupt Enable [R/W] )
+\ TODO: IME?
 
-\ TODO: Sound registers $FF10 - $FF3F
+( Sound channel 1 registers )
+: [rNR10]  $FF10 ]* ;  ( Sweep register [R/W] )
+: [rNR11]  $FF11 ]* ;  ( Sound length / wave pattern duty [R/W] )
+: [rNR12]  $FF12 ]* ;  ( Envelope [R/W] )
+: [rNR13]  $FF13 ]* ;  ( Frequency lo [W] )
+: [rNR14]  $FF14 ]* ;  ( Frequency hi [W] )
 
+( Sound channel 2 registers )
+: [rNR21]  $FF16 ]* ;  ( Sound length / wave pattern duty [R/W] )
+: [rNR22]  $FF17 ]* ;  ( Envelope [R/W] )
+: [rNR23]  $FF18 ]* ;  ( Frequency lo [W] )
+: [rNR24]  $FF19 ]* ;  ( Frequency hi [W] )
+
+( Sound channel 3 registers )
+: [rNR30]  $FF1A ]* ;  ( Sound on/off [R/W] )
+: [rNR31]  $FF1B ]* ;  ( Sound length [R/W] )
+: [rNR32]  $FF1C ]* ;  ( Select output level )
+: [rNR33]  $FF1D ]* ;  ( Frequency lo [W] )
+: [rNR34]  $FF1E ]* ;  ( Frequency hi [W] )
+
+( Sound channel 4 registers )
+: [rNR41]  $FF20 ]* ;  ( Sound length [R/W] )
+: [rNR42]  $FF21 ]* ;  ( Envelope [R/W] )
+: [rNR43]  $FF22 ]* ;  ( Polynomial counter [W] )
+: [rNR44]  $FF23 ]* ;  ( Initialise/length [R/W] )
+
+( Sound control registers )
+: [rNR50]  $FF24 ]* ;  ( Channel control / ON-OFF / Volume [R/W] )
+: [rNR51]  $FF25 ]* ;  ( Selection of sound output terminal [R/W] )
+: [rNR52]  $FF26 ]* ;  ( Sound on/off [R/W] )
+
+( Alternative sound register names )
+: [rAUD1SWEEP] [rNR10] ;
+: [rAUD1LEN]   [rNR11] ;
+: [rAUD1ENV]   [rNR12] ;
+: [rAUD1LOW]   [rNR13] ;
+: [rAUD1HIGH]  [rNR14] ;
+: [rAUD2LEN]   [rNR21] ;
+: [rAUD2ENV]   [rNR22] ;
+: [rAUD2LOW]   [rNR23] ;
+: [rAUD2HIGH]  [rNR24] ;
+: [rAUD3ENA]   [rNR30] ;
+: [rAUD3LEN]   [rNR31] ;
+: [rAUD3LEVEL] [rNR32] ;
+: [rAUD3LOW]   [rNR33] ;
+: [rAUD3HIGH]  [rNR34] ;
+: [rAUD4LEN]   [rNR41] ;
+: [rAUD4ENV]   [rNR42] ;
+: [rAUD4POLY]  [rNR43] ;
+: [rAUD4GO]    [rNR44] ;
+: [rAUDVOL]    [rNR50] ;
+: [rAUDTERM]   [rNR51] ;
+: [rAUDENA]    [rNR52] ;
+
+( LCD display registers)
 : [rLCDC]  $FF40 ]* ;  ( LCD control [R/W] )
 : [rSTAT]  $FF41 ]* ;  ( LCD status [R/W] )
 : [rSCY]   $FF42 ]* ;  ( Scroll Y [R/W] )
@@ -28,33 +92,23 @@ also gb-assembler
 : [rWY]    $FF4A ]* ;  ( Window Y Position [R/W] )
 : [rWX]    $FF4B ]* ;  ( Window X Position [R/W] )
 
-: [rKEY1]  $FF4D ]* ;  ( CPU speed switching [R/W] )
+: [rHDMA1] $FF51 ]* ;  ( [CGB only] Higher-order address of HDMAtransfer source [W] )
+: [rHDMA2] $FF52 ]* ;  ( [CGB only] Lower-order address of HDMAtransfer source [W] )
+: [rHDMA3] $FF53 ]* ;  ( [CGB only] Higher-order address of HDMAtransfer destination [W] )
+: [rHDMA4] $FF54 ]* ;  ( [CGB only] Lower-order address of HDMAtransfer destination [W] )
+: [rHDMA5] $FF55 ]* ;  ( [CGB only] H-blank and general-purpose HDMA control [W] )
 
-: [rVBK]   $FF4F ]* ;  ( VRAM bank specification [R/W] )
+: [rBCPS]  $FF68 ]* ;  ( [CGB only] Color palette BG write specification [R/W] )
+: [rGCPD]  $FF69 ]* ;  ( [CGB only] Color palette BG write data [R/W] )
+: [rOCPS]  $FF6A ]* ;  ( [CGB only] Color palette OBJ write specification [R/W] )
+: [rOCPD]  $FF6B ]* ;  ( [CGB only] Color palette OBJ write data [R/W] )
 
-: [rHDMA1] $FF51 ]* ;  ( Higher-order address of HDMAtransfer source [W] )
-: [rHDMA2] $FF52 ]* ;  ( Lower-order address of HDMAtransfer source [W] )
-: [rHDMA3] $FF53 ]* ;  ( Higher-order address of HDMAtransfer destination [W] )
-: [rHDMA4] $FF54 ]* ;  ( Lower-order address of HDMAtransfer destination [W] )
-: [rHDMA5] $FF55 ]* ;  ( H-blank and general-purpose HDMA control [W] )
-: [rRP]    $FF56 ]* ;  ( Infrared communication port [R/W] )
-
-: [rBCPS]  $FF68 ]* ;  ( Color palette BG write specification [R/W] )
-: [rGCPD]  $FF69 ]* ;  ( Color palette BG write data [R/W] )
-: [rOCPS]  $FF6A ]* ;  ( Color palette OBJ write specification [R/W] )
-: [rOCPD]  $FF6B ]* ;  ( Color palette OBJ write data [R/W] )
-
-: [rSVBK]  $FF70 ]* ;  ( WRAM Bank specification [R/W] )
-
-\ TODO: Registers $FE00 - $FE03
-
-: [rIE]    $FFFF ]* ;  ( Interrupt Enable [R/W] )
 [endhost]
 
 $FF00 constant _HW
 
 $8000 constant _VRAM         ( $8000->$A000 )
-$9800 constant _SCRN0        ( $9800->$9BFF)
+$9800 constant _SCRN0        ( $9800->$9BFF )
 $9C00 constant _SCRN1        ( $9C00->$9FFF )
 $C000 constant _RAM          ( $C000->$E000 )
 $F800 constant _HRAM         ( $F800->$FFFE )
@@ -120,214 +174,6 @@ $FF30 constant _AUD3WAVERAM  ( $FF30->$FF3F )
 %00000100 constant IEF_TIMER   ( Timer Overflow )
 %00000010 constant IEF_LCDC    ( LCDC [see STAT] )
 %00000001 constant IEF_VBLANK  ( V-Blank )
-
-(
-  *************************
-  Sound control registers
-  *************************
-)
-
-\ Channel control / ON-OFF / Volume [R/W]
-\ Bit 7   - Vin->SO2 ON/OFF (Vin??)
-\ Bit 6-4 - SO2 output level (volume) (# 0-7)
-\ Bit 3   - Vin->SO1 ON/OFF (Vin??)
-\ Bit 2-0 - SO1 output level (volume) (# 0-7)
-[host]
-: [rNR50]   $FF24 ]* ;
-: [rAUDVOL] [rNR50] ;
-[endhost]
-
-\ Selection of Sound output terminal [R/W]
-\ Bit 7   - Output sound 4 to SO2 terminal
-\ Bit 6   - Output sound 3 to SO2 terminal
-\ Bit 5   - Output sound 2 to SO2 terminal
-\ Bit 4   - Output sound 1 to SO2 terminal
-\ Bit 3   - Output sound 4 to SO1 terminal
-\ Bit 2   - Output sound 3 to SO1 terminal
-\ Bit 1   - Output sound 2 to SO1 terminal
-\ Bit 0   - Output sound 0 to SO1 terminal
-[host]
-: [rNR51] $FF25 ]* ;
-: [rAUDTERM] [rNR51] ;
-[endhost]
-
-\ Sound on/off [R/W]
-\ Bit 7   - All sound on/off (sets all audio regs to 0!)
-\ Bit 3   - Sound 4 ON flag (doesn't work!)
-\ Bit 2   - Sound 3 ON flag (doesn't work!)
-\ Bit 1   - Sound 2 ON flag (doesn't work!)
-\ Bit 0   - Sound 1 ON flag (doesn't work!)
-[host]
-: [rNR52] $FF26 ]* ;
-: [rAUDENA] [rNR52] ;
-[endhost]
-
-(
-  *************************
-  SoundChannel #1 registers
-  *************************
-)
-
-\ Sweep register [R/W]
-\ Bit 6-4 - Sweep Time
-\ Bit 3   - Sweep Increase/Decrease
-\           0: Addition    (frequency increases???)
-\           1: Subtraction (frequency increases???)
-\ Bit 2-0 - Number of sweep shift (# 0-7)
-\ Sweep Time: (n*7.8ms)
-[host]
-: [rNR10] $FF10 ]* ;
-: [rAUD1SWEEP] [rNR10] ;
-[endhost]
-
-\ Sound length/Wave pattern duty [R/W]
-\ Bit 7-6 - Wave Pattern Duty (00:12.5% 01:25% 10:50% 11:75%)
-\ Bit 5-0 - Sound length data (# 0-63)
-[host]
-: [rNR11] $FF11 ]* ;
-: [rAUD1LEN] [rNR11] ;
-[endhost]
-
-\ Envelope [R/W]
-\ Bit 7-4 - Initial value of envelope
-\ Bit 3   - Envelope UP/DOWN
-\           0: Decrease
-\           1: Range of increase
-\ Bit 2-0 - Number of envelope sweep (# 0-7)
-[host]
-: [rNR12] $FF12 ]* ;
-: [rAUD1ENV] [rNR12] ;
-[endhost]
-
-\ Frequency lo [W]
-[host]
-: [rNR13] $FF13 ]* ;
-: [rAUD1LOW] [rNR13] ;
-[endhost]
-
-\ Frequency hi [W]
-\ Bit 7   - Initial (when set, sound restarts)
-\ Bit 6   - Counter/consecutive selection
-\ Bit 2-0 - Frequency's higher 3 bits
-[host]
-: [rNR14] $FF14 ]* ;
-: [rAUD1HIGH] [rNR14] ;
-[endhost]
-
-(
-  *************************
-  SoundChannel #2 registers
-  *************************
-)
-
-\ Sound Length; Wave Pattern Duty [R/W]
-\ see AUD1LEN for info
-[host]
-: [rNR21] $FF16 ]* ;
-: [rAUD2LEN] [rNR21] ;
-[endhost]
-
-\ Envelope [R/W]
-\ see AUD1ENV for info
-[host]
-: [rNR22] $FF17 ]* ;
-: [rAUD2ENV] [rNR22] ;
-[endhost]
-
-\ Frequency lo [W]
-[host]
-: [rNR23] $FF18 ]* ;
-: [rAUD2LOW] [rNR23] ;
-[endhost]
-
-\ Frequency hi [W]
-\ see AUD1HIGH for info
-[host]
-: [rNR24] $FF19 ]* ;
-: [rAUD2HIGH] [rNR24] ;
-[endhost]
-
-(
-  *************************
-  SoundChannel #3 registers
-  *************************
-)
-
-\ Sound on/off [R/W]
-\ Bit 7   - Sound ON/OFF (1EQUON,0EQUOFF)
-[host]
-: [rNR30] $FF1A ]* ;
-: [rAUD3ENA] [rNR30] ;
-[endhost]
-
-\ Sound length [R/W]
-\ Bit 7-0 - Sound length
-[host]
-: [rNR31] $FF1B ]* ;
-: [rAUD3LEN] [rNR31] ;
-[endhost]
-
-\ Select output level
-\ Bit 6-5 - Select output level
-\           00: 0/1 (mute)
-\           01: 1/1
-\           10: 1/2
-\           11: 1/4
-[host]
-: [rNR32] $FF1C ]* ;
-: [rAUD3LEVEL] [rNR32] ;
-[endhost]
-
-\ Frequency lo [W]
-\ see AUD1LOW for info
-[host]
-: [rNR33] $FF1D ]* ;
-: [rAUD3LOW] [rNR33] ;
-[endhost]
-
-\ Frequency hi [W]
-\ see AUD1HIGH for info
-[host]
-: [rNR34] $FF1E ]* ;
-: [rAUD3HIGH] [rNR34] ;
-[endhost]
-
-\ Sound length [R/W]
-\ Bit 5-0 - Sound length data (# 0-63)
-[host]
-: [rNR41] $FF20 ]* ;
-: [rAUD4LEN] [rNR41] ;
-[endhost]
-
-\ Envelope [R/W]
-\ see AUD1ENV for info
-[host]
-: [rNR42] $FF21 ]* ;
-: [rAUD4ENV] [rNR42] ;
-[endhost]
-
-\ Polynomial counter [R/W]
-\ Bit 7-4 - Selection of the shift clock frequency of the (scf)
-\           polynomial counter (0000-1101)
-\           freqEQUdrf*1/2^scf (not sure)
-\ Bit 3 -   Selection of the polynomial counter's step
-\           0: 15 steps
-\           1: 7 steps
-\ Bit 2-0 - Selection of the dividing ratio of frequencies (drf)
-\           000: f/4   001: f/8   010: f/16  011: f/24
-\           100: f/32  101: f/40  110: f/48  111: f/56  (fEQU4.194304 Mhz)
-[host]
-: [rNR42_2] $FF22 ]* ;
-: [rAUD4POLY] [rNR42_2] ;
-[endhost]
-
-\ (has wrong name and value (ff30) in Dr.Pan's doc!)
-\ Bit 7 -   Inital
-\ Bit 6 -   Counter/consecutive selection
-[host]
-: [rNR43] $FF23 ]* ;
-: [rAUD4GO] [rNR43] ; \ silly name!
-[endhost]
 
 (
   *************************
