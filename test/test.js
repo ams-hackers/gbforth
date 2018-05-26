@@ -24,11 +24,13 @@ function runTest(rompath, { cycles }, cb) {
 }
 
 runTest(
-  path.resolve(__dirname, "./test-quadruple.gb"),
+  path.resolve(__dirname, "./test-dup.gb"),
   { cycles: 200 },
   (gameboy, memory) => {
-    assert(gameboy._cpu.hl === 0x44);
-    assert(gameboy._cpu.c === 0xed);
+    assert(gameboy._cpu.hl === 0x22);
+    assert(gameboy._cpu.c === 0xe9);
+    assert(memory[0xffe9] === 0x22)
+    assert(memory[0xffeb] === 0x11)
   }
 );
 
@@ -48,6 +50,15 @@ runTest(
   { cycles: 200 },
   (gameboy, memory) => {
     assert(gameboy._cpu.hl === 0x11);
+    assert(gameboy._cpu.c === 0xed);
+  }
+);
+
+runTest(
+  path.resolve(__dirname, "./test-quadruple.gb"),
+  { cycles: 200 },
+  (gameboy, memory) => {
+    assert(gameboy._cpu.hl === 0x44);
     assert(gameboy._cpu.c === 0xed);
   }
 );
