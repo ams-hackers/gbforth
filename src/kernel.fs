@@ -13,30 +13,24 @@ $4400 ==>
 
 : ps-dup,
   C dec,
-  H A ld,
-  A [C] ld,
+  H A ld, A [C] ld,
   C dec,
-  L A ld,
-  A [C] ld, ;
+  L A ld, A [C] ld, ;
 
 : ps-push-lit,
   ps-dup,
   # HL ld, ;
 
 : ps-drop,
-  [C] A ld,
-  A L ld,
+  [C] A ld, A L ld,
   C inc,
-  [C] A ld,
-  A H ld,
+  [C] A ld, A H ld,
   C inc, ;
 
 : ps-over-de,
-  [C] A ld,
-  A E ld,
+  [C] A ld, A E ld,
   C inc,
-  [C] A ld,
-  A D ld,
+  [C] A ld, A D ld,
   C inc, ;
 
 ( Assume you have the following code
