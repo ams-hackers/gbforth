@@ -4,7 +4,7 @@ export DMGFORTH_PATH := $(shell pwd)/lib
 
 LIB_FILES=lib/*.fs
 SOURCE_FILES=dmgforth src/*.fs
-TESTS=test/test-dup.gb
+TESTS=test/test-dup.gb test/test-swap.gb
 
 .PHONY: all examples tests
 
@@ -14,20 +14,20 @@ TESTS=test/test-dup.gb
 
 all: examples
 
-# 
+#
 # Examples
-# 
+#
 examples: \
 	examples/hello-world-asm/hello.gb \
-	examples/hello-world/hello.gb 
+	examples/hello-world/hello.gb
 
 examples/hello-world-asm/hello.gb: examples/hello-world-asm/hello.fs $(SOURCE_FILES) $(LIB_FILES)
 	./dmgforth --no-kernel $< $@
 	@cd examples/hello-world-asm/ && shasum -c hello.gb.sha
 
-# 
+#
 # Tests
-# 
+#
 check: tests
 	gforth src/asm.spec.fs -e bye
 	node test/test.js
@@ -38,3 +38,4 @@ clean:
 	-rm -f examples/hello-world-asm/hello.gb
 	-rm -f examples/hello-world/hello.gb
 	-rm -f test/test-dup.gb
+	-rm -f test/test-swap.gb

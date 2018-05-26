@@ -31,3 +31,14 @@ runTest(
     assert(gameboy._cpu.c === 0xed);
   }
 );
+
+runTest(
+  path.resolve(__dirname, "./test-swap.gb"),
+  { cycles: 200 },
+  (gameboy, memory) => {
+    assert(gameboy._cpu.hl === 0x22);
+    assert(gameboy._cpu.c === 0xe9);
+    assert(memory[0xffe9] === 0x33)
+    assert(memory[0xffeb] === 0x11)
+  }
+);
