@@ -86,9 +86,8 @@ ret,
 
 ( c-addr -- x )
 code c@
-[HL] E ld,
+[HL] L ld,
 $0 # H ld,
-E L ld,
 ret,
 
 ( x c-addr -- )
