@@ -73,20 +73,31 @@ $4400 ==>
 : ps-clear, ps-clear, ;
 : ps-push-lit, ps-push-lit, ;
 
+( x -- x x )
 code dup
 ps-dup,
 ret,
 
+( a b -- c )
 code +
 ps-over-de,
 DE HL add,
 ret,
 
+( c-addr -- x )
+code c@
+[HL] E ld,
+$0 # H ld,
+E L ld,
+ret,
+
+\ : double dup + ;
 code double
 dup # call,
 + # call,
 ret,
 
+\ : quadruple double double ;
 code quadruple
 double # call,
 double # call,
