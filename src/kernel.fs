@@ -78,6 +78,11 @@ code dup
 ps-dup,
 ret,
 
+( x -- )
+code drop
+ps-drop,
+ret,
+
 ( a b -- c )
 code +
 ps-over-de,
