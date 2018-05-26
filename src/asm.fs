@@ -7,7 +7,7 @@ stack. The Z80 architecture supports 8 and 16 bits operands, but for
 the host assembly system we require words of at least 32 bits, so high
 bits of the words are used to tag the values with type information. )
 
-require ./utils.fs
+require ./utils/bytes.fs
 
 [IFUNDEF] gb-assembler-impl
 vocabulary gb-assembler

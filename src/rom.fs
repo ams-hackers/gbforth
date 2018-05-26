@@ -1,4 +1,4 @@
-require ./utils.fs
+require ./utils/bytes.fs
 
 32 kB constant rom-size
 create rom-base rom-size allot
