@@ -17,6 +17,11 @@ $4400 ==>
   C dec,
   L A ld, A [C] ld, ;
 
+: ps-push-de,
+  ps-dup,
+  D H ld,
+  E L ld, ;
+
 : ps-push-lit,
   ps-dup,
   # HL ld, ;
@@ -76,6 +81,12 @@ $4400 ==>
 ( x -- x x )
 code dup
 ps-dup,
+ret,
+
+( a b -- b a )
+code swap
+ps-over-de,
+ps-push-de,
 ret,
 
 ( x -- )
