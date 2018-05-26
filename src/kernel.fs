@@ -91,6 +91,13 @@ $0 # H ld,
 E L ld,
 ret,
 
+( x c-addr -- )
+code c!
+ps-over-de,
+E [HL] ld,
+ps-drop,
+ret,
+
 \ : double dup + ;
 code double
 dup # call,

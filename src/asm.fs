@@ -492,6 +492,7 @@ instruction ld,
   ~nn ~dd    ~~> %00 dd0' %001 op, nn,  3 cycles ::
 
   ~(HL) ~r   ~~> %01   r' %110 op,      2 cycles ::
+  ~r  ~(HL)  ~~> %01 %110    r op,      2 cycles ::
 
   ~A   ~(DE) ~~> %00 %010 %010 op,      2 cycles ::
   ~(DE)  ~A  ~~> %00 %011 %010 op,      2 cycles ::
