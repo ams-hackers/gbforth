@@ -66,6 +66,17 @@ runTest(
 );
 
 runTest(
+  path.resolve(__dirname, "./test-memset.gb"),
+  { cycles: 200 },
+  (gameboy, memory) => {
+    assert(gameboy._cpu.c === 0xef);
+    assert(memory[0x8501] === 0xce)
+    assert(memory[0x8502] === 0xed)
+    assert(memory[0x8503] === 0x66)
+  }
+);
+
+runTest(
   path.resolve(__dirname, "./test-quadruple.gb"),
   { cycles: 200 },
   (gameboy, memory) => {
