@@ -15,7 +15,7 @@ function runTest(rompath, { cycles }, cb) {
     gameboy._cpu._runCycle();
   }
 
-  const memory = new Int8Array(65536);
+  const memory = new Uint8Array(65536);
   for (let offset = 0; offset <= 0xffff; offset++) {
     memory[offset] = gameboy._mmu.readByte(offset);
   }
