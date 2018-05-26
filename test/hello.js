@@ -28,3 +28,4 @@ gameboy._init();
 runCycles(200);
 
 assert(gameboy._cpu.hl === 0x44);
+assert(gameboy._cpu.c === 0xed);
