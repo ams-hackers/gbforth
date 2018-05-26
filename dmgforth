@@ -10,10 +10,10 @@ constant previous-wid
 
 also dmgforth
 
+require ./src/cli.fs
 require ./src/rom.fs
 require ./src/sym.fs
 require ./src/asm.fs
-require ./src/cli.fs
 
 also gb-assembler-impl
 ' rom, IS emit
