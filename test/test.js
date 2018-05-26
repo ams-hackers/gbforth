@@ -27,45 +27,33 @@ function depth(gameboy) {
   return (((0xed - gameboy._cpu.c) / 2) | 0) + 1;
 }
 
-runTest(
-  path.resolve(__dirname, "./test-dup.gb"),
-  { cycles: 200 },
-  (gameboy, memory) => {
-    assert(depth(gameboy) === 3);
-    assert(memory[0xffe9] === 0x22);
-    assert(memory[0xffeb] === 0x11);
-    assert(gameboy._cpu.hl === 0x22);
+function stack(gameboy) {
+  const c = gameboy._cpu.c;
+  const stack = [];
+  for (let i = c; i < 0xed; i += 2) {
+    stack.push(gameboy._mmu.readWord(0xff00 + i));
   }
-);
+  stack.push(gameboy._cpu.hl);
+  return stack.reverse();
+}
 
-runTest(
-  path.resolve(__dirname, "./test-swap.gb"),
-  { cycles: 200 },
-  (gameboy, memory) => {
-    assert(depth(gameboy) === 3);
-    assert(memory[0xffe9] === 0x33);
-    assert(memory[0xffeb] === 0x11);
-    assert(gameboy._cpu.hl === 0x22);
-  }
-);
+runTest(path.resolve(__dirname, "./test-dup.gb"), { cycles: 200 }, gameboy => {
+  assert.deepStrictEqual(stack(gameboy), [0x22, 0x11, 0x22]);
+});
 
-runTest(
-  path.resolve(__dirname, "./test-drop.gb"),
-  { cycles: 200 },
-  (gameboy, memory) => {
-    assert(depth(gameboy) === 1);
-    assert(gameboy._cpu.hl === 0x11);
-  }
-);
+runTest(path.resolve(__dirname, "./test-swap.gb"), { cycles: 200 }, gameboy => {
+  assert.deepStrictEqual(stack(gameboy), [0x22, 0x11, 0x33]);
+});
+
+runTest(path.resolve(__dirname, "./test-drop.gb"), { cycles: 200 }, gameboy => {
+  assert.deepStrictEqual(stack(gameboy), [0x11]);
+});
 
 runTest(
   path.resolve(__dirname, "./test-memget.gb"),
   { cycles: 200 },
   (gameboy, memory) => {
-    assert(depth(gameboy) === 3);
-    assert(memory[0xffe9] === 0xed);
-    assert(memory[0xffeb] === 0xce);
-    assert(gameboy._cpu.hl === 0x66);
+    assert.deepStrictEqual(stack(gameboy), [0x66, 0xce, 0xed]);
   }
 );
 
@@ -84,8 +72,7 @@ runTest(
   path.resolve(__dirname, "./test-plus.gb"),
   { cycles: 200 },
   (gameboy, memory) => {
-    assert(depth(gameboy) === 1);
-    assert(gameboy._cpu.hl === 0x33);
+    assert.deepStrictEqual(stack(gameboy), [0x33]);
   }
 );
 
@@ -93,7 +80,6 @@ runTest(
   path.resolve(__dirname, "./test-quadruple.gb"),
   { cycles: 200 },
   (gameboy, memory) => {
-    assert(depth(gameboy) === 1);
-    assert(gameboy._cpu.hl === 0x44);
+    assert.deepStrictEqual(stack(gameboy), [0x44]);
   }
 );
