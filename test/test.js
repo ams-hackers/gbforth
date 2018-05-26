@@ -77,6 +77,15 @@ runTest(
 );
 
 runTest(
+  path.resolve(__dirname, "./test-plus.gb"),
+  { cycles: 200 },
+  (gameboy, memory) => {
+    assert(gameboy._cpu.hl === 0x33);
+    assert(gameboy._cpu.c === 0xed);
+  }
+);
+
+runTest(
   path.resolve(__dirname, "./test-quadruple.gb"),
   { cycles: 200 },
   (gameboy, memory) => {
