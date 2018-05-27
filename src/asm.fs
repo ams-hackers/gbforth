@@ -522,7 +522,13 @@ instruction ld,
 
   ~HL  ~SP   ~~> %11 %111 %001 op,      2 cycles ::
 
+  ~e   ~HL   ~~> %11 %111 %000 op, e,   3 cycles :: \ equal to ldhl,
+
   ~SP ~(nn)  ~~> %00 %001 %000 op, nn', 5 cycles ::
+end-instruction
+
+instruction ldhl,
+  ~e   ~SP   ~~> %11 %111 %000 op, e,   3 cycles ::
 end-instruction
 
 instruction nop,
