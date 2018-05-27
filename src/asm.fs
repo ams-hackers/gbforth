@@ -166,10 +166,12 @@ begin-types
   type ~dd
   type ~qq
   type ~HL
+  type ~SP
   type ~(BC)
   type ~(DE)
   type ~(HL)
   type ~(HL+)
+  type ~(HL-)
   type ~(C)
   type ~b
   type ~n
@@ -205,7 +207,7 @@ end-types
 %00 ~qq|dd operand BC
 %01 ~qq|dd operand DE
 %10 ~qq|dd ~HL | operand HL
-%11    ~dd operand SP
+%11    ~dd ~SP | operand SP
 %11 ~qq    operand AF
 
 %00 ~cc operand #NZ
@@ -217,6 +219,7 @@ end-types
 %0 ~(DE)  operand [DE]
 %0 ~(HL)  operand [HL]
 %0 ~(HL+) operand [HL+]
+%0 ~(HL-) operand [HL-]
 %0 ~(C)   operand [C]
 
 ( Push an immediate value to the arguments stack )
@@ -490,25 +493,36 @@ end-instruction
 instruction ld,
   ~r   ~r    ~~> %01 r'   r    op,      1 cycles ::
   ~n   ~r    ~~> %00 r'   %110 op, n,   2 cycles ::
-  ~nn ~dd    ~~> %00 dd0' %001 op, nn,  3 cycles ::
 
   ~(HL) ~r   ~~> %01   r' %110 op,      2 cycles ::
   ~r  ~(HL)  ~~> %01 %110    r op,      2 cycles ::
-
-  ~A   ~(DE) ~~> %00 %010 %010 op,      2 cycles ::
-  ~(DE)  ~A  ~~> %00 %011 %010 op,      2 cycles ::
+  ~n  ~(HL)  ~~> %00 %110 %110 op, n,   3 cycles ::
 
   ~(BC)  ~A  ~~> %00 %001 %010 op,      2 cycles ::
-  ~A   ~(BC) ~~> %00 %000 %010 op,      2 cycles ::
-
-  ~(HL+) ~A  ~~> %00 %101 %010 op,      2 cycles ::
-  ~A ~(HL+)  ~~> %00 %100 %010 op,      2 cycles ::
-
-  ~(n) ~A    ~~> %11 %110 %000 op, n,   3 cycles ::
-  ~A   ~(n)  ~~> %11 %100 %000 op, n',  3 cycles ::
+  ~(DE)  ~A  ~~> %00 %011 %010 op,      2 cycles ::
 
   ~(C) ~A    ~~> %11 %110 %010 op,      2 cycles ::
   ~A   ~(C)  ~~> %11 %100 %010 op,      2 cycles ::
+
+  ~(n) ~A    ~~> %11 %110 %000 op, n,   3 cycles ::
+  ~A   ~(n)  ~~> %11 %100 %000 op, n',  3 cycles ::
+  ~(nn) ~A   ~~> %11 %111 %010 op, nn,  4 cycles ::
+  ~A  ~(nn)  ~~> %11 %101 %010 op, nn', 4 cycles ::
+
+  ~(HL+) ~A  ~~> %00 %101 %010 op,      2 cycles ::
+  ~(HL-) ~A  ~~> %00 %111 %010 op,      2 cycles ::
+
+  ~A   ~(BC) ~~> %00 %000 %010 op,      2 cycles ::
+  ~A   ~(DE) ~~> %00 %010 %010 op,      2 cycles ::
+
+  ~A  ~(HL+) ~~> %00 %100 %010 op,      2 cycles ::
+  ~A  ~(HL-) ~~> %00 %110 %010 op,      2 cycles ::
+
+  ~nn  ~dd   ~~> %00 dd0' %001 op, nn,  3 cycles ::
+
+  ~HL  ~SP   ~~> %11 %111 %001 op,      2 cycles ::
+
+  ~SP ~(nn)  ~~> %00 %001 %000 op, nn', 5 cycles ::
 end-instruction
 
 instruction nop,
