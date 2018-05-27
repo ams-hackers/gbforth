@@ -442,6 +442,14 @@ PREVIOUS DEFINITIONS
 : 16lit, 16lit, ;
 : 8lit,  8lit, ;
 
+instruction add,
+  ~r    ~A  ~~> %10 %100    r op,       1 cycles ::
+  ~n    ~A  ~~> %11 %000 %110 op, n,    2 cycles ::
+  ~(HL) ~A  ~~> %10 %000 %110 op,       2 cycles ::
+  ~ss   ~HL ~~> %00 ss1  %001 op,       2 cycles ::
+  ~e    ~SP ~~> %11 %101 %000 op, e,    4 cycles ::
+end-instruction
+
 instruction and,
   ~n ~~> %11 %100 %110 op, n,           1 cycles ::
 end-instruction
@@ -451,10 +459,14 @@ instruction call,
   ~nn ~cc  ~~> %11 0cc' %100 op, nn,    6 cycles :: ( 3 if false )
 end-instruction
 
+instruction cp,
+  ~n ~~> %11 %111 %110 op, n,           2 cycles ::
+end-instruction
+
 instruction dec,
-  ~r    ~~> %00 r    %101 op,            1 cycles ::
-  ~(HL) ~~> %00 %110 %101 op,            3 cycles ::
-  ~ss   ~~> %00 ss1  %011 op,            2 cycles ::
+  ~r    ~~> %00 r    %101 op,           1 cycles ::
+  ~(HL) ~~> %00 %110 %101 op,           3 cycles ::
+  ~ss   ~~> %00 ss1  %011 op,           2 cycles ::
 end-instruction
 
 instruction di,
@@ -472,18 +484,13 @@ instruction halt%,
       ~~> %01 %110 %110 op,             1 cycles ::
 end-instruction
 
-instruction inc,
-  ~r    ~~> %00   r  %100 op,            1 cycles ::
-  ~(HL) ~~> %00 %110 %100 op,            3 cycles ::
-  ~ss   ~~> %00 ss0  %011 op,            2 cycles ::
-end-instruction
+( Prevent the halt bug by emitting a NOP right after halt )
+: halt, halt%, nop, ;
 
-instruction add,
-  ~r    ~A  ~~> %10 %100    r op,       1 cycles ::
-  ~n    ~A  ~~> %11 %000 %110 op, n,    2 cycles ::
-  ~(HL) ~A  ~~> %10 %000 %110 op,       2 cycles ::
-  ~ss   ~HL ~~> %00 ss1  %001 op,       2 cycles ::
-  ~e    ~SP ~~> %11 %101 %000 op, e,    4 cycles ::
+instruction inc,
+  ~r    ~~> %00   r  %100 op,           1 cycles ::
+  ~(HL) ~~> %00 %110 %100 op,           3 cycles ::
+  ~ss   ~~> %00 ss0  %011 op,           2 cycles ::
 end-instruction
 
 instruction jp,
@@ -541,6 +548,19 @@ instruction nop,
              ~~> %00 %000 %000  op,     1 cycles ::
 end-instruction
 
+instruction pop,
+  ~qq ~~> %11 qq0 %001 op,              3 cycles ::
+end-instruction
+
+instruction push,
+  ~qq ~~> %11 qq0 %101 op,              4 cycles ::
+end-instruction
+
+instruction res,
+  ~r ~b   ~~>  %11 %001 %011 op,
+               %10   b'    r op,        2 cycles ::
+end-instruction
+
 instruction ret,
         ~cc ~~> %11  0cc %000 op,       4 cycles ::
             ~~> %11 %001 %001 op,       4 cycles ::
@@ -554,30 +574,10 @@ instruction rlca,
             ~~> %00 %000 %111 op,       1 cycles ::
 end-instruction
 
-instruction cp,
-  ~n ~~> %11 %111 %110 op, n,           2 cycles ::
-end-instruction
-
 instruction stop,
   ~~> %00 %010 %000 op,
       %00 %000 %000 op,                 1 cycles ::
 end-instruction
-
-instruction res,
-  ~r ~b   ~~>  %11 %001 %011 op,
-               %10   b'    r op,        2 cycles ::
-end-instruction
-
-instruction pop,
-  ~qq ~~> %11 qq0 %001 op,              3 cycles ::
-end-instruction
-
-instruction push,
-  ~qq ~~> %11 qq0 %101 op,              4 cycles ::
-end-instruction
-
-( Prevent the halt bug by emitting a NOP right after halt )
-: halt, halt%, nop, ;
 
 [endpublic]
 
