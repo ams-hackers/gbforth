@@ -215,12 +215,12 @@ end-types
 %10 ~cc operand #NC
 %11 ~cc operand #C
 
-%0 ~(BC)  operand [BC]
-%0 ~(DE)  operand [DE]
-%0 ~(HL)  operand [HL]
-%0 ~(HL+) operand [HL+]
-%0 ~(HL-) operand [HL-]
-%0 ~(C)   operand [C]
+%0   ~(BC)  operand [BC]
+%0   ~(DE)  operand [DE]
+%110 ~(HL)  operand [HL]
+%0   ~(HL+) operand [HL+]
+%0   ~(HL-) operand [HL-]
+%0   ~(C)   operand [C]
 
 ( Push an immediate value to the arguments stack )
 : #
@@ -443,7 +443,7 @@ PREVIOUS DEFINITIONS
 : 8lit,  8lit, ;
 
 instruction add,
-  ~r    ~A  ~~> %10 %100    r op,       1 cycles ::
+  ~r    ~A  ~~> %10 %000    r op,       1 cycles ::
   ~n    ~A  ~~> %11 %000 %110 op, n,    2 cycles ::
   ~(HL) ~A  ~~> %10 %000 %110 op,       2 cycles ::
   ~ss   ~HL ~~> %00 ss1  %001 op,       2 cycles ::
