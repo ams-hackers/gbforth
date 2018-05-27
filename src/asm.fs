@@ -484,9 +484,6 @@ instruction halt%,
       ~~> %01 %110 %110 op,             1 cycles ::
 end-instruction
 
-( Prevent the halt bug by emitting a NOP right after halt )
-: halt, halt%, nop, ;
-
 instruction inc,
   ~r    ~~> %00   r  %100 op,           1 cycles ::
   ~(HL) ~~> %00 %110 %100 op,           3 cycles ::
@@ -578,6 +575,9 @@ instruction stop,
   ~~> %00 %010 %000 op,
       %00 %000 %000 op,                 1 cycles ::
 end-instruction
+
+( Prevent the halt bug by emitting a NOP right after halt )
+: halt, halt%, nop, ;
 
 [endpublic]
 
