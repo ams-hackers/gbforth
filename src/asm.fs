@@ -452,8 +452,9 @@ instruction call,
 end-instruction
 
 instruction dec,
-  ~r  ~~> %00 r   %101 op,              1 cycles ::
-  ~ss ~~> %00 ss1 %011 op,              2 cycles ::
+  ~r    ~~> %00 r    %101 op,            1 cycles ::
+  ~(HL) ~~> %00 %110 %101 op,            3 cycles ::
+  ~ss   ~~> %00 ss1  %011 op,            2 cycles ::
 end-instruction
 
 instruction di,
@@ -472,12 +473,17 @@ instruction halt%,
 end-instruction
 
 instruction inc,
-  ~r  ~~> %00   r %100 op,              1 cycles ::
-  ~ss ~~> %00 ss0 %011 op,              2 cycles ::
+  ~r    ~~> %00   r  %100 op,            1 cycles ::
+  ~(HL) ~~> %00 %110 %100 op,            3 cycles ::
+  ~ss   ~~> %00 ss0  %011 op,            2 cycles ::
 end-instruction
 
 instruction add,
-  ~ss ~HL ~~> %00 ss1 %001 op,          2 cycles ::
+  ~r    ~A  ~~> %10 %100    r op,       1 cycles ::
+  ~n    ~A  ~~> %11 %000 %110 op, n,    2 cycles ::
+  ~(HL) ~A  ~~> %10 %000 %110 op,       2 cycles ::
+  ~ss   ~HL ~~> %00 ss1  %001 op,       2 cycles ::
+  ~e    ~SP ~~> %11 %101 %000 op, e,    4 cycles ::
 end-instruction
 
 instruction jp,
