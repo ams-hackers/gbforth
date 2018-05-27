@@ -576,6 +576,12 @@ instruction stop,
       %00 %000 %000 op,                 1 cycles ::
 end-instruction
 
+instruction sub,
+  ~r    ~A  ~~> %10 %010    r op,       1 cycles ::
+  ~(HL) ~A  ~~> %10 %010 %110 op,       2 cycles ::
+  ~n    ~A  ~~> %11 %010 %110 op, n,    2 cycles ::
+end-instruction
+
 ( Prevent the halt bug by emitting a NOP right after halt )
 : halt, halt%, nop, ;
 

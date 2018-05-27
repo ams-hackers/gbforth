@@ -37,6 +37,12 @@ function stack(gameboy) {
   return stack.reverse();
 }
 
+runTest(path.resolve(__dirname, "./test-asm-sub.gb"), { cycles: 200 }, gameboy => {
+  assert.equal(gameboy._cpu.a, 0x11);
+  assert.equal(gameboy._cpu.d, 0x11);
+  assert.equal(gameboy._cpu.e, 0x11);
+});
+
 runTest(path.resolve(__dirname, "./test-dup.gb"), { cycles: 200 }, gameboy => {
   assert.deepStrictEqual(stack(gameboy), [0x22, 0x11, 0x22]);
 });
