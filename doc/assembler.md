@@ -13,7 +13,7 @@ compile-time.
 **Note that the assembler does not support all the instructions
 yet. It is really easy to add missing instructions, please consider
 [add it yourself](https://github.com/ams-hackers/dmg-forth/blob/master/src/asm.fs#L480)
-of just [submit an issue](https://github.com/ams-hackers/dmg-forth/issues/new?title=Please%20add%20assembler%20instruction%20%27jp%20(HL)%27&labels=bug).***
+of just [submit an issue](https://github.com/ams-hackers/dmg-forth/issues/new?title=Please%20add%20assembler%20instruction%20%27jp%20(HL)%27&labels=bug).**
 
 dmg-forth's assembler lives in the *vocabulary* `gb-assembler`.
 
