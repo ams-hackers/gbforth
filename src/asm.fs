@@ -8,6 +8,7 @@ the host assembly system we require words of at least 32 bits, so high
 bits of the words are used to tag the values with type information. )
 
 require ./utils/bytes.fs
+require ./sym.fs
 
 [IFUNDEF] gb-assembler-impl
 vocabulary gb-assembler
@@ -277,7 +278,7 @@ end-types
 
 : label
   parse-name
-  2dup offset sym-emit
+  2dup offset sym
   2dup find-name ?dup if
     nip nip ( discard name )
     name>int
