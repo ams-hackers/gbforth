@@ -4,10 +4,6 @@ require ./asm.fs
 
 also gb-assembler
 
-
-( TEMPORARY HACK: Don't break the game! )
-$4400 ==>
-
 : ps-clear,
   $EF # C ld, ;
 
@@ -66,65 +62,9 @@ $4400 ==>
   every word [or primitive] address that is part of the word definition.
 )
 
-: code rom-offset constant ;
-
 ( Code Words
 
   Those are primitive [code] words written in dmg-forth.
 )
-
-[user-definitions]
-
-: ps-clear, ps-clear, ;
-: ps-push-lit, ps-push-lit, ;
-
-( x -- x x )
-code dup
-ps-dup,
-ret,
-
-( a b -- b a )
-code swap
-ps-over-de,
-ps-push-de,
-ret,
-
-( x -- )
-code drop
-ps-drop,
-ret,
-
-( a b -- c )
-code +
-ps-over-de,
-DE HL add,
-ret,
-
-( c-addr -- x )
-code c@
-[HL] L ld,
-$0 # H ld,
-ret,
-
-( x c-addr -- )
-code c!
-ps-over-de,
-E [HL] ld,
-ps-drop,
-ret,
-
-\ : double dup + ;
-code double
-dup # call,
-+ # call,
-ret,
-
-\ : quadruple double double ;
-code quadruple
-double # call,
-double # call,
-ret,
-
-[end-user-definitions]
 
 previous

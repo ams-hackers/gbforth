@@ -10,11 +10,11 @@ $ed ps-push-lit,
 $ce ps-push-lit,
 
 $8501 ps-push-lit,
-c! # call,
+' c! # call,
 $8502 ps-push-lit,
-c! # call,
+' c! # call,
 $8503 ps-push-lit,
-c! # call,
+' c! # call,
 
 label loop
 halt,

@@ -8,7 +8,7 @@ ps-clear,
 $11 ps-push-lit,
 $22 ps-push-lit,
 $33 ps-push-lit,
-swap # call,
+' swap # call,
 
 label loop
 halt,
