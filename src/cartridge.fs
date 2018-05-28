@@ -1,5 +1,4 @@
 require ./asm.fs
-require ./user.fs
 
 also gb-assembler
 
@@ -167,11 +166,6 @@ $78 ==> ( high-to-low of p13 interrupt start address )
 $100 ==> ( start entry point [$0100-$0103] )
 
 presume main
-
-[user-definitions]
-' main alias main
-' title: alias title:
-[end-user-definitions]
 
 nop,
 main jp,

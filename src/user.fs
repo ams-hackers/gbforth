@@ -1,5 +1,8 @@
 ( User Vocabulary )
 
+require ./cartridge.fs
+require ./cross.fs
+
 : export
   parse-name 
   2dup find-name name>int >r
@@ -11,6 +14,7 @@
   
 : [end-user-definitions]
   previous set-current ;
+
 
 [user-definitions]
 also dmgforth
@@ -29,6 +33,15 @@ export gb-assembler
 export include
 export previous
 export require
+
+export main
+export title:
+
+( TODO: Remove me! )
+export ps-clear,
+export ps-push-lit,
+
+: ' x' ;
 
 previous
 [end-user-definitions]

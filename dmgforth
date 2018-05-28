@@ -31,6 +31,7 @@ include ./src/cartridge.fs
 
 --no-kernel invert [IF]
 include ./src/kernel.fs
+include ./src/primitives.fs
 [THEN]
 
 fpath clear-path

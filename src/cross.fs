@@ -1,5 +1,8 @@
+require ./asm.fs
 require ./rom.fs
 require ./kernel.fs
+
+also gb-assembler
 
 ( Cross words )
 
@@ -68,7 +71,7 @@ wordlist constant xwordlist
   then ;
 
 : process-xname ( xname -- )
-  dup ximmediate? if >xcode execute else >xcode xcompile, then ;
+  dup ximmediate? if >xcode execute else >xcode # call, then ;
 
 : process-number ( n -- )
   ps-push-lit, ;
@@ -90,7 +93,7 @@ wordlist constant xwordlist
 variable xstate
 
 : x[ 0 xstate ! ; ximmediate-as [
-: x; x[ ; ximmediate-as ;
+: x; x[ ret, ; ximmediate-as ;
 
 : x]
   1 xstate !
@@ -106,3 +109,4 @@ variable xstate
 : x:
   xcreate x] ;
 
+previous
