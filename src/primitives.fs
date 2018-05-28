@@ -6,7 +6,10 @@ also gb-assembler
 ( TEMPORARY HACK: Don't break the game! )
 $4400 ==>
 
-: code xcreate ;
+: code
+  parse-name
+  2dup rom-offset sym
+  nextname xcreate ;
 
 ( x -- x x )
 code dup
@@ -44,4 +47,3 @@ ps-drop,
 ret,
 
 previous
-
