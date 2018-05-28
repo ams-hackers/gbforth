@@ -1,4 +1,5 @@
 require ./rom.fs
+require ./kernel.fs
 
 ( Cross words )
 
@@ -67,10 +68,10 @@ wordlist constant xwordlist
   then ;
 
 : process-xname ( xname -- )
-  dup ximmediate? if >xcode execute else ." compiling " hex. then ;
+  dup ximmediate? if >xcode execute else >xcode xcompile, then ;
 
 : process-number ( n -- )
-  ." compiling number " . cr ;
+  ps-push-lit, ;
 
 : process-word ( addr u -- )
   2dup find-xname ?dup if
@@ -79,30 +80,29 @@ wordlist constant xwordlist
     s>number? if
       drop process-number
     else
-      abort" Unknown word"
+      -1 abort" Unknown word"
     then
   then ;
 
+ 
+( 0 if we the host is interpreting words, 
+ -1 if we are compiling into the target )
 variable xstate
 
-: x[ 0 xstate ! ; ximmediate-as ]
+: x[ 0 xstate ! ; ximmediate-as [
 : x; x[ ; ximmediate-as ;
 
 : x]
   1 xstate !
   begin
-    parse-next-name process-word
+    parse-next-name
+    process-word
     xstate @ while
   repeat ;
 
+: x'
+  parse-next-name find-xname ?dup if >xcode else -1 abort" Unknown word " then ;
 
-\ : :
-\   create
-\   here cell allot
-\   compile-colon
-\   here over - swap !
-\   does>
-\   dup @ swap cell+ swap dump ;
+: x:
+  xcreate x] ;
 
-
-\ T: double dup + ;
