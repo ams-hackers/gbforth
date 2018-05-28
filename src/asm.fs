@@ -604,6 +604,12 @@ instruction sub,
   ~n    ~A  ~~> %11 %010 %110 op, n,    2 cycles ::
 end-instruction
 
+instruction xor,
+  ~r    ~A  ~~> %10 %101    r op,       1 cycles ::
+  ~(HL) ~A  ~~> %10 %101 %110 op,       2 cycles ::
+  ~n    ~A  ~~> %11 %101 %110 op, n,    2 cycles ::
+end-instruction
+
 ( Prevent the halt bug by emitting a NOP right after halt )
 : halt, halt%, nop, ;
 
