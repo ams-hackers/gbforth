@@ -581,6 +581,12 @@ instruction rlca,
             ~~> %00 %000 %111 op,       1 cycles ::
 end-instruction
 
+instruction sbc,
+  ~r    ~A  ~~> %10 %011    r op,       1 cycles ::
+  ~(HL) ~A  ~~> %10 %011 %110 op,       2 cycles ::
+  ~n    ~A  ~~> %11 %011 %110 op, n,    2 cycles ::
+end-instruction
+
 instruction stop,
   ~~> %00 %010 %000 op,
       %00 %000 %000 op,                 1 cycles ::
