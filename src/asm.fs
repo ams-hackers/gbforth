@@ -442,6 +442,12 @@ PREVIOUS DEFINITIONS
 : 16lit, 16lit, ;
 : 8lit,  8lit, ;
 
+instruction adc,
+  ~r    ~A  ~~> %10 %001    r op,       1 cycles ::
+  ~(HL) ~A  ~~> %10 %001 %110 op,       2 cycles ::
+  ~n    ~A  ~~> %11 %001 %110 op, n,    2 cycles ::
+end-instruction
+
 instruction add,
   ~r    ~A  ~~> %10 %000    r op,       1 cycles ::
   ~n    ~A  ~~> %11 %000 %110 op, n,    2 cycles ::
