@@ -56,7 +56,7 @@ also gb-assembler
   [C] A ld, A H ld,
   C inc, ;
 
-: ps-over-de,
+: ps-over-de-nip,
   [C] A ld, A E ld,
   C inc,
   [C] A ld, A D ld,

@@ -15,7 +15,7 @@ ret,
 
 ( a b -- b a )
 code swap
-ps-over-de,
+ps-over-de-nip,
 ps-push-de,
 ret,
 
@@ -32,7 +32,7 @@ ret,
 
 ( a b -- c )
 code +
-ps-over-de,
+ps-over-de-nip,
 DE HL add,
 ret,
 
@@ -44,10 +44,9 @@ ret,
 
 ( x c-addr -- )
 code c!
-ps-over-de,
+ps-over-de-nip,
 E [HL] ld,
 ps-drop,
 ret,
 
 previous
-
