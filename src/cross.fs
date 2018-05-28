@@ -107,6 +107,10 @@ variable xstate
   parse-next-name find-xname ?dup if >xcode else -1 abort" Unknown word " then ;
 
 : x:
-  xcreate x] ;
+  rom-offset >r
+  parse-next-name 2>r
+  x]
+  2r> nextname
+  r> 0 create-xname ;
 
 previous

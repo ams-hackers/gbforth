@@ -103,3 +103,11 @@ runTest(
     assert.deepStrictEqual(stack(gameboy), [0x44]);
   }
 );
+
+runTest(
+  path.resolve(__dirname, "./test-colon-shadow.gb"),
+  { cycles: 200 },
+  (gameboy, memory) => {
+    assert.deepStrictEqual(stack(gameboy), [11]);
+  }
+);
