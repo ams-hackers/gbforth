@@ -1,8 +1,10 @@
 also gb-assembler
 
 $150 ==>
-label main
 
+: double dup + ;
+
+label main
 ( *** Forth kernel demo start *** )
 ps-clear,           \ clears the parameter stack [set C to $FE]
 $22 ps-push-lit,    \ push $11 to the parameter stack [at $FFFD-$FFFE]

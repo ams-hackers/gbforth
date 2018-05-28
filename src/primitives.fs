@@ -43,9 +43,5 @@ E [HL] ld,
 ps-drop,
 ret,
 
-x: double dup + ;
-
-\ x: quadruple double double ;
-
 previous
 

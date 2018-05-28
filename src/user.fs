@@ -42,6 +42,7 @@ export ps-clear,
 export ps-push-lit,
 
 : ' x' ;
+: : x: ;
 
 previous
 [end-user-definitions]

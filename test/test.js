@@ -37,17 +37,25 @@ function stack(gameboy) {
   return stack.reverse();
 }
 
-runTest(path.resolve(__dirname, "./test-asm-add.gb"), { cycles: 200 }, gameboy => {
-  assert.equal(gameboy._cpu.a, 0x33);
-  assert.equal(gameboy._cpu.d, 0x33);
-  assert.equal(gameboy._cpu.e, 0x33);
-});
+runTest(
+  path.resolve(__dirname, "./test-asm-add.gb"),
+  { cycles: 200 },
+  gameboy => {
+    assert.equal(gameboy._cpu.a, 0x33);
+    assert.equal(gameboy._cpu.d, 0x33);
+    assert.equal(gameboy._cpu.e, 0x33);
+  }
+);
 
-runTest(path.resolve(__dirname, "./test-asm-sub.gb"), { cycles: 200 }, gameboy => {
-  assert.equal(gameboy._cpu.a, 0x11);
-  assert.equal(gameboy._cpu.d, 0x11);
-  assert.equal(gameboy._cpu.e, 0x11);
-});
+runTest(
+  path.resolve(__dirname, "./test-asm-sub.gb"),
+  { cycles: 200 },
+  gameboy => {
+    assert.equal(gameboy._cpu.a, 0x11);
+    assert.equal(gameboy._cpu.d, 0x11);
+    assert.equal(gameboy._cpu.e, 0x11);
+  }
+);
 
 runTest(path.resolve(__dirname, "./test-dup.gb"), { cycles: 200 }, gameboy => {
   assert.deepStrictEqual(stack(gameboy), [0x22, 0x11, 0x22]);
@@ -89,7 +97,7 @@ runTest(
 );
 
 runTest(
-  path.resolve(__dirname, "./test-quadruple.gb"),
+  path.resolve(__dirname, "./test-double.gb"),
   { cycles: 200 },
   (gameboy, memory) => {
     assert.deepStrictEqual(stack(gameboy), [0x44]);
