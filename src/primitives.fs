@@ -36,6 +36,14 @@ ps-over-de,
 ps-push-de,
 ret,
 
+( a b -- b a b )
+code tuck
+ps-over-de-nip, \ swap
+ps-push-de,
+ps-over-de,     \ over
+ps-push-de,
+ret,
+
 ( a b -- c )
 code +
 ps-over-de-nip,
