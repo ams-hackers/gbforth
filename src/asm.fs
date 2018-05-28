@@ -463,8 +463,8 @@ instruction and,
 end-instruction
 
 instruction call,
-  ~nn      ~~> %11 %001 %101 op, nn,    6 cycles ::
-  ~nn ~cc  ~~> %11 0cc' %100 op, nn,    6 cycles :: ( 3 if false )
+  ~nn       ~~> %11 %001 %101 op, nn,   6 cycles ::
+  ~nn ~cc   ~~> %11 0cc' %100 op, nn,   6 cycles :: ( 3 if false )
 end-instruction
 
 instruction cp,
@@ -474,85 +474,85 @@ instruction cp,
 end-instruction
 
 instruction dec,
-  ~r    ~~> %00 r    %101 op,           1 cycles ::
-  ~(HL) ~~> %00 %110 %101 op,           3 cycles ::
-  ~ss   ~~> %00 ss1  %011 op,           2 cycles ::
+  ~r        ~~> %00 r    %101 op,       1 cycles ::
+  ~(HL)     ~~> %00 %110 %101 op,       3 cycles ::
+  ~ss       ~~> %00 ss1  %011 op,       2 cycles ::
 end-instruction
 
 instruction di,
-      ~~> %11 %110 %011 op,             1 cycles ::
+            ~~> %11 %110 %011 op,       1 cycles ::
 end-instruction
 
 instruction ei,
-      ~~> %11 %111 %011 op,             1 cycles ::
+            ~~> %11 %111 %011 op,       1 cycles ::
 end-instruction
 
 ( Bug in game boy forces us to emit a NOP after halt, because HALT has
   an inconsistent skipping of the next instruction depending on if the
   interruptions are enabled or not )
 instruction halt%,
-      ~~> %01 %110 %110 op,             1 cycles ::
+            ~~> %01 %110 %110 op,       1 cycles ::
 end-instruction
 
 instruction inc,
-  ~r    ~~> %00   r  %100 op,           1 cycles ::
-  ~(HL) ~~> %00 %110 %100 op,           3 cycles ::
-  ~ss   ~~> %00 ss0  %011 op,           2 cycles ::
+  ~r        ~~> %00   r  %100 op,       1 cycles ::
+  ~(HL)     ~~> %00 %110 %100 op,       3 cycles ::
+  ~ss       ~~> %00 ss0  %011 op,       2 cycles ::
 end-instruction
 
 instruction jp,
-  ~(HL)  ~~> %11 %101 %001 op,          1 cycles ::
-  ~nn    ~~> %11 %000 %011 op, nn,      4 cycles ::
+  ~(HL)     ~~> %11 %101 %001 op,       1 cycles ::
+  ~nn       ~~> %11 %000 %011 op, nn,   4 cycles ::
 end-instruction
 
 instruction jr,
-  ~e     ~~> %00 %011 %000 op, e,       3 cycles ::
-  ~e ~cc ~~> %00 1cc' %000 op, e,       3 cycles ::
+  ~e        ~~> %00 %011 %000 op, e,    3 cycles ::
+  ~e ~cc    ~~> %00 1cc' %000 op, e,    3 cycles ::
 end-instruction
 
 instruction ld,
-  ~r   ~r    ~~> %01 r'   r    op,      1 cycles ::
-  ~n   ~r    ~~> %00 r'   %110 op, n,   2 cycles ::
+  ~r   ~r   ~~> %01 r'   r    op,       1 cycles ::
+  ~n   ~r   ~~> %00 r'   %110 op, n,    2 cycles ::
 
-  ~(HL) ~r   ~~> %01   r' %110 op,      2 cycles ::
-  ~r  ~(HL)  ~~> %01 %110    r op,      2 cycles ::
-  ~n  ~(HL)  ~~> %00 %110 %110 op, n,   3 cycles ::
+  ~(HL) ~r  ~~> %01   r' %110 op,       2 cycles ::
+  ~r  ~(HL) ~~> %01 %110    r op,       2 cycles ::
+  ~n  ~(HL) ~~> %00 %110 %110 op, n,    3 cycles ::
 
-  ~(BC)  ~A  ~~> %00 %001 %010 op,      2 cycles ::
-  ~(DE)  ~A  ~~> %00 %011 %010 op,      2 cycles ::
+  ~(BC) ~A  ~~> %00 %001 %010 op,       2 cycles ::
+  ~(DE) ~A  ~~> %00 %011 %010 op,       2 cycles ::
 
-  ~(C) ~A    ~~> %11 %110 %010 op,      2 cycles ::
-  ~A   ~(C)  ~~> %11 %100 %010 op,      2 cycles ::
+  ~(C) ~A   ~~> %11 %110 %010 op,       2 cycles ::
+  ~A  ~(C)  ~~> %11 %100 %010 op,       2 cycles ::
 
-  ~(n) ~A    ~~> %11 %110 %000 op, n,   3 cycles ::
-  ~A   ~(n)  ~~> %11 %100 %000 op, n',  3 cycles ::
-  ~(nn) ~A   ~~> %11 %111 %010 op, nn,  4 cycles ::
-  ~A  ~(nn)  ~~> %11 %101 %010 op, nn', 4 cycles ::
+  ~(n) ~A   ~~> %11 %110 %000 op, n,    3 cycles ::
+  ~A   ~(n) ~~> %11 %100 %000 op, n',   3 cycles ::
+  ~(nn) ~A  ~~> %11 %111 %010 op, nn,   4 cycles ::
+  ~A  ~(nn) ~~> %11 %101 %010 op, nn',  4 cycles ::
 
-  ~(HL+) ~A  ~~> %00 %101 %010 op,      2 cycles ::
-  ~(HL-) ~A  ~~> %00 %111 %010 op,      2 cycles ::
+  ~(HL+) ~A ~~> %00 %101 %010 op,       2 cycles ::
+  ~(HL-) ~A ~~> %00 %111 %010 op,       2 cycles ::
 
-  ~A   ~(BC) ~~> %00 %000 %010 op,      2 cycles ::
-  ~A   ~(DE) ~~> %00 %010 %010 op,      2 cycles ::
+  ~A  ~(BC) ~~> %00 %000 %010 op,       2 cycles ::
+  ~A  ~(DE) ~~> %00 %010 %010 op,       2 cycles ::
 
-  ~A  ~(HL+) ~~> %00 %100 %010 op,      2 cycles ::
-  ~A  ~(HL-) ~~> %00 %110 %010 op,      2 cycles ::
+  ~A ~(HL+) ~~> %00 %100 %010 op,       2 cycles ::
+  ~A ~(HL-) ~~> %00 %110 %010 op,       2 cycles ::
 
-  ~nn  ~dd   ~~> %00 dd0' %001 op, nn,  3 cycles ::
+  ~nn  ~dd  ~~> %00 dd0' %001 op, nn,   3 cycles ::
 
-  ~HL  ~SP   ~~> %11 %111 %001 op,      2 cycles ::
+  ~HL  ~SP  ~~> %11 %111 %001 op,       2 cycles ::
 
-  ~e   ~HL   ~~> %11 %111 %000 op, e,   3 cycles :: \ equal to ldhl,
+  ~e   ~HL  ~~> %11 %111 %000 op, e,    3 cycles :: \ equal to ldhl,
 
-  ~SP ~(nn)  ~~> %00 %001 %000 op, nn', 5 cycles ::
+  ~SP ~(nn) ~~> %00 %001 %000 op, nn',  5 cycles ::
 end-instruction
 
 instruction ldhl,
-  ~e   ~SP   ~~> %11 %111 %000 op, e,   3 cycles ::
+  ~e   ~SP  ~~> %11 %111 %000 op, e,    3 cycles ::
 end-instruction
 
 instruction nop,
-             ~~> %00 %000 %000  op,     1 cycles ::
+            ~~> %00 %000 %000 op,       1 cycles ::
 end-instruction
 
 instruction or,
@@ -562,16 +562,16 @@ instruction or,
 end-instruction
 
 instruction pop,
-  ~qq ~~> %11 qq0 %001 op,              3 cycles ::
+  ~qq       ~~> %11 qq0 %001 op,        3 cycles ::
 end-instruction
 
 instruction push,
-  ~qq ~~> %11 qq0 %101 op,              4 cycles ::
+  ~qq       ~~> %11 qq0 %101 op,        4 cycles ::
 end-instruction
 
 instruction res,
-  ~r ~b   ~~>  %11 %001 %011 op,
-               %10   b'    r op,        2 cycles ::
+  ~r ~b     ~~>  %11 %001 %011 op,
+                 %10   b'    r op,      2 cycles ::
 end-instruction
 
 instruction ret,
@@ -594,8 +594,8 @@ instruction sbc,
 end-instruction
 
 instruction stop,
-  ~~> %00 %010 %000 op,
-      %00 %000 %000 op,                 1 cycles ::
+            ~~> %00 %010 %000 op,
+                %00 %000 %000 op,       1 cycles ::
 end-instruction
 
 instruction sub,
