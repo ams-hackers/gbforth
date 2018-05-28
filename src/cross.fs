@@ -1,4 +1,3 @@
-require ./asm.fs
 require ./rom.fs
 require ./kernel.fs
 
@@ -71,10 +70,10 @@ wordlist constant xwordlist
   then ;
 
 : process-xname ( xname -- )
-  dup ximmediate? if >xcode execute else >xcode # call, then ;
+  dup ximmediate? if >xcode execute else >xcode xcompile, then ;
 
 : process-number ( n -- )
-  ps-push-lit, ;
+  xliteral, ;
 
 : process-word ( addr u -- )
   2dup find-xname ?dup if
@@ -87,13 +86,13 @@ wordlist constant xwordlist
     then
   then ;
 
- 
-( 0 if we the host is interpreting words, 
+
+( 0 if we the host is interpreting words,
  -1 if we are compiling into the target )
 variable xstate
 
 : x[ 0 xstate ! ; ximmediate-as [
-: x; x[ ret, ; ximmediate-as ;
+: x; x[ xreturn, ; ximmediate-as ;
 
 : x]
   1 xstate !

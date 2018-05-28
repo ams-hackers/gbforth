@@ -4,6 +4,34 @@ require ./asm.fs
 
 also gb-assembler
 
+( Assume you have the following code
+
+  : double dup + ;
+  : quadruple double double ;
+
+  This kernel uses subroutine-threading Forth. The picture below
+  illustrates how the compiled words would look like:
+
+              +------
+              |  ...                            DUP [asm]
+              +------
+                ^
+                |
+               /
+       +----------+--------+------+
+       | CALL dup | CALL + | RET  |             DOUBLE
+       +----------+--------+------+
+         ^
+         \____________________
+                              \
+       +-------------+-------------+-----+
+       | CALL double | CALL double | RET |      QUADRUPLE
+       +-------------+-------------+-----+
+
+  For all colon definitions, the code field simply contains CALLs to
+  every word [or primitive] address that is part of the word definition.
+)
+
 : ps-clear,
   $EF # C ld, ;
 
@@ -34,37 +62,8 @@ also gb-assembler
   [C] A ld, A D ld,
   C inc, ;
 
-( Assume you have the following code
-
-  : double dup + ;
-  : quadruple double double ;
-
-  This kernel uses subroutine-threading Forth. The picture below
-  illustrates how the compiled words would look like:
-
-              +------
-              |  ...                            DUP [asm]
-              +------
-                ^
-                |
-               /
-       +----------+--------+------+
-       | CALL dup | CALL + | RET  |             DOUBLE
-       +----------+--------+------+
-         ^
-         \____________________
-                              \
-       +-------------+-------------+-----+
-       | CALL double | CALL double | RET |      QUADRUPLE
-       +-------------+-------------+-----+
-
-  For all colon definitions, the code field simply contains CALLs to
-  every word [or primitive] address that is part of the word definition.
-)
-
-( Code Words
-
-  Those are primitive [code] words written in dmg-forth.
-)
+: xliteral, ps-push-lit, ;
+: xcompile, # call, ;
+: xreturn, ret, ;
 
 previous
