@@ -13,6 +13,11 @@ code dup
 ps-dup,
 ret,
 
+( x -- )
+code drop
+ps-drop,
+ret,
+
 ( a b -- b a )
 code swap
 ps-over-de-nip,
@@ -25,9 +30,10 @@ C inc,
 C inc,
 ret,
 
-( x -- )
-code drop
-ps-drop,
+( a b -- a b a )
+code over
+ps-over-de,
+ps-push-de,
 ret,
 
 ( a b -- c )

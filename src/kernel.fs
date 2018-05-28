@@ -41,11 +41,6 @@ also gb-assembler
   C dec,
   L A ld, A [C] ld, ;
 
-: ps-push-de,
-  ps-dup,
-  D H ld,
-  E L ld, ;
-
 : ps-push-lit,
   ps-dup,
   # HL ld, ;
@@ -61,6 +56,17 @@ also gb-assembler
   C inc,
   [C] A ld, A D ld,
   C inc, ;
+
+: ps-over-de,
+  [C] A ld, A E ld,
+  C inc,
+  [C] A ld, A D ld,
+  C dec, ;
+
+: ps-push-de,
+  ps-dup,
+  D H ld,
+  E L ld, ;
 
 : xliteral, ps-push-lit, ;
 : xcompile, # call, ;
