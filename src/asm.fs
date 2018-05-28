@@ -468,7 +468,9 @@ instruction call,
 end-instruction
 
 instruction cp,
-  ~n ~~> %11 %111 %110 op, n,           2 cycles ::
+  ~r    ~A  ~~> %10 %111    r op,       1 cycles ::
+  ~(HL) ~A  ~~> %10 %111 %110 op,       2 cycles ::
+  ~n        ~~> %11 %111 %110 op, n,    2 cycles ::
 end-instruction
 
 instruction dec,
