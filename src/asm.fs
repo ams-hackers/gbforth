@@ -555,6 +555,12 @@ instruction nop,
              ~~> %00 %000 %000  op,     1 cycles ::
 end-instruction
 
+instruction or,
+  ~r    ~A  ~~> %10 %110    r op,       1 cycles ::
+  ~(HL) ~A  ~~> %10 %110 %110 op,       2 cycles ::
+  ~n    ~A  ~~> %11 %110 %110 op, n,    2 cycles ::
+end-instruction
+
 instruction pop,
   ~qq ~~> %11 qq0 %001 op,              3 cycles ::
 end-instruction
