@@ -19,6 +19,12 @@ ps-over-de,
 ps-push-de,
 ret,
 
+( a b -- b )
+code nip
+C inc,
+C inc,
+ret,
+
 ( x -- )
 code drop
 ps-drop,
