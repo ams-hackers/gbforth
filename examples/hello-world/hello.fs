@@ -10,11 +10,6 @@ include memory.fs
 $150 ==>
 label main
 
-label loop
-halt,
-loop jr,
-
-
 ( program start )
 
 di,
