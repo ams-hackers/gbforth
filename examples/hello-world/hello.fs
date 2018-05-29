@@ -4,11 +4,6 @@ also gb-assembler
 
 title: EXAMPLE
 
-$40 ==> reti,
-$48 ==> reti,
-$50 ==> reti,
-$58 ==> reti,
-$60 ==> reti,
 $61 ==>
 include memory.fs
 
