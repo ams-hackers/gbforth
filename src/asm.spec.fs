@@ -1,5 +1,3 @@
-: sym-emit drop drop drop ;
-
 require ./asm.fs
 
 also gb-assembler-impl
