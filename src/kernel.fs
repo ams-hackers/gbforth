@@ -68,6 +68,14 @@ also gb-assembler
   D H ld,
   E L ld, ;
 
+: ps-swap,
+  ps-over-de-nip,
+  ps-push-de, ;
+
+: ps-over,
+  ps-over-de,
+  ps-push-de, ;
+
 : xliteral, ps-push-lit, ;
 : xcompile, # call, ;
 : xreturn, ret, ;

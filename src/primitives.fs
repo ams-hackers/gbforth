@@ -20,8 +20,7 @@ ret,
 
 ( a b -- b a )
 code swap
-ps-over-de-nip,
-ps-push-de,
+ps-swap,
 ret,
 
 ( a b -- b )
@@ -32,16 +31,13 @@ ret,
 
 ( a b -- a b a )
 code over
-ps-over-de,
-ps-push-de,
+ps-over,
 ret,
 
 ( a b -- b a b )
 code tuck
-ps-over-de-nip, \ swap
-ps-push-de,
-ps-over-de,     \ over
-ps-push-de,
+ps-swap,
+ps-over,
 ret,
 
 ( a b -- c )
