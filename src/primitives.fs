@@ -40,6 +40,22 @@ ps-swap,
 ps-over,
 ret,
 
+( a b c -- b c a )
+code rot
+ps-pop-de,
+ps-swap,
+ps-push-de,
+ps-swap,
+ret,
+
+( a b c -- c a b )
+code -rot
+ps-swap,
+ps-pop-de,
+ps-swap,
+ps-push-de,
+ret,
+
 ( a b -- c )
 code +
 ps-over-de-nip,
