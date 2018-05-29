@@ -1,4 +1,4 @@
-also gb-assembler
+[asm]
 
 [host]
 
@@ -215,4 +215,4 @@ $0 constant PADB_A
 #32  constant SCRN_VX_B ( Virtual width of screen in bytes )
 #32  constant SCRN_VY_B ( Virtual height of screen in bytes )
 
-previous
+[endasm]

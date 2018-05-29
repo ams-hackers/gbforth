@@ -1,4 +1,4 @@
-also gb-assembler
+[asm]
 
 ( these are written to the memory reserved for high-to-low of p10-p13 interrupt start addresses )
 (
@@ -82,7 +82,7 @@ label .skip
 end-local
 
 [host]
-also gb-assembler
+[asm]
 
 : lcd_WaitVRAM
   here<
@@ -90,7 +90,7 @@ also gb-assembler
     STATF_BUSY # and,
   <there #nz jr, ;
 
-previous
+[endasm]
 [endhost]
 
 (
@@ -160,4 +160,4 @@ label .skip
   ret,
 end-local
 
-previous
+[endasm]
