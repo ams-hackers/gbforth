@@ -10,7 +10,7 @@ $50 ==> reti,
 $58 ==> reti,
 $60 ==> reti,
 $61 ==>
-include memory.fs
+include ./memory.fs
 
 $150 ==>
 label main
@@ -105,6 +105,6 @@ A [rLCDC] ld,
 ret,
 
 label TileData
-include ibm-font.fs
+include ./ibm-font.fs
 
 previous
