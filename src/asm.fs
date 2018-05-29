@@ -16,6 +16,9 @@ vocabulary gb-assembler-impl
 vocabulary gb-assembler-emiters
 [ENDIF]
 
+: [asm] also gb-assembler ;
+: [endasm] previous ;
+
 get-current
 also gb-assembler-impl definitions
 constant previous-wid

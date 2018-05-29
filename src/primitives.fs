@@ -1,7 +1,7 @@
 require ./asm.fs
 require ./cross.fs
 
-also gb-assembler
+[asm]
 
 ( TEMPORARY HACK: Don't break the game! )
 $4400 ==>
@@ -78,4 +78,4 @@ E [HL] ld,
 ps-drop,
 ret,
 
-previous
+[endasm]

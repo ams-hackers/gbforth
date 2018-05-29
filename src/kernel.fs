@@ -2,7 +2,7 @@
 
 require ./asm.fs
 
-also gb-assembler
+[asm]
 
 ( Assume you have the following code
 
@@ -85,4 +85,4 @@ also gb-assembler
 : xcompile, # call, ;
 : xreturn, ret, ;
 
-previous
+[endasm]

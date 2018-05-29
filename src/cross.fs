@@ -1,7 +1,7 @@
 require ./rom.fs
 require ./kernel.fs
 
-also gb-assembler
+[asm]
 
 ( Cross words )
 
@@ -112,4 +112,4 @@ variable xstate
   2r> nextname
   r> 0 create-xname ;
 
-previous
+[endasm]
