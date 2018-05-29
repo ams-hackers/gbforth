@@ -91,8 +91,31 @@ wordlist constant xwordlist
  -1 if we are compiling into the target )
 variable xstate
 
+\   call:     [11 001 101] [nnnnnnnn] | 205        -#10 -$A
+\   jp:       [11 000 011] [nnnnnnnn] | 195
+\   call cc:  [11 0cc 100] [nnnnnnnn] | 196..220   -2
+\   jp cc:    [11 0cc 010] [nnnnnnnn] | 194..218
+: is-call? %11001101 = ; \ $CD
+: is-cond-call? %11100111 and %11000100 = ; \ $C4, $CC, $D4, $DC
+
+: optimise-tail-call
+  rom-offset 3 - dup \ get opcode offset
+  rom@  \ get opcode value
+  dup is-call? if
+    $A - \ change to JP
+    swap \ val addr -- addr val
+    rom!
+  else
+    dup is-cond-call? if
+      $2 - \ change to JP cc
+      swap
+      rom!
+    else
+      drop drop
+  then then ;
+
 : x[ 0 xstate ! ; ximmediate-as [
-: x; x[ xreturn, ; ximmediate-as ;
+: x; x[ optimise-tail-call xreturn, ; ximmediate-as ;
 
 : x]
   1 xstate !
