@@ -2,16 +2,17 @@
 
 require ./cartridge.fs
 require ./cross.fs
+require ./asm.fs
 
 : export
-  parse-name 
+  parse-name
   2dup find-name name>int >r
   nextname r> alias ;
 
 : [user-definitions]
   get-current
   also dmgforth-user definitions ;
-  
+
 : [end-user-definitions]
   previous set-current ;
 
@@ -24,7 +25,7 @@ also dmgforth
 
 : c, rom, ;
 
-export ( 
+export (
 export ==>
 export \
 export also
@@ -33,6 +34,8 @@ export gb-assembler
 export include
 export previous
 export require
+export [asm]
+export [endasm]
 
 export main
 export title:

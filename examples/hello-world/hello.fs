@@ -1,6 +1,6 @@
 require gbhw.fs
 
-also gb-assembler
+[asm]
 
 title: EXAMPLE
 
@@ -102,4 +102,4 @@ ret,
 label TileData
 include ibm-font.fs
 
-previous
+[endasm]

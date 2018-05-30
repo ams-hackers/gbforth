@@ -22,15 +22,15 @@ first, and then the instruction. For example, the code below will move
 the number 42 to the register `HL`.
 
 ```forth
-also gb-assembler
+[asm]
 
 42 # HL ld,
 
-previous
+[endasm]
 ```
 
 To learn more, you can have a loook to the hello world example
-[written in assembler](https://github.com/ams-hackers/dmg-forth/blob/master/examples/hello-world-asm/hello.fs), 
+[written in assembler](https://github.com/ams-hackers/dmg-forth/blob/master/examples/hello-world-asm/hello.fs),
 or the [the lib/ directory](https://github.com/ams-hackers/dmg-forth/tree/master/lib).
 
 
@@ -44,13 +44,13 @@ You can push immediate values by using the word `#`. You can use
 prefixes to specify the base of your immediate values.
 
 ```forth
-also gb-assembler
+[asm]
 
 42 # HL ld,     \ decimal
 $ff # HL ld,    \ hex
 %1011 # HL ld,  \ binary
 
-previous
+[endasm]
 ```
 
 #### Registers

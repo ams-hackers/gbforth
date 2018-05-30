@@ -1,6 +1,6 @@
 require ./asm.fs
 
-also gb-assembler
+[asm]
 
 ( Constants used in cartridge header )
 
@@ -189,4 +189,4 @@ $014E ==>                           ( global checksum )
 
 ( header end [$0150...] )
 
-previous
+[endasm]

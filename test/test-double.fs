@@ -1,4 +1,4 @@
-also gb-assembler
+[asm]
 
 $150 ==>
 
@@ -14,4 +14,4 @@ label loop
 halt,
 loop jr,
 
-previous
+[endasm]
