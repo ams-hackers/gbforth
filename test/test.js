@@ -141,7 +141,16 @@ runVisualTest(
   path.resolve(__dirname, "../examples/hello-world-asm/hello.gb"),
   { steps: 10 },
   (imgBuffer, sha) => {
-    // fs.writeFileSync(`hello.png`, imgBuffer);
+    // fs.writeFileSync(`hello-asm.png`, imgBuffer);
+    assert.equal(sha, '1dded7c5cbaaa4b94377fc76574deffb0869ee65e9b72dfafae0604304fbe365')
+  }
+)
+
+runVisualTest(
+  path.resolve(__dirname, "../examples/hello-world/hello.gb"),
+  { steps: 10 },
+  (imgBuffer, sha) => {
+    // fs.writeFileSync(`hello-forth.png`, imgBuffer);
     assert.equal(sha, '1dded7c5cbaaa4b94377fc76574deffb0869ee65e9b72dfafae0604304fbe365')
   }
 )
