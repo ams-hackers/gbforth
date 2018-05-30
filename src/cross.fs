@@ -105,9 +105,20 @@ variable xstate
 : x'
   parse-next-name find-xname ?dup if >xcode else -1 abort" Unknown word " then ;
 
+create colon-name 128 chars allot
+
+( Copy a string into colon-name to persist it! )
+: copy-colon-name ( addr u -- addr' u )
+  dup 128 >= abort" Name is too large!"
+  dup >r colon-name swap move
+  colon-name r> ;
+
+: parse-colon-name
+  parse-next-name copy-colon-name ;
+
 : x:
   rom-offset >r
-  parse-next-name 2>r
+  parse-colon-name 2>r
   x]
   2r> nextname
   r> 0 create-xname ;
