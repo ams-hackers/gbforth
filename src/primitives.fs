@@ -78,4 +78,12 @@ E [HL] ld,
 ps-drop,
 ret,
 
+code execute
+\ The stack contains the return address for execute. We put HL on top,
+\ so RET will take it and jump there.
+hl push,
+( but just before that, we have to drop the address from the data stack )
+ps-drop,
+ret,
+
 [endasm]

@@ -47,22 +47,26 @@ require ./src/user.fs
   Instead, we put all the words in this colon-definition to resolve
   the word into addresses before we seal and load the game.
 )
-:noname
-  get-order
 
-  [user-definitions]
+: assert-empty-stack
+  depth 0<> abort" Stack is not empty" ;
+
+: write-game-and-die
+  fix-header-complement
+  fix-global-checksum
+  output-file dump-rom
+  bye ;
+
+:noname
+  assert-empty-stack
+
+  dmgforth-user definitions
   seal also
   input-file included
-  [end-user-definitions]
 
-  set-order
+  assert-empty-stack
+  write-game-and-die
+
 ; execute
 
-depth 0<> [if]
-  ." The stac2k is not empty!" cr
-[endif]
-
-fix-header-complement
-fix-global-checksum
-output-file dump-rom
-bye
+( Do not write any code after this! )

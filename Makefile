@@ -4,7 +4,18 @@ export DMGFORTH_PATH := $(shell pwd)/lib
 
 LIB_FILES=lib/*.fs
 SOURCE_FILES=dmgforth src/*.fs
-TESTS=test/test-asm-sub.gb test/test-asm-add.gb test/test-dup.gb test/test-swap.gb test/test-drop.gb test/test-memget.gb test/test-memset.gb test/test-plus.gb test/test-double.gb test/test-colon-shadow.gb
+TESTS= \
+	test/test-asm-add.gb \
+	test/test-asm-sub.gb \
+	test/test-colon-shadow.gb \
+	test/test-double.gb \
+	test/test-drop.gb \
+	test/test-dup.gb \
+	test/test-execute.gb \
+	test/test-memget.gb \
+	test/test-memset.gb \
+	test/test-plus.gb \
+	test/test-swap.gb
 
 .PHONY: all examples tests
 
@@ -28,7 +39,7 @@ examples/hello-world-asm/hello.gb: examples/hello-world-asm/hello.fs $(SOURCE_FI
 #
 # Tests
 #
-check: tests
+check: tests examples
 	gforth src/asm.spec.fs -e bye
 	node test/test.js
 

@@ -25,27 +25,27 @@ function runTest(rompath, { cycles }, cb) {
 }
 
 function getSha(x) {
-  const hash = crypto.createHash('sha256');
+  const hash = crypto.createHash("sha256");
   hash.update(x);
-  return hash.digest('hex');
+  return hash.digest("hex");
 }
 
 function runVisualTest(rompath, { steps }, cb) {
-  const gameboy = new Gameboy()
+  const gameboy = new Gameboy();
   gameboy.loadCart(fs.readFileSync(rompath));
 
   let imgBuffer;
-  gameboy.gpu.on('frame', (canvas) => {
-    imgBuffer = canvas.toBuffer()
+  gameboy.gpu.on("frame", canvas => {
+    imgBuffer = canvas.toBuffer();
   });
 
   gameboy._init();
   for (let i = 0; i < steps; i++) {
-    gameboy._cpu._step()
+    gameboy._cpu._step();
   }
 
-  const sha = getSha(imgBuffer)
-  cb(imgBuffer, sha)
+  const sha = getSha(imgBuffer);
+  cb(imgBuffer, sha);
 }
 
 function depth(gameboy) {
@@ -137,20 +137,34 @@ runTest(
   }
 );
 
+runTest(
+  path.resolve(__dirname, "./test-execute.gb"),
+  { cycles: 200 },
+  (gameboy, memory) => {
+    assert.deepStrictEqual(stack(gameboy), [0x11]);
+  }
+);
+
 runVisualTest(
   path.resolve(__dirname, "../examples/hello-world-asm/hello.gb"),
   { steps: 10 },
   (imgBuffer, sha) => {
     // fs.writeFileSync(`hello-asm.png`, imgBuffer);
-    assert.equal(sha, '1dded7c5cbaaa4b94377fc76574deffb0869ee65e9b72dfafae0604304fbe365')
+    assert.equal(
+      sha,
+      "1dded7c5cbaaa4b94377fc76574deffb0869ee65e9b72dfafae0604304fbe365"
+    );
   }
-)
+);
 
 runVisualTest(
   path.resolve(__dirname, "../examples/hello-world/hello.gb"),
   { steps: 10 },
   (imgBuffer, sha) => {
     // fs.writeFileSync(`hello-forth.png`, imgBuffer);
-    assert.equal(sha, '1dded7c5cbaaa4b94377fc76574deffb0869ee65e9b72dfafae0604304fbe365')
+    assert.equal(
+      sha,
+      "1dded7c5cbaaa4b94377fc76574deffb0869ee65e9b72dfafae0604304fbe365"
+    );
   }
-)
+);

@@ -66,7 +66,8 @@ wordlist constant xwordlist
 : parse-next-name
   parse-name dup if
   else
-    refill if 2drop recurse then
+    refill 0= throw
+    2drop recurse
   then ;
 
 : process-xname ( xname -- )
@@ -104,6 +105,9 @@ variable xstate
 
 : x'
   parse-next-name find-xname ?dup if >xcode else -1 abort" Unknown word " then ;
+
+: x['] x' xliteral, ; ximmediate-as [']
+
 
 create colon-name 128 chars allot
 
