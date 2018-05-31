@@ -422,6 +422,7 @@ DEFINITIONS
 : nn', arg2-value arg2-type emit-addr ;
 
 : op, op emit ;
+: cb-op, $cb emit op emit ;
 
 PREVIOUS DEFINITIONS
 
@@ -586,6 +587,11 @@ end-instruction
 
 instruction reti,
             ~~> %11 %011 %001 op,       4 cycles ::
+end-instruction
+
+instruction rl,
+  ~r        ~~> %00 %010    r cb-op,    2 cycles ::
+  ~(HL)     ~~> %00 %000 %110 cb-op,    4 cycles ::
 end-instruction
 
 instruction rlca,
