@@ -12,8 +12,8 @@ TESTS= \
 	test/test-drop.gb \
 	test/test-dup.gb \
 	test/test-execute.gb \
-	test/test-memget.gb \
-	test/test-memset.gb \
+	test/test-cfetch.gb \
+	test/test-cstore.gb \
 	test/test-fetch.gb \
 	test/test-store.gb \
 	test/test-plus.gb \
@@ -55,8 +55,8 @@ clean:
 	-rm -f test/test-dup.gb
 	-rm -f test/test-swap.gb
 	-rm -f test/test-drop.gb
-	-rm -f test/test-memget.gb
-	-rm -f test/test-memset.gb
+	-rm -f test/test-cfetch.gb
+	-rm -f test/test-cstore.gb
 	-rm -f test/test-fetch.gb
 	-rm -f test/test-store.gb
 	-rm -f test/test-plus.gb

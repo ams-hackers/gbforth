@@ -95,7 +95,7 @@ runTest(path.resolve(__dirname, "./test-drop.gb"), { cycles: 200 }, gameboy => {
 });
 
 runTest(
-  path.resolve(__dirname, "./test-memget.gb"),
+  path.resolve(__dirname, "./test-cfetch.gb"),
   { cycles: 200 },
   (gameboy, memory) => {
     assert.deepStrictEqual(stack(gameboy), [0x66, 0xce, 0xed]);
@@ -103,7 +103,7 @@ runTest(
 );
 
 runTest(
-  path.resolve(__dirname, "./test-memset.gb"),
+  path.resolve(__dirname, "./test-cstore.gb"),
   { cycles: 200 },
   (gameboy, memory) => {
     assert(depth(gameboy) === 0);
