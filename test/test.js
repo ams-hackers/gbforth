@@ -114,6 +114,26 @@ runTest(
 );
 
 runTest(
+  path.resolve(__dirname, "./test-fetch.gb"),
+  { cycles: 200 },
+  (gameboy, memory) => {
+    assert.deepStrictEqual(stack(gameboy), [0x6666, 0xceed]);
+  }
+);
+
+runTest(
+  path.resolve(__dirname, "./test-store.gb"),
+  { cycles: 200 },
+  (gameboy, memory) => {
+    assert(depth(gameboy) === 0);
+    assert(memory[0x8501] === 0xab);
+    assert(memory[0x8502] === 0xcd);
+    assert(memory[0x8503] === 0x12);
+    assert(memory[0x8504] === 0x34);
+  }
+);
+
+runTest(
   path.resolve(__dirname, "./test-plus.gb"),
   { cycles: 200 },
   (gameboy, memory) => {

@@ -65,15 +65,30 @@ ps-over-de-nip,
 DE HL add,
 ret,
 
-( c-addr -- x )
+( c-addr -- c )
 code c@
 [HL] L ld,
 $0 # H ld,
 ret,
 
-( x c-addr -- )
+( c c-addr -- )
 code c!
 ps-over-de-nip,
+E [HL] ld,
+ps-drop,
+ret,
+
+( c-addr -- x )
+code @
+[HL+] A ld,
+[HL] L ld,
+A H ld,
+ret,
+
+( x c-addr -- )
+code !
+ps-over-ae-nip,
+A [HL+] ld,
 E [HL] ld,
 ps-drop,
 ret,

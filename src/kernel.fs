@@ -56,6 +56,12 @@ require ./asm.fs
   L E ld,
   ps-drop, ;
 
+: ps-over-ae-nip,
+  [C] A ld, A E ld,
+  C inc,
+  [C] A ld,
+  C inc, ;
+
 : ps-over-de-nip,
   [C] A ld, A E ld,
   C inc,
