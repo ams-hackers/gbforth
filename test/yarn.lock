@@ -22,9 +22,9 @@ nan@^2.10.0:
   version "2.10.0"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.10.0.tgz#96d0cd610ebd58d4b4de9cc0c6828cda99c7548f"
 
-"node-gameboy@https://github.com/nakardo/node-gameboy.git":
-  version "0.4.3"
-  resolved "https://github.com/nakardo/node-gameboy.git#8a22de4aa06636cd4cb34e551253b2a2203d435a"
+node-gameboy@^0.4.4:
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/node-gameboy/-/node-gameboy-0.4.4.tgz#638a94ffce28f3d6c546b1e6da71d053430ee20b"
   dependencies:
     canvas "^1.4.0"
     debug "^3.1.0"
