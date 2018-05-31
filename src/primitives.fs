@@ -65,6 +65,31 @@ ps-over-de-nip,
 DE HL add,
 ret,
 
+code * ( a b -- c )
+ps-over-de-nip,
+BC push,
+H B ld,
+L C ld,
+local
+presume NoMul
+  $0 # HL ld,
+  $10 # A ld,
+label MulLoop
+  HL HL add,
+  E rl,
+  D rl,
+NoMul #NC jp,
+  BC HL add,
+NoMul #NC jp,
+  DE inc,
+label NoMul
+  A dec,
+MulLoop #NZ jp,
+end-local
+BC pop,
+\ ps-push-de, ( DE contains higher 2 bytes of result )
+ret,
+
 ( c-addr -- c )
 code c@
 [HL] L ld,

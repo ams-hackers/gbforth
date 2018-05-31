@@ -142,6 +142,14 @@ runTest(
 );
 
 runTest(
+  path.resolve(__dirname, "./test-star.gb"),
+  { cycles: 200 },
+  (gameboy, memory) => {
+    assert.deepStrictEqual(stack(gameboy), [0xad59]);
+  }
+);
+
+runTest(
   path.resolve(__dirname, "./test-double.gb"),
   { cycles: 200 },
   (gameboy, memory) => {
