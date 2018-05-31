@@ -92,7 +92,7 @@ $33 constant USE_MAKER_CODE
 ( Words to modify header values )
 
 ( Boot logo [$0104-0133] )
-: nintendo-logo,
+: boot-logo,
   $ce rom, $ed rom, $66 rom, $66 rom, $cc rom, $0d rom, $00 rom, $0b rom,
   $03 rom, $73 rom, $00 rom, $83 rom, $00 rom, $0c rom, $00 rom, $0d rom,
   $00 rom, $08 rom, $11 rom, $1f rom, $88 rom, $89 rom, $00 rom, $0e rom,
@@ -105,17 +105,17 @@ $33 constant USE_MAKER_CODE
 
 : title:
   parse-line
-  dup #15 > abort" Title is too long"
+  dup #15 > abort" Title is too long (max 15 characters)"
   $0134 offset>addr swap move ;
 
 : gamecode:
   parse-line
-  dup #4 > abort" Game Code is too long"
+  dup #4 > abort" Game Code is too long (max 4 characters)"
   $013F offset>addr swap move ;
 
 : makercode:
   parse-line
-  dup #2 > abort" Maker Code is too long"
+  dup #2 > abort" Maker Code is too long (max 2 characters)"
   $0144 offset>addr swap move
   USE_MAKER_CODE $014B rom! ;
 
@@ -146,33 +146,34 @@ $33 constant USE_MAKER_CODE
 
 ( Cartridge structure )
 
-$00 ==> ( restart $00 address )
-$08 ==> ( restart $08 address )
-$10 ==> ( restart $10 address )
-$18 ==> ( restart $18 address )
-$20 ==> ( restart $20 address )
-$28 ==> ( restart $28 address )
-$30 ==> ( restart $30 address )
-$38 ==> ( restart $38 address )
-$40 ==> reti, ( vertical blank interrupt start address )
-$48 ==> reti, ( LCDC status interrupt start address )
-$50 ==> reti, ( timer overflowInterrupt start address )
-$58 ==> reti, ( serial transfer completion interrupt start address )
-$60 ==> reti, ( high-to-low of p10 interrupt start address )
-$68 ==> reti, ( high-to-low of p11 interrupt start address )
-$70 ==> reti, ( high-to-low of p12 interrupt start address )
-$78 ==> reti, ( high-to-low of p13 interrupt start address )
+$0000 ==>       ( restart $0000 address )
+$0008 ==>       ( restart $0008 address )
+$0010 ==>       ( restart $0010 address )
+$0018 ==>       ( restart $0018 address )
+$0020 ==>       ( restart $0020 address )
+$0028 ==>       ( restart $0028 address )
+$0030 ==>       ( restart $0030 address )
+$0038 ==>       ( restart $0038 address )
 
-$100 ==> ( start entry point [$0100-$0103] )
+$0040 ==> reti, ( vertical blank interrupt start address )
+$0048 ==> reti, ( LCDC status interrupt start address )
+$0050 ==> reti, ( timer overflowInterrupt start address )
+$0058 ==> reti, ( serial transfer completion interrupt start address )
+$0060 ==> reti, ( high-to-low of p10 interrupt start address )
+$0068 ==> reti, ( high-to-low of p11 interrupt start address )
+$0070 ==> reti, ( high-to-low of p12 interrupt start address )
+$0078 ==> reti, ( high-to-low of p13 interrupt start address )
+
+$0100 ==> ( start entry point [$0100-$0103] )
 
 presume main
 
 nop,
 main jp,
 
-( start header [$0100-$014F] )
+( start header [$0104-$014F] )
 
-$0104 ==> nintendo-logo,            ( boot logo )
+$0104 ==> boot-logo,                ( boot logo )
 $0134 ==>                           ( title )
 $013F ==>                           ( manufacturer code )
 $0143 ==> CGB_INCOMPATIBLE rom,     ( color GB function support )
@@ -187,6 +188,6 @@ $014C ==> $00 rom,                  ( mask rom version number )
 $014D ==>                           ( complement checksum )
 $014E ==>                           ( global checksum )
 
-( header end [$0150...] )
+( start main code [$0150...] )
 
 [endasm]
