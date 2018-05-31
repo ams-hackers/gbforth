@@ -1,13 +1,13 @@
 require gbhw.fs
 
-[asm]
-
 title: EXAMPLE
 
-$61 ==>
-include memory.fs
+[asm]
 
-$150 ==>
+include memory.fs
+label TileData
+include ibm-font.fs
+
 label main
 
 ( program start )
@@ -26,9 +26,6 @@ a [rSCY] ld,
 presume StopLCD
 
 StopLCD call,
-
-
-presume TileData
 
 TileData hl ld,
 _VRAM # de ld,
@@ -98,8 +95,5 @@ A #7 # res,
 A [rLCDC] ld,
 
 ret,
-
-label TileData
-include ibm-font.fs
 
 [endasm]
