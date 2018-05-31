@@ -62,7 +62,7 @@ require ./src/user.fs
 
   dmgforth-user definitions
   seal also
-  input-file included
+  $0150 ==> input-file included
 
   assert-empty-stack
   write-game-and-die
