@@ -505,8 +505,9 @@ instruction inc,
 end-instruction
 
 instruction jp,
-  ~(HL)     ~~> %11 %101 %001 op,       1 cycles ::
   ~nn       ~~> %11 %000 %011 op, nn,   4 cycles ::
+  ~nn  ~cc  ~~> %11 0cc' %010 op, nn,   4 cycles :: ( 3 if false )
+  ~(HL)     ~~> %11 %101 %001 op,       1 cycles ::
 end-instruction
 
 instruction jr,
