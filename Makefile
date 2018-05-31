@@ -4,20 +4,9 @@ export DMGFORTH_PATH := $(shell pwd)/lib
 
 LIB_FILES=lib/*.fs
 SOURCE_FILES=dmgforth src/*.fs
-TESTS= \
-	test/test-asm-add.gb \
-	test/test-asm-sub.gb \
-	test/test-colon-shadow.gb \
-	test/test-double.gb \
-	test/test-drop.gb \
-	test/test-dup.gb \
-	test/test-execute.gb \
-	test/test-cfetch.gb \
-	test/test-cstore.gb \
-	test/test-fetch.gb \
-	test/test-store.gb \
-	test/test-plus.gb \
-	test/test-swap.gb
+
+TEST_FILES = $(wildcard test/test-*.fs)
+TEST_OBJS = $(subst .fs,.gb,$(TEST_FILES))
 
 .PHONY: all examples tests
 
@@ -45,19 +34,9 @@ check: tests examples
 	gforth src/asm.spec.fs -e bye
 	node test/test.js
 
-tests: $(TESTS)
+tests: $(TEST_OBJS)
 
 clean:
 	-rm -f examples/hello-world-asm/hello.gb
 	-rm -f examples/hello-world/hello.gb
-	-rm -f test/test-asm-add.gb
-	-rm -f test/test-asm-sub.gb
-	-rm -f test/test-dup.gb
-	-rm -f test/test-swap.gb
-	-rm -f test/test-drop.gb
-	-rm -f test/test-cfetch.gb
-	-rm -f test/test-cstore.gb
-	-rm -f test/test-fetch.gb
-	-rm -f test/test-store.gb
-	-rm -f test/test-plus.gb
-	-rm -f test/test-quadruple.gb
+	-rm -f test/test-*.gb
