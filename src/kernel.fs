@@ -32,52 +32,86 @@ require ./asm.fs
   every word [or primitive] address that is part of the word definition.
 )
 
+( Helper words for moving between registers )
+
+: H->A->[C],
+  H A ld,
+  A [C] ld, ;
+
+: L->A->[C],
+  L A ld,
+  A [C] ld, ;
+
+: [C]->A->H,
+  [C] A ld,
+  A H ld, ;
+
+: [C]->A->L,
+  [C] A ld,
+  A L ld, ;
+
+: [C]->A->D,
+  [C] A ld,
+  A D ld, ;
+
+: [C]->A->E,
+  [C] A ld,
+  A E ld, ;
+
+: HL->DE,
+  H D ld,
+  L E ld, ;
+
+: DE->HL
+  D H ld,
+  E L ld, ;
+
+( Helper words for stack manipulation )
+
 : ps-clear,
   $EF # C ld, ;
 
 : ps-dup,
   C dec,
-  H A ld, A [C] ld,
+  H->A->[C],
   C dec,
-  L A ld, A [C] ld, ;
+  L->A->[C], ;
 
 : ps-push-lit,
   ps-dup,
   # HL ld, ;
 
 : ps-drop,
-  [C] A ld, A L ld,
+  [C]->A->L,
   C inc,
-  [C] A ld, A H ld,
+  [C]->A->H,
   C inc, ;
 
 : ps-pop-de,
-  H D ld,
-  L E ld,
+  HL->DE,
   ps-drop, ;
 
 : ps-over-ae-nip,
-  [C] A ld, A E ld,
+  [C]->A->E,
   C inc,
   [C] A ld,
   C inc, ;
 
 : ps-over-de-nip,
-  [C] A ld, A E ld,
+  [C]->A->E,
   C inc,
-  [C] A ld, A D ld,
+  [C]->A->D,
   C inc, ;
 
 : ps-over-de,
-  [C] A ld, A E ld,
+  [C]->A->E,
   C inc,
-  [C] A ld, A D ld,
+  [C]->A->D,
   C dec, ;
 
 : ps-push-de,
   ps-dup,
-  D H ld,
-  E L ld, ;
+  DE->HL ;
 
 : ps-swap,
   ps-over-de-nip,
@@ -86,6 +120,8 @@ require ./asm.fs
 : ps-over,
   ps-over-de,
   ps-push-de, ;
+
+( Words used by the cross compiler )
 
 : xliteral, ps-push-lit, ;
 : xcompile, # call, ;
