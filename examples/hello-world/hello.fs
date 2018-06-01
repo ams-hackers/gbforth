@@ -1,6 +1,8 @@
 require gbhw.fs
 
 title: EXAMPLE
+gamecode: HELO
+makercode: RX
 
 [asm]
 
@@ -8,7 +10,7 @@ include memory.fs
 label TileData
 include ibm-font.fs
 
-label main
+main:
 
 ( program start )
 

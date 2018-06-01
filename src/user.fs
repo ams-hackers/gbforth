@@ -38,6 +38,8 @@ export [asm]
 export [endasm]
 
 export main
+export main:
+
 export title:
 export gamecode:
 export makercode:

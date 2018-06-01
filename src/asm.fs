@@ -20,6 +20,7 @@ vocabulary gb-assembler-emiters
 : [endasm] previous ;
 
 get-current
+also gb-assembler
 also gb-assembler-impl definitions
 constant previous-wid
 
@@ -278,9 +279,9 @@ end-types
 [public]
 : newlabel
   create offset , does> @ ~nn push-arg ;
+[endpublic]
 
-: label
-  parse-name
+: make-label ( c-addr u -- )
   2dup offset sym
   2dup find-name ?dup if
     nip nip ( discard name )
@@ -290,6 +291,13 @@ end-types
   else
     nextname newlabel
   then ;
+
+[public]
+: label
+  parse-name make-label ;
+
+: main:
+  s" main" make-label ;
 [endpublic]
 
 
