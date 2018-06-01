@@ -40,7 +40,7 @@ require ./asm.fs
   H D ld,
   L E ld, ;
 
-: DE->HL
+: DE->HL,
   D H ld,
   E L ld, ;
 
@@ -51,8 +51,15 @@ require ./asm.fs
 
 ( Helper words for stack manipulation )
 
+$FFFE constant SP0 \ end of HRAM
+$CFFF constant RS0 \ end of RAM bank 0
+
 : ps-clear,
-  $EF # C ld, ;
+  SP0 $FF00 - # C ld, ;
+
+: ps-init,
+  ps-clear,
+  RS0 # SP ld, ;
 
 : ps-dup,
   C dec,
@@ -94,7 +101,7 @@ require ./asm.fs
 
 : ps-push-de,
   ps-dup,
-  DE->HL ;
+  DE->HL, ;
 
 : ps-swap,
   ps-over-de-nip,

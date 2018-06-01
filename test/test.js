@@ -48,18 +48,20 @@ function runVisualTest(rompath, { steps }, cb) {
   cb(imgBuffer, sha);
 }
 
+const SP0 = 0xFE
+
 function depth(gameboy) {
-  return (((0xed - gameboy._cpu.c) / 2) | 0) + 1;
+  return (((SP0 - 2 - gameboy._cpu.c) / 2) | 0) + 1;
 }
 
 function stack(gameboy) {
   const c = gameboy._cpu.c;
   const stack = [];
-  for (let i = c; i < 0xed; i += 2) {
+  for (let i = c; i < SP0 - 2; i += 2) {
     stack.push(gameboy._mmu.readWord(0xff00 + i));
   }
   // HL is TOS only if the stack is no empty
-  if (c < 0xef) {
+  if (c < SP0) {
     stack.push(gameboy._cpu.hl);
   }
 

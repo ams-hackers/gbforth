@@ -19,7 +19,7 @@
 ;
 
 label main
-ps-clear,
+ps-init,
 
 ' initialize # call,
 

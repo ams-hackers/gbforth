@@ -2,7 +2,7 @@
 
 label main
 
-ps-clear,
+ps-init,
 
 $0104 ps-push-lit,
 ' @ # call,

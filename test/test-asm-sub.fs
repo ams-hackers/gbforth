@@ -2,7 +2,7 @@
 
 label main
 
-ps-clear,
+ps-init,
 
 \ [HL] A ld,
 $22 # A ld, A $8500 ]* ld,
