@@ -18,7 +18,7 @@
   0 $C206 c!
 ;
 
-label main
+main:
 ps-init,
 
 ' initialize # call,

@@ -5,7 +5,7 @@
   ['] drop execute
   ['] drop execute ;
 
-label main
+main:
 ps-init,
 
 $11 ps-push-lit,

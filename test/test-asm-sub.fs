@@ -1,6 +1,6 @@
 [asm]
 
-label main
+main:
 
 ps-init,
 
