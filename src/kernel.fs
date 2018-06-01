@@ -34,6 +34,8 @@ require ./asm.fs
 
 ( Helper words for moving between registers )
 
+: ->A-> A ld, A ;
+
 : H->A->[C],
   H A ld,
   A [C] ld, ;
@@ -65,6 +67,11 @@ require ./asm.fs
 : DE->HL
   D H ld,
   E L ld, ;
+
+( Adjust flags #NZ and #Z if HL is zero )
+: H|L->A,
+  H A ld, L A or, ;
+
 
 ( Helper words for stack manipulation )
 
