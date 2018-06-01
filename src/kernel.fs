@@ -36,30 +36,6 @@ require ./asm.fs
 
 : ->A-> A ld, A ;
 
-: H->A->[C],
-  H A ld,
-  A [C] ld, ;
-
-: L->A->[C],
-  L A ld,
-  A [C] ld, ;
-
-: [C]->A->H,
-  [C] A ld,
-  A H ld, ;
-
-: [C]->A->L,
-  [C] A ld,
-  A L ld, ;
-
-: [C]->A->D,
-  [C] A ld,
-  A D ld, ;
-
-: [C]->A->E,
-  [C] A ld,
-  A E ld, ;
-
 : HL->DE,
   H D ld,
   L E ld, ;
@@ -80,18 +56,18 @@ require ./asm.fs
 
 : ps-dup,
   C dec,
-  H->A->[C],
+  H ->A-> [C] ld,
   C dec,
-  L->A->[C], ;
+  L ->A-> [C] ld, ;
 
 : ps-push-lit,
   ps-dup,
   # HL ld, ;
 
 : ps-drop,
-  [C]->A->L,
+  [C] ->A-> L ld,
   C inc,
-  [C]->A->H,
+  [C] ->A-> H ld,
   C inc, ;
 
 : ps-pop-de,
@@ -99,21 +75,21 @@ require ./asm.fs
   ps-drop, ;
 
 : ps-over-ae-nip,
-  [C]->A->E,
+  [C] ->A-> E ld,
   C inc,
   [C] A ld,
   C inc, ;
 
 : ps-over-de-nip,
-  [C]->A->E,
+  [C] ->A-> E ld,
   C inc,
-  [C]->A->D,
+  [C] ->A-> D ld,
   C inc, ;
 
 : ps-over-de,
-  [C]->A->E,
+  [C] ->A-> E ld,
   C inc,
-  [C]->A->D,
+  [C] ->A-> D ld,
   C dec, ;
 
 : ps-push-de,
