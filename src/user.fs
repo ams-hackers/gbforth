@@ -39,6 +39,8 @@ export [endasm]
 
 export main
 export title:
+export gamecode:
+export makercode:
 
 ( TODO: Remove me! )
 export ps-clear,
