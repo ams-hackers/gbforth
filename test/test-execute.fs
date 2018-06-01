@@ -1,6 +1,5 @@
 [asm]
 
-$150 ==>
 
 : test
   ['] drop execute

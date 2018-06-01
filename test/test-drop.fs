@@ -1,6 +1,5 @@
 [asm]
 
-$150 ==>
 label main
 
 ps-clear,
