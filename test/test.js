@@ -58,7 +58,11 @@ function stack(gameboy) {
   for (let i = c; i < 0xed; i += 2) {
     stack.push(gameboy._mmu.readWord(0xff00 + i));
   }
-  stack.push(gameboy._cpu.hl);
+  // HL is TOS only if the stack is no empty
+  if (c < 0xef) {
+    stack.push(gameboy._cpu.hl);
+  }
+
   return stack.reverse();
 }
 
@@ -170,6 +174,16 @@ runTest(
   { cycles: 200 },
   (gameboy, memory) => {
     assert.deepStrictEqual(stack(gameboy), [0x11]);
+  }
+);
+
+runTest(
+  path.resolve(__dirname, "./test-cmove.gb"),
+  { cycles: 1000 },
+  (gameboy, memory) => {
+    const dest = Array.from(memory).slice(0xc201, 0xc207);
+    assert.deepStrictEqual(dest, [1, 2, 3, 4, 5, 0]);
+    assert.deepStrictEqual(stack(gameboy), []);
   }
 );
 

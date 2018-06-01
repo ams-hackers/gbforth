@@ -126,4 +126,52 @@ hl push,
 ps-drop,
 ret,
 
+
+code cmove ( c-from c-to u -- )
+local
+presume .end
+( DE = c-to )
+( BC = c-from )
+( HL = u )
+
+( DE = c-to )
+[C] ->A-> E ld,  C inc,
+[C] ->A-> D ld,  C inc,
+
+( BC = c-from )
+\ Taking this argument is quite more tricky, as C is for the stack.
+\ Postpone overriding C until the very end by retrieving B first.
+C inc, BC push,
+[C] ->A-> B ld,  C dec,
+[C] ->A-> C ld,
+
+
+( check if HL=0 )
+H|L->A,
+.end #Z jr,
+
+label .body
+
+( copy one byte )
+[BC] ->A-> [DE] ld,
+BC inc,
+DE inc,
+
+HL dec,
+
+H|L->A,
+.body #NZ jr,
+
+label .end
+
+BC pop, C inc,
+ps-drop,
+ret,
+
+end-local
+
+
+
+
+
 [endasm]
