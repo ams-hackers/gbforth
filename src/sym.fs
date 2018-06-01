@@ -12,12 +12,16 @@ require ./utils/strings.fs
 : sym-emit
   sym-out if
     sym-out emit-file throw
+  else
+    drop
   then ;
 
 : sym-write ( c-addr u -- )
   sym-out if
     sym-out write-file throw
     sym-out flush-file throw
+  else
+    2drop
   then ;
 
 : sym-cr
@@ -38,4 +42,5 @@ require ./utils/strings.fs
   addr-to-str   sym-write
   s"  "         sym-write
   ( c-addr u )  sym-write
-  sym-cr ;
+  sym-cr 
+;
