@@ -62,12 +62,14 @@ module.exports = filename => {
     get stack() {
       const c = gameboy._cpu.c;
       const stack = [];
-      for (let i = c; i < SP0 - 2; i += 2) {
-        stack.push(gameboy._mmu.readWord(0xff00 + i));
-      }
+
       // HL is TOS only if the stack is no empty
       if (c < SP0) {
         stack.push(gameboy._cpu.hl);
+      }
+
+      for (let i = c; i < SP0 - 2; i += 2) {
+        stack.push(gameboy._mmu.readWord(0xff00 + i));
       }
 
       return stack.reverse();

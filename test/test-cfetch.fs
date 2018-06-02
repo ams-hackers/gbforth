@@ -3,11 +3,11 @@
 main:
 
 $0104 ps-push-lit,
-' c@ # call,
+' c@ # call, \ ce
 $0105 ps-push-lit,
-' c@ # call,
+' c@ # call, \ ed
 $0106 ps-push-lit,
-' c@ # call,
+' c@ # call, \ 66
 
 label loop
 halt,
