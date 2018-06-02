@@ -292,15 +292,20 @@ end-types
     nextname newlabel
   then ;
 
+false value start-defined?
+false value main-defined?
+
 [public]
 : label
   parse-name make-label ;
 
 : __start:
-  s" __start" make-label ;
+  s" __start" make-label
+  true is start-defined? ;
 
 : main:
-  s" main" make-label ;
+  s" main" make-label
+  true is main-defined? ;
 [endpublic]
 
 

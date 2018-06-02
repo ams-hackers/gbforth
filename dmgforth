@@ -51,6 +51,14 @@ require ./src/user.fs
 : assert-empty-stack
   depth 0<> abort" Stack is not empty" ;
 
+also gb-assembler-impl
+: assert-start-defined
+  start-defined? invert abort" Entry point (__start) is not defined" ;
+
+: assert-main-defined
+  main-defined? invert abort" Entry point (main) is not defined" ;
+previous
+
 : write-game-and-die
   fix-header-complement
   fix-global-checksum
@@ -72,6 +80,12 @@ require ./src/user.fs
 
   input-file included
 
+
+  --no-kernel if
+    assert-start-defined
+  else
+    assert-main-defined
+  then
   assert-empty-stack
   write-game-and-die
 
