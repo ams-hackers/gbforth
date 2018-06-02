@@ -178,6 +178,7 @@ begin-types
   type ~(HL+)
   type ~(HL-)
   type ~(C)
+  type ~t
   type ~b
   type ~n
   type ~nn
@@ -215,11 +216,6 @@ end-types
 %11    ~dd ~SP | operand SP
 %11 ~qq    operand AF
 
-%00 ~cc operand #NZ
-%01 ~cc operand #Z
-%10 ~cc operand #NC
-%11 ~cc operand #C
-
 %0   ~(BC)  operand [BC]
 %0   ~(DE)  operand [DE]
 %110 ~(HL)  operand [HL]
@@ -227,15 +223,25 @@ end-types
 %0   ~(HL-) operand [HL-]
 %0   ~(C)   operand [C]
 
+( Define flag operands )
+%00 ~cc operand #NZ
+%01 ~cc operand #Z
+%10 ~cc operand #NC
+%11 ~cc operand #C
+
 ( Push an immediate value to the arguments stack )
 : #
-  dup %111 <= if
-    ~b ~n | ~nn | push-arg
+  dup dup $38 <= swap $8 mod $0 = and if
+    ~t ~b | ~n | ~nn | push-arg
   else
-    dup $FF <= if
-      ~n ~nn | push-arg
+    dup %111 <= if
+      ~b ~n | ~nn | push-arg
     else
-      ~nn push-arg
+      dup $FF <= if
+        ~n ~nn | push-arg
+      else
+        ~nn push-arg
+      then
     then
   then ;
 
@@ -403,6 +409,7 @@ ALSO GB-ASSEMBLER-EMITERS
 DEFINITIONS
 
 : b' arg2-value ;
+: t  arg1-value $8 / ;
 : r  arg1-value ;
 : r' arg2-value ;
 : dd0' arg2-value 1 lshift ;
@@ -612,6 +619,10 @@ end-instruction
 
 instruction rlca,
             ~~> %00 %000 %111 op,       1 cycles ::
+end-instruction
+
+instruction rst,
+  ~t        ~~> %11    t %111 op,       4 cycles ::
 end-instruction
 
 instruction sbc,
