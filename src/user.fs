@@ -44,7 +44,6 @@ export gamecode:
 export makercode:
 
 ( TODO: Remove me! )
-export ps-init,
 export ps-push-lit,
 
 : ' x' ;
