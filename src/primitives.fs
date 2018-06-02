@@ -101,6 +101,25 @@ BC pop,
 \ ps-push-de, ( DE contains higher 2 bytes of result )
 ret,
 
+( a b -- c)
+code /
+local
+presume .done
+ps-pop-de,  \ dividend to DE, divisor to HL
+BC push,    \ store SP
+#0 # BC ld, \ quotient = 0
+label .subs \ repeated substraction HL - DE
+  L A ld, E A sub, A L ld, \ L - E
+  H A ld, D A sbc, A H ld, \ H - D - carry
+  .done #C jp, \ remainder <0 ? done!
+  BC inc,      \ inc quotient
+  .subs jp,    \ repeat substraction
+label .done
+  B H ld, C L ld, \ move BC [quotient] to HL [TOS]
+  BC pop,         \ restore SP
+ret,
+end-local
+
 ( c-addr -- c )
 code c@
 [HL] L ld,
