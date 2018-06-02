@@ -592,8 +592,8 @@ instruction push,
 end-instruction
 
 instruction res,
-  ~r ~b     ~~>  %11 %001 %011 op,
-                 %10   b'    r op,      2 cycles ::
+  ~r    ~b  ~~>  %10   b'    r cb-op,   2 cycles ::
+  ~(HL) ~b  ~~>  %10   b' %110 cb-op,   4 cycles ::
 end-instruction
 
 instruction ret,
