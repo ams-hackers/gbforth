@@ -631,7 +631,7 @@ end-instruction
 
 instruction rl,
   ~r        ~~> %00 %010    r cb-op,    2 cycles ::
-  ~(HL)     ~~> %00 %000 %110 cb-op,    4 cycles ::
+  ~(HL)     ~~> %00 %010 %110 cb-op,    4 cycles ::
 end-instruction
 
 instruction rlca,
