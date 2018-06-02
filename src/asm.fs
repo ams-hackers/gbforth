@@ -490,6 +490,11 @@ instruction and,
   ~n        ~~> %11 %100 %110 op, n,    2 cycles ::
 end-instruction
 
+instruction bit,
+  ~r    ~b  ~~> %01   b'    r cb-op,    2 cycles ::
+  ~(HL) ~b  ~~> %01   b' %110 cb-op,    3 cycles ::
+end-instruction
+
 instruction call,
   ~nn       ~~> %11 %001 %101 op, nn,   6 cycles ::
   ~nn ~cc   ~~> %11 0cc' %100 op, nn,   6 cycles :: ( 3 if false )
@@ -629,6 +634,11 @@ instruction sbc,
   ~r    ~A  ~~> %10 %011    r op,       1 cycles ::
   ~(HL) ~A  ~~> %10 %011 %110 op,       2 cycles ::
   ~n    ~A  ~~> %11 %011 %110 op, n,    2 cycles ::
+end-instruction
+
+instruction set,
+  ~r    ~b  ~~> %11   b'    r cb-op,    2 cycles ::
+  ~(HL) ~b  ~~> %11   b' %110 cb-op,    4 cycles ::
 end-instruction
 
 instruction stop,
