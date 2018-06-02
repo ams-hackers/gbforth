@@ -491,7 +491,7 @@ end-instruction
 instruction cp,
   ~r    ~A  ~~> %10 %111    r op,       1 cycles ::
   ~(HL) ~A  ~~> %10 %111 %110 op,       2 cycles ::
-  ~n        ~~> %11 %111 %110 op, n,    2 cycles ::
+  ~n    ~A  ~~> %11 %111 %110 op, n,    2 cycles ::
 end-instruction
 
 instruction dec,

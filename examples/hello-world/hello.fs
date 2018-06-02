@@ -90,7 +90,7 @@ rlca,
 
 label .wait
 [rLY] A ld,
-#145 # cp,
+#145 # A cp,
 .wait #NZ jr,
 [rLCDC] A ld,
 A #7 # res,
