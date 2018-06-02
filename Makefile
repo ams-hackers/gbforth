@@ -23,7 +23,7 @@ examples: \
 	examples/hello-world-asm/hello.gb \
 	examples/hello-world/hello.gb
 
-examples/hello-world-asm/hello.gb: examples/hello-world-asm/hello.fs $(SOURCE_FILES) $(LIB_FILES)
+examples/hello-world-asm/hello.gb: examples/hello-world-asm/hello.fs examples/hello-world-asm/*.fs $(SOURCE_FILES) $(LIB_FILES)
 	./dmgforth --no-kernel $< $@
 	@cd examples/hello-world-asm/ && shasum -c hello.gb.sha
 
