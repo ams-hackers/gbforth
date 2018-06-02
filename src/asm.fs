@@ -500,10 +500,22 @@ instruction call,
   ~nn ~cc   ~~> %11 0cc' %100 op, nn,   6 cycles :: ( 3 if false )
 end-instruction
 
+instruction ccf,
+            ~~> %00 %111 %111 op,       1 cycles ::
+end-instruction
+
 instruction cp,
   ~r    ~A  ~~> %10 %111    r op,       1 cycles ::
   ~(HL) ~A  ~~> %10 %111 %110 op,       2 cycles ::
   ~n    ~A  ~~> %11 %111 %110 op, n,    2 cycles ::
+end-instruction
+
+instruction cpl,
+            ~~> %00 %101 %111 op,       1 cycles ::
+end-instruction
+
+instruction daa,
+            ~~> %00 %100 %111 op,       1 cycles ::
 end-instruction
 
 instruction dec,
@@ -634,6 +646,10 @@ instruction sbc,
   ~r    ~A  ~~> %10 %011    r op,       1 cycles ::
   ~(HL) ~A  ~~> %10 %011 %110 op,       2 cycles ::
   ~n    ~A  ~~> %11 %011 %110 op, n,    2 cycles ::
+end-instruction
+
+instruction scf,
+            ~~> %00 %110 %111 op,       1 cycles ::
 end-instruction
 
 instruction set,
