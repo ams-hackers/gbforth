@@ -2,7 +2,14 @@
   "name": "dmgforth-test",
   "version": "1.0.0",
   "private": true,
+  "scripts": {
+    "test": "jest"
+  },
+  "jest": {
+    "testRegex": "test-.*\\.js$"
+  },
   "devDependencies": {
+    "jest": "^23.1.0",
     "node-gameboy": "^0.4.4"
   }
 }

@@ -32,7 +32,7 @@ examples/hello-world-asm/hello.gb: examples/hello-world-asm/hello.fs $(SOURCE_FI
 #
 check: tests examples
 	gforth src/asm.spec.fs -e bye
-	node test/test.js
+	( cd test/; yarn test )
 
 tests: $(TEST_OBJS)
 
