@@ -2,8 +2,6 @@
 
 main:
 
-ps-init,
-
 $0104 ps-push-lit,
 ' c@ # call,
 $0105 ps-push-lit,

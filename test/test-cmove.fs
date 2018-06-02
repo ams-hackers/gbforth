@@ -19,7 +19,6 @@
 ;
 
 main:
-ps-init,
 
 ' initialize # call,
 

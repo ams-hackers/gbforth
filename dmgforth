@@ -66,6 +66,7 @@ require ./src/user.fs
 
   --no-kernel invert if
     __start:
+    ps-init,
     main jp,
   then
 

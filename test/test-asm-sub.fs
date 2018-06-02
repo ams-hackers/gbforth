@@ -2,8 +2,6 @@
 
 main:
 
-ps-init,
-
 \ [HL] A ld,
 $22 # A ld, A $8500 ]* ld,
 $33 # A ld,

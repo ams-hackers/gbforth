@@ -1,9 +1,6 @@
 [asm]
 
 main:
-
-ps-init,
-
 $c7 ps-push-lit,
 $df ps-push-lit,
 ' * # call,

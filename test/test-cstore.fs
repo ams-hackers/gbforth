@@ -2,8 +2,6 @@
 
 main:
 
-ps-init,
-
 $66 ps-push-lit,
 $ed ps-push-lit,
 $ce ps-push-lit,
