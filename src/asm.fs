@@ -634,8 +634,35 @@ instruction rl,
   ~(HL)     ~~> %00 %010 %110 cb-op,    4 cycles ::
 end-instruction
 
+instruction rla,
+            ~~> %00 %010 %111 op,       1 cycles ::
+end-instruction
+
+instruction rlc,
+  ~r        ~~> %00 %000    r cb-op,    2 cycles ::
+  ~(HL)     ~~> %00 %000 %110 cb-op,    4 cycles ::
+end-instruction
+
 instruction rlca,
             ~~> %00 %000 %111 op,       1 cycles ::
+end-instruction
+
+instruction rr,
+  ~r        ~~> %00 %011    r cb-op,    2 cycles ::
+  ~(HL)     ~~> %00 %011 %110 cb-op,    4 cycles ::
+end-instruction
+
+instruction rra,
+            ~~> %00 %011 %111 op,       1 cycles ::
+end-instruction
+
+instruction rrc,
+  ~r        ~~> %00 %001    r cb-op,    2 cycles ::
+  ~(HL)     ~~> %00 %001 %110 cb-op,    4 cycles ::
+end-instruction
+
+instruction rrca,
+            ~~> %00 %001 %111 op,       1 cycles ::
 end-instruction
 
 instruction rst,
@@ -657,6 +684,21 @@ instruction set,
   ~(HL) ~b  ~~> %11   b' %110 cb-op,    4 cycles ::
 end-instruction
 
+instruction sla,
+  ~r        ~~> %00 %100    r cb-op,    2 cycles ::
+  ~(HL)     ~~> %00 %100 %110 cb-op,    4 cycles ::
+end-instruction
+
+instruction sra,
+  ~r        ~~> %00 %101    r cb-op,    2 cycles ::
+  ~(HL)     ~~> %00 %101 %110 cb-op,    4 cycles ::
+end-instruction
+
+instruction srl,
+  ~r        ~~> %00 %111    r cb-op,    2 cycles ::
+  ~(HL)     ~~> %00 %111 %110 cb-op,    4 cycles ::
+end-instruction
+
 instruction stop,
             ~~> %00 %010 %000 op,
                 %00 %000 %000 op,       1 cycles ::
@@ -666,6 +708,11 @@ instruction sub,
   ~r    ~A  ~~> %10 %010    r op,       1 cycles ::
   ~(HL) ~A  ~~> %10 %010 %110 op,       2 cycles ::
   ~n    ~A  ~~> %11 %010 %110 op, n,    2 cycles ::
+end-instruction
+
+instruction swap,
+  ~r        ~~> %00 %110    r cb-op,    2 cycles ::
+  ~(HL)     ~~> %00 %110 %110 cb-op,    4 cycles ::
 end-instruction
 
 instruction xor,
