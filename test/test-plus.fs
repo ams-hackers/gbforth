@@ -1,8 +1,9 @@
 [asm]
 
 main:
-$11 ps-push-lit,
-$22 ps-push-lit,
+
+$9999 ps-push-lit,
+$1234 ps-push-lit,
 ' + # call,
 
 label loop
