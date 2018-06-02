@@ -28,11 +28,8 @@ also dmgforth
 export (
 export ==>
 export \
-export also
 export constant
-export gb-assembler
 export include
-export previous
 export require
 export [asm]
 export [endasm]
