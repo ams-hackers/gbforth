@@ -2,7 +2,7 @@ const path = require("path");
 
 describe("hello-world", () => {
   const gb = require("./gbtest")(
-    path.resolve(__dirname, "../examples/hello-world-asm/hello.gb")
+    path.resolve(__dirname, "../examples/hello-world/hello.gb")
   );
 
   test("shows hello world screen", () => {
