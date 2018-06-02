@@ -65,6 +65,17 @@ ps-over-de-nip,
 DE HL add,
 ret,
 
+( a b -- c )
+code -
+ps-pop-de,
+L A ld,
+E A sub,
+A L ld,
+H A ld,
+D A sbc,
+A H ld,
+ret,
+
 code * ( a b -- c )
 ps-over-de-nip,
 BC push,
