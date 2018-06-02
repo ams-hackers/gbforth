@@ -166,10 +166,11 @@ $0078 ==> reti, ( high-to-low of p13 interrupt start address )
 
 $0100 ==> ( start entry point [$0100-$0103] )
 
+presume __start
 presume main
 
 nop,
-main jp,
+__start jp,
 
 ( start header [$0104-$014F] )
 

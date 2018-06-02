@@ -62,7 +62,14 @@ require ./src/user.fs
 
   dmgforth-user definitions
   seal also
-  $0150 ==> input-file included
+  $0150 ==>
+
+  --no-kernel invert if
+    __start:
+    main jp,
+  then
+
+  input-file included
 
   assert-empty-stack
   write-game-and-die

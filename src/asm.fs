@@ -296,6 +296,9 @@ end-types
 : label
   parse-name make-label ;
 
+: __start:
+  s" __start" make-label ;
+
 : main:
   s" main" make-label ;
 [endpublic]

@@ -37,6 +37,8 @@ export require
 export [asm]
 export [endasm]
 
+export __start
+export __start:
 export main
 export main:
 

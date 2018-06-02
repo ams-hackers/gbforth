@@ -8,7 +8,7 @@ $61 ==>
 include ./memory.fs
 
 $150 ==>
-main:
+__start:
 
 ( program start )
 
