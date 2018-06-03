@@ -789,7 +789,7 @@ end-instruction
 
 \ if...then
 
-: if, there> swap-args jr, ;
+: if, invert-flag there> swap-args jr, ;
 : then, >here ;
 
 \ begin...while...repeat
