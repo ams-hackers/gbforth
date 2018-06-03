@@ -27,7 +27,8 @@
 
 (defvar dmgforth-keywords
   '("begin-dispatch" "end-dispatch" "~~>" "::"
-    "end-instruction" "tile" "local" "end-local"))
+    "end-instruction" "tile" "local" "end-local"
+    "begin," "while," "repeat," "until," "if," "else," "then,"))
 
 (dolist (w dmgforth-keywords)
   (forth-syntax--define w #'forth-syntax--state-font-lock-keyword))

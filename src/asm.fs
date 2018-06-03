@@ -46,6 +46,9 @@ variable counter
 
 variable countcycles
 
+$42 constant $xx
+$4242 constant $xxxx
+
 : ensure-short-jr { e -- e }
   e -128 >= e 127 <= and
   invert abort" The relative jump is out of range"
@@ -135,6 +138,9 @@ create args 2 arg-size * allot
 
 : flush-args 0 to args# ;
 
+: check-no-args
+  args# 0 <= abort" The instruction argument stack is empty" ;
+
 : check-full-args
   args# 1 > abort" Too many arguments for an assembly instruction." ;
 
@@ -142,6 +148,16 @@ create args 2 arg-size * allot
   check-full-args
   swap args# arg-size * args + 2!
   args# 1+ to args# ;
+
+: pop-arg ( -- value type )
+  check-no-args
+  args# 1- to args#
+  args# arg-size * args + 2@ swap ;
+
+: swap-args
+  pop-arg pop-arg
+  2swap
+  push-arg push-arg ;
 
 ( Those words allow us to extract the argument value and type for the
   current instruction )
@@ -187,6 +203,7 @@ begin-types
   type ~A
   type ~cc
   type ~unresolved-reference
+  type ~forward-reference
 end-types
 
 : ~e ~nn ;
@@ -229,6 +246,11 @@ end-types
 %10 ~cc operand #NC
 %11 ~cc operand #C
 
+: invert-flag
+  pop-arg
+  swap %01 xor swap
+  push-arg ;
+
 ( Push an immediate value to the arguments stack )
 : #
   dup dup $38 <= swap $8 mod $0 = and if
@@ -259,10 +281,30 @@ end-types
 
 ( LABEL & REFERENCES )
 
+-$ed7120 constant backward_mark
+-$ed7121 constant forward_rel_ref
+-$ed7122 constant forward_abs_ref
+
 [public]
 
-: here< offset ;
-: <there # ;
+: there>
+  ( This word doesn't know the proper offset yet, so it won't emit the
+  ( forward reference. See `emit-addr` and `emit-rel-addr` instead. )
+  0 ~nn ~forward-reference | push-arg ;
+
+: >here
+  case
+    forward_rel_ref of offset swap emit-rel-to endof
+    forward_abs_ref of offset swap emit-16bits-to endof
+    true abort" Expected a forward reference."
+  endcase ;
+
+: here<
+  offset backward_mark ;
+
+: <there
+  backward_mark <> abort" Expected a backward reference." 
+  # ;
 
 : presume
   create
@@ -302,6 +344,12 @@ false value start-defined?
 false value main-defined?
 
 [public]
+
+( Simplified label. We aim to remove label completely, then we'll
+( rename this one )
+: label'
+  offset constant ;
+
 : label
   parse-name make-label ;
 
@@ -421,21 +469,33 @@ DEFINITIONS
 : qq0 arg1-value 1 lshift ;
 
 : emit-addr ( arg-value arg-type )
-  dup ~unresolved-reference type-match if
-    drop
-    offset FWDREF_INFO_ABSOLUTE rot reflist-add!
-    $4242 16lit,
+  dup ~forward-reference type-match if
+    2drop
+    offset forward_abs_ref
+    $xxxx 16lit,
   else
-    drop 16lit,
+    dup ~unresolved-reference type-match if
+      drop
+      offset FWDREF_INFO_ABSOLUTE rot reflist-add!
+      $xxxx 16lit,
+    else
+      drop 16lit,
+    then
   then ;
 
 : emit-rel-addr ( arg-value arg-type )
-  dup ~unresolved-reference type-match if
-    drop
-    offset FWDREF_INFO_RELATIVE rot reflist-add!
-    $42 8lit,
+  dup ~forward-reference type-match if
+    2drop 
+    offset forward_rel_ref 
+    $xx 8lit,
   else
-    drop offset 1+ - ensure-short-jr 8lit,
+    dup ~unresolved-reference type-match if
+      drop
+      offset FWDREF_INFO_RELATIVE rot reflist-add!
+      $xx 8lit,
+    else
+      drop offset 1+ - ensure-short-jr 8lit,
+    then
   then ;
 
 : n,   arg1-value 8lit, ;
@@ -724,7 +784,35 @@ end-instruction
 ( Prevent the halt bug by emitting a NOP right after halt )
 : halt, halt%, nop, ;
 
+
+( Labelless Control Flow )
+
+\ if...then
+
+: if, invert-flag there> swap-args jr, ;
+: then, >here ;
+
+\ begin...while...repeat
+
+: begin,
+  here< 0 0 ;
+
+: while,
+  2drop
+  invert-flag there> swap-args jr, ;
+
+: repeat,
+  2swap
+  <there jr,
+  dup if >here else 2drop then ;
+
+: until, 
+  or 0<> abort" UNTIL, can only be used with BEGIN,"
+  invert-flag <there swap-args jr, ;
+
+
 [endpublic]
+
 
 previous-wid set-current
 previous
