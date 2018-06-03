@@ -292,6 +292,28 @@ false->HL,
 ret,
 end-local
 
+( x y -- f )
+code =
+local
+presume x_neq_y
+ps-over-ae-nip, \ x -> ae
+
+\ compare higher byte
+H A cp,
+  x_neq_y #NZ jp, \ x<>y
+\ compare lower byte
+E A ld, L A cp,
+  x_neq_y #NZ jp, \ x<>y
+
+true->HL,
+ret,
+
+label x_neq_y \ x<>y
+false->HL,
+ret,
+
+end-local
+
 (
   ***** Memory Access *****
 )
