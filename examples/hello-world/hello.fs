@@ -15,7 +15,6 @@ main:
 ( program start )
 
 di,
-$ffff # sp ld,
 
 %11100100 # a ld,
 
