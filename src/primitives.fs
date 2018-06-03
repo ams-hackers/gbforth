@@ -192,6 +192,12 @@ H A ld, D A or, A H ld,
 L A ld, E A or, A L ld,
 ret,
 
+code xor
+ps-over-de-nip,
+H A ld, D A xor, A H ld,
+L A ld, E A xor, A L ld,
+ret,
+
 (
   ***** Memory Access *****
 )
