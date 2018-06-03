@@ -269,7 +269,6 @@ ret,
 
 code cmove ( c-from c-to u -- )
 local
-presume .end
 ( DE = c-to )
 ( BC = c-from )
 ( HL = u )
@@ -285,24 +284,14 @@ C inc, BC push,
 [C] ->A-> B ld,  C dec,
 [C] ->A-> C ld,
 
-
-( check if HL=0 )
-H|L->A,
-.end #Z jr,
-
-label .body
-
-( copy one byte )
-[BC] ->A-> [DE] ld,
-BC inc,
-DE inc,
-
-HL dec,
-
-H|L->A,
-.body #NZ jr,
-
-label .end
+begin, H|L->A, #NZ while, 
+  ( copy one byte )
+  [BC] ->A-> [DE] ld,
+  BC inc,
+  DE inc,
+  
+  HL dec,
+repeat,
 
 BC pop, C inc,
 ps-drop,

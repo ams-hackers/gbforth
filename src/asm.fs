@@ -285,14 +285,6 @@ end-types
 -$ed7121 constant forward_rel_ref
 -$ed7122 constant forward_abs_ref
 
-: check-backward-mark ( magic -- )
-  backward_mark <> abort" Expected a backward reference." ;
-
-: check-forward-reference ( magic -- )
-  dup forward_rel_ref <>
-  swap forward_abs_ref <> and abort" Expected a forward reference." ;
-
-
 [public]
 
 : there>
@@ -301,14 +293,17 @@ end-types
   0 ~nn ~forward-reference | push-arg ;
 
 : >here
-  check-forward-reference
-  offset swap emit-to ;
+  case
+    forward_rel_ref of offset swap emit-rel-to endof
+    forward_abs_ref of offset swap emit-16bits-to endof
+    true abort" Expected a forward reference."
+  endcase ;
 
 : here<
   offset backward_mark ;
 
 : <there
-  check-backward-mark
+  backward_mark <> abort" Expected a backward reference." 
   # ;
 
 : presume
@@ -475,6 +470,7 @@ DEFINITIONS
 
 : emit-addr ( arg-value arg-type )
   dup ~forward-reference type-match if
+    2drop
     offset forward_abs_ref
     $xxxx 16lit,
   else
@@ -489,6 +485,7 @@ DEFINITIONS
 
 : emit-rel-addr ( arg-value arg-type )
   dup ~forward-reference type-match if
+    2drop 
     offset forward_rel_ref 
     $xx 8lit,
   else
@@ -790,11 +787,29 @@ end-instruction
 
 ( Labelless Control Flow )
 
+\ if...then
+
 : if, there> swap-args jr, ;
 : then, >here ;
 
-: begin, here< ;
-: until, invert-flag <there swap-args jr, ;
+\ begin...while...repeat
+
+: begin,
+  here< 0 0 ;
+
+: while,
+  2drop
+  invert-flag there> swap-args jr, ;
+
+: repeat,
+  2swap
+  <there jr,
+  dup if >here else 2drop then ;
+
+: until, 
+  or 0<> abort" UNTIL, can only be used with BEGIN,"
+  invert-flag <there swap-args jr, ;
+
 
 [endpublic]
 
