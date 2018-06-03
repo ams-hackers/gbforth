@@ -226,6 +226,17 @@ label shiftOne
 shiftOne jp,
 end-local
 
+( x -- x )
+code 2*
+HL HL add,
+ret,
+
+( x -- x )
+code 2/
+H srl,
+L rr,
+ret,
+
 (
   ***** Memory Access *****
 )
