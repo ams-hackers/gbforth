@@ -128,17 +128,53 @@ label .done
 ret,
 end-local
 
+( x -- x )
 code 1+
 \ avoid using inc, because of OAM bug
 $1 # DE ld,
 DE HL add,
 ret,
 
+( x -- x )
 code 1-
 \ avoid uising dec, because of OAM bug
 L A ld, $1 # A sub, A L ld,
 H A ld, $0 # A sbc, A H ld,
 ret,
+
+( a b -- c )
+code max
+local
+presume hl_lt_de
+ps-over-de-nip,
+  \ compare higher bytes
+  H A ld, D A cp, \ H D cp,
+hl_lt_de #C jp, \ H<D
+#NZ ret, \ H>D
+  \ higher bytes equal, compare lower
+  L A ld, E A cp, \ L E cp,
+#NC ret, \ L>=E
+label hl_lt_de
+  D H ld, E L ld,
+ret,
+end-local
+
+( a b -- c )
+code min
+local
+presume de_lt_hl
+ps-over-de-nip,
+  \ compare higher bytes
+  H A ld, D A cp, \ H D cp,
+#C ret, \ H<D
+de_lt_hl #NZ jp, \ H>D
+  \ higher bytes equal, compare lower
+  L A ld, E A cp, \ L E cp,
+#C ret, \ L<E
+label de_lt_hl
+  D H ld, E L ld,
+ret,
+end-local
 
 (
   ***** Memory Access *****
