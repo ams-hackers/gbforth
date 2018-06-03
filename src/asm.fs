@@ -327,6 +327,12 @@ false value start-defined?
 false value main-defined?
 
 [public]
+
+( Simplified label. We aim to remove label completely, then we'll
+( rename this one )
+: label'
+  offset constant ;
+
 : label
   parse-name make-label ;
 
