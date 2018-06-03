@@ -87,7 +87,7 @@ end-local
 : lcd_WaitVRAM
   here<
     [rSTAT] a ld,
-    STATF_BUSY # and,
+    STATF_BUSY # A and,
   <there #nz jr, ;
 
 [endasm]

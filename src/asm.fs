@@ -487,7 +487,7 @@ end-instruction
 instruction and,
   ~r    ~A  ~~> %10 %100    r op,       1 cycles ::
   ~(HL) ~A  ~~> %10 %100 %110 op,       2 cycles ::
-  ~n        ~~> %11 %100 %110 op, n,    2 cycles ::
+  ~n    ~A  ~~> %11 %100 %110 op, n,    2 cycles ::
 end-instruction
 
 instruction bit,
