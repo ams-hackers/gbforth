@@ -96,4 +96,60 @@ $FF40 ]* A ld,  \ load value at address $FF40 into A
 
 ### Labels
 
-TBW.
+Labels can be created using the word `label`. These labels are simple constants,
+and can only be referenced *after* they are defined.
+
+For local references however, or cases where you need to forward-reference an address,
+you are encouraged to make use of two other constructs that the dmg-forth assembler provides.
+
+#### Anonymous stack-based references
+
+dmg-forth's assembler provides word pairs to create anonymous stack-based references:
+- `here<` and `<there`
+- `there>` and `>here`
+
+They can be used to implement simple loops or jumps,
+when there is no need to give a name to the reference:
+
+```forth
+[asm]
+
+( backward reference )
+here<
+A dec,
+<there #NZ jp,
+
+( forward reference )
+there> #C jp,
+B inc,
+>here
+
+[endasm]
+```
+
+#### Structured control flow
+
+The assembler exposes a few words similar to control flow words available in Forth:
+- `begin,` ... `repeat,`
+- `begin,` ... `until,`
+- `begin,` ... `while,` ... `repeat,`
+- `if,` ... `then,`
+- `if,` ... `else,` ... `then,`
+
+The words `if,`, `until,` and `while,` have to be combined with one of the flag operands.
+
+These can be used to structure the control flow without using the underlying references directly:
+
+```forth
+[asm]
+
+begin,
+A dec,
+#Z until,
+
+#NC if,
+B inc,
+then,
+
+[endasm]
+```
