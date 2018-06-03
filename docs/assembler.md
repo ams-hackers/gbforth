@@ -1,7 +1,7 @@
 ## dmg-forth assembler
 
 dmg-forth includes an assembler. This is useful when you want more
-control about how the hardward is used or you need to optimize some
+control about how the hardware is used or you need to optimize some
 piece of code.
 
 You can combine Forth and Assembler as you please. You can even write
@@ -10,12 +10,7 @@ compile-time.
 
 ### Introduction
 
-**Note that the assembler does not support all the instructions
-yet. It is really easy to add missing instructions, please consider
-[add it yourself](https://github.com/ams-hackers/dmg-forth/blob/master/src/asm.fs#L480)
-of just [submit an issue](https://github.com/ams-hackers/dmg-forth/issues/new?title=Please%20add%20assembler%20instruction%20%27jp%20(HL)%27&labels=bug).**
-
-dmg-forth's assembler lives in the *vocabulary* `gb-assembler`.
+dmg-forth's assembler lives in a separate *vocabulary*, which can be accessed using the words `[asm]` and `[endasm]`.
 
 It provides a traditional postfix notation. Operands are specified
 first, and then the instruction. For example, the code below will move
@@ -29,7 +24,7 @@ the number 42 to the register `HL`.
 [endasm]
 ```
 
-To learn more, you can have a loook to the hello world example
+To learn more, you can have a look to the hello world example
 [written in assembler](https://github.com/ams-hackers/dmg-forth/blob/master/examples/hello-world-asm/hello.fs),
 or the [the lib/ directory](https://github.com/ams-hackers/dmg-forth/tree/master/lib).
 
