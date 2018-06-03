@@ -27,8 +27,6 @@ $C201 ps-push-lit,
 #5 ps-push-lit,
 ' cmove # call,
 
-label loop
-halt,
-loop jr,
+begin, halt, repeat,
 
 [endasm]

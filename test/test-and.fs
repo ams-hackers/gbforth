@@ -9,8 +9,6 @@ $abcd ps-push-lit,
 $ff ps-push-lit,
 ' and # call,
 
-label loop
-halt,
-loop jr,
+begin, halt, repeat,
 
 [endasm]

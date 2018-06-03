@@ -14,8 +14,6 @@ $AAAA ps-push-lit,
 $AAAB ps-push-lit,
 ' - # call,
 
-label loop
-halt,
-loop jr,
+begin, halt, repeat,
 
 [endasm]

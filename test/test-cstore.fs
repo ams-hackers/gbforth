@@ -13,8 +13,6 @@ $8502 ps-push-lit,
 $8503 ps-push-lit,
 ' c! # call,
 
-label loop
-halt,
-loop jr,
+begin, halt, repeat,
 
 [endasm]

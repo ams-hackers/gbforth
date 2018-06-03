@@ -6,8 +6,6 @@ $22 ps-push-lit,
 
 ' dup # call,
 
-label loop
-halt,
-loop jr,
+begin, halt, repeat,
 
 [endasm]

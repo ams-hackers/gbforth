@@ -20,8 +20,6 @@ $11 # A ld,
 $22 # B ld,
 B A add,
 
-label loop
-halt,
-loop jr,
+begin, halt, repeat,
 
 [endasm]

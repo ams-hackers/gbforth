@@ -12,8 +12,6 @@ $22 ps-push-lit,
 $33 ps-push-lit,
 ' test # call,
 
-label loop
-halt,
-loop jr,
+begin, halt, repeat,
 
 [endasm]

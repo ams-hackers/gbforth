@@ -17,8 +17,6 @@ main:
 #1024 ps-push-lit,
 ' / # call,
 
-label loop
-halt,
-loop jr,
+begin, halt, repeat,
 
 [endasm]

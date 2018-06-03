@@ -9,8 +9,6 @@ $cd00 ps-push-lit,
 $0 ps-push-lit,
 ' rshift # call,
 
-label loop
-halt,
-loop jr,
+begin, halt, repeat,
 
 [endasm]

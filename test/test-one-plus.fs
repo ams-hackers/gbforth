@@ -7,8 +7,6 @@ $5676 ps-push-lit,
 ' 1+ # call,
 ' 1+ # call,
 
-label loop
-halt,
-loop jr,
+begin, halt, repeat,
 
 [endasm]

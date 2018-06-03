@@ -9,8 +9,6 @@ $0105 ps-push-lit,
 $0106 ps-push-lit,
 ' c@ # call, \ 66
 
-label loop
-halt,
-loop jr,
+begin, halt, repeat,
 
 [endasm]

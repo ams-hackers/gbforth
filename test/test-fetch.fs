@@ -7,8 +7,6 @@ $0104 ps-push-lit, \ ce ed
 $0106 ps-push-lit, \ 66 66
 ' @ # call,
 
-label loop
-halt,
-loop jr,
+begin, halt, repeat,
 
 [endasm]

@@ -18,8 +18,6 @@ $aa22 ps-push-lit,
 $aa44 ps-push-lit,
 ' min # call,
 
-label loop
-halt,
-loop jr,
+begin, halt, repeat,
 
 [endasm]
