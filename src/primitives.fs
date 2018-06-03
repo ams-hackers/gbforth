@@ -89,44 +89,37 @@ ps-over-de-nip,
 BC push,
 H B ld,
 L C ld,
-local
-presume NoMul
-  $0 # HL ld,
-  $10 # A ld,
-label MulLoop
+$0 # HL ld,
+$10 # A ld,
+begin,
   HL HL add,
   E rl,
   D rl,
-NoMul #NC jp,
+there> #NC jp,
   BC HL add,
-NoMul #NC jp,
+there> #NC jp,
   DE inc,
-label NoMul
+>here >here
   A dec,
-MulLoop #NZ jp,
-end-local
+#Z until,
 BC pop,
 \ ps-push-de, ( DE contains higher 2 bytes of result )
 ret,
 
 ( a b -- c)
 code /
-local
-presume .done
 ps-pop-de,  \ dividend to DE, divisor to HL
 BC push,    \ store SP
 #0 # BC ld, \ quotient = 0
-label .subs \ repeated substraction HL - DE
+begin, \ repeated substraction HL - DE
   L A ld, E A sub, A L ld, \ L - E
   H A ld, D A sbc, A H ld, \ H - D - carry
-  .done #C jp, \ remainder <0 ? done!
+#NC while, \ remainder <0 ? done!
   BC inc,      \ inc quotient
-  .subs jp,    \ repeat substraction
-label .done
+repeat,    \ repeat substraction
   B H ld, C L ld, \ move BC [quotient] to HL [TOS]
   BC pop,         \ restore SP
 ret,
-end-local
 
 ( x -- x )
 code 1+
@@ -144,37 +137,31 @@ ret,
 
 ( a b -- c )
 code max
-local
-presume hl_lt_de
 ps-over-de-nip,
   \ compare higher bytes
   H A ld, D A cp, \ H D cp,
-hl_lt_de #C jp, \ H<D
+there> #C jp, \ H<D
 #NZ ret, \ H>D
   \ higher bytes equal, compare lower
   L A ld, E A cp, \ L E cp,
 #NC ret, \ L>=E
-label hl_lt_de
+>here
   D H ld, E L ld,
 ret,
-end-local
 
 ( a b -- c )
 code min
-local
-presume de_lt_hl
 ps-over-de-nip,
   \ compare higher bytes
   H A ld, D A cp, \ H D cp,
 #C ret, \ H<D
-de_lt_hl #NZ jp, \ H>D
+there> #NZ jp, \ H>D
   \ higher bytes equal, compare lower
   L A ld, E A cp, \ L E cp,
 #C ret, \ L<E
-label de_lt_hl
+>here
   D H ld, E L ld,
 ret,
-end-local
 
 (
   ***** Bitwise Operations *****
@@ -203,28 +190,24 @@ ret,
 
 ( a n -- b )
 code lshift
-local
 ps-pop-de,
-label shiftOne
+begin,
   E A ld, $1 # A sub, A E ld,
   D A ld, $0 # A sbc, A D ld,
 #C ret,
   HL HL add,
-shiftOne jp,
-end-local
+repeat,
 
 ( a n -- b )
 code rshift
-local
 ps-pop-de,
-label shiftOne
+begin,
   E A ld, $1 # A sub, A E ld,
   D A ld, $0 # A sbc, A D ld,
 #C ret,
   H srl,
   L rr,
-shiftOne jp,
-end-local
+repeat,
 
 ( x -- x )
 code 2*
@@ -294,25 +277,20 @@ end-local
 
 ( x y -- f )
 code =
-local
-presume x_neq_y
 ps-over-ae-nip, \ x -> ae
-
 \ compare higher byte
 H A cp,
-  x_neq_y #NZ jp, \ x<>y
+  there> #NZ jp, \ x<>y
 \ compare lower byte
 E A ld, L A cp,
-  x_neq_y #NZ jp, \ x<>y
+  there> #NZ jp, \ x<>y
 
 true->HL,
 ret,
 
-label x_neq_y \ x<>y
+>here >here \ x<>y
 false->HL,
 ret,
-
-end-local
 
 (
   ***** Memory Access *****
@@ -356,7 +334,6 @@ ret,
 
 
 code cmove ( c-from c-to u -- )
-local
 ( DE = c-to )
 ( BC = c-from )
 ( HL = u )
@@ -372,22 +349,18 @@ C inc, BC push,
 [C] ->A-> B ld,  C dec,
 [C] ->A-> C ld,
 
-begin, H|L->A, #NZ while, 
+begin, H|L->A, #NZ while,
   ( copy one byte )
   [BC] ->A-> [DE] ld,
   BC inc,
   DE inc,
-  
+
   HL dec,
 repeat,
 
 BC pop, C inc,
 ps-drop,
 ret,
-
-end-local
-
-
 
 
 
