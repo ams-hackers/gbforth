@@ -31,7 +31,8 @@ or the [the lib/ directory](https://github.com/ams-hackers/dmg-forth/tree/master
 
 ### Operands
 
-Operands are kept in an auxiliary stack.
+Operands are kept in an auxiliary stack. Registers and flags push themselves
+to this stack, immediate values have to be pushed manually.
 
 #### Immediate
 
@@ -54,16 +55,44 @@ Registers like `A`, `B`, `SP`, or `HL` push themselves to the operand
 stack.
 
 Some registers also support memory indirection. In that case, the
-register is usually wrapped around brackets: `[HL]`, `[C]`, `[DE]`.
+register is wrapped in square brackets: `[HL]`, `[C]`, `[DE]`.
 
 Finally, there are the operands `[HI+]` and `[HI-]`. This means that
 the register `HI` will be used to reference the memory, and then the
-register will be incremented or decremented.
+register `HI` will be incremented or decremented.
+
+#### Flags
+
+Flags, like registers, push themselves to the operand stack.
+
+There are 4 operands available to make an instruction conditional:
+- `#Z` checks whether the zero flag is set
+- `#NZ` checks whether the zero flag is **not** set
+- `#C` checks whether the carry flag is set
+- `#NZ` checks whether the carry flag is **not** set
+
+These flags can be used in combination with the instructions `call,`, `jp,`, `jr,` and `ret,`.
+
+```forth
+[asm]
+
+$1234 # #NZ jp,  \ jump if last result was non-zero
+#C ret,          \ return if carry flag is set
+
+[endasm]
+```
 
 #### Memory references
 
-Additionally, memory references can be specified like `$FF40 ]*`
+Memory references can be pushed to the operand stack using the word `]*`.
 
+```forth
+[asm]
+
+$FF40 ]* A ld,  \ load value at address $FF40 into A
+
+[endasm]
+```
 
 ### Labels
 
