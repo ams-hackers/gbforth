@@ -303,7 +303,7 @@ end-types
   offset backward_mark ;
 
 : <there
-  backward_mark <> abort" Expected a backward reference." 
+  backward_mark <> abort" Expected a backward reference."
   # ;
 
 : presume
@@ -485,8 +485,8 @@ DEFINITIONS
 
 : emit-rel-addr ( arg-value arg-type )
   dup ~forward-reference type-match if
-    2drop 
-    offset forward_rel_ref 
+    2drop
+    offset forward_rel_ref
     $xx 8lit,
   else
     dup ~unresolved-reference type-match if
@@ -787,9 +787,10 @@ end-instruction
 
 ( Labelless Control Flow )
 
-\ if...then
+\ if...else...then
 
 : if, invert-flag there> swap-args jr, ;
+: else, there> jr, 2swap >here ;
 : then, >here ;
 
 \ begin...while...repeat
@@ -806,7 +807,7 @@ end-instruction
   <there jr,
   dup if >here else 2drop then ;
 
-: until, 
+: until,
   or 0<> abort" UNTIL, can only be used with BEGIN,"
   invert-flag <there swap-args jr, ;
 
