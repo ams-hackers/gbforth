@@ -511,7 +511,7 @@ instruction cp,
 end-instruction
 
 instruction cpl,
-            ~~> %00 %101 %111 op,       1 cycles ::
+  ~A        ~~> %00 %101 %111 op,       1 cycles ::
 end-instruction
 
 instruction daa,
