@@ -281,13 +281,35 @@ end-types
 
 ( LABEL & REFERENCES )
 
+-$ed7120 constant backward_mark
+-$ed7121 constant forward_rel_ref
+-$ed7122 constant forward_abs_ref
+
+: check-backward-mark ( magic -- )
+  backward_mark <> abort" Expected a backward reference." ;
+
+: check-forward-reference ( magic -- )
+  dup forward_rel_ref <>
+  swap forward_abs_ref <> and abort" Expected a forward reference." ;
+
+
 [public]
 
-: there> 0 ~nn ~forward-reference | push-arg ;
-: >here offset swap emit-to ;
+: there>
+  ( This word doesn't know the proper offset yet, so it won't emit the
+  ( forward reference. See `emit-addr` and `emit-rel-addr` instead. )
+  0 ~nn ~forward-reference | push-arg ;
 
-: here< offset ;
-: <there # ;
+: >here
+  check-forward-reference
+  offset swap emit-to ;
+
+: here<
+  offset backward_mark ;
+
+: <there
+  check-backward-mark
+  # ;
 
 : presume
   create
@@ -453,7 +475,8 @@ DEFINITIONS
 
 : emit-addr ( arg-value arg-type )
   dup ~forward-reference type-match if
-    offset $xxxx 16lit,
+    offset forward_abs_ref
+    $xxxx 16lit,
   else
     dup ~unresolved-reference type-match if
       drop
@@ -465,12 +488,17 @@ DEFINITIONS
   then ;
 
 : emit-rel-addr ( arg-value arg-type )
-  dup ~unresolved-reference type-match if
-    drop
-    offset FWDREF_INFO_RELATIVE rot reflist-add!
+  dup ~forward-reference type-match if
+    offset forward_rel_ref 
     $xx 8lit,
   else
-    drop offset 1+ - ensure-short-jr 8lit,
+    dup ~unresolved-reference type-match if
+      drop
+      offset FWDREF_INFO_RELATIVE rot reflist-add!
+      $xx 8lit,
+    else
+      drop offset 1+ - ensure-short-jr 8lit,
+    then
   then ;
 
 : n,   arg1-value 8lit, ;
