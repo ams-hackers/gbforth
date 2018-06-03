@@ -85,10 +85,10 @@ end-local
 [asm]
 
 : lcd_WaitVRAM
-  here<
+  begin,
     [rSTAT] a ld,
     STATF_BUSY # A and,
-  <there #nz jr, ;
+  #z until, ;
 
 [endasm]
 [endhost]

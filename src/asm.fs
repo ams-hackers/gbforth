@@ -46,6 +46,9 @@ variable counter
 
 variable countcycles
 
+$42 constant $xx
+$4242 constant $xxxx
+
 : ensure-short-jr { e -- e }
   e -128 >= e 127 <= and
   invert abort" The relative jump is out of range"
@@ -135,6 +138,9 @@ create args 2 arg-size * allot
 
 : flush-args 0 to args# ;
 
+: check-no-args
+  args# 0 <= abort" The instruction argument stack is empty" ;
+
 : check-full-args
   args# 1 > abort" Too many arguments for an assembly instruction." ;
 
@@ -142,6 +148,16 @@ create args 2 arg-size * allot
   check-full-args
   swap args# arg-size * args + 2!
   args# 1+ to args# ;
+
+: pop-arg ( -- value type )
+  check-no-args
+  args# 1- to args#
+  args# arg-size * args + 2@ swap ;
+
+: swap-args
+  pop-arg pop-arg
+  2swap
+  push-arg push-arg ;
 
 ( Those words allow us to extract the argument value and type for the
   current instruction )
@@ -187,6 +203,7 @@ begin-types
   type ~A
   type ~cc
   type ~unresolved-reference
+  type ~forward-reference
 end-types
 
 : ~e ~nn ;
@@ -229,6 +246,11 @@ end-types
 %10 ~cc operand #NC
 %11 ~cc operand #C
 
+: invert-flag
+  pop-arg
+  swap %01 xor swap
+  push-arg ;
+
 ( Push an immediate value to the arguments stack )
 : #
   dup dup $38 <= swap $8 mod $0 = and if
@@ -260,6 +282,9 @@ end-types
 ( LABEL & REFERENCES )
 
 [public]
+
+: there> 0 ~nn ~forward-reference | push-arg ;
+: >here offset swap emit-to ;
 
 : here< offset ;
 : <there # ;
@@ -421,19 +446,23 @@ DEFINITIONS
 : qq0 arg1-value 1 lshift ;
 
 : emit-addr ( arg-value arg-type )
-  dup ~unresolved-reference type-match if
-    drop
-    offset FWDREF_INFO_ABSOLUTE rot reflist-add!
-    $4242 16lit,
+  dup ~forward-reference type-match if
+    offset $xxxx 16lit,
   else
-    drop 16lit,
+    dup ~unresolved-reference type-match if
+      drop
+      offset FWDREF_INFO_ABSOLUTE rot reflist-add!
+      $xxxx 16lit,
+    else
+      drop 16lit,
+    then
   then ;
 
 : emit-rel-addr ( arg-value arg-type )
   dup ~unresolved-reference type-match if
     drop
     offset FWDREF_INFO_RELATIVE rot reflist-add!
-    $42 8lit,
+    $xx 8lit,
   else
     drop offset 1+ - ensure-short-jr 8lit,
   then ;
@@ -724,7 +753,17 @@ end-instruction
 ( Prevent the halt bug by emitting a NOP right after halt )
 : halt, halt%, nop, ;
 
+
+( Labelless Control Flow )
+
+: if, there> swap-args jr, ;
+: then, >here ;
+
+: begin, here< ;
+: until, invert-flag <there swap-args jr, ;
+
 [endpublic]
+
 
 previous-wid set-current
 previous
