@@ -11,6 +11,10 @@ $4400 ==>
   2dup rom-offset sym
   nextname xcreate ;
 
+(
+  ***** Stack Manipulation *****
+)
+
 ( x -- x x )
 code dup
 ps-dup,
@@ -58,6 +62,10 @@ ps-pop-de,
 ps-swap,
 ps-push-de,
 ret,
+
+(
+  ***** Arithmetic *****
+)
 
 ( a b -- c )
 code +
@@ -119,6 +127,22 @@ label .done
   BC pop,         \ restore SP
 ret,
 end-local
+
+code 1+
+\ avoid using inc, because of OAM bug
+$1 # DE ld,
+DE HL add,
+ret,
+
+code 1-
+\ avoid uising dec, because of OAM bug
+L A ld, $1 # A sub, A L ld,
+H A ld, $0 # A sbc, A H ld,
+ret,
+
+(
+  ***** Memory Access *****
+)
 
 ( c-addr -- c )
 code c@
