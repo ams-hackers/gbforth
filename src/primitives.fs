@@ -180,23 +180,51 @@ end-local
   ***** Bitwise Operations *****
 )
 
+( a b -- c )
 code and
 ps-over-de-nip,
 H A ld, D A and, A H ld,
 L A ld, E A and, A L ld,
 ret,
 
+( a b -- c )
 code or
 ps-over-de-nip,
 H A ld, D A or, A H ld,
 L A ld, E A or, A L ld,
 ret,
 
+( a b -- c )
 code xor
 ps-over-de-nip,
 H A ld, D A xor, A H ld,
 L A ld, E A xor, A L ld,
 ret,
+
+( a n -- b )
+code lshift
+local
+ps-pop-de,
+label shiftOne
+  E A ld, $1 # A sub, A E ld,
+  D A ld, $0 # A sbc, A D ld,
+#C ret,
+  HL HL add,
+shiftOne jp,
+end-local
+
+( a n -- b )
+code rshift
+local
+ps-pop-de,
+label shiftOne
+  E A ld, $1 # A sub, A E ld,
+  D A ld, $0 # A sbc, A D ld,
+#C ret,
+  H srl,
+  L rr,
+shiftOne jp,
+end-local
 
 (
   ***** Memory Access *****
