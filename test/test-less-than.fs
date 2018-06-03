@@ -18,6 +18,10 @@ $aa22 ps-push-lit,
 $aa44 ps-push-lit,
 ' < # call,
 
+$4444 ps-push-lit,
+$4444 ps-push-lit,
+' < # call,
+
 begin, halt, repeat,
 
 [endasm]
