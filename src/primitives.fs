@@ -238,6 +238,61 @@ L rr,
 ret,
 
 (
+  ***** Numeric Comparison *****
+)
+
+( x y -- f )
+code <
+local
+presume x_gte_y
+presume x_lt_y
+ps-over-ae-nip, \ x -> ae
+
+\ compare higher byte
+H A cp,
+  x_lt_y #C jp, \ x<y
+  x_gte_y #NZ jp, \ x>y
+
+\ compare lower byte
+E A ld, L A cp,
+  x_lt_y #C jp, \ x<y
+
+label x_gte_y \ x>=y
+false->HL,
+ret,
+
+label x_lt_y \ x<y
+true->HL,
+ret,
+end-local
+
+( x y -- f )
+code >
+local
+presume x_gt_y
+presume x_lte_y
+ps-over-ae-nip, \ x -> ae
+
+\ compare higher byte
+H A cp,
+  x_lte_y #C jp, \ x<y
+  x_gt_y #NZ jp, \ x>y
+
+\ compare lower byte
+E A ld, L A cp,
+  x_lte_y #C jp, \ x<y
+  x_lte_y #Z jp, \ x=y
+
+label x_gt_y \ x>y
+true->HL,
+ret,
+
+label x_lte_y \ x<=y
+false->HL,
+ret,
+end-local
+
+(
   ***** Memory Access *****
 )
 

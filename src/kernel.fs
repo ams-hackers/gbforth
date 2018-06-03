@@ -36,6 +36,12 @@ require ./asm.fs
 
 : ->A-> A ld, A ;
 
+: true->HL,
+  $FFFF # HL ld, ;
+
+: false->HL,
+  $0000 # HL ld, ;
+
 : HL->DE,
   H D ld,
   L E ld, ;
