@@ -177,6 +177,22 @@ ret,
 end-local
 
 (
+  ***** Bitwise Operations *****
+)
+
+code and
+ps-over-de-nip,
+H A ld, D A and, A H ld,
+L A ld, E A and, A L ld,
+ret,
+
+code or
+ps-over-de-nip,
+H A ld, D A or, A H ld,
+L A ld, E A or, A L ld,
+ret,
+
+(
   ***** Memory Access *****
 )
 
