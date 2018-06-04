@@ -190,5 +190,6 @@ $014D ==>                           ( complement checksum )
 $014E ==>                           ( global checksum )
 
 ( start main code [$0150...] )
+$0150 ==>
 
 [endasm]

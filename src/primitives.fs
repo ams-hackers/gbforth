@@ -3,9 +3,6 @@ require ./cross.fs
 
 [asm]
 
-( TEMPORARY HACK: Don't break the game! )
-$4400 ==>
-
 : code
   parse-name
   2dup rom-offset sym

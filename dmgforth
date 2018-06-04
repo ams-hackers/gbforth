@@ -70,7 +70,6 @@ previous
 
   dmgforth-user definitions
   seal also
-  $0150 ==>
 
   --no-kernel invert if
     __start:
