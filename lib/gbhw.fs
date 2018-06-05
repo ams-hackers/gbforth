@@ -3,57 +3,91 @@
 [host]
 
 ( port/mode registers )
-: [rP1]    $FF00 ]* ;  ( Register for reading joy pad info [R/W] )
-: [rSB]    $FF01 ]* ;  ( Serial Transfer Data [R/W] )
-: [rSC]    $FF02 ]* ;  ( Serial I/O Control [R/W] )
+$FF00 constant rP1      ( Register for reading joy pad info [R/W] )
+: [rP1] rP1 ]* ;
+$FF01 constant rSB      ( Serial Transfer Data [R/W] )
+: [rSB] rSB ]* ;
+$FF02 constant rSC      ( Serial I/O Control [R/W] )
+: [rSC] rSC ]* ;
 
-: [rDIV]   $FF04 ]* ;  ( Divider register [R/W] )
-: [rTIMA]  $FF05 ]* ;  ( Timer counter [R/W] )
-: [rTMA]   $FF06 ]* ;  ( Timer modulo [R/W] )
-: [rTAC]   $FF07 ]* ;  ( Timer control [R/W] )
+$FF04 constant rDIV     ( Divider register [R/W] )
+: [rDIV] rDIV ]* ;
+$FF05 constant rTIMA    ( Timer counter [R/W] )
+: [rTIMA] rTIMA ]* ;
+$FF06 constant rTMA     ( Timer modulo [R/W] )
+: [rTMA] rTMA ]* ;
+$FF07 constant rTAC     ( Timer control [R/W] )
+: [rTAC] rTAC ]* ;
 
-: [rKEY1]  $FF4D ]* ;  ( [CGB only] CPU speed switching [R/W] )
-: [rRP]    $FF56 ]* ;  ( [CGB only] Infrared communication port [R/W] )
+$FF4D constant rKEY1    ( [CGB only] CPU speed switching [R/W] )
+: [rKEY1] rKEY1 ]* ;
+$FF56 constant rRP      ( [CGB only] Infrared communication port [R/W] )
+: [rRP] rRP ]* ;
 
 ( Bank control registers )
-: [rVBK]   $FF4F ]* ;  ( [CGB only] VRAM bank specification [R/W] )
-: [rSVBK]  $FF70 ]* ;  ( [CGB only] WRAM Bank specification [R/W] )
+$FF4F constant rVBK     ( [CGB only] VRAM bank specification [R/W] )
+: [rVBK] rVBK ]* ;
+$FF70 constant rSVBK    ( [CGB only] WRAM Bank specification [R/W] )
+: [rSVBK] rSVBK ]* ;
 
 ( Interrupt flags )
-: [rIF]    $FF0F ]* ;  ( Interrupt Flag [R/W] )
-: [rIE]    $FFFF ]* ;  ( Interrupt Enable [R/W] )
+$FF0F constant rIF      ( Interrupt Flag [R/W] )
+: [rIF] rIF ]* ;
+$FFFF constant rIE      ( Interrupt Enable [R/W] )
+: [rIE] rIE ]* ;
 \ TODO: IME?
 
 ( Sound channel 1 registers )
-: [rNR10]  $FF10 ]* ;  ( Sweep register [R/W] )
-: [rNR11]  $FF11 ]* ;  ( Sound length / wave pattern duty [R/W] )
-: [rNR12]  $FF12 ]* ;  ( Envelope [R/W] )
-: [rNR13]  $FF13 ]* ;  ( Frequency lo [W] )
-: [rNR14]  $FF14 ]* ;  ( Frequency hi [W] )
+$FF10 constant rNR10    ( Sweep register [R/W] )
+: [rNR10] rNR10 ]* ;
+$FF11 constant rNR11    ( Sound length / wave pattern duty [R/W] )
+: [rNR11] rNR11 ]* ;
+$FF12 constant rNR12    ( Envelope [R/W] )
+: [rNR12] rNR12 ]* ;
+$FF13 constant rNR13    ( Frequency lo [W] )
+: [rNR13] rNR13 ]* ;
+$FF14 constant rNR14    ( Frequency hi [W] )
+: [rNR14] rNR14 ]* ;
 
 ( Sound channel 2 registers )
-: [rNR21]  $FF16 ]* ;  ( Sound length / wave pattern duty [R/W] )
-: [rNR22]  $FF17 ]* ;  ( Envelope [R/W] )
-: [rNR23]  $FF18 ]* ;  ( Frequency lo [W] )
-: [rNR24]  $FF19 ]* ;  ( Frequency hi [W] )
+$FF16 constant rNR21    ( Sound length / wave pattern duty [R/W] )
+: [rNR21] rNR21 ]* ;
+$FF17 constant rNR22    ( Envelope [R/W] )
+: [rNR22] rNR22 ]* ;
+$FF18 constant rNR23    ( Frequency lo [W] )
+: [rNR23] rNR23 ]* ;
+$FF19 constant rNR24    ( Frequency hi [W] )
+: [rNR24] rNR24 ]* ;
 
 ( Sound channel 3 registers )
-: [rNR30]  $FF1A ]* ;  ( Sound on/off [R/W] )
-: [rNR31]  $FF1B ]* ;  ( Sound length [R/W] )
-: [rNR32]  $FF1C ]* ;  ( Select output level )
-: [rNR33]  $FF1D ]* ;  ( Frequency lo [W] )
-: [rNR34]  $FF1E ]* ;  ( Frequency hi [W] )
+$FF1A constant rNR30    ( Sound on/off [R/W] )
+: [rNR30] rNR30 ]* ;
+$FF1B constant rNR31    ( Sound length [R/W] )
+: [rNR31] rNR31 ]* ;
+$FF1C constant rNR32    ( Select output level )
+: [rNR32] rNR32 ]* ;
+$FF1D constant rNR33    ( Frequency lo [W] )
+: [rNR33] rNR33 ]* ;
+$FF1E constant rNR34    ( Frequency hi [W] )
+: [rNR34] rNR34 ]* ;
 
 ( Sound channel 4 registers )
-: [rNR41]  $FF20 ]* ;  ( Sound length [R/W] )
-: [rNR42]  $FF21 ]* ;  ( Envelope [R/W] )
-: [rNR43]  $FF22 ]* ;  ( Polynomial counter [W] )
-: [rNR44]  $FF23 ]* ;  ( Initialise/length [R/W] )
+$FF20 constant rNR41    ( Sound length [R/W] )
+: [rNR41] rNR41 ]* ;
+$FF21 constant rNR42    ( Envelope [R/W] )
+: [rNR42] rNR42 ]* ;
+$FF22 constant rNR43    ( Polynomial counter [W] )
+: [rNR43] rNR43 ]* ;
+$FF23 constant rNR44    ( Initialise/length [R/W] )
+: [rNR44] rNR44 ]* ;
 
 ( Sound control registers )
-: [rNR50]  $FF24 ]* ;  ( Channel control / ON-OFF / Volume [R/W] )
-: [rNR51]  $FF25 ]* ;  ( Selection of sound output terminal [R/W] )
-: [rNR52]  $FF26 ]* ;  ( Sound on/off [R/W] )
+$FF24 constant rNR50    ( Channel control / ON-OFF / Volume [R/W] )
+: [rNR50] rNR50 ]* ;
+$FF25 constant rNR51    ( Selection of sound output terminal [R/W] )
+: [rNR51] rNR51 ]* ;
+$FF26 constant rNR52    ( Sound on/off [R/W] )
+: [rNR52] rNR52 ]* ;
 
 ( Alternative sound register names )
 : [rAUD1SWEEP] [rNR10] ;
@@ -79,29 +113,50 @@
 : [rAUDENA]    [rNR52] ;
 
 ( LCD display registers)
-: [rLCDC]  $FF40 ]* ;  ( LCD control [R/W] )
-: [rSTAT]  $FF41 ]* ;  ( LCD status [R/W] )
-: [rSCY]   $FF42 ]* ;  ( Scroll Y [R/W] )
-: [rSCX]   $FF43 ]* ;  ( Scroll X [R/W] )
-: [rLY]    $FF44 ]* ;  ( LCDC Y-Coordinate [144->153 is VBlank period] [R] )
-: [rLYC]   $FF45 ]* ;  ( LY Compare [R/W] )
-: [rDMA]   $FF46 ]* ;  ( DMA Transfer and Start Address [W] )
-: [rGBP]   $FF47 ]* ;  ( BG Palette Data [W] )
-: [rOBP0]  $FF48 ]* ;  ( Object Palette 0 Data [W] )
-: [rOBP1]  $FF49 ]* ;  ( Object Palette 1 Data [W] )
-: [rWY]    $FF4A ]* ;  ( Window Y Position [R/W] )
-: [rWX]    $FF4B ]* ;  ( Window X Position [R/W] )
+$FF40 constant rLCDC    ( LCD control [R/W] )
+: [rLCDC] rLCDC ]* ;
+$FF41 constant rSTAT    ( LCD status [R/W] )
+: [rSTAT] rSTAT ]* ;
+$FF42 constant rSCY     ( Scroll Y [R/W] )
+: [rSCY] rSCY ]* ;
+$FF43 constant rSCX     ( Scroll X [R/W] )
+: [rSCX] rSCX ]* ;
+$FF44 constant rLY      ( LCDC Y-Coordinate [144->153 is VBlank period] [R] )
+: [rLY] rLY ]* ;
+$FF45 constant rLYC     ( LY Compare [R/W] )
+: [rLYC] rLYC ]* ;
+$FF46 constant rDMA     ( DMA Transfer and Start Address [W] )
+: [rDMA] rDMA ]* ;
+$FF47 constant rGBP     ( BG Palette Data [W] )
+: [rGBP] rGBP ]* ;
+$FF48 constant rOBP0    ( Object Palette 0 Data [W] )
+: [rOBP0] rOBP0 ]* ;
+$FF49 constant rOBP1    ( Object Palette 1 Data [W] )
+: [rOBP1] rOBP1 ]* ;
+$FF4A constant rWY      ( Window Y Position [R/W] )
+: [rWY] rWY ]* ;
+$FF4B constant rWX      ( Window X Position [R/W] )
+: [rWX] rWX ]* ;
 
-: [rHDMA1] $FF51 ]* ;  ( [CGB only] Higher-order address of HDMAtransfer source [W] )
-: [rHDMA2] $FF52 ]* ;  ( [CGB only] Lower-order address of HDMAtransfer source [W] )
-: [rHDMA3] $FF53 ]* ;  ( [CGB only] Higher-order address of HDMAtransfer destination [W] )
-: [rHDMA4] $FF54 ]* ;  ( [CGB only] Lower-order address of HDMAtransfer destination [W] )
-: [rHDMA5] $FF55 ]* ;  ( [CGB only] H-blank and general-purpose HDMA control [W] )
+$FF51 constant rHDMA1   ( [CGB only] Higher-order address of HDMAtransfer source [W] )
+: [rHDMA1] rHDMA1 ]* ;
+$FF52 constant rHDMA2   ( [CGB only] Lower-order address of HDMAtransfer source [W] )
+: [rHDMA2] rHDMA2 ]* ;
+$FF53 constant rHDMA3   ( [CGB only] Higher-order address of HDMAtransfer destination [W] )
+: [rHDMA3] rHDMA3 ]* ;
+$FF54 constant rHDMA4   ( [CGB only] Lower-order address of HDMAtransfer destination [W] )
+: [rHDMA4] rHDMA4 ]* ;
+$FF55 constant rHDMA5   ( [CGB only] H-blank and general-purpose HDMA control [W] )
+: [rHDMA5] rHDMA5 ]* ;
 
-: [rBCPS]  $FF68 ]* ;  ( [CGB only] Color palette BG write specification [R/W] )
-: [rGCPD]  $FF69 ]* ;  ( [CGB only] Color palette BG write data [R/W] )
-: [rOCPS]  $FF6A ]* ;  ( [CGB only] Color palette OBJ write specification [R/W] )
-: [rOCPD]  $FF6B ]* ;  ( [CGB only] Color palette OBJ write data [R/W] )
+$FF68 constant rBCPS    ( [CGB only] Color palette BG write specification [R/W] )
+: [rBCPS] rBCPS ]* ;
+$FF69 constant rGCPD    ( [CGB only] Color palette BG write data [R/W] )
+: [rGCPD] rGCPD ]* ;
+$FF6A constant rOCPS    ( [CGB only] Color palette OBJ write specification [R/W] )
+: [rOCPS] rOCPS ]* ;
+$FF6B constant rOCPD    ( [CGB only] Color palette OBJ write data [R/W] )
+: [rOCPD] rOCPD ]* ;
 
 [endhost]
 
@@ -110,6 +165,7 @@ $FF00 constant _HW
 $8000 constant _VRAM         ( $8000->$A000 )
 $9800 constant _SCRN0        ( $9800->$9BFF )
 $9C00 constant _SCRN1        ( $9C00->$9FFF )
+$A000 constant _CARTRAM      ( $A000->$BFFF )
 $C000 constant _RAM          ( $C000->$E000 )
 $F800 constant _HRAM         ( $F800->$FFFE )
 $FE00 constant _OAMRAM       ( $FE00->$FE9F )
