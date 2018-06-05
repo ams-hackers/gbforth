@@ -16,39 +16,33 @@ require video.fs
 ;***************************************************************************
 )
 label mem_Set
-local
-presume .skip
   b inc,
   c inc,
-  .skip jr,
-label .loop
+  there> jr,
+label .mem_Set_loop
   a [hl+] ld,
-label .skip
+>here
   c dec,
-  .loop #nz jr,
+  .mem_Set_loop #nz jr,
   b dec,
-  .loop #nz jr,
+  .mem_Set_loop #nz jr,
   ret,
-end-local
 
 
 label mem_Copy
-local
-presume .skip
   b inc,
   c inc,
-  .skip jr,
-label .loop
+  there> jr,
+label .mem_Copy_loop
   [hl+] a ld,
   a [de] ld,
   de inc,
-label .skip
+>here
   c dec,
-  .loop #nz jr,
+  .mem_Copy_loop #nz jr,
   b dec,
-  .loop #nz jr,
+  .mem_Copy_loop #nz jr,
   ret,
-end-local
 
 (
 ;***************************************************************************
@@ -62,26 +56,23 @@ end-local
 ;*
 ;*************************************************************************** )
 label mem_CopyMono
-local
-presume .skip
     b inc,
     c inc,
-    .skip jr,
+    there> jr,
 
-label .loop
+label .mem_CopyMono_loop
     [HL+] a ld,
     a [DE] ld,
     de inc,
     a [DE] ld,
     de inc,
 
-label .skip
+>here
     c dec,
-    .loop #nz jr,
+    .mem_CopyMono_loop #nz jr,
     b dec,
-    .loop #nz jr,
+    .mem_CopyMono_loop #nz jr,
     ret,
-end-local
 
 (
 ;***************************************************************************
@@ -96,12 +87,10 @@ end-local
 ;***************************************************************************
 )
 label mem_SetVRam
-local
-presume .skip
     b inc,
     c inc,
-    .skip jr,
-label .loop
+    there> jr,
+label .mem_SetVRam_loop
     af push,
     di,
     lcd_WaitVRAM
@@ -109,13 +98,12 @@ label .loop
     a [hl+] ld,
     ei,
 
-label .skip
+>here
     c dec,
-    .loop #nz jr,
+    .mem_SetVRam_loop #nz jr,
     b dec,
-    .loop #nz jr,
+    .mem_SetVRam_loop #nz jr,
     ret,
-end-local
 
 (
 ;***************************************************************************
@@ -130,24 +118,21 @@ end-local
 ;***************************************************************************
 )
 label mem_CopyVRAM
-local
-presume .skip
   b inc,
   c inc,
-  .skip jr,
-label .loop
+  there> jr,
+label .mem_CopyVRAM_loop
   di,
   lcd_WaitVRAM
   [hl+] a ld,
   a [de] ld,
   ei,
   de inc,
-label .skip
+>here
   c dec,
-  .loop #nz jr,
+  .mem_CopyVRAM_loop #nz jr,
   b dec,
-  .loop #nz jr,
+  .mem_CopyVRAM_loop #nz jr,
   ret,
-end-local
 
 [endasm]
