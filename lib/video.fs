@@ -1,3 +1,5 @@
+require gbhw.fs
+
 [host]
 [asm]
 
