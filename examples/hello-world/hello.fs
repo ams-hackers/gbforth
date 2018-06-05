@@ -10,6 +10,35 @@ include memory.fs
 label TileData
 include ibm-font.fs
 
+label StopLCD
+[rLCDC] A ld,
+rlca,
+
+#NC ret,
+
+label .wait
+[rLY] A ld,
+#145 # A cp,
+.wait #NZ jr,
+[rLCDC] A ld,
+A #7 # res,
+A [rLCDC] ld,
+
+ret,
+
+[host]
+: %Title s" Hello World !" ;
+[endhost]
+
+( HACK: Don't use dmgforth internals here )
+label Title
+[host]
+also dmgforth
+%title rom-move
+previous
+[endhost]
+ret,
+
 : clear-screen
   _SCRN0 SCRN_VX_B SCRN_VY_B * bl fill ;
 
@@ -26,8 +55,6 @@ a [rGBP] ld,
 0 # a ld,
 a [rSCX] ld,
 a [rSCY] ld,
-
-presume StopLCD
 
 StopLCD call,
 
@@ -50,12 +77,6 @@ a [rLCDC] ld,
 
 ' clear-screen # call,
 
-[host]
-: %Title s" Hello World !" ;
-[endhost]
-
-PRESUME Title
-
 Title hl ld,
 [host] _SCRN0 3 + SCRN_VY_B 7 * + [endhost] # de ld,
 
@@ -68,30 +89,6 @@ halt,
 nop,
 wait jr,
 
-( HACK: Don't use dmgforth internals here )
-label Title
-[host]
-also dmgforth
-%title rom-move
-previous
-[endhost]
-
 nop,
-
-label StopLCD
-[rLCDC] A ld,
-rlca,
-
-#NC ret,
-
-label .wait
-[rLY] A ld,
-#145 # A cp,
-.wait #NZ jr,
-[rLCDC] A ld,
-A #7 # res,
-A [rLCDC] ld,
-
-ret,
 
 [endasm]
