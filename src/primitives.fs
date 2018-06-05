@@ -8,6 +8,9 @@ require ./cross.fs
   2dup rom-offset sym
   nextname xcreate ;
 
+: end-code ;
+
+
 (
   ***** Stack Manipulation *****
 )
@@ -16,33 +19,39 @@ require ./cross.fs
 code dup
 ps-dup,
 ret,
+end-code
 
 ( x -- )
 code drop
 ps-drop,
 ret,
+end-code
 
 ( a b -- b a )
 code swap
 ps-swap,
 ret,
+end-code
 
 ( a b -- b )
 code nip
 C inc,
 C inc,
 ret,
+end-code
 
 ( a b -- a b a )
 code over
 ps-over,
 ret,
+end-code
 
 ( a b -- b a b )
 code tuck
 ps-swap,
 ps-over,
 ret,
+end-code
 
 ( a b c -- b c a )
 code rot
@@ -51,6 +60,7 @@ ps-swap,
 ps-push-de,
 ps-swap,
 ret,
+end-code
 
 ( a b c -- c a b )
 code -rot
@@ -59,6 +69,7 @@ ps-pop-de,
 ps-swap,
 ps-push-de,
 ret,
+end-code
 
 (
   ***** Arithmetic *****
@@ -69,6 +80,7 @@ code +
 ps-over-de-nip,
 DE HL add,
 ret,
+end-code
 
 ( a b -- c )
 code -
@@ -80,6 +92,7 @@ H A ld,
 D A sbc,
 A H ld,
 ret,
+end-code
 
 code * ( a b -- c )
 ps-over-de-nip,
@@ -102,6 +115,7 @@ there> #NC jp,
 BC pop,
 \ ps-push-de, ( DE contains higher 2 bytes of result )
 ret,
+end-code
 
 ( a b -- c)
 code /
@@ -117,6 +131,7 @@ repeat,    \ repeat substraction
   B H ld, C L ld, \ move BC [quotient] to HL [TOS]
   BC pop,         \ restore SP
 ret,
+end-code
 
 ( x -- x )
 code 1+
@@ -124,6 +139,7 @@ code 1+
 $1 # DE ld,
 DE HL add,
 ret,
+end-code
 
 ( x -- x )
 code 1-
@@ -131,6 +147,7 @@ code 1-
 L A ld, $1 # A sub, A L ld,
 H A ld, $0 # A sbc, A H ld,
 ret,
+end-code
 
 ( a b -- c )
 code max
@@ -145,6 +162,7 @@ there> #C jp, \ H<D
 >here
   D H ld, E L ld,
 ret,
+end-code
 
 ( a b -- c )
 code min
@@ -159,6 +177,7 @@ there> #NZ jp, \ H>D
 >here
   D H ld, E L ld,
 ret,
+end-code
 
 (
   ***** Bitwise Operations *****
@@ -170,6 +189,7 @@ ps-over-de-nip,
 H A ld, D A and, A H ld,
 L A ld, E A and, A L ld,
 ret,
+end-code
 
 ( a b -- c )
 code or
@@ -177,6 +197,7 @@ ps-over-de-nip,
 H A ld, D A or, A H ld,
 L A ld, E A or, A L ld,
 ret,
+end-code
 
 ( a b -- c )
 code xor
@@ -184,6 +205,7 @@ ps-over-de-nip,
 H A ld, D A xor, A H ld,
 L A ld, E A xor, A L ld,
 ret,
+end-code
 
 ( a n -- b )
 code lshift
@@ -194,6 +216,7 @@ begin,
 #C ret,
   HL HL add,
 repeat,
+end-code
 
 ( a n -- b )
 code rshift
@@ -205,17 +228,20 @@ begin,
   H srl,
   L rr,
 repeat,
+end-code
 
 ( x -- x )
 code 2*
 HL HL add,
 ret,
+end-code
 
 ( x -- x )
 code 2/
 H srl,
 L rr,
 ret,
+end-code
 
 (
   ***** Numeric Comparison *****
@@ -234,6 +260,7 @@ else,
   false->HL,
 then,
 ret,
+end-code
 
 ( x y -- f )
 code >
@@ -252,6 +279,7 @@ then,
 then, \ x>y
 true->HL,
 ret,
+end-code
 
 ( x y -- f )
 code =
@@ -269,6 +297,7 @@ ret,
 >here >here \ x<>y
 false->HL,
 ret,
+end-code
 
 (
   ***** Memory Access *****
@@ -279,6 +308,7 @@ code c@
 [HL] L ld,
 $0 # H ld,
 ret,
+end-code
 
 ( c c-addr -- )
 code c!
@@ -286,6 +316,7 @@ ps-over-de-nip,
 E [HL] ld,
 ps-drop,
 ret,
+end-code
 
 ( c-addr -- x )
 code @
@@ -293,6 +324,7 @@ code @
 [HL] L ld,
 A H ld,
 ret,
+end-code
 
 ( x c-addr -- )
 code !
@@ -301,6 +333,7 @@ A [HL+] ld,
 E [HL] ld,
 ps-drop,
 ret,
+end-code
 
 code execute
 \ The stack contains the return address for execute. We put HL on top,
@@ -309,6 +342,7 @@ hl push,
 ( but just before that, we have to drop the address from the data stack )
 ps-drop,
 ret,
+end-code
 
 
 code cmove ( c-from c-to u -- )
@@ -339,7 +373,7 @@ repeat,
 BC pop, C inc,
 ps-drop,
 ret,
-
+end-code
 
 : [rSTAT]  $FF41 ]* ;  ( LCD status [R/W] )
 %00000010 constant STATF_BUSY    ( When set, VRAM access is unsafe )
@@ -378,5 +412,7 @@ repeat,
 BC pop, C inc,
 ps-drop,
 ret,
+end-code
+
 
 [endasm]
