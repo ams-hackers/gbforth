@@ -1,3 +1,5 @@
+require video.fs
+
 [asm]
 
 ( these are written to the memory reserved for high-to-low of p10-p13 interrupt start addresses )
@@ -80,18 +82,6 @@ label .skip
     .loop #nz jr,
     ret,
 end-local
-
-[host]
-[asm]
-
-: lcd_WaitVRAM
-  here<
-    [rSTAT] a ld,
-    STATF_BUSY # A and,
-  <there #nz jr, ;
-
-[endasm]
-[endhost]
 
 (
 ;***************************************************************************
