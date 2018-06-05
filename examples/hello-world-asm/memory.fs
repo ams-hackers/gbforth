@@ -15,13 +15,12 @@
 )
 label mem_Set
 local
-presume .skip
   b inc,
   c inc,
-  .skip jr,
+  there> jr,
 label .loop
   a [hl+] ld,
-label .skip
+>here
   c dec,
   .loop #nz jr,
   b dec,
@@ -32,15 +31,14 @@ end-local
 
 label mem_Copy
 local
-presume .skip
   b inc,
   c inc,
-  .skip jr,
+  there> jr,
 label .loop
   [hl+] a ld,
   a [de] ld,
   de inc,
-label .skip
+>here
   c dec,
   .loop #nz jr,
   b dec,
@@ -61,10 +59,9 @@ end-local
 ;*************************************************************************** )
 label mem_CopyMono
 local
-presume .skip
     b inc,
     c inc,
-    .skip jr,
+    there> jr,
 
 label .loop
     [HL+] a ld,
@@ -73,7 +70,7 @@ label .loop
     a [DE] ld,
     de inc,
 
-label .skip
+>here
     c dec,
     .loop #nz jr,
     b dec,
@@ -107,10 +104,9 @@ end-local
 )
 label mem_SetVRam
 local
-presume .skip
     b inc,
     c inc,
-    .skip jr,
+    there> jr,
 label .loop
     af push,
     di,
@@ -119,7 +115,7 @@ label .loop
     a [hl+] ld,
     ei,
 
-label .skip
+>here
     c dec,
     .loop #nz jr,
     b dec,
@@ -141,10 +137,9 @@ end-local
 )
 label mem_CopyVRAM
 local
-presume .skip
   b inc,
   c inc,
-  .skip jr,
+  there> jr,
 label .loop
   di,
   lcd_WaitVRAM
@@ -152,7 +147,7 @@ label .loop
   a [de] ld,
   ei,
   de inc,
-label .skip
+>here
   c dec,
   .loop #nz jr,
   b dec,
