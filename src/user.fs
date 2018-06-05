@@ -36,7 +36,6 @@ also dmgforth
 export (
 export ==>
 export \
-export constant
 export include
 export require
 export [asm]
@@ -54,8 +53,20 @@ export makercode:
 ( TODO: Remove me! )
 export ps-push-lit,
 
+: constant
+  >r
+  parse-next-name
+  2dup nextname r@ constant
+
+  nextname
+  r> xconstant ;
+
 : ' x' ;
 : : x: ;
+
+( move to lib )
+32 constant bl
+
 
 previous
 [end-user-definitions]

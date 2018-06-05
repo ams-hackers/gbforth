@@ -6,6 +6,7 @@ require ./kernel.fs
 ( Cross words )
 
 1 constant F_IMMEDIATE
+2 constant F_CONSTANT
 
 struct
   cell% field xname-flags
@@ -21,6 +22,7 @@ end-struct xname%
 : >xcode xname-addr @ ;
 : >xflags xname-flags @ ;
 : ximmediate? >xflags F_IMMEDIATE and 0<> ;
+: xconstant?  >xflags F_CONSTANT and 0<> ;
 
 
 ( Cross Dictionary )
@@ -58,6 +60,12 @@ wordlist constant xwordlist
   xwordlist >order words previous ;
 
 
+( Constants )
+
+: xconstant ( n -- )
+  F_CONSTANT create-xname ;
+
+
 
 ( Cross Compiler )
 
@@ -71,7 +79,15 @@ wordlist constant xwordlist
   then ;
 
 : process-xname ( xname -- )
-  dup ximmediate? if >xcode execute else >xcode xcompile, then ;
+  dup ximmediate? if
+    >xcode execute
+  else
+    dup xconstant? if
+      >xcode xliteral,
+    else
+      >xcode xcompile,
+    then
+  then ;
 
 : process-number ( n -- )
   xliteral, ;
