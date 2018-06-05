@@ -54,6 +54,11 @@ require ./asm.fs
 : H|L->A,
   H A ld, L A or, ;
 
+( Adjust flags #NZ and #Z if DE is zero )
+: D|E->A,
+  D A ld, E A or, ;
+
+
 
 ( Helper words for stack manipulation )
 

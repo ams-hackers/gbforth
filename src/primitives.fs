@@ -341,5 +341,31 @@ ps-drop,
 ret,
 
 
+code fill ( c-addr u c -- )
+( DE = u )
+( BC = c-addr )
+( HL = c )
+
+( DE = u )
+[C] ->A-> E ld,  C inc,
+[C] ->A-> D ld,  C inc,
+
+( BC = c-addr )
+\ Taking this argument is quite more tricky, as C is for the stack.
+\ Postpone overriding C until the very end by retrieving B first.
+C inc, BC push,
+[C] ->A-> B ld,  C dec,
+[C] ->A-> C ld,
+
+( HL = c )
+begin, D|E->A, #NZ while,
+   L ->A-> [BC] ld,
+   BC inc,
+   DE dec,
+repeat,
+
+BC pop, C inc,
+ps-drop,
+ret,
 
 [endasm]
