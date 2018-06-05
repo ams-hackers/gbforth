@@ -14,37 +14,33 @@
 ;***************************************************************************
 )
 label mem_Set
-local
   b inc,
   c inc,
   there> jr,
-label .loop
+label .mem_set_loop
   a [hl+] ld,
 >here
   c dec,
-  .loop #nz jr,
+  .mem_set_loop #nz jr,
   b dec,
-  .loop #nz jr,
+  .mem_set_loop #nz jr,
   ret,
-end-local
 
 
 label mem_Copy
-local
   b inc,
   c inc,
   there> jr,
-label .loop
+label .mem_copy_loop
   [hl+] a ld,
   a [de] ld,
   de inc,
 >here
   c dec,
-  .loop #nz jr,
+  .mem_copy_loop #nz jr,
   b dec,
-  .loop #nz jr,
+  .mem_copy_loop #nz jr,
   ret,
-end-local
 
 (
 ;***************************************************************************
@@ -58,12 +54,11 @@ end-local
 ;*
 ;*************************************************************************** )
 label mem_CopyMono
-local
     b inc,
     c inc,
     there> jr,
 
-label .loop
+label .mem_copy_mono_loop
     [HL+] a ld,
     a [DE] ld,
     de inc,
@@ -72,11 +67,10 @@ label .loop
 
 >here
     c dec,
-    .loop #nz jr,
+    .mem_copy_mono_loop #nz jr,
     b dec,
-    .loop #nz jr,
+    .mem_copy_mono_loop #nz jr,
     ret,
-end-local
 
 [host]
 [asm]
@@ -103,11 +97,10 @@ end-local
 ;***************************************************************************
 )
 label mem_SetVRam
-local
     b inc,
     c inc,
     there> jr,
-label .loop
+label .mem_set_vram_loop
     af push,
     di,
     lcd_WaitVRAM
@@ -117,11 +110,10 @@ label .loop
 
 >here
     c dec,
-    .loop #nz jr,
+    .mem_set_vram_loop #nz jr,
     b dec,
-    .loop #nz jr,
+    .mem_set_vram_loop #nz jr,
     ret,
-end-local
 
 (
 ;***************************************************************************
@@ -136,11 +128,10 @@ end-local
 ;***************************************************************************
 )
 label mem_CopyVRAM
-local
   b inc,
   c inc,
   there> jr,
-label .loop
+label .mem_copy_vram_loop
   di,
   lcd_WaitVRAM
   [hl+] a ld,
@@ -149,10 +140,9 @@ label .loop
   de inc,
 >here
   c dec,
-  .loop #nz jr,
+  .mem_copy_vram_loop #nz jr,
   b dec,
-  .loop #nz jr,
+  .mem_copy_vram_loop #nz jr,
   ret,
-end-local
 
 [endasm]
