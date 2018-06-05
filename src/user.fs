@@ -25,6 +25,14 @@ also dmgforth
 
 : c, rom, ;
 
+: code
+  parse-name
+  2dup rom-offset sym
+  [asm]
+  nextname xcreate ;
+
+: end-code [endasm] ;
+
 export (
 export ==>
 export \
