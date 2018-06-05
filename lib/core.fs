@@ -1,4 +1,11 @@
 (
+  ***** Constants *****
+)
+
+#32 constant bl
+
+
+(
   ***** Stack Manipulation *****
 )
 

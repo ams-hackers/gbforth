@@ -64,9 +64,5 @@ export ps-push-lit,
 : ' x' ;
 : : x: ;
 
-( move to lib )
-32 constant bl
-
-
 previous
 [end-user-definitions]
