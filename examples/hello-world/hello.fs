@@ -10,6 +10,9 @@ include memory.fs
 label TileData
 include ibm-font.fs
 
+: clear-screen
+  _SCRN0 SCRN_VX_B SCRN_VY_B * bl fill ;
+
 main:
 
 ( program start )
@@ -45,13 +48,7 @@ mem_CopyMono call,
 
 a [rLCDC] ld,
 
-#32 # a ld,
-
-_SCRN0 # hl ld,
-
-[host] SCRN_VX_B SCRN_VY_B * [endhost] # bc ld,
-
-mem_SetVRAM call,
+' clear-screen # call,
 
 [host]
 : %Title s" Hello World !" ;

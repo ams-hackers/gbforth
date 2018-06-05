@@ -341,6 +341,16 @@ ps-drop,
 ret,
 
 
+: [rSTAT]  $FF41 ]* ;  ( LCD status [R/W] )
+%00000010 constant STATF_BUSY    ( When set, VRAM access is unsafe )
+
+: lcd_WaitVRAM
+  here<
+    [rSTAT] a ld,
+    STATF_BUSY # A and,
+  <there #nz jr, ;
+
+
 code fill ( c-addr u c -- )
 ( DE = u )
 ( BC = c-addr )
@@ -359,9 +369,10 @@ C inc, BC push,
 
 ( HL = c )
 begin, D|E->A, #NZ while,
-   L ->A-> [BC] ld,
-   BC inc,
-   DE dec,
+  lcd_WaitVRAM
+  L ->A-> [BC] ld,
+  BC inc,
+  DE dec,
 repeat,
 
 BC pop, C inc,
