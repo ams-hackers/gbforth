@@ -113,6 +113,9 @@ variable xstate
 
 : xliteral xliteral, ; ximmediate-as literal
 
+: x\ postpone \ ; ximmediate-as \
+: x( postpone ( ; ximmediate-as (
+
 : x]
   1 xstate !
   begin
