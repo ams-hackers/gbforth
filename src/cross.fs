@@ -111,6 +111,8 @@ variable xstate
 : x[ 0 xstate ! ; ximmediate-as [
 : x; x[ xreturn, ; ximmediate-as ;
 
+: xliteral xliteral, ; ximmediate-as literal
+
 : x]
   1 xstate !
   begin
