@@ -32,8 +32,6 @@ require ./asm.fs
   every word [or primitive] address that is part of the word definition.
 )
 
-( Helper words for moving between registers )
-
 ( Helper words for stack manipulation )
 
 $FFFE constant SP0 \ end of HRAM
