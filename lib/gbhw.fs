@@ -1,95 +1,160 @@
-[asm]
-
-[host]
-
 ( port/mode registers )
 $FF00 constant rP1      ( Register for reading joy pad info [R/W] )
-: [rP1] rP1 ]* ;
 $FF01 constant rSB      ( Serial Transfer Data [R/W] )
-: [rSB] rSB ]* ;
 $FF02 constant rSC      ( Serial I/O Control [R/W] )
-: [rSC] rSC ]* ;
 
 $FF04 constant rDIV     ( Divider register [R/W] )
-: [rDIV] rDIV ]* ;
 $FF05 constant rTIMA    ( Timer counter [R/W] )
-: [rTIMA] rTIMA ]* ;
 $FF06 constant rTMA     ( Timer modulo [R/W] )
-: [rTMA] rTMA ]* ;
 $FF07 constant rTAC     ( Timer control [R/W] )
-: [rTAC] rTAC ]* ;
 
 $FF4D constant rKEY1    ( [CGB only] CPU speed switching [R/W] )
-: [rKEY1] rKEY1 ]* ;
 $FF56 constant rRP      ( [CGB only] Infrared communication port [R/W] )
-: [rRP] rRP ]* ;
 
 ( Bank control registers )
 $FF4F constant rVBK     ( [CGB only] VRAM bank specification [R/W] )
-: [rVBK] rVBK ]* ;
 $FF70 constant rSVBK    ( [CGB only] WRAM Bank specification [R/W] )
-: [rSVBK] rSVBK ]* ;
 
 ( Interrupt flags )
 $FF0F constant rIF      ( Interrupt Flag [R/W] )
-: [rIF] rIF ]* ;
 $FFFF constant rIE      ( Interrupt Enable [R/W] )
-: [rIE] rIE ]* ;
-\ TODO: IME?
 
 ( Sound channel 1 registers )
 $FF10 constant rNR10    ( Sweep register [R/W] )
-: [rNR10] rNR10 ]* ;
 $FF11 constant rNR11    ( Sound length / wave pattern duty [R/W] )
-: [rNR11] rNR11 ]* ;
 $FF12 constant rNR12    ( Envelope [R/W] )
-: [rNR12] rNR12 ]* ;
 $FF13 constant rNR13    ( Frequency lo [W] )
-: [rNR13] rNR13 ]* ;
 $FF14 constant rNR14    ( Frequency hi [W] )
-: [rNR14] rNR14 ]* ;
 
 ( Sound channel 2 registers )
 $FF16 constant rNR21    ( Sound length / wave pattern duty [R/W] )
-: [rNR21] rNR21 ]* ;
 $FF17 constant rNR22    ( Envelope [R/W] )
-: [rNR22] rNR22 ]* ;
 $FF18 constant rNR23    ( Frequency lo [W] )
-: [rNR23] rNR23 ]* ;
 $FF19 constant rNR24    ( Frequency hi [W] )
-: [rNR24] rNR24 ]* ;
 
 ( Sound channel 3 registers )
 $FF1A constant rNR30    ( Sound on/off [R/W] )
-: [rNR30] rNR30 ]* ;
 $FF1B constant rNR31    ( Sound length [R/W] )
-: [rNR31] rNR31 ]* ;
 $FF1C constant rNR32    ( Select output level )
-: [rNR32] rNR32 ]* ;
 $FF1D constant rNR33    ( Frequency lo [W] )
-: [rNR33] rNR33 ]* ;
 $FF1E constant rNR34    ( Frequency hi [W] )
-: [rNR34] rNR34 ]* ;
 
 ( Sound channel 4 registers )
 $FF20 constant rNR41    ( Sound length [R/W] )
-: [rNR41] rNR41 ]* ;
 $FF21 constant rNR42    ( Envelope [R/W] )
-: [rNR42] rNR42 ]* ;
 $FF22 constant rNR43    ( Polynomial counter [W] )
-: [rNR43] rNR43 ]* ;
 $FF23 constant rNR44    ( Initialise/length [R/W] )
-: [rNR44] rNR44 ]* ;
 
 ( Sound control registers )
 $FF24 constant rNR50    ( Channel control / ON-OFF / Volume [R/W] )
-: [rNR50] rNR50 ]* ;
 $FF25 constant rNR51    ( Selection of sound output terminal [R/W] )
-: [rNR51] rNR51 ]* ;
 $FF26 constant rNR52    ( Sound on/off [R/W] )
-: [rNR52] rNR52 ]* ;
 
 ( Alternative sound register names )
+rNR10 constant rAUD1SWEEP
+rNR11 constant rAUD1LEN
+rNR12 constant rAUD1ENV
+rNR13 constant rAUD1LOW
+rNR14 constant rAUD1HIGH
+rNR21 constant rAUD2LEN
+rNR22 constant rAUD2ENV
+rNR23 constant rAUD2LOW
+rNR24 constant rAUD2HIGH
+rNR30 constant rAUD3ENA
+rNR31 constant rAUD3LEN
+rNR32 constant rAUD3LEVEL
+rNR33 constant rAUD3LOW
+rNR34 constant rAUD3HIGH
+rNR41 constant rAUD4LEN
+rNR42 constant rAUD4ENV
+rNR43 constant rAUD4POLY
+rNR44 constant rAUD4GO
+rNR50 constant rAUDVOL
+rNR51 constant rAUDTERM
+rNR52 constant rAUDENA
+
+( LCD display registers )
+$FF40 constant rLCDC    ( LCD control [R/W] )
+$FF41 constant rSTAT    ( LCD status [R/W] )
+$FF42 constant rSCY     ( Scroll Y [R/W] )
+$FF43 constant rSCX     ( Scroll X [R/W] )
+$FF44 constant rLY      ( LCDC Y-Coordinate [144->153 is VBlank period] [R] )
+$FF45 constant rLYC     ( LY Compare [R/W] )
+$FF46 constant rDMA     ( DMA Transfer and Start Address [W] )
+$FF47 constant rGBP     ( BG Palette Data [W] )
+$FF48 constant rOBP0    ( Object Palette 0 Data [W] )
+$FF49 constant rOBP1    ( Object Palette 1 Data [W] )
+$FF4A constant rWY      ( Window Y Position [R/W] )
+$FF4B constant rWX      ( Window X Position [R/W] )
+
+$FF51 constant rHDMA1   ( [CGB only] Higher-order address of HDMAtransfer source [W] )
+$FF52 constant rHDMA2   ( [CGB only] Lower-order address of HDMAtransfer source [W] )
+$FF53 constant rHDMA3   ( [CGB only] Higher-order address of HDMAtransfer destination [W] )
+$FF54 constant rHDMA4   ( [CGB only] Lower-order address of HDMAtransfer destination [W] )
+$FF55 constant rHDMA5   ( [CGB only] H-blank and general-purpose HDMA control [W] )
+
+$FF68 constant rBCPS    ( [CGB only] Color palette BG write specification [R/W] )
+$FF69 constant rGCPD    ( [CGB only] Color palette BG write data [R/W] )
+$FF6A constant rOCPS    ( [CGB only] Color palette OBJ write specification [R/W] )
+$FF6B constant rOCPD    ( [CGB only] Color palette OBJ write data [R/W] )
+
+( Register references to use in ASM )
+[asm]
+[host]
+
+( port/mode register references )
+: [rP1] rP1 ]* ;
+: [rSB] rSB ]* ;
+: [rSC] rSC ]* ;
+
+: [rDIV] rDIV ]* ;
+: [rTIMA] rTIMA ]* ;
+: [rTMA] rTMA ]* ;
+: [rTAC] rTAC ]* ;
+
+: [rKEY1] rKEY1 ]* ;
+: [rRP] rRP ]* ;
+
+( Bank control register references )
+: [rVBK] rVBK ]* ;
+: [rSVBK] rSVBK ]* ;
+
+( Interrupt flag references )
+: [rIF] rIF ]* ;
+: [rIE] rIE ]* ;
+
+( Sound channel 1 register refereces )
+: [rNR10] rNR10 ]* ;
+: [rNR11] rNR11 ]* ;
+: [rNR12] rNR12 ]* ;
+: [rNR13] rNR13 ]* ;
+: [rNR14] rNR14 ]* ;
+
+( Sound channel 2 register refereces )
+: [rNR21] rNR21 ]* ;
+: [rNR22] rNR22 ]* ;
+: [rNR23] rNR23 ]* ;
+: [rNR24] rNR24 ]* ;
+
+( Sound channel 3 register refereces )
+: [rNR30] rNR30 ]* ;
+: [rNR31] rNR31 ]* ;
+: [rNR32] rNR32 ]* ;
+: [rNR33] rNR33 ]* ;
+: [rNR34] rNR34 ]* ;
+
+( Sound channel 4 register refereces )
+: [rNR41] rNR41 ]* ;
+: [rNR42] rNR42 ]* ;
+: [rNR43] rNR43 ]* ;
+: [rNR44] rNR44 ]* ;
+
+( Sound control register refereces )
+: [rNR50] rNR50 ]* ;
+: [rNR51] rNR51 ]* ;
+: [rNR52] rNR52 ]* ;
+
+( Alternative sound register refereces )
 : [rAUD1SWEEP] [rNR10] ;
 : [rAUD1LEN]   [rNR11] ;
 : [rAUD1ENV]   [rNR12] ;
@@ -113,53 +178,34 @@ $FF26 constant rNR52    ( Sound on/off [R/W] )
 : [rAUDENA]    [rNR52] ;
 
 ( LCD display registers)
-$FF40 constant rLCDC    ( LCD control [R/W] )
 : [rLCDC] rLCDC ]* ;
-$FF41 constant rSTAT    ( LCD status [R/W] )
 : [rSTAT] rSTAT ]* ;
-$FF42 constant rSCY     ( Scroll Y [R/W] )
 : [rSCY] rSCY ]* ;
-$FF43 constant rSCX     ( Scroll X [R/W] )
 : [rSCX] rSCX ]* ;
-$FF44 constant rLY      ( LCDC Y-Coordinate [144->153 is VBlank period] [R] )
 : [rLY] rLY ]* ;
-$FF45 constant rLYC     ( LY Compare [R/W] )
 : [rLYC] rLYC ]* ;
-$FF46 constant rDMA     ( DMA Transfer and Start Address [W] )
 : [rDMA] rDMA ]* ;
-$FF47 constant rGBP     ( BG Palette Data [W] )
 : [rGBP] rGBP ]* ;
-$FF48 constant rOBP0    ( Object Palette 0 Data [W] )
 : [rOBP0] rOBP0 ]* ;
-$FF49 constant rOBP1    ( Object Palette 1 Data [W] )
 : [rOBP1] rOBP1 ]* ;
-$FF4A constant rWY      ( Window Y Position [R/W] )
 : [rWY] rWY ]* ;
-$FF4B constant rWX      ( Window X Position [R/W] )
 : [rWX] rWX ]* ;
 
-$FF51 constant rHDMA1   ( [CGB only] Higher-order address of HDMAtransfer source [W] )
 : [rHDMA1] rHDMA1 ]* ;
-$FF52 constant rHDMA2   ( [CGB only] Lower-order address of HDMAtransfer source [W] )
 : [rHDMA2] rHDMA2 ]* ;
-$FF53 constant rHDMA3   ( [CGB only] Higher-order address of HDMAtransfer destination [W] )
 : [rHDMA3] rHDMA3 ]* ;
-$FF54 constant rHDMA4   ( [CGB only] Lower-order address of HDMAtransfer destination [W] )
 : [rHDMA4] rHDMA4 ]* ;
-$FF55 constant rHDMA5   ( [CGB only] H-blank and general-purpose HDMA control [W] )
 : [rHDMA5] rHDMA5 ]* ;
 
-$FF68 constant rBCPS    ( [CGB only] Color palette BG write specification [R/W] )
 : [rBCPS] rBCPS ]* ;
-$FF69 constant rGCPD    ( [CGB only] Color palette BG write data [R/W] )
 : [rGCPD] rGCPD ]* ;
-$FF6A constant rOCPS    ( [CGB only] Color palette OBJ write specification [R/W] )
 : [rOCPS] rOCPS ]* ;
-$FF6B constant rOCPD    ( [CGB only] Color palette OBJ write data [R/W] )
 : [rOCPD] rOCPD ]* ;
 
 [endhost]
+[endasm]
 
+( Memory addresses )
 $FF00 constant _HW
 
 $8000 constant _VRAM         ( $8000->$A000 )
@@ -270,5 +316,3 @@ $0 constant PADB_A
 #256 constant SCRN_VY   ( Virtual height of screen in pixels )
 #32  constant SCRN_VX_B ( Virtual width of screen in bytes )
 #32  constant SCRN_VY_B ( Virtual height of screen in bytes )
-
-[endasm]
