@@ -62,6 +62,7 @@ export ps-push-lit,
   r> xconstant ;
 
 : ' x' ;
+: ] x] ;
 : : x: ;
 
 previous
