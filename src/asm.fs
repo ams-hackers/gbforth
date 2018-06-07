@@ -299,12 +299,22 @@ end-types
     true abort" Expected a forward reference."
   endcase ;
 
+: named-ref>
+  CREATE , ,
+  DOES> dup cell+ @ swap @
+  >here ;
+
 : here<
   offset backward_mark ;
 
 : <there
   backward_mark <> abort" Expected a backward reference."
   # ;
+
+: named-ref<
+  CREATE , ,
+  DOES> dup cell+ @ swap @
+  <there ;
 
 : presume
   create
