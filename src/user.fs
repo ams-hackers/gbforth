@@ -25,11 +25,7 @@ also dmgforth
 
 : c, rom, ;
 
-: code
-  parse-name
-  2dup rom-offset sym
-  [asm]
-  nextname xcreate ;
+: code [asm] xcreate ;
 
 : end-code [endasm] ;
 

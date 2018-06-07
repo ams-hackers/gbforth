@@ -38,7 +38,10 @@ wordlist constant xwordlist
 \ Create a cross-word, reading its name from the input stream using
 \ `create-xname`.
 : xcreate
-  rom-offset 0 create-xname ;
+  rom-offset dup
+  parse-name 2dup nextname
+  rot sym
+  0 create-xname ;
 
 : ximmediate-as
   latest name>int F_IMMEDIATE create-xname ;
@@ -142,8 +145,9 @@ create colon-name 128 chars allot
   parse-next-name copy-colon-name ;
 
 : x:
-  rom-offset >r
-  parse-colon-name 2>r
+  rom-offset dup >r
+  parse-colon-name 2dup 2>r
+  rot sym
   x]
   2r> nextname
   r> 0 create-xname ;
