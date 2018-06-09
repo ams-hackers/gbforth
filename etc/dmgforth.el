@@ -27,7 +27,7 @@
 
 (defvar dmgforth-keywords
   '("begin-dispatch" "end-dispatch" "~~>" "::"
-    "end-instruction" "tile" "local" "end-local"
+    "end-instruction" "tile"
     "begin," "while," "repeat," "until," "if," "else," "then,"
     "code" "end-code"))
 

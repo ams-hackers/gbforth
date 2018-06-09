@@ -372,22 +372,6 @@ false value main-defined?
   true is main-defined? ;
 [endpublic]
 
-
-[public]
-( Utility words to define local labels )
-: local ( -- wid )
-  get-current
-  wordlist
-  dup >order
-  set-current immediate ;
-
-: end-local
-  previous
-  set-current immediate ;
-
-[endpublic]
-
-
 ( Arguments pattern matching )
 
 : ` postpone postpone ; immediate
