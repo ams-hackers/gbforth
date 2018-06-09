@@ -144,6 +144,9 @@ create colon-name 128 chars allot
 : parse-colon-name
   parse-next-name copy-colon-name ;
 
+: x:noname
+  rom-offset >r x] r> ;
+
 : x:
   rom-offset dup >r
   parse-colon-name 2dup 2>r

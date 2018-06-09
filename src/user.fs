@@ -49,6 +49,8 @@ export makercode:
 ( TODO: Remove me! )
 export ps-push-lit,
 
+: execute # call, ;
+
 : constant
   >r
   parse-next-name
@@ -59,6 +61,8 @@ export ps-push-lit,
 
 : ' x' ;
 : ] x] ;
+: :noname x:noname ;
+
 : : x: ;
 
 previous
