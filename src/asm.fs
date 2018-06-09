@@ -303,9 +303,7 @@ end-types
   dup forward_rel_ref <> swap
   dup forward_abs_ref <> rot
   and abort" Expected a forward reference."
-  CREATE , ,
-  DOES> dup cell+ @ swap @
-  >here ;
+  CREATE 2, DOES> 2@ >here ;
 
 : here<
   offset backward_mark ;
@@ -316,9 +314,7 @@ end-types
 
 : named-ref<
   dup backward_mark <> abort" Expected a backward reference."
-  CREATE , ,
-  DOES> dup cell+ @ swap @
-  <there ;
+  CREATE 2, DOES> 2@ <there ;
 
 : presume
   create
