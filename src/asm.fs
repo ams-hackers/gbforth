@@ -319,14 +319,14 @@ end-types
 : label
   CREATE offset , DOES> @ # ;
 
+[endpublic]
+
 : presume
   create
   here
   0 , ~unresolved-reference ~nn | ,
   create-empty-reflist swap !
   does> dup cell+ @ push-arg ;
-
-[endpublic]
 
 : redefine-label-forward ( xt -- )
   >body
