@@ -97,16 +97,25 @@ $FF40 ]* A ld,  \ load value at address $FF40 into A
 ### Labels
 
 Labels can be created using the word `label`. These labels are simple constants,
-and can only be referenced *after* they are defined.
+and can only be referenced *after* they are defined:
 
-For local references however, or cases where you need to forward-reference an address,
-you are encouraged to make use of two other constructs that the dmg-forth assembler provides.
+```
+[asm]
+
+label countToZero
+A dec,
+countToZero #NZ jp,
+
+[endasm]
+```
+
+For local references however (like in the example above), you are encouraged to make use of two other concepts that the dmg-forth assembler provides: *stack-based references*, and *structured control flow*. These also support cases where you need to forward-reference an address (which is not possible with `label`).
 
 #### Anonymous stack-based references
 
 dmg-forth's assembler provides word pairs to create anonymous stack-based references:
-- `here<` and `<there`
-- `there>` and `>here`
+- `here<` and `<there` for backward references
+- `there>` and `>here` for forward references
 
 They can be used to implement simple loops or jumps,
 when there is no need to give a name to the reference:
@@ -123,6 +132,22 @@ A dec,
 there> #C jp,
 B inc,
 >here
+
+[endasm]
+```
+
+For cases where you need a long forward reference, you can use the word `named-ref>`
+to assign a name to the reference:
+
+```forth
+[asm]
+
+there> #Z jp,
+named-ref> longFwdJump
+
+( ... )
+
+longFwdJump \ replaces >here
 
 [endasm]
 ```
@@ -144,11 +169,13 @@ These can be used to structure the control flow without using the underlying ref
 [asm]
 
 begin,
-A dec,
+  A dec,
 #Z until,
 
 #NC if,
-B inc,
+  B inc,
+else,
+  B dec,
 then,
 
 [endasm]
