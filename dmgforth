@@ -73,6 +73,7 @@ previous
     begin, halt, repeat,
     __start:
     ps-init,
+    dp-init,
     main-addr @ # jp,
   then
 
