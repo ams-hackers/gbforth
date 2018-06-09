@@ -23,14 +23,11 @@ a [rGBP] ld,
 a [rSCX] ld,
 a [rSCY] ld,
 
-presume StopLCD
-
-StopLCD call,
+there> call, named-ref> >StopLCD
 
 
-presume TileData
 
-TileData hl ld,
+there> hl ld, named-ref> >TileData
 _VRAM # de ld,
 [host] 256 8 * [endhost] # bc ld,
 
@@ -59,9 +56,7 @@ mem_SetVRAM call,
 : %Title s" Hello World !" ;
 [endhost]
 
-PRESUME Title
-
-Title hl ld,
+there> hl ld, named-ref> >Title
 [host] _SCRN0 3 + SCRN_VY_B 7 * + [endhost] # de ld,
 
 [host] %Title nip [endhost] # bc ld,
@@ -74,7 +69,7 @@ nop,
 wait jr,
 
 ( HACK: Don't use dmgforth internals here )
-label Title
+>Title
 [host]
 also dmgforth
 %title rom-move
@@ -83,7 +78,7 @@ previous
 
 nop,
 
-label StopLCD
+>StopLCD
 [rLCDC] A ld,
 rlca,
 
@@ -99,7 +94,7 @@ A [rLCDC] ld,
 
 ret,
 
-label TileData
+>TileData
 include ./ibm-font.fs
 
 [endasm]
