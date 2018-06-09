@@ -316,6 +316,9 @@ end-types
   dup backward_mark <> abort" Expected a backward reference."
   CREATE 2, DOES> 2@ <there ;
 
+: label
+  CREATE offset , DOES> @ # ;
+
 : presume
   create
   here
@@ -325,7 +328,6 @@ end-types
 
 [endpublic]
 
-
 : redefine-label-forward ( xt -- )
   >body
   offset over !
@@ -333,11 +335,6 @@ end-types
 
 : resolve-label-references ( xt -- )
   offset swap >body @ reflist-resolve ;
-
-[public]
-: newlabel
-  create offset , does> @ ~nn push-arg ;
-[endpublic]
 
 : make-label ( c-addr u -- )
   2dup offset sym
@@ -347,22 +344,13 @@ end-types
     dup resolve-label-references
     redefine-label-forward
   else
-    nextname newlabel
+    nextname label
   then ;
 
 false value start-defined?
 false value main-defined?
 
 [public]
-
-( Simplified label. We aim to remove label completely, then we'll
-( rename this one )
-: label'
-  offset constant ;
-
-: label
-  parse-name make-label ;
-
 : __start:
   s" __start" make-label
   true is start-defined? ;
