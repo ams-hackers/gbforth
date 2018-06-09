@@ -312,10 +312,6 @@ end-types
   backward_mark <> abort" Expected a backward reference."
   # ;
 
-: named-ref<
-  dup backward_mark <> abort" Expected a backward reference."
-  CREATE 2, DOES> 2@ <there ;
-
 : label
   CREATE offset , DOES> @ # ;
 
