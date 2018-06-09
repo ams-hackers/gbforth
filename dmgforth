@@ -47,9 +47,6 @@ require ./src/user.fs
   depth 0<> abort" Stack is not empty" ;
 
 also gb-assembler-impl
-: assert-start-defined
-  start-defined? invert abort" Entry point (__start) is not defined" ;
-
 : assert-main-defined
   main-defined? invert abort" Entry point (main) is not defined" ;
 previous
@@ -76,9 +73,7 @@ previous
 
   input-file included
 
-  --no-kernel if
-    assert-start-defined
-  else
+  --no-kernel invert if
     assert-main-defined
   then
   assert-empty-stack

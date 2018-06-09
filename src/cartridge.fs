@@ -168,12 +168,12 @@ $0100 ==> ( start entry point [$0100-$0103] )
 
 ( TODO: Remove forward label / presume )
 also gb-assembler-impl
-presume __start
 presume main
 previous
 
 nop,
-__start jp,
+there> jp,
+named-ref> __start:
 
 ( start header [$0104-$014F] )
 

@@ -343,13 +343,9 @@ end-types
     nextname label
   then ;
 
-false value start-defined?
 false value main-defined?
 
 [public]
-: __start:
-  s" __start" make-label
-  true is start-defined? ;
 
 : main:
   s" main" make-label
