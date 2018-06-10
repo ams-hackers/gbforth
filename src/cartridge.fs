@@ -166,11 +166,6 @@ $0078 ==> reti, ( high-to-low of p13 interrupt start address )
 
 $0100 ==> ( start entry point [$0100-$0103] )
 
-( TODO: Remove forward label / presume )
-also gb-assembler-impl
-presume main
-previous
-
 nop,
 there> jp,
 named-ref> __start:
