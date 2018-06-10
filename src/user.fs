@@ -57,6 +57,11 @@ export ps-push-lit,
   nextname
   r> xconstant ;
 
+: variable
+  DP @
+  $2 DP +!
+  constant ;
+
 : ' x' ;
 : ] x] ;
 : :noname x:noname ;
