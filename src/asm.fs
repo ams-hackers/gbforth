@@ -344,13 +344,12 @@ end-types
     nextname label
   then ;
 
-false value main-defined?
-
 [public]
+variable main-addr
+-1 main-addr !
 
 : main:
-  s" main" make-label
-  true is main-defined? ;
+  offset main-addr ! ;
 [endpublic]
 
 ( Arguments pattern matching )

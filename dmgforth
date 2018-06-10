@@ -48,7 +48,7 @@ require ./src/user.fs
 
 also gb-assembler-impl
 : assert-main-defined
-  main-defined? invert abort" Entry point (main) is not defined" ;
+  main-addr @ -1 = abort" Entry point (main) is not defined" ;
 previous
 
 : write-game-and-die
@@ -65,13 +65,16 @@ previous
 
   --no-kernel invert if
     s" core.fs" required
-  
-    __start:
-    ps-init,
-    main jp,
   then
 
   input-file included
+
+  --no-kernel invert if
+    begin, halt, repeat,
+    __start:
+    ps-init,
+    main-addr @ # jp,
+  then
 
   --no-kernel invert if
     assert-main-defined
