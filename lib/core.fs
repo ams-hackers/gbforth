@@ -406,6 +406,21 @@ ps-drop,
 ret,
 end-code
 
+( n c-addr -- )
+code +!
+[HL+] A ld, A D ld,
+[HL] A ld, A E ld,
+HL push,
+ps-drop,
+DE HL add,
+H E ld, L A ld,
+HL pop,
+A [HL-] ld,
+E [HL] ld,
+ps-drop,
+ret,
+end-code
+
 ( -- addr )
 code here
 ps-dup,
