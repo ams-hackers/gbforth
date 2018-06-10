@@ -406,6 +406,25 @@ ps-drop,
 ret,
 end-code
 
+( -- addr )
+code here
+ps-dup,
+$C000 ]* A ld, A H ld,
+$C001 ]* A ld, A L ld,
+ret,
+end-code
+
+( n -- )
+code allot
+$C000 ]* A ld, A D ld,
+$C001 ]* A ld, A E ld,
+DE HL add,
+H A ld, A $C000 ]* ld,
+L A ld, A $C001 ]* ld,
+ps-drop,
+ret,
+end-code
+
 code execute
 \ The stack contains the return address for execute. We put HL on top,
 \ so RET will take it and jump there.
