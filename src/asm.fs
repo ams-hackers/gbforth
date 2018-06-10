@@ -62,66 +62,6 @@ $4242 constant $xxxx
   n lower-byte   offset     emit-to
   n higher-byte  offset 1+  emit-to ;
 
-
-( REFERENCES LIST )
-(
-  reflist
-  +---+---+---+   +---+---+---+   +---+---+---+
-  |   |   |  ---->|   |   |  ---->| 0 | 0 | 0 |
-  +---+---+---+   +---+---+---+   +---+---+---+
-                    |   \
-                     \   ----- info
-                 call \> xxxx
-
-        [the address of ther eference]
-)
-
-struct
-    cell% field fwdref-offset
-    cell% field fwdref-info
-    cell% field fwdref-next
-end-struct fwdref%
-
-
-$0 constant FWDREF_INFO_ABSOLUTE
-$1 constant FWDREF_INFO_RELATIVE
-
-: empty-reflist? ( reflist -- bool )
-  fwdref-offset @ 0<> ;
-
-: .reflist ( reflist -- )
-  ." REFLIST:"
-  begin dup empty-reflist? while
-    ." " dup fwdref-offset @ hex.
-    fwdref-next @
-  repeat
-  CR
-  drop ;
-
-: create-empty-reflist ( -- reflist )
-  fwdref% %allot ;
-
-: reflist-add ( offset info reflist -- reflist* )
-  create-empty-reflist >r
-  r@ fwdref-next !
-  r@ fwdref-info !
-  r@ fwdref-offset !
-  r> ;
-
-: patch-fwdref ( real-value fwdref -- )
-  dup fwdref-info @ case
-    FWDREF_INFO_ABSOLUTE of fwdref-offset @ emit-16bits-to endof
-    FWDREF_INFO_RELATIVE of fwdref-offset @ emit-rel-to    endof
-  endcase ;
-
-: reflist-resolve ( real-value reflist -- )
-  begin dup empty-reflist? while
-    2dup patch-fwdref
-    fwdref-next @
-  repeat
-  2drop ;
-
-
 ( INSTRUCTION ARGUMENTS STACK
 
 Instruction arguments are represented with two words [ value type ].
@@ -202,7 +142,6 @@ begin-types
   type ~(nn)
   type ~A
   type ~cc
-  type ~unresolved-reference
   type ~forward-reference
 end-types
 
@@ -316,35 +255,6 @@ end-types
 : label
   CREATE offset , DOES> @ # ;
 
-[endpublic]
-
-: presume
-  create
-  here
-  0 , ~unresolved-reference ~nn | ,
-  create-empty-reflist swap !
-  does> dup cell+ @ push-arg ;
-
-: redefine-label-forward ( xt -- )
-  >body
-  offset over !
-  ~nn swap cell+ ! ;
-
-: resolve-label-references ( xt -- )
-  offset swap >body @ reflist-resolve ;
-
-: make-label ( c-addr u -- )
-  2dup offset sym
-  2dup find-name ?dup if
-    nip nip ( discard name )
-    name>int
-    dup resolve-label-references
-    redefine-label-forward
-  else
-    nextname label
-  then ;
-
-[public]
 variable main-addr
 -1 main-addr !
 
@@ -415,9 +325,6 @@ variable main-addr
 
 ( Instructions helpers )
 
-: reflist-add! ( value info &reflist -- )
-  dup >r @ reflist-add r> ! ;
-
 : ..  3 lshift ;
 : op { prefix tribble1 tribble2 -- opcode }
   prefix .. tribble1 | .. tribble2 | ;
@@ -448,13 +355,7 @@ DEFINITIONS
     offset forward_abs_ref
     $xxxx 16lit,
   else
-    dup ~unresolved-reference type-match if
-      drop
-      offset FWDREF_INFO_ABSOLUTE rot reflist-add!
-      $xxxx 16lit,
-    else
-      drop 16lit,
-    then
+    drop 16lit,
   then ;
 
 : emit-rel-addr ( arg-value arg-type )
@@ -463,13 +364,7 @@ DEFINITIONS
     offset forward_rel_ref
     $xx 8lit,
   else
-    dup ~unresolved-reference type-match if
-      drop
-      offset FWDREF_INFO_RELATIVE rot reflist-add!
-      $xx 8lit,
-    else
-      drop offset 1+ - ensure-short-jr 8lit,
-    then
+    drop offset 1+ - ensure-short-jr 8lit,
   then ;
 
 : n,   arg1-value 8lit, ;
