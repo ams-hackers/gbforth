@@ -7,6 +7,7 @@ delete nodes.  )
 1 constant IR_NODE_CALL
 2 constant IR_NODE_LITERAL
 3 constant IR_NODE_RET
+4 constant IR_NODE_BRANCH
 
 struct
 \ The ir-node-next field must be the first field of this struct, as it
@@ -46,13 +47,14 @@ end-struct ir%
 
 : delete-node ( ir-node -- )
   dup previous-node over next-node link-nodes
-  free ;
+  free throw ;
 
 : .node ( ir-node -- )
   dup ir-node-value @
   swap ir-node-type @ case
     IR_NODE_CALL    of ." CALL "    hex. CR endof
     IR_NODE_LITERAL of ." LITERAL " hex. CR endof
+    IR_NODE_BRANCH  of ." BRANCH "  hex. CR endof
     IR_NODE_RET     of ." RET"     drop  CR endof
     drop ." (unknown) " CR
   endcase ;
@@ -62,7 +64,8 @@ end-struct ir%
 
 : make-ir ( -- ir )
   ir% %allocate throw
-  0 over ir-entry% ! ;
+  0 over ir-entry% !
+  dup insert-node IR_NODE_RET 0 mutate-node drop ;
 
 : ir-entry ( ir -- ir-node )
   ir-entry% @ ;
@@ -92,3 +95,24 @@ insert-node IR_NODE_CALL $4242 mutate-node
 previous-node
 previous-node
 delete-node
+
+( Basic tail-call optimization [TCO] 
+
+  CALL xxx , RET
+
+  can be transformed in BRANCH xxx
+)
+
+: tail-call? ( ir-node -- true|false )
+  dup ir-node-type @ IR_NODE_CALL =
+  swap next-node ir-node-type @ IR_NODE_RET = and ;
+
+: optimize-tail-call ( ir -- ir )
+  dup ir-entry 
+  begin ?dup while
+    dup tail-call? if
+      dup next-node delete-node
+      IR_NODE_BRANCH over ir-node-value @ mutate-node
+    then
+    next-node
+  repeat ;
