@@ -207,6 +207,7 @@ begin-types
 end-types
 
 : ~e ~nn ;
+: ~e_ ~n ;
 
 : | or ;
 
@@ -475,6 +476,7 @@ DEFINITIONS
 : n,   arg1-value 8lit, ;
 : n',  arg2-value 8lit, ;
 : e,   arg1-value arg1-type emit-rel-addr ;
+: e_,  n, ;
 : nn,  arg1-value arg1-type emit-addr ;
 : nn', arg2-value arg2-type emit-addr ;
 
@@ -622,13 +624,13 @@ instruction ld,
 
   ~HL  ~SP  ~~> %11 %111 %001 op,       2 cycles ::
 
-  ~e   ~HL  ~~> %11 %111 %000 op, e,    3 cycles :: \ equal to ldhl,
+  ~e_  ~HL  ~~> %11 %111 %000 op, e_,   3 cycles :: \ equal to ldhl,
 
   ~SP ~(nn) ~~> %00 %001 %000 op, nn',  5 cycles ::
 end-instruction
 
 instruction ldhl,
-  ~e   ~SP  ~~> %11 %111 %000 op, e,    3 cycles ::
+  ~e_  ~SP  ~~> %11 %111 %000 op, e_,   3 cycles ::
 end-instruction
 
 instruction nop,

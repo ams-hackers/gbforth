@@ -478,3 +478,38 @@ BC pop, C inc,
 ps-drop,
 ret,
 end-code
+
+
+( Return Stack manipulation )
+
+code >r
+DE pop,
+HL push, ps-drop,
+DE push,
+ret,
+end-code
+
+code r>
+ps-dup,
+DE pop,
+HL pop,
+DE push,
+ret,
+end-code
+
+code r@
+ps-dup,
+DE pop,
+HL pop,
+HL push,
+DE push,
+ret,
+end-code
+
+code rdrop
+DE pop,
+SP inc,
+SP inc,
+DE push,
+ret,
+end-code
