@@ -91,15 +91,15 @@ end-struct ir%
     IR_NODE_CALL    of xcompile, endof
     IR_NODE_LITERAL of xliteral, endof
     IR_NODE_BRANCH  of xbranch, endof
-    IR_NODE_RET     of xreturn, endof
-    true abort" (unknown node) " CR
+    IR_NODE_RET     of drop xreturn, endof
+    true abort" (unknown node) "
   endcase
 ;
 
 : gen-code ( ir -- )
   ir-entry
   begin ?dup while
-    dup gen-node CR
+    dup gen-node
     next-node
   repeat ;
 

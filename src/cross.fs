@@ -1,5 +1,5 @@
 require ./rom.fs
-require ./kernel.fs
+require ./sym.fs
 require ./ir.fs
 
 [asm]
@@ -87,15 +87,12 @@ wordlist constant xwordlist
   then ;
 
 : compile-number { n -- }
-  n xliteral,
   insert-node IR_NODE_LITERAL n mutate-node ;
 
 : compile-call { addr -- }
-  addr xcompile,
   insert-node IR_NODE_CALL addr mutate-node ;
 
 : compile-return
-  xreturn,
   insert-node IR_NODE_RET 0 mutate-node ;
 
 : process-xname ( xname -- )
@@ -128,7 +125,7 @@ variable xstate
 : x[ 0 xstate ! ; ximmediate-as [
 : x; compile-return x[ ; ximmediate-as ;
 
-: xliteral xliteral, ; ximmediate-as literal
+: xliteral compile-number ; ximmediate-as literal
 
 : x\ postpone \ ; ximmediate-as \
 : x( postpone ( ; ximmediate-as (
@@ -144,7 +141,7 @@ variable xstate
 : x'
   parse-next-name find-xname ?dup if >xcode else -1 abort" Unknown word " then ;
 
-: x['] x' xliteral, ; ximmediate-as [']
+: x['] x' compile-number ; ximmediate-as [']
 
 
 create colon-name 128 chars allot
@@ -165,7 +162,8 @@ create colon-name 128 chars allot
   x] drop \ drop ir-node
   r@ 0 create-xname
   r>
-  r> xlatest xname-ir ! ;
+  r@ xlatest xname-ir !
+  r> gen-code ;
 
 ( -- offset )
 : x:noname
