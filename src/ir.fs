@@ -103,6 +103,46 @@ end-struct ir%
     next-node
   repeat ;
 
+
+
+( Node basic pattern maching )
+
+: ` postpone postpone ; immediate
+
+: (match-start) 0 ; immediate
+: (match-end) 0 ?do postpone then loop ; immediate
+
+: (match-open)
+  >r ` dup ` 0<> ` if ` dup r> 1+
+; immediate
+
+: (match-close)
+  >r ` if r> 1+
+; immediate
+
+: (match-true) ` drop ` true ` exit ; immediate
+: (match-false) ` drop ` false ; immediate
+
+: match<<
+  ` (match-start)
+  ` (match-open)
+; immediate
+
+: followed-by
+  ` (match-close)
+  ` next-node
+  ` (match-open)
+; immediate
+
+: >>
+  ` (match-close)
+  ` (match-true)
+  ` (match-end)
+  ` (match-false)
+; immediate
+
+
+
 ( Basic tail-call optimization [TCO]
 
   CALL xxx , RET
@@ -113,15 +153,8 @@ end-struct ir%
 : call? ir-node-type @ IR_NODE_CALL = ;
 : ret? ir-node-type @ IR_NODE_RET = ;
 
-
 : tail-call? ( ir-node -- true|false )
-  dup 0<> if dup call? if next-node
-    dup 0<> if dup ret? if next-node
-       drop true exit
-    then then
-  then then
-  drop false
-;
+  match<< call? followed-by ret? >> ;
 
 : optimize-tail-call ( ir -- ir )
   dup ir-entry
@@ -135,3 +168,21 @@ end-struct ir%
 
 : optimize-ir
   optimize-tail-call ;
+
+
+0 [if]
+
+make-ir constant test
+
+test
+insert-node IR_NODE_CALL 4242 mutate-node
+insert-node IR_NODE_CALL 4242 mutate-node
+insert-node IR_NODE_CALL 4242 mutate-node
+insert-node IR_NODE_RET  0    mutate-node
+drop
+
+test
+optimize-tail-call
+.ir
+
+[then]
