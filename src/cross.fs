@@ -144,15 +144,21 @@ create colon-name 128 chars allot
 : parse-colon-name
   parse-next-name copy-colon-name ;
 
+( -- offset )
+: create-word
+  rom-offset >r
+  x]
+  r@ 0 create-xname
+  r> ;
+
+( -- offset )
 : x:noname
-  rom-offset >r x] r> ;
+  noname create-word ;
 
 ( create the word AFTER parsing the definition so word is not visible to itself )
 : x:
   parse-colon-name 2>r
-  x:noname dup
-  2r@ rot sym
-  2r> nextname
-  ( offset ) 0 create-xname ;
+  2r@ nextname create-word
+  ( offset ) 2r> rot sym ;
 
 [endasm]
