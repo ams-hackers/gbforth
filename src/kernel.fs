@@ -65,6 +65,7 @@ DP0 2 + DP ! \ init dictionary pointer
 
 : xliteral, ps-push-lit, ;
 : xcompile, # call, ;
+: xbranch, # jp, ;
 : xreturn, ret, ;
 
 [endasm]

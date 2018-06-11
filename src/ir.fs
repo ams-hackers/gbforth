@@ -1,3 +1,5 @@
+require ./kernel.fs
+
 ( Intermedian Representation [IR]
 
   As an intermediate representation for the compiler, we use a doubly
@@ -42,7 +44,7 @@ end-struct ir%
 
 : mutate-node { ir-node type val -- ir-node }
   type ir-node ir-node-type  !
-  val  ir-node ir-node-value ! 
+  val  ir-node ir-node-value !
   ir-node ;
 
 : delete-node ( ir-node -- )
@@ -84,31 +86,42 @@ end-struct ir%
   repeat ;
 
 
-make-ir constant test
+: gen-node ( ir-node -- )
+  dup ir-node-value @
+  swap ir-node-type @ case
+    IR_NODE_CALL    of xcompile, endof
+    IR_NODE_LITERAL of xliteral, endof
+    IR_NODE_BRANCH  of xbranch, endof
+    IR_NODE_RET     of xreturn, endof
+    true abort" (unknown node) " CR
+  endcase
+;
 
-test
+: gen-code ( ir -- )
+  ir-entry
+  begin ?dup while
+    dup gen-node CR
+    next-node
+  repeat ;
 
-insert-node IR_NODE_LITERAL 42 mutate-node
-insert-node IR_NODE_LITERAL 43 mutate-node
-insert-node IR_NODE_CALL $4242 mutate-node
-
-previous-node
-previous-node
-delete-node
-
-( Basic tail-call optimization [TCO] 
+( Basic tail-call optimization [TCO]
 
   CALL xxx , RET
 
   can be transformed in BRANCH xxx
 )
 
+: call? ir-node-type @ IR_NODE_CALL = ;
+: ret? ir-node-type @ IR_NODE_RET = ;
+
 : tail-call? ( ir-node -- true|false )
-  dup ir-node-type @ IR_NODE_CALL =
-  swap next-node ir-node-type @ IR_NODE_RET = and ;
+  1
+  over call? and
+  over next-node ?dup if ret? and else nip drop false exit then
+  nip ;
 
 : optimize-tail-call ( ir -- ir )
-  dup ir-entry 
+  dup ir-entry
   begin ?dup while
     dup tail-call? if
       dup next-node delete-node
@@ -116,3 +129,6 @@ delete-node
     then
     next-node
   repeat ;
+
+: optimize-ir
+  optimize-tail-call ;
