@@ -669,13 +669,17 @@ end-instruction
   here< 0 0 ;
 
 : while,
-  2drop
-  invert-flag there> swap-args jr, ;
+  or 0<> abort" WHILE, can only be used with BEGIN,"
+  if, ;
 
 : repeat,
   2swap
   <there jr,
-  dup if >here else 2drop then ;
+  dup if then, else 2drop then ;
+
+: again,
+  or 0<> abort" AGAIN, can only be used with BEGIN,"
+  0 0 repeat, ;
 
 : until,
   or 0<> abort" UNTIL, can only be used with BEGIN,"
