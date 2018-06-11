@@ -392,28 +392,28 @@ end-code
 ( c-addr -- x )
 code @
 [HL+] A ld,
-[HL] L ld,
-A H ld,
+[HL] H ld,
+A L ld,
 ret,
 end-code
 
 ( x c-addr -- )
 code !
-ps-over-ae-nip,
-A [HL+] ld,
-E [HL] ld,
+ps-over-de-nip,
+E A ld, A [HL+] ld,
+D [HL] ld,
 ps-drop,
 ret,
 end-code
 
 ( n c-addr -- )
 code +!
-[HL+] A ld, A D ld,
-[HL] A ld, A E ld,
+[HL+] A ld, A E ld,
+[HL] A ld, A D ld,
 HL push,
 ps-drop,
 DE HL add,
-H E ld, L A ld,
+H A ld, L E ld,
 HL pop,
 A [HL-] ld,
 E [HL] ld,
