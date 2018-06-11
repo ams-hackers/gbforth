@@ -113,11 +113,15 @@ end-struct ir%
 : call? ir-node-type @ IR_NODE_CALL = ;
 : ret? ir-node-type @ IR_NODE_RET = ;
 
+
 : tail-call? ( ir-node -- true|false )
-  1
-  over call? and
-  over next-node ?dup if ret? and else nip drop false exit then
-  nip ;
+  dup 0<> if dup call? if next-node
+    dup 0<> if dup ret? if next-node
+       drop true exit
+    then then
+  then then
+  drop false
+;
 
 : optimize-tail-call ( ir -- ir )
   dup ir-entry
