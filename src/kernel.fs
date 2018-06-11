@@ -44,8 +44,8 @@ DP0 2 + DP ! \ init dictionary pointer
 
 : dp-init,
   DP @ dup
-  higher-byte # A ld, A DP0 ]* ld,
-  lower-byte # A ld, A DP0 1 + ]* ld, ;
+  lower-byte # A ld, A DP0 ]* ld,
+  higher-byte # A ld, A DP0 1 + ]* ld, ;
 
 : ps-clear,
   SP0 $FF00 - # C ld, ;
