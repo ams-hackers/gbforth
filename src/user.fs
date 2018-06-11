@@ -64,6 +64,7 @@ export ps-push-lit,
 
 : ' x' ;
 : ] x] ;
+: ]L xliteral x] ;
 : :noname x:noname ;
 
 : : x: ;
