@@ -1,5 +1,6 @@
 require ./rom.fs
 require ./kernel.fs
+require ./ir.fs
 
 [asm]
 
@@ -11,6 +12,7 @@ require ./kernel.fs
 struct
   cell% field xname-flags
   cell% field xname-addr
+  cell% field xname-ir
 end-struct xname%
 
 : make-xname ( addr flag -- xname )
@@ -29,10 +31,13 @@ end-struct xname%
 
 wordlist constant xwordlist
 
+-1 value xlatest
 : create-xname ( addr flag -- )
   get-current >r
   xwordlist set-current
-  make-xname create ,
+  make-xname
+  dup IS xlatest
+  create ,
   r> set-current ;
 
 \ Create a cross-word, reading its name from the input stream using
@@ -81,26 +86,35 @@ wordlist constant xwordlist
     2drop recurse
   then ;
 
+: compile-number { n -- }
+  n xliteral,
+  insert-node IR_NODE_LITERAL n mutate-node ;
+
+: compile-call { addr -- }
+  addr xcompile,
+  insert-node IR_NODE_CALL addr mutate-node ;
+
+: compile-return
+  xreturn,
+  insert-node IR_NODE_RET 0 mutate-node ;
+
 : process-xname ( xname -- )
   dup ximmediate? if
     >xcode execute
   else
     dup xconstant? if
-      >xcode xliteral,
+      >xcode compile-number
     else
-      >xcode xcompile,
+      >xcode compile-call
     then
   then ;
 
-: process-number ( n -- )
-  xliteral, ;
-
-: process-word ( addr u -- )
+: process-token ( addr u -- )
   2dup find-xname ?dup if
     nip nip process-xname
   else
     s>number? if
-      drop process-number
+      drop compile-number
     else
       -1 abort" Unknown word"
     then
@@ -112,7 +126,7 @@ wordlist constant xwordlist
 variable xstate
 
 : x[ 0 xstate ! ; ximmediate-as [
-: x; x[ xreturn, ; ximmediate-as ;
+: x; compile-return x[ ; ximmediate-as ;
 
 : xliteral xliteral, ; ximmediate-as literal
 
@@ -123,7 +137,7 @@ variable xstate
   1 xstate !
   begin
     parse-next-name
-    process-word
+    process-token
     xstate @ while
   repeat ;
 
@@ -146,10 +160,12 @@ create colon-name 128 chars allot
 
 ( -- offset )
 : create-word
+  make-ir dup >r
   rom-offset >r
-  x]
+  x] drop \ drop ir-node
   r@ 0 create-xname
-  r> ;
+  r>
+  r> xlatest xname-ir ! ;
 
 ( -- offset )
 : x:noname

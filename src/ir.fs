@@ -66,14 +66,13 @@ end-struct ir%
 
 : make-ir ( -- ir )
   ir% %allocate throw
-  0 over ir-entry% !
-  dup insert-node IR_NODE_RET 0 mutate-node drop ;
+  0 over ir-entry% ! ;
 
 : ir-entry ( ir -- ir-node )
   ir-entry% @ ;
 
 : .ir ( ir -- )
-  ir-entry 
+  ir-entry
   cr
   begin ?dup while
     dup .node next-node
