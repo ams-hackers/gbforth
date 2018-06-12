@@ -86,14 +86,22 @@ wordlist constant xwordlist
     2drop recurse
   then ;
 
+-1 value current-node
+
 : compile-number { n -- }
-  insert-node IR_NODE_LITERAL n mutate-node ;
+  current-node
+  insert-node IR_NODE_LITERAL n mutate-node
+  to current-node ;
 
 : compile-call { addr -- }
-  insert-node IR_NODE_CALL addr mutate-node ;
+  current-node
+  insert-node IR_NODE_CALL addr mutate-node
+  to current-node ;
 
 : compile-return
-  insert-node IR_NODE_RET 0 mutate-node ;
+  current-node
+  insert-node IR_NODE_RET 0 mutate-node
+  to current-node ;
 
 : process-xname ( xname -- )
   dup ximmediate? if
@@ -121,9 +129,17 @@ wordlist constant xwordlist
 ( 0 if we the host is interpreting words,
  -1 if we are compiling into the target )
 variable xstate
+-1 value current-ir
 
 : x[ 0 xstate ! ; ximmediate-as [
-: x; compile-return x[ ; ximmediate-as ;
+
+: x;
+  compile-return
+  x[
+  current-ir xlatest xname-ir !
+  current-ir gen-code
+  -1 to current-ir
+  -1 to current-node ; ximmediate-as ;
 
 : xliteral compile-number ; ximmediate-as literal
 
@@ -157,13 +173,11 @@ create colon-name 128 chars allot
 
 ( -- offset )
 : create-word
-  make-ir dup >r
+  make-ir dup to current-ir to current-node
   rom-offset >r
-  x] drop \ drop ir-node
+  x]
   r@ 0 create-xname
-  r>
-  r@ xlatest xname-ir !
-  r> gen-code ;
+  r> ;
 
 ( -- offset )
 : x:noname
