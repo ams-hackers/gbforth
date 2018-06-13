@@ -255,6 +255,8 @@ end-types
 : label
   CREATE offset , DOES> @ # ;
 
+' offset alias offset
+
 variable main-addr
 -1 main-addr !
 

@@ -50,11 +50,10 @@ also gb-assembler-impl
   main-addr @ -1 = abort" Entry point (main) is not defined" ;
 previous
 
-: write-game-and-die
+: write-game
   fix-header-complement
   fix-global-checksum
-  output-file dump-rom
-  bye ;
+  output-file dump-rom ;
 
 :noname
   assert-empty-stack
@@ -80,7 +79,15 @@ previous
     assert-main-defined
   then
   assert-empty-stack
-  write-game-and-die
+  write-game
+
+  --verbose if
+    ." \ " [asm] offset . [endasm]
+    ." bytes written to "
+    output-file type ."  written." CR
+  then
+
+  bye
 
 ; execute
 

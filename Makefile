@@ -8,11 +8,13 @@ SOURCE_FILES=dmgforth src/*.fs
 TEST_FILES = $(wildcard test/test-*.fs)
 TEST_OBJS = $(subst .fs,.gb,$(TEST_FILES))
 
+DMGFORTH = ./dmgforth $(DMGFORTH_FLAGS)
+
 .PHONY: all examples tests
 
 # Pattern rule to build dmg-forth roms
 %.gb: %.fs $(SOURCE_FILES) $(LIB_FILES)
-	./dmgforth $< $@
+	$(DMGFORTH) $< $@
 
 all: examples
 
@@ -24,7 +26,7 @@ examples: \
 	examples/hello-world/hello.gb
 
 examples/hello-world-asm/hello.gb: examples/hello-world-asm/hello.fs examples/hello-world-asm/*.fs $(SOURCE_FILES) $(LIB_FILES)
-	./dmgforth --no-kernel $< $@
+	$(DMGFORTH) --no-kernel $< $@
 	@cd examples/hello-world-asm/ && shasum -c hello.gb.sha
 
 #
