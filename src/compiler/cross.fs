@@ -1,5 +1,6 @@
 require ../rom.fs
 require ../sym.fs
+require ../utils/memory.fs
 
 require ./ir.fs
 require ./codegen.fs
@@ -18,11 +19,12 @@ end-struct xname%
 
 : make-xname ( addr flag -- xname )
   >r >r
-  xname% %allot
+  xname% %zalloc
   r> over xname-addr !
   r> over xname-flags ! ;
 
 : >xcode xname-addr @ ;
+: >xir xname-ir @ ;
 : >xflags xname-flags @ ;
 : ximmediate? >xflags F_IMMEDIATE and 0<> ;
 : xconstant?  >xflags F_CONSTANT and 0<> ;
@@ -99,12 +101,12 @@ wordlist constant xwordlist
 
 : xcompile, { addr -- }
   current-node
-  insert-node IR_NODE_CALL ::type addr ::value
+  insert-node IR_NODE_CALL ::type addr ::value IR_FLAG_PRIMITIVE ::flags
   to current-node ;
 
-: xcompile-colon, { xname -- }
+: xcompile-colon, { ir -- }
   current-node
-  insert-node IR_NODE_CALL ::type xname >xcode ::value
+  insert-node IR_NODE_CALL ::type ir ::value
   to current-node ;
 
 : xreturn,
@@ -122,7 +124,7 @@ wordlist constant xwordlist
       dup xprimitive? if
         >xcode xcompile,
       else
-        xcompile-colon,
+        >xir xcompile-colon,
       then
     then
   then ;
@@ -146,9 +148,10 @@ variable xstate
 
 : x[ 0 xstate ! ; ximmediate-as [
 
-: x;
+: x; ( offset -- )
   xreturn,
   x[
+  0 create-xname
   current-ir xlatest xname-ir !
   current-ir gen-code
   -1 to current-ir
@@ -187,9 +190,8 @@ create colon-name 128 chars allot
 ( -- offset )
 : create-word
   make-ir dup to current-ir to current-node
-  rom-offset >r
+  rom-offset dup >r
   x]
-  r@ 0 create-xname
   r> ;
 
 ( -- offset )
