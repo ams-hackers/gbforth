@@ -2,8 +2,8 @@ SHELL := /bin/bash
 
 export DMGFORTH_PATH := $(shell pwd)/lib
 
-LIB_FILES=lib/**/*.fs
-SOURCE_FILES=dmgforth src/**/*.fs
+LIB_FILES=lib/*.fs
+SOURCE_FILES=dmgforth src/*.fs src/utils/*.fs src/compiler/*.fs
 
 TEST_FILES = $(wildcard test/test-*.fs)
 TEST_OBJS = $(subst .fs,.gb,$(TEST_FILES))
