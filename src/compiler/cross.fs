@@ -207,8 +207,7 @@ create user-name 128 chars allot
 
 : code
   [asm]
-  xcreate ;
+  rom-offset F_PRIMITIVE create-xname ;
 
 : end-code
-  [endasm]
-  xlatest xname-flags F_PRIMITIVE swap or! ;
+  [endasm] ;
