@@ -32,7 +32,7 @@ require ../asm.fs
 )
 
 
-: ps-push-lit,
+: push-lit,
   C dec,
   H A ld, A [C] ld,
   C dec,
@@ -41,22 +41,15 @@ require ../asm.fs
 
 ( Words used by the cross compiler )
 
-: xliteral, ps-push-lit, ;
-: xcompile, # call, ;
-: xbranch, # jp, ;
-: xreturn, ret, ;
-
-
 : gen-node ( ir-node -- )
   dup ir-node-value @
   swap ir-node-type @ case
-    IR_NODE_CALL    of xcompile, endof
-    IR_NODE_LITERAL of xliteral, endof
-    IR_NODE_BRANCH  of xbranch, endof
-    IR_NODE_RET     of drop xreturn, endof
+    IR_NODE_CALL    of # call,      endof
+    IR_NODE_LITERAL of push-lit,    endof
+    IR_NODE_BRANCH  of # jp,        endof
+    IR_NODE_RET     of drop ret,    endof
     true abort" (unknown node) "
-  endcase
-;
+  endcase ;
 
 : gen-code ( ir -- )
   ir-entry

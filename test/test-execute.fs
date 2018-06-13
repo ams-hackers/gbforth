@@ -7,9 +7,9 @@
 
 main:
 
-$11 ps-push-lit,
-$22 ps-push-lit,
-$33 ps-push-lit,
+$11 push-lit,
+$22 push-lit,
+$33 push-lit,
 ' test # call,
 
 begin, halt, repeat,

@@ -2,24 +2,24 @@
 
 main:
 
-$1234 ps-push-lit,
-$5678 ps-push-lit,
+$1234 push-lit,
+$5678 push-lit,
 ' > # call,
 
-$abcd ps-push-lit,
-$6789 ps-push-lit,
+$abcd push-lit,
+$6789 push-lit,
 ' > # call,
 
-$aa55 ps-push-lit,
-$aa88 ps-push-lit,
+$aa55 push-lit,
+$aa88 push-lit,
 ' > # call,
 
-$aa44 ps-push-lit,
-$aa22 ps-push-lit,
+$aa44 push-lit,
+$aa22 push-lit,
 ' > # call,
 
-$4444 ps-push-lit,
-$4444 ps-push-lit,
+$4444 push-lit,
+$4444 push-lit,
 ' > # call,
 
 begin, halt, repeat,

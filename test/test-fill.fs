@@ -17,9 +17,9 @@ main:
 
 ' initialize # call,
 
-$C103 ps-push-lit,
-#3 ps-push-lit,
-#42 ps-push-lit,
+$C103 push-lit,
+#3 push-lit,
+#42 push-lit,
 ' fill # call,
 
 begin, halt, repeat,

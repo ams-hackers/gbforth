@@ -88,17 +88,17 @@ wordlist constant xwordlist
 
 -1 value current-node
 
-: compile-number { n -- }
+: xliteral, { n -- }
   current-node
   insert-node IR_NODE_LITERAL n mutate-node
   to current-node ;
 
-: compile-call { addr -- }
+: xcompile, { addr -- }
   current-node
   insert-node IR_NODE_CALL addr mutate-node
   to current-node ;
 
-: compile-return
+: xreturn,
   current-node
   insert-node IR_NODE_RET 0 mutate-node
   to current-node ;
@@ -108,9 +108,9 @@ wordlist constant xwordlist
     >xcode execute
   else
     dup xconstant? if
-      >xcode compile-number
+      >xcode xliteral,
     else
-      >xcode compile-call
+      >xcode xcompile,
     then
   then ;
 
@@ -119,7 +119,7 @@ wordlist constant xwordlist
     nip nip process-xname
   else
     s>number? if
-      drop compile-number
+      drop xliteral,
     else
       -1 abort" Unknown word"
     then
@@ -134,14 +134,14 @@ variable xstate
 : x[ 0 xstate ! ; ximmediate-as [
 
 : x;
-  compile-return
+  xreturn,
   x[
   current-ir xlatest xname-ir !
   current-ir gen-code
   -1 to current-ir
   -1 to current-node ; ximmediate-as ;
 
-: xliteral compile-number ; ximmediate-as literal
+: xliteral xliteral, ; ximmediate-as literal
 
 : x\ postpone \ ; ximmediate-as \
 : x( postpone ( ; ximmediate-as (
@@ -157,7 +157,7 @@ variable xstate
 : x'
   parse-next-name find-xname ?dup if >xcode else -1 abort" Unknown word " then ;
 
-: x['] x' compile-number ; ximmediate-as [']
+: x['] x' xliteral, ; ximmediate-as [']
 
 
 create colon-name 128 chars allot

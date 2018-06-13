@@ -2,15 +2,15 @@
 
 main:
 
-$66 ps-push-lit,
-$ed ps-push-lit,
-$ce ps-push-lit,
+$66 push-lit,
+$ed push-lit,
+$ce push-lit,
 
-$8501 ps-push-lit,
+$8501 push-lit,
 ' c! # call,
-$8502 ps-push-lit,
+$8502 push-lit,
 ' c! # call,
-$8503 ps-push-lit,
+$8503 push-lit,
 ' c! # call,
 
 begin, halt, repeat,

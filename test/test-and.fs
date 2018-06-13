@@ -1,12 +1,12 @@
 [asm]
 
 main:
-$abcd ps-push-lit,
-$ff00 ps-push-lit,
+$abcd push-lit,
+$ff00 push-lit,
 ' and # call,
 
-$abcd ps-push-lit,
-$ff ps-push-lit,
+$abcd push-lit,
+$ff push-lit,
 ' and # call,
 
 begin, halt, repeat,

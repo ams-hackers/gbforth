@@ -22,9 +22,9 @@ main:
 
 ' initialize # call,
 
-$C101 ps-push-lit,
-$C201 ps-push-lit,
-#5 ps-push-lit,
+$C101 push-lit,
+$C201 push-lit,
+#5 push-lit,
 ' cmove # call,
 
 begin, halt, repeat,

@@ -1,8 +1,8 @@
 [asm]
 
 main:
-$c7 ps-push-lit,
-$df ps-push-lit,
+$c7 push-lit,
+$df push-lit,
 ' * # call,
 
 begin, halt, repeat,

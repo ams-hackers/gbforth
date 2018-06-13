@@ -2,20 +2,20 @@
 
 main:
 
-$1234 ps-push-lit,
-$5678 ps-push-lit,
+$1234 push-lit,
+$5678 push-lit,
 ' max # call,
 
-$abcd ps-push-lit,
-$6789 ps-push-lit,
+$abcd push-lit,
+$6789 push-lit,
 ' max # call,
 
-$aa55 ps-push-lit,
-$aa88 ps-push-lit,
+$aa55 push-lit,
+$aa88 push-lit,
 ' max # call,
 
-$aa44 ps-push-lit,
-$aa22 ps-push-lit,
+$aa44 push-lit,
+$aa22 push-lit,
 ' max # call,
 
 begin, halt, repeat,

@@ -1,12 +1,12 @@
 [asm]
 
 main:
-$ab ps-push-lit,
-$8 ps-push-lit,
+$ab push-lit,
+$8 push-lit,
 ' lshift # call,
 
-$cd ps-push-lit,
-$0 ps-push-lit,
+$cd push-lit,
+$0 push-lit,
 ' lshift # call,
 
 begin, halt, repeat,

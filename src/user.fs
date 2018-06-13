@@ -47,7 +47,7 @@ export gamecode:
 export makercode:
 
 ( TODO: Remove me! )
-export ps-push-lit,
+export push-lit,
 
 : execute # call, ;
 
