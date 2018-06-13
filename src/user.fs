@@ -29,7 +29,9 @@ also dmgforth
 
 : code [asm] xcreate ;
 
-: end-code [endasm] ;
+: end-code
+  [endasm]
+  xlatest xname-flags F_PRIMITIVE swap or! ;
 
 export (
 export ==>

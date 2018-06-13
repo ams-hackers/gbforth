@@ -6,8 +6,9 @@ require ./codegen.fs
 
 ( Cross words )
 
-1 constant F_IMMEDIATE
-2 constant F_CONSTANT
+%001 constant F_IMMEDIATE
+%010 constant F_CONSTANT
+%100 constant F_PRIMITIVE
 
 struct
   cell% field xname-flags
@@ -25,7 +26,10 @@ end-struct xname%
 : >xflags xname-flags @ ;
 : ximmediate? >xflags F_IMMEDIATE and 0<> ;
 : xconstant?  >xflags F_CONSTANT and 0<> ;
+: xprimitive?  >xflags F_PRIMITIVE and 0<> ;
 
+: or! ( u addr -- )
+  tuck @ or swap ! ;
 
 ( Cross Dictionary )
 
@@ -98,6 +102,11 @@ wordlist constant xwordlist
   insert-node IR_NODE_CALL addr mutate-node
   to current-node ;
 
+: xcompile-colon, { xname -- }
+  current-node
+  insert-node IR_NODE_CALL xname >xcode mutate-node
+  to current-node ;
+
 : xreturn,
   current-node
   insert-node IR_NODE_RET 0 mutate-node
@@ -110,7 +119,11 @@ wordlist constant xwordlist
     dup xconstant? if
       >xcode xliteral,
     else
-      >xcode xcompile,
+      dup xprimitive? if
+        >xcode xcompile,
+      else
+        xcompile-colon,
+      then
     then
   then ;
 
