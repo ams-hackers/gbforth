@@ -2,12 +2,20 @@ require ./ir.fs
 require ./optimize.fs
 require ./codegen.fs
 
+(code)
+A inc,
+A inc,
+ret,
+(end-code)
+latestxt constant prim
+
+
 make-ir constant test
 
 test
-insert-node IR_NODE_CALL ::type 4242 ::value IR_FLAG_PRIMITIVE ::flags
-insert-node IR_NODE_CALL ::type 4242 ::value IR_FLAG_PRIMITIVE ::flags
-insert-node IR_NODE_CALL ::type 4242 ::value IR_FLAG_PRIMITIVE ::flags
+insert-node IR_NODE_CALL ::type prim ::value IR_FLAG_PRIMITIVE ::flags
+insert-node IR_NODE_CALL ::type prim ::value IR_FLAG_PRIMITIVE ::flags
+insert-node IR_NODE_CALL ::type prim ::value IR_FLAG_PRIMITIVE ::flags
 insert-node IR_NODE_RET  ::type
 drop
 
@@ -19,5 +27,11 @@ insert-node IR_NODE_CALL ::type test ::value 0 ::flags
 insert-node IR_NODE_RET  ::type
 drop
 
-foo  gen-code
-\ foo .ir
+
+." prim: " prim hex. CR CR
+
+test .ir
+foo .ir
+
+foo gen-code
+cr

@@ -70,7 +70,7 @@ end-struct ir%
 : primitive? ( ir-node -- f )
   ir-node-flags @ IR_FLAG_PRIMITIVE and 0<> ;
 
-: .?ir ir-node-flags @ IR_FLAG_PRIMITIVE <> if ." (IR)" then ;
+: .?ir primitive? invert if ." (IR)" then ;
 
 : .node { ir-node -- }
   ir-node ir-node-value @

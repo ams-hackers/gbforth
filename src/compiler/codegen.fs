@@ -1,6 +1,7 @@
 ( IR -> Assembly)
 
 require ./ir.fs
+require ./code.fs
 require ../asm.fs
 [asm]
 
@@ -45,7 +46,11 @@ require ../asm.fs
 \ resolves offset from both primitive and non-primitive nodes
 : ir-node>addr
   dup ir-node-value @ swap
-  primitive? invert if ir-addr @ then ;
+  primitive? if
+    emit-code
+  else
+    ir-addr @
+  then ;
 
 : gen-call ( ir-node -- )
   ir-node>addr # call, ;
@@ -65,12 +70,16 @@ defer gen-code
 : gen-dependencies ( ir -- )
   ir-entry
   begin ?dup while
-    dup primitive? invert if
+    dup primitive? if
+      ( Code words value are a XT to )
+      dup ir-node-value @ emit-code drop
+    else
       dup ir-node-type @ case
         IR_NODE_CALL   of dup ir-node-value @ gen-code endof
         IR_NODE_BRANCH of dup ir-node-value @ gen-code endof
       endcase
     then
+
     next-node
   repeat ;
 
@@ -86,6 +95,7 @@ defer gen-code
 : gen-code' ( ir -- )
   dup ir-addr @ if drop exit then
   dup gen-dependencies
+
   offset over ir-addr !
   ir-entry
   begin ?dup while

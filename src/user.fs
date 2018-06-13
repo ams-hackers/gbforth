@@ -27,9 +27,9 @@ also dmgforth
 
 : c, rom, ;
 
-export (
+export ( immediate
+export \ immediate
 export ==>
-export \
 export include
 export require
 export [asm]
@@ -43,7 +43,7 @@ export gamecode:
 export makercode:
 
 export code
-export end-code
+export end-code immediate
 
 ( TODO: Remove me! )
 export push-lit,
