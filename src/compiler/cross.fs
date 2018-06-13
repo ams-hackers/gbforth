@@ -176,16 +176,16 @@ variable xstate
 : x['] x' xliteral, ; ximmediate-as [']
 
 
-create colon-name 128 chars allot
+create user-name 128 chars allot
 
 ( Copy a string into colon-name to persist it! )
-: copy-colon-name ( addr u -- addr' u )
+: copy-user-name ( addr u -- addr' u )
   dup 128 >= abort" Name is too large!"
-  dup >r colon-name swap move
-  colon-name r> ;
+  dup >r user-name swap move
+  user-name r> ;
 
-: parse-colon-name
-  parse-next-name copy-colon-name ;
+: parse-user-name
+  parse-next-name copy-user-name ;
 
 ( -- offset )
 : create-word
@@ -200,7 +200,7 @@ create colon-name 128 chars allot
 
 ( create the word AFTER parsing the definition so word is not visible to itself )
 : x:
-  parse-colon-name 2>r
+  parse-user-name 2>r
   2r@ nextname create-word
   ( offset ) 2r> rot sym ;
 
