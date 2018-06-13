@@ -1,8 +1,7 @@
 #! /usr/bin/env gforth
 \                                           -*- forth -*-
 
-vocabulary dmgforth
-vocabulary dmgforth-user
+require ./src/vocabulary.fs
 
 get-current
 also dmgforth definitions
@@ -14,7 +13,7 @@ require ./src/cli.fs
 require ./src/rom.fs
 require ./src/sym.fs
 require ./src/asm.fs
-
+require ./src/runtime.fs
 
 also gb-assembler-impl
 ' rom, IS emit

@@ -1,4 +1,5 @@
 require ./asm.fs
+require ./rom.fs
 
 [asm]
 

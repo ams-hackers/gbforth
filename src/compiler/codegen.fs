@@ -1,8 +1,6 @@
-( A SUBROUTINE-THREADED KERNEL FOR DMG-FORTH )
+( IR -> Assembly)
 
-require ./asm.fs
-require ./utils/bytes.fs
-
+require ../asm.fs
 [asm]
 
 ( Assume you have the following code
@@ -33,26 +31,6 @@ require ./utils/bytes.fs
   every word [or primitive] address that is part of the word definition.
 )
 
-( Helper words for stack manipulation )
-
-$FFFE constant SP0 \ end of HRAM
-$CFFF constant RS0 \ end of RAM bank 0
-$C000 constant DP0 \ start of RAM bank 0
-
-variable DP
-DP0 2 + DP ! \ init dictionary pointer
-
-: dp-init,
-  DP @ dup
-  lower-byte # A ld, A DP0 ]* ld,
-  higher-byte # A ld, A DP0 1 + ]* ld, ;
-
-: ps-clear,
-  SP0 $FF00 - # C ld, ;
-
-: ps-init,
-  ps-clear,
-  RS0 # SP ld, ;
 
 : ps-push-lit,
   C dec,
@@ -67,5 +45,25 @@ DP0 2 + DP ! \ init dictionary pointer
 : xcompile, # call, ;
 : xbranch, # jp, ;
 : xreturn, ret, ;
+
+
+: gen-node ( ir-node -- )
+  dup ir-node-value @
+  swap ir-node-type @ case
+    IR_NODE_CALL    of xcompile, endof
+    IR_NODE_LITERAL of xliteral, endof
+    IR_NODE_BRANCH  of xbranch, endof
+    IR_NODE_RET     of drop xreturn, endof
+    true abort" (unknown node) "
+  endcase
+;
+
+: gen-code ( ir -- )
+  ir-entry
+  begin ?dup while
+    dup gen-node
+    next-node
+  repeat ;
+
 
 [endasm]

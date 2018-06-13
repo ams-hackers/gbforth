@@ -1,8 +1,8 @@
-require ./rom.fs
-require ./sym.fs
-require ./ir.fs
+require ../rom.fs
+require ../sym.fs
 
-[asm]
+require ./ir.fs
+require ./codegen.fs
 
 ( Cross words )
 
@@ -188,5 +188,3 @@ create colon-name 128 chars allot
   parse-colon-name 2>r
   2r@ nextname create-word
   ( offset ) 2r> rot sym ;
-
-[endasm]

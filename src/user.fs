@@ -1,8 +1,10 @@
 ( User Vocabulary )
 
+require ./vocabulary.fs
 require ./cartridge.fs
-require ./cross.fs
 require ./asm.fs
+require ./rom.fs
+require ./compiler/cross.fs
 
 : export
   parse-name
