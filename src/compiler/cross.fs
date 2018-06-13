@@ -203,3 +203,12 @@ create colon-name 128 chars allot
   parse-colon-name 2>r
   2r@ nextname create-word
   ( offset ) 2r> rot sym ;
+
+
+: code
+  [asm]
+  xcreate ;
+
+: end-code
+  [endasm]
+  xlatest xname-flags F_PRIMITIVE swap or! ;

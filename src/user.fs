@@ -27,12 +27,6 @@ also dmgforth
 
 : c, rom, ;
 
-: code [asm] xcreate ;
-
-: end-code
-  [endasm]
-  xlatest xname-flags F_PRIMITIVE swap or! ;
-
 export (
 export ==>
 export \
@@ -47,6 +41,9 @@ export main:
 export title:
 export gamecode:
 export makercode:
+
+export code
+export end-code
 
 ( TODO: Remove me! )
 export push-lit,
