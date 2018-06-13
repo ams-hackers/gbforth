@@ -13,15 +13,11 @@
   8 $C108 c!
 ;
 
-main:
+: test
+  initialize
+  $C103 #3 #42 fill ;
 
-' initialize # call,
-
-$C103 push-lit,
-#3 push-lit,
-#42 push-lit,
-' fill # call,
-
+main: ' test # call,
 begin, halt, repeat,
 
 [endasm]

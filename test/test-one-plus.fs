@@ -1,12 +1,10 @@
 [asm]
 
-main:
+: test
+  $1234 $5676
+  1+ 1+ ;
 
-$1234 push-lit,
-$5676 push-lit,
-' 1+ # call,
-' 1+ # call,
-
+main: ' test # call,
 begin, halt, repeat,
 
 [endasm]

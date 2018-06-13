@@ -1,12 +1,10 @@
 [asm]
 
-main:
+: test
+  $0104 @
+  $0106 @ ;
 
-$0104 push-lit, \ ce ed
-' @ # call,
-$0106 push-lit, \ 66 66
-' @ # call,
-
+main: ' test # call,
 begin, halt, repeat,
 
 [endasm]

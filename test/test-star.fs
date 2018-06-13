@@ -1,10 +1,9 @@
 [asm]
 
-main:
-$c7 push-lit,
-$df push-lit,
-' * # call,
+: test
+  $c7 $df * ;
 
+main: ' test # call,
 begin, halt, repeat,
 
 [endasm]

@@ -1,11 +1,9 @@
 [asm]
 
-main:
-$11 push-lit,
-$22 push-lit,
-$33 push-lit,
-' swap # call,
+: test
+  $11 $22 $33 swap ;
 
+main: ' test # call,
 begin, halt, repeat,
 
 [endasm]

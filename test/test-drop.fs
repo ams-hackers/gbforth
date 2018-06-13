@@ -1,10 +1,9 @@
 [asm]
 
-main:
-$11 push-lit,
-$22 push-lit,
-' drop # call,
+: test
+  $11 $22 drop ;
 
+main: ' test # call,
 begin, halt, repeat,
 
 [endasm]

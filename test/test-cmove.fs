@@ -18,15 +18,11 @@
   0 $C206 c!
 ;
 
-main:
+: test
+  initialize
+  $C101 $C201 #5 cmove ;
 
-' initialize # call,
-
-$C101 push-lit,
-$C201 push-lit,
-#5 push-lit,
-' cmove # call,
-
+main: ' test # call,
 begin, halt, repeat,
 
 [endasm]

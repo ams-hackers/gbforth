@@ -1,23 +1,12 @@
 [asm]
 
-main:
+: test
+  $5678 $1234 min
+  $6789 $abcd min
+  $aa88 $aa55 min
+  $aa22 $aa44 min ;
 
-$5678 push-lit,
-$1234 push-lit,
-' min # call,
-
-$6789 push-lit,
-$abcd push-lit,
-' min # call,
-
-$aa88 push-lit,
-$aa55 push-lit,
-' min # call,
-
-$aa22 push-lit,
-$aa44 push-lit,
-' min # call,
-
+main: ' test # call,
 begin, halt, repeat,
 
 [endasm]

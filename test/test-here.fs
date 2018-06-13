@@ -3,10 +3,9 @@
 variable foo
 variable bar
 variable baz
+: test here ;
 
-main:
-' here # call,
-
+main: ' test # call,
 begin, halt, repeat,
 
 [endasm]

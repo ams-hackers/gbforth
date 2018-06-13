@@ -1,15 +1,10 @@
 [asm]
 
-main:
+: test
+  $ba65 $8501 !
+  $1234 $8501 +! ;
 
-$ba65 push-lit,
-$8501 push-lit,
-' ! # call,
-
-$1234 push-lit,
-$8501 push-lit,
-' +! # call,
-
+main: ' test # call,
 begin, halt, repeat,
 
 [endasm]

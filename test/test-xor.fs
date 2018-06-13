@@ -1,10 +1,9 @@
 [asm]
 
-main:
-$abcd push-lit,
-$5678 push-lit,
-' xor # call,
+: test
+  $abcd $5678 xor ;
 
+main: ' test # call,
 begin, halt, repeat,
 
 [endasm]

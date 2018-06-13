@@ -1,19 +1,11 @@
 [asm]
 
-main:
+: test
+  $abcd $1234 -
+  $89ab $89ab -
+  $aaaa $aaab - ;
 
-$abcd push-lit,
-$1234 push-lit,
-' - # call,
-
-$89ab push-lit,
-$89ab push-lit,
-' - # call,
-
-$AAAA push-lit,
-$AAAB push-lit,
-' - # call,
-
+main: ' test # call,
 begin, halt, repeat,
 
 [endasm]

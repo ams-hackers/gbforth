@@ -1,14 +1,10 @@
 [asm]
 
-main:
-$ab00 push-lit,
-$8 push-lit,
-' rshift # call,
+: test
+  $ab00 $8 rshift
+  $cd00 $0 rshift ;
 
-$cd00 push-lit,
-$0 push-lit,
-' rshift # call,
-
+main: ' test # call,
 begin, halt, repeat,
 
 [endasm]

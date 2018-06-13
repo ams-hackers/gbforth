@@ -1,14 +1,10 @@
 [asm]
 
-main:
-$abcd push-lit,
-$ff00 push-lit,
-' and # call,
+: test
+  $abcd $ff00 and
+  $abcd $ff and ;
 
-$abcd push-lit,
-$ff push-lit,
-' and # call,
-
+main: ' test # call,
 begin, halt, repeat,
 
 [endasm]
