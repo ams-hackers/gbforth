@@ -62,8 +62,8 @@ export push-lit,
   r> xconstant ;
 
 : variable
-  DP @
-  $2 DP +!
+  CP @
+  $2 CP +!
   constant ;
 
 : ' x' ;

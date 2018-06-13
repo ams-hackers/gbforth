@@ -5,27 +5,28 @@ require ./utils/bytes.fs
 
 [asm]
 
-
-( Helper words for stack manipulation )
-
 $FFFE constant SP0 \ end of HRAM
-$CFFF constant RS0 \ end of RAM bank 0
-$C000 constant DP0 \ start of RAM bank 0
+$CFFF constant RP0 \ end of RAM bank 0
+$C002 constant CP0 \ start of RAM bank 0
+$C000 constant CP-addr
 
-variable DP
-DP0 2 + DP ! \ init dictionary pointer
+variable CP
+CP0 CP ! \ init compiler pointer
 
-: dp-init,
-  DP @ dup
-  lower-byte # A ld, A DP0 ]* ld,
-  higher-byte # A ld, A DP0 1 + ]* ld, ;
+: cp-init,
+  CP @ dup
+  lower-byte # A ld, A CP-addr ]* ld,
+  higher-byte # A ld, A CP-addr 1 + ]* ld, ;
 
-: ps-clear,
+: sp-init,
   SP0 $FF00 - # C ld, ;
 
-: ps-init,
-  ps-clear,
-  RS0 # SP ld, ;
+: rp-init,
+  RP0 # SP ld, ;
 
+: runtime-init,
+  sp-init,
+  rp-init,
+  cp-init, ;
 
 [endasm]

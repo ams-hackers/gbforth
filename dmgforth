@@ -70,8 +70,7 @@ previous
   --no-kernel invert if
     begin, halt, repeat,
     __start:
-    ps-init,
-    dp-init,
+    runtime-init,
     main-addr @ # jp,
   then
 
