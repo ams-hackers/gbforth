@@ -94,22 +94,22 @@ wordlist constant xwordlist
 
 : xliteral, { n -- }
   current-node
-  insert-node IR_NODE_LITERAL n mutate-node
+  insert-node IR_NODE_LITERAL ::type n ::value
   to current-node ;
 
 : xcompile, { addr -- }
   current-node
-  insert-node IR_NODE_CALL addr mutate-node
+  insert-node IR_NODE_CALL ::type addr ::value
   to current-node ;
 
 : xcompile-colon, { xname -- }
   current-node
-  insert-node IR_NODE_CALL xname >xcode mutate-node
+  insert-node IR_NODE_CALL ::type xname >xcode ::value
   to current-node ;
 
 : xreturn,
   current-node
-  insert-node IR_NODE_RET 0 mutate-node
+  insert-node IR_NODE_RET ::type
   to current-node ;
 
 : process-xname ( xname -- )

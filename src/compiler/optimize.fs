@@ -55,11 +55,11 @@ require ./ir.fs
   begin ?dup while
     dup tail-call? if
       dup next-node delete-node
-      IR_NODE_BRANCH over ir-node-value @ mutate-node
+      IR_NODE_BRANCH ::type
+      over ir-node-value @ ::value
     then
     next-node
   repeat ;
 
 : optimize-ir
   optimize-tail-call ;
-

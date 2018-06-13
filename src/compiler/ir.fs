@@ -9,6 +9,8 @@ delete nodes.  )
 3 constant IR_NODE_RET
 4 constant IR_NODE_BRANCH
 
+%1 constant IR_FLAG_XNAME
+
 struct
 \ The ir-node-next field must be the first field of this struct, as it
 \ is shared by the ir% struct.
@@ -16,6 +18,7 @@ struct
   cell% field ir-node-prev
   cell% field ir-node-type
   cell% field ir-node-value
+  cell% field ir-node-flags
 end-struct ir-node%
 
 struct
@@ -40,9 +43,16 @@ end-struct ir%
   over next-node over swap link-nodes
   tuck link-nodes ;
 
-: mutate-node { ir-node type val -- ir-node }
+: ::type { ir-node type -- ir-node }
   type ir-node ir-node-type  !
-  val  ir-node ir-node-value !
+  ir-node ;
+
+: ::value { ir-node val -- ir-node }
+  val ir-node ir-node-value  !
+  ir-node ;
+
+: ::flags { ir-node flags -- ir-node }
+  flags ir-node ir-node-type  !
   ir-node ;
 
 : delete-node ( ir-node -- )
