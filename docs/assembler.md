@@ -1,6 +1,6 @@
-## dmg-forth assembler
+## gbforth assembler
 
-dmg-forth includes an assembler. This is useful when you want more
+gbforth includes an assembler. This is useful when you want more
 control about how the hardware is used or you need to optimize some
 piece of code.
 
@@ -10,7 +10,7 @@ compile-time.
 
 ### Introduction
 
-dmg-forth's assembler lives in a separate *vocabulary*, which can be accessed using the words `[asm]` and `[endasm]`.
+gbforth's assembler lives in a separate *vocabulary*, which can be accessed using the words `[asm]` and `[endasm]`.
 
 It provides a traditional postfix notation. Operands are specified
 first, and then the instruction. For example, the code below will move
@@ -25,8 +25,8 @@ the number 42 to the register `HL`.
 ```
 
 To learn more, you can have a look to the hello world example
-[written in assembler](https://github.com/ams-hackers/dmg-forth/blob/master/examples/hello-world-asm/hello.fs),
-or the [the lib/ directory](https://github.com/ams-hackers/dmg-forth/tree/master/lib).
+[written in assembler](https://github.com/ams-hackers/gbforth/blob/master/examples/hello-world-asm/hello.fs),
+or the [the lib/ directory](https://github.com/ams-hackers/gbforth/tree/master/lib).
 
 
 ### Operands
@@ -109,11 +109,11 @@ countToZero #NZ jp,
 [endasm]
 ```
 
-For local references however (like in the example above), you are encouraged to make use of two other concepts that the dmg-forth assembler provides: *stack-based references*, and *structured control flow*. These also support cases where you need to forward-reference an address (which is not possible with `label`).
+For local references however (like in the example above), you are encouraged to make use of two other concepts that the gbforth assembler provides: *stack-based references*, and *structured control flow*. These also support cases where you need to forward-reference an address (which is not possible with `label`).
 
 #### Anonymous stack-based references
 
-dmg-forth's assembler provides word pairs to create anonymous stack-based references:
+gbforth's assembler provides word pairs to create anonymous stack-based references:
 - `here<` and `<there` for backward references
 - `there>` and `>here` for forward references
 

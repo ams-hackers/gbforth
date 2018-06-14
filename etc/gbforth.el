@@ -1,4 +1,4 @@
-;;; dmgforth.el --- Extensions to work with dmg-forth  -*- lexical-binding: t; -*-
+;;; gbforth.el --- Extensions to work with gbforth  -*- lexical-binding: t; -*-
 
 ;; Keywords: languages, extensions
 
@@ -19,20 +19,20 @@
 
 (require 'forth-mode)
 
-(defvar dmgforth-defining-words
+(defvar gbforth-defining-words
   '("simple-instruction" "instruction" "label" "export"))
 
-(dolist (w dmgforth-defining-words)
+(dolist (w gbforth-defining-words)
   (forth-syntax--define w #'forth-syntax--state-defining-word))
 
-(defvar dmgforth-keywords
+(defvar gbforth-keywords
   '("begin-dispatch" "end-dispatch" "~~>" "::"
     "end-instruction" "tile"
     "begin," "while," "repeat," "until," "if," "else," "then,"
     "code" "end-code"))
 
-(dolist (w dmgforth-keywords)
+(dolist (w gbforth-keywords)
   (forth-syntax--define w #'forth-syntax--state-font-lock-keyword))
 
-(provide 'dmgforth)
-;;; dmgforth.el ends here
+(provide 'gbforth)
+;;; gbforth.el ends here

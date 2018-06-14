@@ -1,6 +1,6 @@
 # Code Words
 
-Code words are the most primitives words in dmg-forth, and are defined in [assembler](./assembler.md).
+Code words are the most primitives words in gbforth, and are defined in [assembler](./assembler.md).
 The *core library* contains a lot of these primitives already, but sometimes you
 may need to write new code words yourself.
 

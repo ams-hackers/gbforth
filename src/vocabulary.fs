@@ -1,2 +1,2 @@
-vocabulary dmgforth
-vocabulary dmgforth-user
+vocabulary gbforth
+vocabulary gbforth-user

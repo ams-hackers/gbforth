@@ -68,10 +68,10 @@ halt,
 nop,
 wait jr,
 
-( HACK: Don't use dmgforth internals here )
+( HACK: Don't use gbforth internals here )
 >Title
 [host]
-also dmgforth
+also gbforth
 %title rom-move
 previous
 [endhost]

@@ -5,7 +5,7 @@
 __start:
 
 [host]
-also dmgforth
+also gbforth
 runtime-init,
 previous
 [endhost]

@@ -1,20 +1,20 @@
 SHELL := /bin/bash
 
-export DMGFORTH_PATH := $(shell pwd)/lib
+export GBFORTH_PATH := $(shell pwd)/lib
 
 LIB_FILES=lib/*.fs
-SOURCE_FILES=dmgforth src/*.fs src/utils/*.fs src/compiler/*.fs
+SOURCE_FILES=gbforth src/*.fs src/utils/*.fs src/compiler/*.fs
 
 TEST_FILES = $(wildcard test/test-*.fs)
 TEST_OBJS = $(subst .fs,.gb,$(TEST_FILES))
 
-DMGFORTH = ./dmgforth $(DMGFORTH_FLAGS)
+GBFORTH = ./gbforth $(GBFORTH_FLAGS)
 
 .PHONY: all examples tests
 
-# Pattern rule to build dmg-forth roms
+# Pattern rule to build gbforth roms
 %.gb: %.fs $(SOURCE_FILES) $(LIB_FILES)
-	$(DMGFORTH) $< $@
+	$(GBFORTH) $< $@
 
 all: examples
 
@@ -26,7 +26,7 @@ examples: \
 	examples/hello-world/hello.gb
 
 examples/hello-world-asm/hello.gb: examples/hello-world-asm/hello.fs examples/hello-world-asm/*.fs $(SOURCE_FILES) $(LIB_FILES)
-	$(DMGFORTH) --no-kernel $< $@
+	$(GBFORTH) --no-kernel $< $@
 	@cd examples/hello-world-asm/ && shasum -c hello.gb.sha
 
 #

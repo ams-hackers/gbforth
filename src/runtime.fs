@@ -1,4 +1,4 @@
-( A SUBROUTINE-THREADED KERNEL FOR DMG-FORTH )
+( A SUBROUTINE-THREADED KERNEL FOR GBFORTH )
 
 require ./asm.fs
 require ./utils/bytes.fs

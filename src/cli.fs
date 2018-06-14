@@ -1,11 +1,11 @@
 ( Add lib/ to the search path of the game )
-s" DMGFORTH_PATH" getenv 2constant dmgforth-path
+s" GBFORTH_PATH" getenv 2constant gbforth-path
 
 : process-exit
   1 (bye) ;
 
 : usage
-  ." Usage: dmgforth [--no-kernel] <input> <output>" cr ;
+  ." Usage: gbforth [--no-kernel] <input> <output>" cr ;
 
 false Value --no-kernel
 false Value --verbose
@@ -26,7 +26,7 @@ false Value --verbose
   then
 
   s" --version" arg= if
-    ." dmgforth 0.1.0" CR
+    ." gbforth 0.1.0" CR
     process-exit
     true exit
   then

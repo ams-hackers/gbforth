@@ -30,10 +30,10 @@ ret,
 : %Title s" Hello World !" ;
 [endhost]
 
-( HACK: Don't use dmgforth internals here )
+( HACK: Don't use gbforth internals here )
 label Title
 [host]
-also dmgforth
+also gbforth
 %title rom-move
 previous
 [endhost]

@@ -1,7 +1,7 @@
 ( IBMPC1 8x8 Character Set Macros V1.2 )
 
 [host]
-also dmgforth
+also gbforth
 
 : >
   parse-name

@@ -13,14 +13,14 @@ require ./compiler/cross.fs
 
 : [user-definitions]
   get-current
-  also dmgforth-user definitions ;
+  also gbforth-user definitions ;
 
 : [end-user-definitions]
   previous set-current ;
 
 
 [user-definitions]
-also dmgforth
+also gbforth
 
 : [host] also forth ;
 : [endhost] previous ;
