@@ -110,4 +110,25 @@ defer gen-ir
 ; latestxt is gen-ir
 
 
+( Get the address of code tokens and IR.
+
+  It will ensure that the respective code is emitted, so the address
+is known.
+)
+
+: code>addr ( code -- addr )
+  emit-code ;
+
+: ir>addr ( ir -- addr )
+  dup gen-ir
+  ir-addr @ ;
+
+: xname>addr ( xname -- addr )
+  dup xprimitive? if
+    >xcode code>addr
+  else
+    >xcode ir>addr
+  then ;
+
+
 [endasm]

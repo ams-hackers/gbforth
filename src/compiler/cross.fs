@@ -8,15 +8,6 @@ require ./codegen.fs
 
 require ./xname.fs
 
-: emitted-addr
-  dup xprimitive? if
-    >xcode emit-code
-  else
-    dup >xcode gen-ir
-    >xcode ir-addr @
-  then ;
-
-
 ( Cross Dictionary )
 
 wordlist constant xwordlist
@@ -142,7 +133,7 @@ variable xstate
 
 : x'
   parse-next-name find-xname ?dup if
-    emitted-addr
+    xname>addr
   else
     -1 abort" Unknown word "
   then ;
@@ -186,13 +177,11 @@ create user-name 128 chars allot
   current-ir gen-ir
 
   ( flags ) WORD_NONAME = if
-    xlatest emitted-addr
+    xlatest xname>addr
   then
 
   -1 to current-ir
   -1 to current-node ; ximmediate-as ;
-
-
 
 
 ( Code definitions )
