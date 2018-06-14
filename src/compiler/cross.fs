@@ -66,13 +66,7 @@ wordlist constant xwordlist
   insert-node IR_NODE_LITERAL ::type n ::value
   to current-node ;
 
-: xcompile-code, { xname -- }
-  current-node
-  insert-node IR_NODE_CALL ::type xname ::value
-  to current-node ;
-
-( TODO: same as xcompile-code, now )
-: xcompile-colon, { xname -- }
+: xcompile, { xname -- }
   current-node
   insert-node IR_NODE_CALL ::type xname ::value
   to current-node ;
@@ -89,11 +83,7 @@ wordlist constant xwordlist
     dup xconstant? if
       >xcode xliteral,
     else
-      dup xprimitive? if
-        xcompile-code,
-      else
-        xcompile-colon,
-      then
+      xcompile,
     then
   then ;
 
