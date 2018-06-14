@@ -1,7 +1,4 @@
-[asm]
 
-
-( initialize )
 : initialize
   1 $C101 c!
   2 $C102 c!
@@ -13,11 +10,6 @@
   8 $C108 c!
 ;
 
-: test
+: main
   initialize
   $C103 #3 #42 fill ;
-
-main: ' test # call,
-ret,
-
-[endasm]

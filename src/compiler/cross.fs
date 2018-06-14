@@ -164,7 +164,6 @@ create user-name 128 chars allot
   xreturn,
   x[
   current-ir 0 create-xname
-  current-ir gen-ir
 
   ( flags ) WORD_NONAME = if
     xlatest xname>addr

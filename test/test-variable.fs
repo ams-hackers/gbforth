@@ -1,17 +1,8 @@
-[asm]
-
 variable foo
 variable bar
 
-: test
+: main
   $1337 foo !
   $4242 bar !
   foo @
   bar @ ;
-
-main:
-' test # call,
-
-ret,
-
-[endasm]

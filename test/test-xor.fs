@@ -1,9 +1,3 @@
-[asm]
 
-: test
+: main
   $abcd $5678 xor ;
-
-main: ' test # call,
-ret,
-
-[endasm]

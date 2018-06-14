@@ -41,8 +41,10 @@ ret,
 
 : clear-screen
   _SCRN0 SCRN_VX_B SCRN_VY_B * bl fill ;
+( Force clear-screen to be emitted now )
+' clear-screen drop
 
-main:
+label start
 
 ( program start )
 
@@ -92,3 +94,7 @@ wait jr,
 nop,
 
 [endasm]
+
+code main
+  start call,
+end-code

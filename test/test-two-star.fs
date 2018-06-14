@@ -1,9 +1,2 @@
-[asm]
-
-: test
+: main
   $1234 $5678 2* ;
-
-main: ' test # call,
-ret,
-
-[endasm]

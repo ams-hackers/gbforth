@@ -1,10 +1,4 @@
-[asm]
 
-: test
+: main
   $8765 $4323
   1- 1- ;
-
-main: ' test # call,
-ret,
-
-[endasm]

@@ -1,6 +1,4 @@
-[asm]
-
-main:
+code main
 
 \ [HL] A add,
 $11 # A ld, A $8500 ]* ld,
@@ -22,4 +20,5 @@ B A add,
 
 ret,
 
-[endasm]
+end-code
+

@@ -45,6 +45,9 @@ export makercode:
 export code
 export end-code immediate
 
+export dup
+export drop
+
 ( TODO: Remove me! )
 export push-lit,
 

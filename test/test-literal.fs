@@ -1,10 +1,3 @@
-[asm]
 
-: test $1 [ $2 $3 ] literal literal + + [ $4 ]L + ;
-
-main:
-' test # call,
-
-ret,
-
-[endasm]
+: main
+  $1 [ $2 $3 ] literal literal + + [ $4 ]L + ;
