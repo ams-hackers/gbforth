@@ -18,6 +18,5 @@ end-struct xname%
 : >xcode xname-addr @ ;
 : >xflags xname-flags @ ;
 : ximmediate? >xflags F_IMMEDIATE and 0<> ;
-: xconstant?  >xflags F_CONSTANT and 0<> ;
-: xprimitive?  >xflags F_PRIMITIVE and 0<> ;
-
+: xconstant?  >xflags F_CONSTANT  and 0<> ;
+: xprimitive? >xflags F_PRIMITIVE and 0<> ;
