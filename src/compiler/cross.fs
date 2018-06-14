@@ -12,7 +12,7 @@ require ./xname.fs
   dup xprimitive? if
     >xcode emit-code
   else
-    dup >xcode gen-code
+    dup >xcode gen-ir
     >xcode ir-addr @
   then ;
 
@@ -183,7 +183,7 @@ create user-name 128 chars allot
   xreturn,
   x[
   current-ir 0 create-xname
-  current-ir gen-code
+  current-ir gen-ir
 
   ( flags ) WORD_NONAME = if
     xlatest emitted-addr

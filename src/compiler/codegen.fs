@@ -66,17 +66,17 @@ require ../asm.fs
 : gen-literal  ( ir-node -- )
   ir-node-value @ push-lit, ;
 
-defer gen-code
+defer gen-ir
 
 : gen-xname ( xname -- )
   dup xprimitive? if
     >xcode emit-code drop
   else
-    >xcode gen-code
+    >xcode gen-ir
   then ;
 
 (
-  This is called by gen-code before emitting the main word, because you can not emit
+  This is called by gen-ir before emitting the main word, because you can not emit
   words while emitting another word: So this extra pass is needed.
   )
 : gen-dependencies ( ir -- )
@@ -98,7 +98,7 @@ defer gen-code
     true abort" (unknown node) "
   endcase ;
 
-: gen-code' ( ir -- )
+: gen-ir' ( ir -- )
   dup ir-addr @ if drop exit then
   dup gen-dependencies
   offset over ir-addr !
@@ -107,7 +107,7 @@ defer gen-code
     dup gen-node
     next-node
   repeat
-; latestxt is gen-code
+; latestxt is gen-ir
 
 
 [endasm]
