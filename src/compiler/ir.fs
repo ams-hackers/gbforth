@@ -1,22 +1,21 @@
 require ../utils/memory.fs
 
+require ./xname.fs
+
+
 ( Intermedian Representation [IR]
 
   As an intermediate representation for the compiler, we use a doubly
 linked-list of ir-node% elements. This allows us to easily insert and
 delete nodes.
 
-  The CALL and BRANCH nodes support a IR_FLAG_PRIMITIVE flag that makes them
-emit an absolute address [stored in ir-node-value]. Without the flag the value
-in ir-node-value is a pointer to another IR.
+  The CALL and BRANCH nodes refer to another XNAME.
 )
 
 1 constant IR_NODE_CALL
 2 constant IR_NODE_LITERAL
 3 constant IR_NODE_RET
 4 constant IR_NODE_BRANCH
-
-%1 constant IR_FLAG_PRIMITIVE
 
 struct
 \ The ir-node-next field must be the first field of this struct, as it
@@ -25,7 +24,6 @@ struct
   cell% field ir-node-prev
   cell% field ir-node-type
   cell% field ir-node-value
-  cell% field ir-node-flags
 end-struct ir-node%
 
 struct
@@ -59,26 +57,23 @@ end-struct ir%
   val ir-node ir-node-value  !
   ir-node ;
 
-: ::flags { ir-node flags -- ir-node }
-  flags ir-node ir-node-flags  !
-  ir-node ;
-
 : delete-node ( ir-node -- )
   dup previous-node over next-node link-nodes
   free throw ;
 
-: primitive? ( ir-node -- f )
-  ir-node-flags @ IR_FLAG_PRIMITIVE and 0<> ;
+: .xname-flags ( xname -- )
+  xprimitive? if ." [CODE]" else ." [COLON]" then ;
 
-: .?ir ir-node-flags @ IR_FLAG_PRIMITIVE <> if ." (IR)" then ;
-
+: .xname-short ( xname -- )
+  dup >xcode hex. .xname-flags ;
+  
 : .node { ir-node -- }
   ir-node ir-node-value @
   ir-node ir-node-type @ case
-    IR_NODE_CALL    of ." CALL "    hex. ir-node .?ir CR endof
-    IR_NODE_LITERAL of ." LITERAL " hex.              CR endof
-    IR_NODE_BRANCH  of ." BRANCH "  hex. ir-node .?ir CR endof
-    IR_NODE_RET     of ." RET"     drop               CR endof
+    IR_NODE_LITERAL of ." LITERAL " hex. CR endof
+    IR_NODE_RET     of ." RET"      drop CR endof
+    IR_NODE_CALL    of ." CALL "   .xname-short CR endof
+    IR_NODE_BRANCH  of ." BRANCH " .xname-short CR endof
     drop ." (unknown) " CR
   endcase ;
 
@@ -92,10 +87,13 @@ end-struct ir%
   ir-entry% @ ;
 
 : .ir ( ir -- )
-  dup hex. ." :" CR
+  dup hex. ." :" 
+  dup ir-addr @ ?dup if ." [offset " hex. ." ]" then
+  CR
   ir-entry
   begin ?dup while
-    dup .node next-node
+    dup .node
+    next-node
   repeat CR ;
 
 : free-ir ( ir -- )

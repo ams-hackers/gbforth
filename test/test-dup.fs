@@ -1,9 +1,4 @@
-[asm]
 
-: test
+: main
   $11 $22 dup ;
 
-main: ' test # call,
-begin, halt, repeat,
-
-[endasm]

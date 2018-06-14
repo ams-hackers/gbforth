@@ -3,35 +3,10 @@ require ../sym.fs
 require ../utils/memory.fs
 
 require ./ir.fs
+require ./code.fs
 require ./codegen.fs
 
-( Cross words )
-
-%001 constant F_IMMEDIATE
-%010 constant F_CONSTANT
-%100 constant F_PRIMITIVE
-
-struct
-  cell% field xname-flags
-  cell% field xname-addr
-  cell% field xname-ir
-end-struct xname%
-
-: make-xname ( addr flag -- xname )
-  >r >r
-  xname% %zalloc
-  r> over xname-addr !
-  r> over xname-flags ! ;
-
-: >xcode xname-addr @ ;
-: >xir xname-ir @ ;
-: >xflags xname-flags @ ;
-: ximmediate? >xflags F_IMMEDIATE and 0<> ;
-: xconstant?  >xflags F_CONSTANT and 0<> ;
-: xprimitive?  >xflags F_PRIMITIVE and 0<> ;
-
-: or! ( u addr -- )
-  tuck @ or swap ! ;
+require ./xname.fs
 
 ( Cross Dictionary )
 
@@ -45,14 +20,6 @@ wordlist constant xwordlist
   dup IS xlatest
   create ,
   r> set-current ;
-
-\ Create a cross-word, reading its name from the input stream using
-\ `create-xname`.
-: xcreate
-  rom-offset dup
-  parse-name 2dup nextname
-  rot sym
-  0 create-xname ;
 
 : ximmediate-as
   latest name>int F_IMMEDIATE create-xname ;
@@ -99,14 +66,9 @@ wordlist constant xwordlist
   insert-node IR_NODE_LITERAL ::type n ::value
   to current-node ;
 
-: xcompile, { addr -- }
+: xcompile, { xname -- }
   current-node
-  insert-node IR_NODE_CALL ::type addr ::value IR_FLAG_PRIMITIVE ::flags
-  to current-node ;
-
-: xcompile-colon, { ir -- }
-  current-node
-  insert-node IR_NODE_CALL ::type ir ::value
+  insert-node IR_NODE_CALL ::type xname ::value
   to current-node ;
 
 : xreturn,
@@ -121,11 +83,7 @@ wordlist constant xwordlist
     dup xconstant? if
       >xcode xliteral,
     else
-      dup xprimitive? if
-        >xcode xcompile,
-      else
-        >xir xcompile-colon,
-      then
+      xcompile,
     then
   then ;
 
@@ -148,19 +106,12 @@ variable xstate
 
 : x[ 0 xstate ! ; ximmediate-as [
 
-: x; ( offset -- )
-  xreturn,
-  x[
-  0 create-xname
-  current-ir xlatest xname-ir !
-  current-ir gen-code
-  -1 to current-ir
-  -1 to current-node ; ximmediate-as ;
-
 : xliteral xliteral, ; ximmediate-as literal
 
 : x\ postpone \ ; ximmediate-as \
 : x( postpone ( ; ximmediate-as (
+\ The next parenthesis is only here to make the editor happy!
+)
 
 : x]
   1 xstate !
@@ -171,35 +122,65 @@ variable xstate
   repeat ;
 
 : x'
-  parse-next-name find-xname ?dup if >xcode else -1 abort" Unknown word " then ;
+  parse-next-name find-xname ?dup if
+    xname>addr
+  else
+    -1 abort" Unknown word "
+  then ;
 
 : x['] x' xliteral, ; ximmediate-as [']
 
 
-create colon-name 128 chars allot
+create user-name 128 chars allot
 
 ( Copy a string into colon-name to persist it! )
-: copy-colon-name ( addr u -- addr' u )
+: copy-user-name ( addr u -- addr' u )
   dup 128 >= abort" Name is too large!"
-  dup >r colon-name swap move
-  colon-name r> ;
+  dup >r user-name swap move
+  user-name r> ;
 
-: parse-colon-name
-  parse-next-name copy-colon-name ;
+: parse-user-name
+  parse-next-name copy-user-name ;
 
-( -- offset )
+
+1 constant WORD_NONAME
+0 constant WORD_NAMED
+
 : create-word
   make-ir dup to current-ir to current-node
-  rom-offset dup >r
-  x]
-  r> ;
+  x] ;
 
-( -- offset )
 : x:noname
+  WORD_NONAME
   noname create-word ;
 
-( create the word AFTER parsing the definition so word is not visible to itself )
+( create the word AFTER parsing the definition so word is not visible
+( to itself, in x; )
 : x:
-  parse-colon-name 2>r
-  2r@ nextname create-word
-  ( offset ) 2r> rot sym ;
+  WORD_NAMED
+  parse-user-name nextname create-word ;
+
+: x; (  -- )
+  xreturn,
+  x[
+  current-ir 0 create-xname
+
+  ( flags ) WORD_NONAME = if
+    xlatest xname>addr
+  then
+
+  -1 to current-ir
+  -1 to current-node ; ximmediate-as ;
+
+
+( Code definitions )
+
+: code
+  parse-user-name
+  (code) ;
+
+: end-code
+  postpone (end-code)
+  >r nextname
+  r> F_PRIMITIVE create-xname
+; immediate

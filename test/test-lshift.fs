@@ -1,10 +1,4 @@
-[asm]
 
-: test
+: main
   $ab $8 lshift
   $cd $0 lshift ;
-
-main: ' test # call,
-begin, halt, repeat,
-
-[endasm]

@@ -1,9 +1,2 @@
-[asm]
-
-: test
+: main
   $c7 $df * ;
-
-main: ' test # call,
-begin, halt, repeat,
-
-[endasm]

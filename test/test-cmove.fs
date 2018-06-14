@@ -1,6 +1,3 @@
-[asm]
-
-
 ( initialize )
 : initialize
   1 $C101 c!
@@ -18,11 +15,6 @@
   0 $C206 c!
 ;
 
-: test
+: main
   initialize
   $C101 $C201 #5 cmove ;
-
-main: ' test # call,
-begin, halt, repeat,
-
-[endasm]

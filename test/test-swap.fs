@@ -1,9 +1,3 @@
-[asm]
 
-: test
+: main
   $11 $22 $33 swap ;
-
-main: ' test # call,
-begin, halt, repeat,
-
-[endasm]
