@@ -27,7 +27,7 @@ insert-node IR_NODE_RET  ::type
 drop
 
 
-." prim: " prim hex. CR CR
+." prim: " prim >xcode hex. CR CR
 test >xcode .ir
 foo  >xcode .ir
 

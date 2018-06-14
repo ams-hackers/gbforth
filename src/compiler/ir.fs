@@ -65,7 +65,7 @@ end-struct ir%
   xprimitive? if ." [CODE]" else ." [COLON]" then ;
 
 : .xname-short ( xname -- )
-  dup hex. .xname-flags ;
+  dup >xcode hex. .xname-flags ;
   
 : .node { ir-node -- }
   ir-node ir-node-value @
