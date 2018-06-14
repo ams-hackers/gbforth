@@ -2,7 +2,9 @@
 
 require ./ir.fs
 require ./code.fs
+require ./xname.fs
 require ../asm.fs
+
 [asm]
 
 ( Assume you have the following code
@@ -44,13 +46,16 @@ require ../asm.fs
 ( Words used by the cross compiler )
 
 \ resolves offset from both primitive and non-primitive nodes
-: ir-node>addr
-  dup ir-node-value @ swap
-  primitive? if
-    emit-code
+: ir-node>addr ( node -- addr )
+  ir-node-value @
+  dup xprimitive? if
+    >xcode emit-code
   else
-    ir-addr @
+    >xcode ir-addr @
   then ;
+
+: ir-node>xcode ( node -- x )
+  ir-node-value @ >xcode ;
 
 : gen-call ( ir-node -- )
   ir-node>addr # call, ;
@@ -63,6 +68,13 @@ require ../asm.fs
 
 defer gen-code
 
+: gen-xname ( xname -- )
+  dup xprimitive? if
+    >xcode emit-code drop
+  else
+    >xcode gen-code
+  then ;
+
 (
   This is called by gen-code before emitting the main word, because you can not emit
   words while emitting another word: So this extra pass is needed.
@@ -70,16 +82,10 @@ defer gen-code
 : gen-dependencies ( ir -- )
   ir-entry
   begin ?dup while
-    dup primitive? if
-      ( Code words value are a XT to )
-      dup ir-node-value @ emit-code drop
-    else
-      dup ir-node-type @ case
-        IR_NODE_CALL   of dup ir-node-value @ gen-code endof
-        IR_NODE_BRANCH of dup ir-node-value @ gen-code endof
-      endcase
-    then
-
+    dup ir-node-type @ case
+      IR_NODE_CALL   of dup ir-node-value @ gen-xname endof
+      IR_NODE_BRANCH of dup ir-node-value @ gen-xname endof
+    endcase
     next-node
   repeat ;
 
@@ -95,7 +101,6 @@ defer gen-code
 : gen-code' ( ir -- )
   dup ir-addr @ if drop exit then
   dup gen-dependencies
-
   offset over ir-addr !
   ir-entry
   begin ?dup while

@@ -75,14 +75,15 @@ wordlist constant xwordlist
   insert-node IR_NODE_LITERAL ::type n ::value
   to current-node ;
 
-: xcompile-code, { lazycode -- }
+: xcompile-code, { xname -- }
   current-node
-  insert-node IR_NODE_CALL ::type lazycode ::value IR_FLAG_PRIMITIVE ::flags
+  insert-node IR_NODE_CALL ::type xname ::value
   to current-node ;
 
-: xcompile-colon, { ir -- }
+( TODO: same as xcompile-code, now )
+: xcompile-colon, { xname -- }
   current-node
-  insert-node IR_NODE_CALL ::type ir ::value
+  insert-node IR_NODE_CALL ::type xname ::value
   to current-node ;
 
 : xreturn,
@@ -98,9 +99,9 @@ wordlist constant xwordlist
       >xcode xliteral,
     else
       dup xprimitive? if
-        >xcode xcompile-code,
+        xcompile-code,
       else
-        >xcode xcompile-colon,
+        xcompile-colon,
       then
     then
   then ;
@@ -202,6 +203,6 @@ create user-name 128 chars allot
 
 : end-code
   postpone (end-code)
-  nextname
-  latestxt F_PRIMITIVE create-xname
+  >r nextname
+  r> F_PRIMITIVE create-xname
 ; immediate

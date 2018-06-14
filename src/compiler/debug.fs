@@ -1,37 +1,38 @@
 require ./ir.fs
 require ./optimize.fs
 require ./codegen.fs
+require ./xname.fs
 
 (code)
 A inc,
 A inc,
 ret,
 (end-code)
-latestxt constant prim
+latestxt F_PRIMITIVE make-xname constant prim
 
 
-make-ir constant test
-
-test
-insert-node IR_NODE_CALL ::type prim ::value IR_FLAG_PRIMITIVE ::flags
-insert-node IR_NODE_CALL ::type prim ::value IR_FLAG_PRIMITIVE ::flags
-insert-node IR_NODE_CALL ::type prim ::value IR_FLAG_PRIMITIVE ::flags
+make-ir
+dup 0 make-xname constant test
+insert-node IR_NODE_CALL ::type prim ::value
+insert-node IR_NODE_CALL ::type prim ::value
+insert-node IR_NODE_CALL ::type prim ::value
 insert-node IR_NODE_RET  ::type
 drop
 
 
-make-ir constant foo
-
-foo
-insert-node IR_NODE_CALL ::type test ::value 0 ::flags
+make-ir
+dup 0 make-xname constant foo
+insert-node IR_NODE_CALL ::type test ::value
 insert-node IR_NODE_RET  ::type
 drop
 
 
 ." prim: " prim hex. CR CR
+test >xcode .ir
+foo  >xcode .ir
 
-test .ir
-foo .ir
 
-foo gen-code
+." --------------------" CR
+foo >xcode gen-code
 cr
+

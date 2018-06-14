@@ -21,6 +21,7 @@ require ../asm.fs
   postpone ;
   [endasm]
   latestxt memoize-code
+  latestxt
 ; immediate
 
 : emit-code
