@@ -8,6 +8,6 @@
   $4444 $4444 > ;
 
 main: ' test # call,
-begin, halt, repeat,
+ret,
 
 [endasm]

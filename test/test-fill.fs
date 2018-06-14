@@ -18,6 +18,6 @@
   $C103 #3 #42 fill ;
 
 main: ' test # call,
-begin, halt, repeat,
+ret,
 
 [endasm]

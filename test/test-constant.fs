@@ -9,6 +9,6 @@ $9001 constant bar
 main:
 ' test # call,
 
-begin, halt, repeat,
+ret,
 
 [endasm]

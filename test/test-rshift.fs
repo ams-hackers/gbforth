@@ -5,6 +5,6 @@
   $cd00 $0 rshift ;
 
 main: ' test # call,
-begin, halt, repeat,
+ret,
 
 [endasm]

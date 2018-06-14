@@ -7,6 +7,6 @@
 main:
 ' f # call,   \ call quadruple [dup + dup +]
 
-begin, halt, repeat,
+ret,
 
 [endasm]

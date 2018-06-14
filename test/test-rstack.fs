@@ -12,5 +12,5 @@
 
 main: execute
 
-begin, halt, repeat,
+ret,
 [endasm]

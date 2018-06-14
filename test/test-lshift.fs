@@ -5,6 +5,6 @@
   $cd $0 lshift ;
 
 main: ' test # call,
-begin, halt, repeat,
+ret,
 
 [endasm]

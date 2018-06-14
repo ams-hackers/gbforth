@@ -7,6 +7,6 @@
   $aa44 $aa22 max ;
 
 main: ' test # call,
-begin, halt, repeat,
+ret,
 
 [endasm]

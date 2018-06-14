@@ -6,6 +6,6 @@
   $0106 c@ ; \ 66
 
 main: ' test # call,
-begin, halt, repeat,
+ret,
 
 [endasm]

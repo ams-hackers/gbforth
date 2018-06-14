@@ -68,10 +68,10 @@ previous
   input-file included
 
   --no-kernel invert if
-    begin, halt, repeat,
     __start:
     runtime-init,
-    main-addr @ # jp,
+    main-addr @ # call,
+    begin, halt, repeat,
   then
 
   --no-kernel invert if

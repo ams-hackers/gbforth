@@ -7,6 +7,6 @@
   $aa22 $aa44 min ;
 
 main: ' test # call,
-begin, halt, repeat,
+ret,
 
 [endasm]

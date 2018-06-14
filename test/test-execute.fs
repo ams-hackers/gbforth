@@ -12,6 +12,6 @@ $22 push-lit,
 $33 push-lit,
 ' test # call,
 
-begin, halt, repeat,
+ret,
 
 [endasm]

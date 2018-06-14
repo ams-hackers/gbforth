@@ -6,6 +6,6 @@ variable baz
 : test here ;
 
 main: ' test # call,
-begin, halt, repeat,
+ret,
 
 [endasm]

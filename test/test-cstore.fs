@@ -7,6 +7,6 @@
   $8503 c! ;
 
 main: ' test # call,
-begin, halt, repeat,
+ret,
 
 [endasm]

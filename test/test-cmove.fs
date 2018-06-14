@@ -23,6 +23,6 @@
   $C101 $C201 #5 cmove ;
 
 main: ' test # call,
-begin, halt, repeat,
+ret,
 
 [endasm]

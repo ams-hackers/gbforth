@@ -5,6 +5,6 @@
   $0106 @ ;
 
 main: ' test # call,
-begin, halt, repeat,
+ret,
 
 [endasm]

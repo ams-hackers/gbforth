@@ -6,6 +6,6 @@
   #4097 #1024 / ; ( 4097/1024 = 4.001 => 4 )
 
 main: ' test # call,
-begin, halt, repeat,
+ret,
 
 [endasm]

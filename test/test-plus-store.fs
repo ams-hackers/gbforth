@@ -5,6 +5,6 @@
   $1234 $8501 +! ;
 
 main: ' test # call,
-begin, halt, repeat,
+ret,
 
 [endasm]

@@ -20,6 +20,6 @@ $33 # A ld,
 $22 # B ld,
 B A sub,
 
-begin, halt, repeat,
+ret,
 
 [endasm]
