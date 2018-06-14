@@ -15,7 +15,6 @@ require ./codegen.fs
 struct
   cell% field xname-flags
   cell% field xname-addr
-  cell% field xname-ir
 end-struct xname%
 
 : make-xname ( addr flag -- xname )
@@ -25,7 +24,6 @@ end-struct xname%
   r> over xname-flags ! ;
 
 : >xcode xname-addr @ ;
-: >xir xname-ir @ ;
 : >xflags xname-flags @ ;
 : ximmediate? >xflags F_IMMEDIATE and 0<> ;
 : xconstant?  >xflags F_CONSTANT and 0<> ;
@@ -38,8 +36,8 @@ end-struct xname%
   dup xprimitive? if
     >xcode emit-code
   else
-    dup >xir gen-code
-    >xir ir-addr @
+    dup >xcode gen-code
+    >xcode ir-addr @
   then ;
 
 
@@ -126,7 +124,7 @@ wordlist constant xwordlist
       dup xprimitive? if
         >xcode xcompile-code,
       else
-        >xir xcompile-colon,
+        >xcode xcompile-colon,
       then
     then
   then ;
@@ -207,8 +205,7 @@ create user-name 128 chars allot
 : x; (  -- )
   xreturn,
   x[
-  0 0 create-xname
-  current-ir xlatest xname-ir !
+  current-ir 0 create-xname
   current-ir gen-code
 
   ( flags ) WORD_NONAME = if
