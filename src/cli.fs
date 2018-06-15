@@ -9,6 +9,7 @@ s" GBFORTH_PATH" getenv 2constant gbforth-path
 
 false Value --no-kernel
 false Value --verbose
+false Value --debug
 
 : arg= 1 arg compare 0= ;
 
@@ -25,9 +26,9 @@ false Value --verbose
     true exit
   then
 
-  s" --version" arg= if
-    ." gbforth 0.1.0" CR
-    process-exit
+  s" --debug" arg= if
+    true To --debug
+    shift-args
     true exit
   then
 

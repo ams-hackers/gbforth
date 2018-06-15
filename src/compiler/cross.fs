@@ -121,8 +121,23 @@ variable xstate
     xstate @ while
   repeat ;
 
+: xname' 
+  parse-next-name find-xname ;
+
+: xsee
+  xname' ?dup if
+    dup cr hex. ." :"
+    dup xprimitive? if
+      cr ."   (code)"
+    else
+      >xcode .ir
+    then
+  else
+    -1 abort" Unknown word"
+  then ;
+
 : x'
-  parse-next-name find-xname ?dup if
+  xname' ?dup if
     xname>addr
   else
     -1 abort" Unknown word "

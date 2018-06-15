@@ -547,3 +547,5 @@ SP inc,
 DE push,
 ret,
 end-code
+
+: 2dup over over ;

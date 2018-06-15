@@ -76,7 +76,12 @@ require ./src/user.fs
     output-file type ."  written." CR
   then
 
-  bye
+  --debug if
+    also forth
+    also gbforth
+  else
+    bye
+  then
 
 ; execute
 
