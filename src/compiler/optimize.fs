@@ -1,8 +1,7 @@
+require ../utils/misc.fs
 require ./ir.fs
 
 ( Node basic pattern maching )
-
-: ` postpone postpone ; immediate
 
 : (match-start) 0 ; immediate
 : (match-end) 0 ?do postpone then loop ; immediate

@@ -8,6 +8,7 @@ the host assembly system we require words of at least 32 bits, so high
 bits of the words are used to tag the values with type information. )
 
 require ./utils/bytes.fs
+require ./utils/misc.fs
 require ./sym.fs
 
 [IFUNDEF] gb-assembler-impl
@@ -265,8 +266,6 @@ variable main-addr
 [endpublic]
 
 ( Arguments pattern matching )
-
-: ` postpone postpone ; immediate
 
 : type-match ( type type' -- bool )
   and 0<> ;
