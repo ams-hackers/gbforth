@@ -258,11 +258,6 @@ end-types
 
 ' offset alias offset
 
-variable main-addr
--1 main-addr !
-
-: main:
-  offset main-addr ! ;
 [endpublic]
 
 ( Arguments pattern matching )
