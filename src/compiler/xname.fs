@@ -52,3 +52,6 @@ end-struct xname%
 \ for debugging
 : xwords
   xwordlist >order words previous ;
+
+: .xname
+  >name ?dup if id. then ;

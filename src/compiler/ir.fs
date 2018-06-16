@@ -59,20 +59,16 @@ end-struct ir%
   dup previous-node over next-node link-nodes
   free throw ;
 
-: .xname-flags ( xname -- )
-  xprimitive? if ." [CODE]" else ." [COLON]" then ;
 
-: .xname-short ( xname -- )
-  dup hex. .xname-flags ;
-  
 : .node { ir-node -- }
+  CR
   ir-node ir-node-value @
   ir-node ir-node-type @ case
-    IR_NODE_LITERAL of ." LITERAL " hex. CR endof
-    IR_NODE_RET     of ." RET"      drop CR endof
-    IR_NODE_CALL    of ." CALL "   .xname-short CR endof
-    IR_NODE_BRANCH  of ." BRANCH " .xname-short CR endof
-    drop ." (unknown) " CR
+    IR_NODE_LITERAL of ." LITERAL " hex. endof
+    IR_NODE_RET     of ." RET"      drop endof
+    IR_NODE_CALL    of ." CALL "   dup .xname ."  ( " hex. ." )" endof
+    IR_NODE_BRANCH  of ." BRANCH " dup .xname ."  ( " hex. ." )" endof
+    drop ." (unknown) "
   endcase ;
 
 
@@ -102,11 +98,9 @@ end-struct ir%
 ; immediate
 
 : .ir ( ir -- )
-  dup ir-addr @ ?dup if ." [offset " hex. ." ]" then
-  CR
   do-nodes
     dup .node
-  end-nodes CR ;
+  end-nodes ;
 
 : free-ir-nodes
   do-nodes

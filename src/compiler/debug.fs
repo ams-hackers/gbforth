@@ -17,5 +17,4 @@ xsee prim
 xsee test
 xsee foo
 
-x' foo ( emit code )
-cr
+x' foo drop ( emit code )

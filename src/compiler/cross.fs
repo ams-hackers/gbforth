@@ -89,16 +89,18 @@ variable xstate
   parse-next-name find-xname ;
 
 : xsee
+  cr
   xname' ?dup if
-    dup cr hex. ." :"
+    dup ." ========== " .xname ." ( " dup hex. ." ) " ." ========== "
     dup xprimitive? if
-      cr ."   (code)"
+      cr ." (code)" drop
     else
       >xcode .ir
     then
   else
     -1 abort" Unknown word"
-  then ;
+  then 
+  cr ;
 
 : x'
   xname' ?dup if
