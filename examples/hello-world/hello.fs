@@ -4,97 +4,128 @@ title: EXAMPLE
 gamecode: HELO
 makercode: RX
 
+code cmovemono ( c-from c-to u -- )
+[C] ->A-> E ld,  C inc,
+[C] ->A-> D ld,  C inc,
+
+C inc, BC push,
+[C] ->A-> B ld,  C dec,
+[C] ->A-> C ld,
+
+begin, H|L->A, #NZ while,
+  [BC] ->A-> [DE] ld,
+  DE inc,
+  [BC] ->A-> [DE] ld, \ duplicate copied byte
+  BC inc,
+  DE inc,
+
+  HL dec,
+repeat,
+
+BC pop, C inc,
+ps-drop,
+end-code
+
+code cmovevideo ( c-from c-to u -- )
+[C] ->A-> E ld,  C inc,
+[C] ->A-> D ld,  C inc,
+
+C inc, BC push,
+[C] ->A-> B ld,  C dec,
+[C] ->A-> C ld,
+
+begin, H|L->A, #NZ while,
+  di,
+  lcd_WaitVRAM          \ cmove but with di, waitvram, ei,
+  [BC] ->A-> [DE] ld,
+  ei,
+  BC inc,
+  DE inc,
+
+  HL dec,
+repeat,
+
+BC pop, C inc,
+ps-drop,
+end-code
+
 [asm]
 
-include memory.fs
-label TileData
+\ label TileData
+offset constant TileData ( HACK: label is ASM-only )
 include ibm-font.fs
 
-label StopLCD
+[host]
+: %Title s" Hello World !" ;
+[endhost]
+[host] %Title nip [endhost] constant TitleLength
+
+\ label Title
+offset constant Title ( HACK: label is ASM-only )
+[host]
+also gbforth ( HACK: Don't use gbforth internals here )
+%title rom-move
+previous
+[endhost]
+
+[endasm]
+
+code disable-interrupts
+di,
+ret,
+end-code
+
+: reset-palette
+  %11100100 rGBP ! ;
+
+: reset-window-scroll
+  0 rSCX !
+  0 rSCY ! ;
+
+code disable-lcd
 [rLCDC] A ld,
 rlca,
 
 #NC ret,
 
-label .wait
+here<
 [rLY] A ld,
 #145 # A cp,
-.wait #NZ jr,
+<there #NZ jr,
 [rLCDC] A ld,
 A #7 # res,
 A [rLCDC] ld,
 
 ret,
+end-code
 
-[host]
-: %Title s" Hello World !" ;
-[endhost]
+: copy-font
+  TileData _VRAM 256 8 * cmovemono ;
 
-( HACK: Don't use gbforth internals here )
-label Title
-[host]
-also gbforth
-%title rom-move
-previous
-[endhost]
-ret,
-
-: clear-screen
-  _SCRN0 SCRN_VX_B SCRN_VY_B * bl fill ;
-( Force clear-screen to be emitted now )
-' clear-screen drop
-
-label start
-
-( program start )
-
-di,
-
-%11100100 # a ld,
-
-a [rGBP] ld,
-
-0 # a ld,
-a [rSCX] ld,
-a [rSCY] ld,
-
-StopLCD call,
-
-TileData hl ld,
-_VRAM # de ld,
-[host] 256 8 * [endhost] # bc ld,
-
-mem_CopyMono call,
-
-[host]
+: enable-lcd
   LCDCF_ON
   LCDCF_BG8000 or
   LCDCF_BG9800 or
   LCDCF_BGON or
   LCDCF_OBJ16 or
   LCDCF_OBJOFF or
-[endhost] # a ld,
+  rLCDC ! ;
 
-a [rLCDC] ld,
+: clear-screen
+  _SCRN0 SCRN_VX_B SCRN_VY_B * bl fill ;
 
-' clear-screen # call,
+: copy-title
+  Title
+  _SCRN0 3 + SCRN_VY_B 7 * +
+  TitleLength
+  cmovevideo ;
 
-Title hl ld,
-[host] _SCRN0 3 + SCRN_VY_B 7 * + [endhost] # de ld,
+( program start )
 
-[host] %Title nip [endhost] # bc ld,
-
-mem_CopyVRAM call,
-
-label wait
-halt,
-nop,
-wait jr,
-
-nop,
-
-[endasm]
-
-code main
-  start call,
-end-code
+: main
+  disable-interrupts
+  reset-palette
+  reset-window-scroll
+  disable-lcd copy-font enable-lcd
+  clear-screen
+  copy-title ;
