@@ -100,25 +100,22 @@ ret,
 end-code
 
 : copy-font
-  TileData _VRAM 256 8 * cmovemono ;
+  TileData _VRAM [ 256 8 * ]L cmovemono ;
 
 : enable-lcd
-  LCDCF_ON
-  LCDCF_BG8000 or
-  LCDCF_BG9800 or
-  LCDCF_BGON or
-  LCDCF_OBJ16 or
-  LCDCF_OBJOFF or
+  [ LCDCF_ON
+    LCDCF_BG8000 or
+    LCDCF_BG9800 or
+    LCDCF_BGON or
+    LCDCF_OBJ16 or
+    LCDCF_OBJOFF or ]L
   rLCDC ! ;
 
 : clear-screen
-  _SCRN0 SCRN_VX_B SCRN_VY_B * bl fill ;
+  _SCRN0 [ SCRN_VX_B SCRN_VY_B * ]L bl fill ;
 
 : copy-title
-  Title
-  _SCRN0 3 + SCRN_VY_B 7 * +
-  TitleLength
-  cmovevideo ;
+  Title [ _SCRN0 3 + SCRN_VY_B 7 * + ]L TitleLength cmovevideo ;
 
 ( program start )
 
@@ -127,5 +124,4 @@ end-code
   reset-palette
   reset-window-scroll
   disable-lcd copy-font enable-lcd
-  clear-screen
-  copy-title ;
+  clear-screen copy-title ;

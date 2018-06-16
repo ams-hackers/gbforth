@@ -48,6 +48,9 @@ export end-code immediate
 
 export dup
 export drop
+export +
+export *
+export or
 
 ( TODO: Remove me! )
 export push-lit,
