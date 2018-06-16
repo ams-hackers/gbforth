@@ -49,13 +49,11 @@ end-struct ir%
   over next-node over swap link-nodes
   tuck link-nodes ;
 
-: ::type { ir-node type -- ir-node }
-  type ir-node ir-node-type  !
-  ir-node ;
+: ::type ( ir-node type -- ir-node )
+  over ir-node-type ! ;
 
-: ::value { ir-node val -- ir-node }
-  val ir-node ir-node-value  !
-  ir-node ;
+: ::value ( ir-node val -- ir-node )
+  over ir-node-value ! ;
 
 : delete-node ( ir-node -- )
   dup previous-node over next-node link-nodes
