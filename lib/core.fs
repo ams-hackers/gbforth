@@ -4,6 +4,8 @@
 
 #32 constant bl
 
+#2 constant cell
+
 
 (
   ***** Stack Manipulation *****
@@ -408,6 +410,14 @@ H A ld, A $C001 ]* ld,
 L A ld, A $C000 ]* ld,
 ps-drop,
 end-code
+
+: , ( x -- )
+  here !
+  cell allot ;
+
+: c, ( x -- )
+  here c!
+  #1 allot ;
 
 code execute
 \ The stack contains the return address for execute. We put HL on top,
