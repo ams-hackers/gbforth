@@ -1,38 +1,21 @@
-require ./ir.fs
-require ./optimize.fs
-require ./codegen.fs
-require ./xname.fs
+require ../user.fs
+require ./cross.fs
 
-(code)
-A inc,
-A inc,
-ret,
-(end-code)
-latestxt F_PRIMITIVE make-xname constant prim
+also gbforth-user
 
+code prim
+  A inc,
+  A inc,
+end-code
 
-make-ir
-dup 0 make-xname constant test
-insert-node IR_NODE_CALL ::type prim ::value
-insert-node IR_NODE_CALL ::type prim ::value
-insert-node IR_NODE_CALL ::type prim ::value
-insert-node IR_NODE_RET  ::type
-drop
+: test prim prim prim ;
+: foo test ;
 
+previous
 
-make-ir
-dup 0 make-xname constant foo
-insert-node IR_NODE_CALL ::type test ::value
-insert-node IR_NODE_RET  ::type
-drop
+xsee prim
+xsee test
+xsee foo
 
-
-." prim: " prim >xcode hex. CR CR
-test >xcode .ir
-foo  >xcode .ir
-
-
-." --------------------" CR
-foo >xcode gen-code
+x' foo ( emit code )
 cr
-
