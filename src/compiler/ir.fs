@@ -42,6 +42,7 @@ struct
 \ as a sentinel node.
   cell% field ir-entry%
   cell% field ir-addr
+  cell% field ir-visited
 end-struct ir%
 
 : previous-node
@@ -82,7 +83,7 @@ end-struct ir%
     IR_NODE_CALL     of ." CALL "   dup .xname ."  ( " hex. ." )" endof
     IR_NODE_BRANCH   of ." BRANCH " dup .xname ."  ( " hex. ." )" endof
 
-    IR_NODE_CONTINUE of ." CONTINUE " dup hex. endof
+    IR_NODE_CONTINUE of ." CONTINUE " hex. endof
 
     IR_NODE_FORK of
       drop
@@ -121,10 +122,40 @@ end-struct ir%
   ` repeat
 ; immediate
 
-: .ir ( ir -- )
-  do-nodes
-    dup .node
-  end-nodes ;
+\ Run XT for each component of the intermediate representation. Each
+\ XT should consume a IR value from the stack
+: for-each-subcomponent ( ir xt -- )
+  swap do-nodes
+    dup ir-node-type @ case
+      IR_NODE_CONTINUE of
+        2dup ir-node-value @ swap execute
+      endof
+      IR_NODE_FORK of
+        2dup ir-fork-consequent  @ swap execute
+        2dup ir-fork-alternative @ swap execute
+      endof
+    endcase
+  end-nodes 
+  drop ;
+
+: clear-visited-flags recursive { ir -- }
+  ir ir-visited @ if
+    ir ir-visited off
+    ir ['] clear-visited-flags for-each-subcomponent
+  then ;
+
+: print-ir-components recursive { ir -- }
+  ir ir-visited @ invert if
+    ir ir-visited on
+    cr cr ." [ " ir hex. ." ]"
+    ir do-nodes dup .node end-nodes
+    \ Print each of the IR connected to this one.
+    ir ['] print-ir-components for-each-subcomponent
+  then ;
+
+: .ir 
+  dup print-ir-components 
+  clear-visited-flags ;
 
 
 ( Freeing IR memory )
