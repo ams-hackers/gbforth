@@ -3,6 +3,7 @@
 require ./runtime.fs
 require ./vocabulary.fs
 require ./cartridge.fs
+require ./header.fs
 require ./asm.fs
 require ./rom.fs
 require ./compiler/cross.fs
