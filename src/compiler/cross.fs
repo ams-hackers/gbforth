@@ -144,6 +144,7 @@ create user-name 128 chars allot
 : x; (  -- )
   xreturn,
   x[
+
   ( original-node ) 0 create-xname
 
   ( flags ) WORD_NONAME = if
@@ -151,6 +152,59 @@ create user-name 128 chars allot
   then
 
   -1 to current-node ; ximmediate-as ;
+
+
+( Conditionals
+
+                    consequent
+                   /
+                 _v______
+  current-node  /        \    continuation
+         _v____/          \__v____
+             ^ \          /
+             |  \________/ <---- IR_NODE_CONTINUE
+             |    ^
+             |    |
+             |    | alternative
+             |
+             IR_NODE_FORK
+)
+
+: xif ( -- alternative )
+  make-ir make-ir { consequent alternative }
+
+  current-node
+  insert-node IR_NODE_FORK ::type consequent ::value alternative ::value'
+  drop
+
+  consequent to current-node
+  alternative
+
+; ximmediate-as if
+
+
+: xelse { alternative -- continuation }
+  make-ir { continuation }
+
+  current-node 
+  insert-node IR_NODE_CONTINUE ::type continuation ::value
+  drop
+  
+  alternative to current-node
+  continuation
+; ximmediate-as else
+
+
+\ Note that if xelse is not present, the continuation IR is just the
+\ alternative IR from xif.
+: xthen { continuation -- }
+  current-node
+  insert-node IR_NODE_CONTINUE ::type continuation ::value
+  drop
+
+  continuation to current-node
+; ximmediate-as then
+
 
 
 ( Code definitions )
