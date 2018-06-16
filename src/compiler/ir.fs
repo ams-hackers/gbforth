@@ -16,6 +16,12 @@ delete nodes.
 2 constant IR_NODE_LITERAL
 3 constant IR_NODE_RET
 4 constant IR_NODE_BRANCH
+\ FORK and CONTINUE nodes allow us to represent control flow. See the
+\ code for the immediate words `if`, `else` and `then` for further
+\ information.
+5 constant IR_NODE_CONTINUE
+6 constant IR_NODE_FORK
+
 
 struct
 \ The ir-node-next field must be the first field of this struct, as it
@@ -24,7 +30,11 @@ struct
   cell% field ir-node-prev
   cell% field ir-node-type
   cell% field ir-node-value
+  cell% field ir-node-value'    ( secondary value )
 end-struct ir-node%
+
+' ir-node-value  alias ir-fork-consequent
+' ir-node-value' alias ir-fork-alternative
 
 struct
 \ The ir-entry field must be the first field of this struct, as it is
@@ -55,19 +65,33 @@ end-struct ir%
 : ::value ( ir-node val -- ir-node )
   over ir-node-value ! ;
 
+: ::value' ( ir-node val -- ir-node )
+  over ir-node-value' ! ;
+
 : delete-node ( ir-node -- )
   dup previous-node over next-node link-nodes
   free throw ;
-
 
 : .node { ir-node -- }
   CR
   ir-node ir-node-value @
   ir-node ir-node-type @ case
-    IR_NODE_LITERAL of ." LITERAL " hex. endof
-    IR_NODE_RET     of ." RET"      drop endof
-    IR_NODE_CALL    of ." CALL "   dup .xname ."  ( " hex. ." )" endof
-    IR_NODE_BRANCH  of ." BRANCH " dup .xname ."  ( " hex. ." )" endof
+    IR_NODE_LITERAL  of ." LITERAL " hex. endof
+    IR_NODE_RET      of ." RET"      drop endof
+
+    IR_NODE_CALL     of ." CALL "   dup .xname ."  ( " hex. ." )" endof
+    IR_NODE_BRANCH   of ." BRANCH " dup .xname ."  ( " hex. ." )" endof
+
+    IR_NODE_CONTINUE of ." CONTINUE " dup hex. endof
+
+    IR_NODE_FORK of
+      drop
+      ." 0<>IF "
+      ir-node ir-fork-consequent @ hex.
+      ." ELSE "
+      ir-node ir-fork-alternative @ hex.
+    endof
+
     drop ." (unknown) "
   endcase ;
 
@@ -102,13 +126,31 @@ end-struct ir%
     dup .node
   end-nodes ;
 
+
+( Freeing IR memory )
+
+defer free-ir
+
+: free-node ( ir-node -- )
+  dup ir-node-type @ case
+    IR_NODE_CONTINUE of ir-node-value @ free-ir endof
+    IR_NODE_FORK of
+      dup ir-fork-consequent  @ free-ir
+          ir-fork-alternative @ free-ir
+    endof
+    \ default
+    drop free
+  endcase ;
+
 : free-ir-nodes
   do-nodes
-    dup next-node
-    >r free r>
+    dup next-node >r
+    free-node
+    r>
   end-nodes ;
   
-: free-ir ( ir -- )
+:noname ( ir -- )
   dup free-ir-nodes
-  free ;
+  free 
+; IS free-ir
  
