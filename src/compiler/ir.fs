@@ -1,5 +1,5 @@
 require ../utils/memory.fs
-
+require ../utils/misc.fs
 require ./xname.fs
 
 
@@ -84,17 +84,37 @@ end-struct ir%
 : ir-entry ( ir -- ir-node )
   ir-entry% @ ;
 
+
+( DO-NODES...END-NODES will iterate through all the nodes in the
+  IR. At the end of each iteration, next-node will be called, so you
+  are responsible to leave the 'current node' in the stack.
+
+  This will let you do some node manipulations inside the body. 
+ )
+: do-nodes
+  ` ir-entry
+  ` begin ` ?dup ` while
+; immediate
+
+: end-nodes
+  ` next-node
+  ` repeat
+; immediate
+
 : .ir ( ir -- )
   dup ir-addr @ ?dup if ." [offset " hex. ." ]" then
   CR
-  ir-entry
-  begin ?dup while
+  do-nodes
     dup .node
-    next-node
-  repeat CR ;
+  end-nodes CR ;
 
+: free-ir-nodes
+  do-nodes
+    dup next-node
+    >r free r>
+  end-nodes ;
+  
 : free-ir ( ir -- )
-  dup ir-entry swap free throw
-  begin ?dup while
-    dup next-node swap free throw
-  repeat ;
+  dup free-ir-nodes
+  free ;
+ 

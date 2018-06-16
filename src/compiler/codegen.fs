@@ -80,14 +80,12 @@ defer gen-ir
   words while emitting another word: So this extra pass is needed.
   )
 : gen-dependencies ( ir -- )
-  ir-entry
-  begin ?dup while
+  do-nodes
     dup ir-node-type @ case
       IR_NODE_CALL   of dup ir-node-value @ gen-xname endof
       IR_NODE_BRANCH of dup ir-node-value @ gen-xname endof
     endcase
-    next-node
-  repeat ;
+  end-nodes ;
 
 : gen-node ( ir-node -- )
   dup ir-node-type @ case
@@ -102,11 +100,9 @@ defer gen-ir
   dup ir-addr @ if drop exit then
   dup gen-dependencies
   offset over ir-addr !
-  ir-entry
-  begin ?dup while
+  do-nodes
     dup gen-node
-    next-node
-  repeat
+  end-nodes
 ; latestxt is gen-ir
 
 

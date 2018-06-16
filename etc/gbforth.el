@@ -29,7 +29,8 @@
   '("begin-dispatch" "end-dispatch" "~~>" "::"
     "end-instruction" "tile"
     "begin," "while," "repeat," "until," "if," "else," "then,"
-    "code" "end-code"))
+    "code" "end-code"
+    "do-nodes" "end-nodes"))
 
 (dolist (w gbforth-keywords)
   (forth-syntax--define w #'forth-syntax--state-font-lock-keyword))
