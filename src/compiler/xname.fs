@@ -1,4 +1,5 @@
 ( Cross words )
+require ../utils/memory.fs
 
 %001 constant F_IMMEDIATE
 %010 constant F_CONSTANT
@@ -11,7 +12,7 @@ end-struct xname%
 
 : make-xname ( addr flag -- xname )
   >r >r
-  xname% %zalloc
+  xname% %zallot
   r> over xname-addr !
   r> over xname-flags ! ;
 
