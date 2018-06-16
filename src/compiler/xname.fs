@@ -1,7 +1,6 @@
 ( Cross words )
 require ../utils/memory.fs
 
-
 ( Cross Dictionary )
 wordlist constant xwordlist
 -1 value xlatest
@@ -16,26 +15,24 @@ struct
   cell% field xname-addr
 end-struct xname%
 
-: make-xname ( addr flag -- xname )
-  >r >r
+: allot-xname { addr flag -- xname }
   xname% %zallot
-  r> over xname-addr !
-  r> over xname-flags ! ;
-
-: >xcode xname-addr @ ;
-: >xflags xname-flags @ ;
-: ximmediate? >xflags F_IMMEDIATE and 0<> ;
-: xconstant?  >xflags F_CONSTANT  and 0<> ;
-: xprimitive? >xflags F_PRIMITIVE and 0<> ;
-
+  addr over xname-addr !
+  flag over xname-flags ! ;
 
 : create-xname ( addr flag -- )
   get-current >r
   xwordlist set-current
-  make-xname
-  dup IS xlatest
-  create ,
+  allot-xname create ,
+  latestxt is xlatest
   r> set-current ;
+
+: >xcode >body @ xname-addr @ ;
+: >xflags >body @ xname-flags @ ;
+
+: ximmediate? >xflags F_IMMEDIATE and 0<> ;
+: xconstant?  >xflags F_CONSTANT  and 0<> ;
+: xprimitive? >xflags F_PRIMITIVE and 0<> ;
 
 : ximmediate-as
   latest name>int F_IMMEDIATE create-xname ;
@@ -46,7 +43,7 @@ end-struct xname%
   xwordlist 1 set-order
   2r>
 
-  find-name dup if name>int >body @ then
+  find-name dup if name>int then
 
   >r
   set-order
@@ -55,4 +52,3 @@ end-struct xname%
 \ for debugging
 : xwords
   xwordlist >order words previous ;
-
