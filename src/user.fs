@@ -1,5 +1,6 @@
 ( User Vocabulary )
 
+require ./runtime.fs
 require ./vocabulary.fs
 require ./cartridge.fs
 require ./asm.fs
