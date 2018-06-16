@@ -8,45 +8,9 @@ require ./codegen.fs
 
 require ./xname.fs
 
-( Cross Dictionary )
-
-wordlist constant xwordlist
-
--1 value xlatest
-: create-xname ( addr flag -- )
-  get-current >r
-  xwordlist set-current
-  make-xname
-  dup IS xlatest
-  create ,
-  r> set-current ;
-
-: ximmediate-as
-  latest name>int F_IMMEDIATE create-xname ;
-
-: find-xname ( addr u -- xname )
-  2>r
-  get-order
-  xwordlist 1 set-order
-  2r>
-
-  find-name dup if name>int >body @ then
-
-  >r
-  set-order
-  r> ;
-
-\ for debugging
-: xwords
-  xwordlist >order words previous ;
-
-
 ( Constants )
-
 : xconstant ( n -- )
   F_CONSTANT create-xname ;
-
-
 
 ( Cross Compiler )
 
