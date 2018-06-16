@@ -66,7 +66,6 @@ require ./xname.fs
 ( 0 if we the host is interpreting words,
  -1 if we are compiling into the target )
 variable xstate
--1 value current-ir
 
 : x[ 0 xstate ! ; ximmediate-as [
 
@@ -128,7 +127,8 @@ create user-name 128 chars allot
 0 constant WORD_NAMED
 
 : create-word
-  make-ir dup to current-ir to current-node
+  make-ir to current-node
+  current-node
   x] ;
 
 : x:noname
@@ -144,13 +144,12 @@ create user-name 128 chars allot
 : x; (  -- )
   xreturn,
   x[
-  current-ir 0 create-xname
+  ( original-node ) 0 create-xname
 
   ( flags ) WORD_NONAME = if
     xlatest xname>addr
   then
 
-  -1 to current-ir
   -1 to current-node ; ximmediate-as ;
 
 
