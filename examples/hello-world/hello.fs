@@ -50,25 +50,14 @@ ps-drop,
 end-code
 
 [asm]
-
 \ label TileData
 offset constant TileData ( HACK: label is ASM-only )
 include ibm-font.fs
-
-[host]
-: %Title s" Hello World !" ;
-[endhost]
-[host] %Title nip [endhost] constant TitleLength
-
-\ label Title
-offset constant Title ( HACK: label is ASM-only )
-[host]
-also gbforth ( HACK: Don't use gbforth internals here )
-%title rom-move
-previous
-[endhost]
-
 [endasm]
+
+s" Hello World !"
+constant TitleLength
+constant TitleOffset
 
 code disable-interrupts
 di,
@@ -115,7 +104,7 @@ end-code
   _SCRN0 [ SCRN_VX_B SCRN_VY_B * ]L bl fill ;
 
 : copy-title
-  Title [ _SCRN0 3 + SCRN_VY_B 7 * + ]L TitleLength cmovevideo ;
+  TitleOffset [ _SCRN0 3 + SCRN_VY_B 7 * + ]L TitleLength cmovevideo ;
 
 ( program start )
 

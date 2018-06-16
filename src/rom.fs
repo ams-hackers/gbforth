@@ -32,8 +32,10 @@ rom erase
   rom-offset offset>addr swap move
   r> rom-offset+! ;
 
-: rom"
-  [char] " parse rom-move ;
+: rom" ( -- offset u )
+  rom-offset
+  [char] " parse 2dup rom-move
+  nip ;
 
 : ==> ( n -- )
   rom-offset! ;
