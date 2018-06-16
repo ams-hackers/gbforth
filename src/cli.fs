@@ -1,11 +1,17 @@
 ( Add lib/ to the search path of the game )
 s" GBFORTH_PATH" getenv 2constant gbforth-path
 
-: process-exit
-  1 (bye) ;
+: process-exit (bye) ;
 
 : usage
-  ." Usage: gbforth [--no-kernel] <input> <output>" cr ;
+  ." Usage: gbforth [<options>] input.fs output.gb" CR
+  CR
+  ." Options:" CR
+  ."   -h, --help       print usage information" CR
+  ."   -v, --verbose    enable verbose output" CR
+  ."   -d, --debug      enable debugging mode" CR
+  ."   --no-kernel      exclude the kernel, only use assembler" CR
+  CR ;
 
 false Value --no-kernel
 false Value --verbose
@@ -18,34 +24,37 @@ false Value --debug
     true To --no-kernel
     shift-args
     true exit
-  then 
+  then
 
-  s" --verbose" arg= if
+  s" -v" arg=
+  s" --verbose" arg= or if
     true To --verbose
     shift-args
     true exit
   then
 
-  s" --debug" arg= if
+  s" -d" arg=
+  s" --debug" arg= or if
     true To --debug
     shift-args
     true exit
   then
 
-  s" --help" arg= if
+  s" -h" arg=
+  s" --help" arg= or if
     usage
-    process-exit
+    0 process-exit
     true exit
   then
-  
-  false 
+
+  false
 ;
 
 [begin] process-option [while] [repeat]
 
 argc @ 3 <> [if]
   ' usage stderr outfile-execute
-  process-exit
+  1 process-exit
 [then]
 
 next-arg 2constant input-file
