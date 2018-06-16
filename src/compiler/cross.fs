@@ -194,8 +194,13 @@ create user-name 128 chars allot
   parse-user-name
   (code) ;
 
-: end-code
+: -end-code
   postpone (end-code)
   >r nextname
   r> F_PRIMITIVE create-xname
+; immediate
+
+: end-code
+  postpone ret,
+  postpone -end-code
 ; immediate

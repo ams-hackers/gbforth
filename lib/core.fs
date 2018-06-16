@@ -89,39 +89,33 @@
 ( x -- x x )
 code dup
 ps-dup,
-ret,
 end-code
 
 ( x -- )
 code drop
 ps-drop,
-ret,
 end-code
 
 ( a b -- b a )
 code swap
 ps-swap,
-ret,
 end-code
 
 ( a b -- b )
 code nip
 C inc,
 C inc,
-ret,
 end-code
 
 ( a b -- a b a )
 code over
 ps-over,
-ret,
 end-code
 
 ( a b -- b a b )
 code tuck
 ps-swap,
 ps-over,
-ret,
 end-code
 
 ( a b c -- b c a )
@@ -130,7 +124,6 @@ ps-pop-de,
 ps-swap,
 ps-push-de,
 ps-swap,
-ret,
 end-code
 
 ( a b c -- c a b )
@@ -139,7 +132,6 @@ ps-swap,
 ps-pop-de,
 ps-swap,
 ps-push-de,
-ret,
 end-code
 
 (
@@ -150,7 +142,6 @@ end-code
 code +
 ps-over-de-nip,
 DE HL add,
-ret,
 end-code
 
 ( a b -- c )
@@ -162,7 +153,6 @@ A L ld,
 H A ld,
 D A sbc,
 A H ld,
-ret,
 end-code
 
 code * ( a b -- c )
@@ -185,7 +175,6 @@ there> #NC jp,
 #Z until,
 BC pop,
 \ ps-push-de, ( DE contains higher 2 bytes of result )
-ret,
 end-code
 
 ( a b -- c)
@@ -201,7 +190,6 @@ begin, \ repeated substraction HL - DE
 repeat,    \ repeat substraction
   B H ld, C L ld, \ move BC [quotient] to HL [TOS]
   BC pop,         \ restore SP
-ret,
 end-code
 
 ( x -- x )
@@ -209,7 +197,6 @@ code 1+
 \ avoid using inc, because of OAM bug
 $1 # DE ld,
 DE HL add,
-ret,
 end-code
 
 ( x -- x )
@@ -217,7 +204,6 @@ code 1-
 \ avoid uising dec, because of OAM bug
 L A ld, $1 # A sub, A L ld,
 H A ld, $0 # A sbc, A H ld,
-ret,
 end-code
 
 ( a b -- c )
@@ -232,7 +218,6 @@ there> #C jp, \ H<D
 #NC ret, \ L>=E
 >here
   D H ld, E L ld,
-ret,
 end-code
 
 ( a b -- c )
@@ -247,7 +232,6 @@ there> #NZ jp, \ H>D
 #C ret, \ L<E
 >here
   D H ld, E L ld,
-ret,
 end-code
 
 (
@@ -259,7 +243,6 @@ code and
 ps-over-de-nip,
 H A ld, D A and, A H ld,
 L A ld, E A and, A L ld,
-ret,
 end-code
 
 ( a b -- c )
@@ -267,7 +250,6 @@ code or
 ps-over-de-nip,
 H A ld, D A or, A H ld,
 L A ld, E A or, A L ld,
-ret,
 end-code
 
 ( a b -- c )
@@ -275,7 +257,6 @@ code xor
 ps-over-de-nip,
 H A ld, D A xor, A H ld,
 L A ld, E A xor, A L ld,
-ret,
 end-code
 
 ( a n -- b )
@@ -287,7 +268,7 @@ begin,
 #C ret,
   HL HL add,
 repeat,
-end-code
+-end-code
 
 ( a n -- b )
 code rshift
@@ -299,19 +280,17 @@ begin,
   H srl,
   L rr,
 repeat,
-end-code
+-end-code
 
 ( x -- x )
 code 2*
 HL HL add,
-ret,
 end-code
 
 ( x -- x )
 code 2/
 H srl,
 L rr,
-ret,
 end-code
 
 (
@@ -330,7 +309,6 @@ then,
 else,
   false->HL,
 then,
-ret,
 end-code
 
 ( x y -- f )
@@ -349,7 +327,6 @@ then,
   ret,
 then, \ x>y
 true->HL,
-ret,
 end-code
 
 ( x y -- f )
@@ -367,7 +344,6 @@ ret,
 
 >here >here \ x<>y
 false->HL,
-ret,
 end-code
 
 (
@@ -378,7 +354,6 @@ end-code
 code c@
 [HL] L ld,
 $0 # H ld,
-ret,
 end-code
 
 ( c c-addr -- )
@@ -386,7 +361,6 @@ code c!
 ps-over-de-nip,
 E [HL] ld,
 ps-drop,
-ret,
 end-code
 
 ( c-addr -- x )
@@ -394,7 +368,6 @@ code @
 [HL+] A ld,
 [HL] H ld,
 A L ld,
-ret,
 end-code
 
 ( x c-addr -- )
@@ -403,7 +376,6 @@ ps-over-de-nip,
 E A ld, A [HL+] ld,
 D [HL] ld,
 ps-drop,
-ret,
 end-code
 
 ( n c-addr -- )
@@ -418,7 +390,6 @@ HL pop,
 A [HL-] ld,
 E [HL] ld,
 ps-drop,
-ret,
 end-code
 
 ( -- addr )
@@ -426,7 +397,6 @@ code here
 ps-dup,
 $C001 ]* A ld, A H ld,
 $C000 ]* A ld, A L ld,
-ret,
 end-code
 
 ( n -- )
@@ -437,7 +407,6 @@ DE HL add,
 H A ld, A $C001 ]* ld,
 L A ld, A $C000 ]* ld,
 ps-drop,
-ret,
 end-code
 
 code execute
@@ -446,7 +415,6 @@ code execute
 hl push,
 ( but just before that, we have to drop the address from the data stack )
 ps-drop,
-ret,
 end-code
 
 
@@ -477,7 +445,6 @@ repeat,
 
 BC pop, C inc,
 ps-drop,
-ret,
 end-code
 
 
@@ -510,7 +477,6 @@ repeat,
 
 BC pop, C inc,
 ps-drop,
-ret,
 end-code
 
 
@@ -520,7 +486,6 @@ code >r
 DE pop,
 HL push, ps-drop,
 DE push,
-ret,
 end-code
 
 code r>
@@ -528,7 +493,6 @@ ps-dup,
 DE pop,
 HL pop,
 DE push,
-ret,
 end-code
 
 code r@
@@ -537,7 +501,6 @@ DE pop,
 HL pop,
 HL push,
 DE push,
-ret,
 end-code
 
 code rdrop
@@ -545,7 +508,6 @@ DE pop,
 SP inc,
 SP inc,
 DE push,
-ret,
 end-code
 
 : 2dup over over ;

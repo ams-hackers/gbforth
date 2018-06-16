@@ -43,6 +43,7 @@ export gamecode:
 export makercode:
 
 export code
+export -end-code immediate
 export end-code immediate
 
 export dup
