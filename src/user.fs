@@ -27,6 +27,7 @@ also gbforth
 : [endhost] previous ;
 
 : c, rom, ;
+: s" rom" ;
 
 export ( immediate
 export \ immediate
