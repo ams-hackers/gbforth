@@ -2,7 +2,7 @@
 
 ' main
 
-__start:
+main:
 
 [host]
 also gbforth

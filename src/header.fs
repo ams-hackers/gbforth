@@ -36,7 +36,7 @@ $0100 ==> ( start entry point [$0100-$0103] )
 [asm]
 nop,
 there> jp,
-named-ref> __start:
+named-ref> main:
 [endasm]
 
 ( start header [$0104-$014F] )
@@ -57,4 +57,4 @@ $014D ==>                           ( complement checksum )
 $014E ==>                           ( global checksum )
 
 ( start main code [$0150...] )
-$0150 ==>
+$0150 ==> main:
