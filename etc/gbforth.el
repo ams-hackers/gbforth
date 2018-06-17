@@ -30,7 +30,8 @@
     "end-instruction" "tile"
     "begin," "while," "repeat," "until," "if," "else," "then,"
     "code" "end-code"
-    "do-nodes" "end-nodes"))
+    "do-nodes" "end-nodes"
+    "struct" "end-struct"))
 
 (dolist (w gbforth-keywords)
   (forth-syntax--define w #'forth-syntax--state-font-lock-keyword))
