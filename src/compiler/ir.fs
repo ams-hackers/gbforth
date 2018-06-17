@@ -163,7 +163,9 @@ end-struct ir%
 \ method-order (pre-dfs, post-dps). The executed XT should consume the
 \ ir-component pointer from the stack.
 : traverse-components ( ir xt method-order -- )
-  make-set swap execute ;
+  make-set dup >r swap execute r> free-set ;
+
+
 
 
 ( IR Printing )
