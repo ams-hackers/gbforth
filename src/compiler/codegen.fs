@@ -87,11 +87,6 @@ defer gen-ir-component
   then
   2drop ;
 
-
-(
-   TODO: This is duplicated i core.fs
-)
-
 : gen-fork ( ir ir-node -- )
   2dup ir-fork-consequent @ separate-components? if
     HL->DE,
