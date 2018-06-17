@@ -209,6 +209,8 @@ create user-name 128 chars allot
 
 ( Code definitions )
 
+[asm]
+
 : code
   parse-user-name
   (code) ;
@@ -223,3 +225,5 @@ create user-name 128 chars allot
   postpone ret,
   postpone -end-code
 ; immediate
+
+[endasm]

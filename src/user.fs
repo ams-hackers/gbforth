@@ -54,7 +54,9 @@ export +
 export *
 export or
 
+[asm]
 : execute # call, ;
+[endasm]
 
 : constant
   >r

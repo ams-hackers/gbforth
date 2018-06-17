@@ -4,8 +4,7 @@ require ./ir.fs
 require ./code.fs
 require ./xname.fs
 require ../asm.fs
-
-[asm]
+require ../set.fs
 
 ( Assume you have the following code
 
@@ -35,14 +34,6 @@ require ../asm.fs
   every word [or primitive] address that is part of the word definition.
 )
 
-
-: push-lit,
-  C dec,
-  H A ld, A [C] ld,
-  C dec,
-  L A ld, A [C] ld,
-  # HL ld, ;
-
 ( Words used by the cross compiler )
 
 \ resolves offset from both primitive and non-primitive nodes
@@ -57,6 +48,16 @@ require ../asm.fs
 : ir-node>xcode ( node -- x )
   ir-node-value @ >xcode ;
 
+
+[asm]
+
+: push-lit,
+  C dec,
+  H A ld, A [C] ld,
+  C dec,
+  L A ld, A [C] ld,
+  # HL ld, ;
+
 : gen-call ( ir-node -- )
   ir-node>addr # call, ;
 
@@ -65,6 +66,19 @@ require ../asm.fs
 
 : gen-literal  ( ir-node -- )
   ir-node-value @ push-lit, ;
+
+: gen-node ( ir-node -- )
+  dup ir-node-type @ case
+    IR_NODE_CALL    of gen-call    endof
+    IR_NODE_LITERAL of gen-literal endof
+    IR_NODE_BRANCH  of gen-branch  endof
+    IR_NODE_RET     of drop ret,   endof
+    true abort" (unknown node) "
+  endcase ;
+
+[endasm]
+
+
 
 defer gen-ir
 
@@ -79,7 +93,7 @@ defer gen-ir
   This is called by gen-ir before emitting the main word, because you can not emit
   words while emitting another word: So this extra pass is needed.
   )
-: gen-dependencies ( ir -- )
+: gen-component-dependencies ( ir -- )
   do-nodes
     dup ir-node-type @ case
       IR_NODE_CALL   of dup ir-node-value @ gen-xname endof
@@ -88,14 +102,8 @@ defer gen-ir
     next-node
   end-nodes ;
 
-: gen-node ( ir-node -- )
-  dup ir-node-type @ case
-    IR_NODE_CALL    of gen-call    endof
-    IR_NODE_LITERAL of gen-literal endof
-    IR_NODE_BRANCH  of gen-branch  endof
-    IR_NODE_RET     of drop ret,   endof
-    true abort" (unknown node) "
-  endcase ;
+: gen-dependencies ( ir -- )
+  ['] gen-component-dependencies pre-dfs traverse-components ;
 
 : gen-ir' ( ir -- )
   dup ir-addr @ if drop exit then
