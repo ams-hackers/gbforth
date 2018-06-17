@@ -42,7 +42,6 @@ struct
 \ as a sentinel node.
   cell% field ir-entry%
   cell% field ir-addr
-  cell% field ir-visited
 end-struct ir%
 
 : previous-node
