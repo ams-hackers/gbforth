@@ -24,13 +24,18 @@ delete nodes.
 
 
 struct
-\ The ir-node-next field must be the first field of this struct, as it
-\ is shared by the ir% struct.
+  \ The ir-node-next field must be the first field of this struct, as
+  \ it is shared by the ir% struct.
   cell% field ir-node-next
   cell% field ir-node-prev
   cell% field ir-node-type
   cell% field ir-node-value
   cell% field ir-node-value'    ( secondary value )
+  \ Those fields contains a forward references (there>), which can be
+  \ used with `>here` in assembler to patch the jump of this
+  \ ir-node. This can also be 0 if there is no need to patch anything.
+  cell% 2* field ir-node-fwd
+  cell% 2* field ir-node-fwd'
 end-struct ir-node%
 
 ' ir-node-value  alias ir-fork-consequent

@@ -71,13 +71,46 @@ defer gen-ir-component
 : gen-literal ( ir-node -- )
   ir-node-value @ push-lit, ;
 
+: adjacent-components? ( ir ir' -- flag )
+  swap ir-topo-next @ = ;
+
 : gen-node ( ir ir-node -- )
+  cr dup .node
   dup ir-node-type @ case
     IR_NODE_CALL    of nip gen-call    endof
     IR_NODE_LITERAL of nip gen-literal endof
     IR_NODE_BRANCH  of nip gen-branch  endof
     IR_NODE_RET     of 2drop ret,      endof
-    true abort" (Can't generate code for unknown IR node) "
+
+    \ Note that if the referenced IR components in IR_NODE_CONTINUE
+    \ and IR_NODE_FORK are the next one in the topological order,
+    \ there is not need to compile a jump here because the other
+    \ component will physically followed this one in memory.
+
+    IR_NODE_CONTINUE of
+      2dup ir-node-value @ adjacent-components? invert if
+        dup ir-node-fwd
+        there> jp,
+        rot 2!
+      then
+      2drop
+    endof
+
+    IR_NODE_FORK of
+      2dup ir-fork-consequent @ adjacent-components? invert if
+        dup ir-node-fwd
+        there> #z jp,
+        rot 2!
+      then
+      2dup ir-fork-alternative @ adjacent-components? invert if
+        dup ir-node-fwd'
+        there> #nz jp,
+        rot 2!
+      then
+      2drop
+    endof
+
+    true abort" (Can't generate code for unknown IR node)"
   endcase ;
 
 [endasm]
@@ -107,6 +140,9 @@ defer gen-ir-component
   ['] gen-component-dependencies pre-dfs traverse-components ;
 
 : gen-ir-component' ( ir -- )
+  cr ." --------------------------------" dup hex. cr
+  
+  offset over ir-addr !
   dup do-nodes
     2dup gen-node
     next-node
@@ -117,8 +153,7 @@ defer gen-ir-component
 : gen-ir' ( ir -- )
   dup ir-addr @ if drop exit then
   dup gen-dependencies
-  offset over ir-addr !
-  gen-ir-component
+  ['] gen-ir-component toposort traverse-components
 ; latestxt is gen-ir
 
 

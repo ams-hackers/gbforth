@@ -6,10 +6,13 @@ also gbforth-user
 require ../../lib/core.fs
 
 : max
-  2dup < if nip else drop then ;
+  dup dup < if nip else drop then ;
 
 previous
 
-\ x' max drop
 xsee max
+
+cr ." ---- CODE GENERATION -----" cr
+x' max drop
+
 xname' max >xcode free-ir
