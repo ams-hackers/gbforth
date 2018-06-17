@@ -1,5 +1,6 @@
 require ../utils/memory.fs
 require ../utils/misc.fs
+require ../asm.fs
 require ../set.fs
 require ./xname.fs
 
@@ -87,6 +88,13 @@ end-struct ir%
   2 pick ir-node-fwd' 2! ;
 
 
+[asm]
+
+: patch-fwd  ( offset fwd-addr -- )
+  2@ dup if rot patch-ref else 2drop drop then ;
+
+[endasm]
+
 
 : delete-node ( ir-node -- )
   dup previous-node over next-node link-nodes
@@ -141,8 +149,7 @@ end-struct ir%
 
 ( IR component traversal )
 
-: next-ir-components ( ir -- ir1|0 ir2|0 )
-  last-node 
+: ir-node-links ( ir-node -- ir1|0 ir2|0 )
   dup ir-node-type @ case
     IR_NODE_CONTINUE of
       ir-node-value @ 0
@@ -153,6 +160,9 @@ end-struct ir%
     endof
     nip 0 0 rot
   endcase ;
+
+: next-ir-components ( ir -- ir1|0 ir2|0 )
+  last-node ir-node-links ;
 
 :noname { ir xt visited -- }
   ir visited in? if exit then

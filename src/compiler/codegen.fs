@@ -96,7 +96,6 @@ defer gen-ir-component
   2drop ;
 
 : gen-node ( ir ir-node -- )
-  cr dup .node
   dup ir-node-type @ case
     IR_NODE_CALL     of nip gen-call    endof
     IR_NODE_LITERAL  of nip gen-literal endof
@@ -134,8 +133,6 @@ defer gen-ir-component
   ['] gen-component-dependencies pre-dfs traverse-components ;
 
 : gen-ir-component' ( ir -- )
-  cr ." --------------------------------" dup hex. cr
-  
   offset over ir-addr !
   dup do-nodes
     2dup gen-node
@@ -144,10 +141,43 @@ defer gen-ir-component
   drop
 ; latestxt is gen-ir-component
 
+
+\ During the code generation of the IR components, jumps between the
+\ different components were compiled as unresolved references. Before
+\ we finish the compilation, we must resolve those jumps.
+
+: patch-node ( ir-node -- )
+  dup ir-node-links rot { ir1 ir2 ir-node }
+
+  ir-node ir-node-fwd @ if
+    ir1 ir-addr @
+    ir-node
+    ir-node-fwd patch-fwd
+  then
+
+  ir-node ir-node-fwd' @ if
+    ir2 ir-addr @
+    ir-node 
+    ir-node-fwd' patch-fwd
+  then 
+;
+
+: patch-component-jumps ( ir -- )
+  last-node
+  dup ir-node-type @ case
+    IR_NODE_CONTINUE of dup patch-node endof
+    IR_NODE_FORK     of dup patch-node endof
+  endcase 
+  drop ;
+
+
+
 : gen-ir' ( ir -- )
   dup ir-addr @ if drop exit then
   dup gen-dependencies
-  ['] gen-ir-component toposort traverse-components
+  dup ['] gen-ir-component toposort traverse-components
+  dup ['] patch-component-jumps toposort traverse-components
+  drop
 ; latestxt is gen-ir
 
 
