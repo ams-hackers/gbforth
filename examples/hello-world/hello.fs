@@ -1,6 +1,7 @@
 require gbhw.fs
 require memory.fs
 require cpu.fs
+require lcd.fs
 
 title: EXAMPLE
 gamecode: HELO
@@ -23,34 +24,8 @@ constant TitleOffset
   0 rSCX !
   0 rSCY ! ;
 
-code disable-lcd
-[rLCDC] A ld,
-rlca,
-
-#NC ret,
-
-here<
-[rLY] A ld,
-#145 # A cp,
-<there #NZ jr,
-[rLCDC] A ld,
-A #7 # res,
-A [rLCDC] ld,
-
-ret,
-end-code
-
 : copy-font
   TileData _VRAM [ 256 8 * ]L cmovemono ;
-
-: enable-lcd
-  [ LCDCF_ON
-    LCDCF_BG8000 or
-    LCDCF_BG9800 or
-    LCDCF_BGON or
-    LCDCF_OBJ16 or
-    LCDCF_OBJOFF or ]L
-  rLCDC ! ;
 
 : clear-screen
   _SCRN0 [ SCRN_VX_B SCRN_VY_B * ]L bl fill ;
