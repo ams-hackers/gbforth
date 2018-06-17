@@ -70,6 +70,7 @@ export or
   r> xconstant ;
 
 : here rom-offset ;
+: unused rom-size here - ;
 : create here constant ;
 : cells $2 * ;
 : allot rom-offset+! ;

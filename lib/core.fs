@@ -326,6 +326,9 @@ L A ld, A $C000 ]* ld,
 ps-drop,
 end-code
 
+: unused ( -- n )
+  $CFFF here - ; \ end of RAM bank 0
+
 : cell+ ( x -- x )
   cell + ;
 
