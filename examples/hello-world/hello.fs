@@ -1,5 +1,6 @@
 require gbhw.fs
 require memory.fs
+require cpu.fs
 
 title: EXAMPLE
 gamecode: HELO
@@ -14,11 +15,6 @@ include ibm-font.fs
 s" Hello World !"
 constant TitleLength
 constant TitleOffset
-
-code disable-interrupts
-di,
-ret,
-end-code
 
 : reset-palette
   %11100100 rGBP ! ;
