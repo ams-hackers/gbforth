@@ -398,6 +398,12 @@ L A ld, A $C000 ]* ld,
 ps-drop,
 end-code
 
+: cell+ ( x -- x )
+  cell + ;
+
+: cells ( x -- x )
+  cell * ;
+
 : , ( x -- )
   here !
   cell allot ;

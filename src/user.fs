@@ -69,6 +69,11 @@ export or
   nextname
   r> xconstant ;
 
+: here rom-offset ;
+: create here constant ;
+: cells $2 * ;
+: allot rom-offset+! ;
+
 : variable
   CP @
   $2 CP +!
