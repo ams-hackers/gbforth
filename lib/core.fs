@@ -514,4 +514,5 @@ end-code
 : -rot
   swap >r swap r> ;
 
-: 2dup over over ;
+: 2dup ( a b -- a b a b )
+  over over ;
