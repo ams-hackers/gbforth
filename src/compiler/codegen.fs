@@ -7,13 +7,15 @@ require ../asm.fs
 require ../asm-utils.fs
 require ../set.fs
 
-( Assume you have the following code
+( gbforth is subroutine-threading [STC] Forth.
+
+  Assume you have some code as the following
 
   : double dup + ;
   : quadruple double double ;
 
-  This kernel uses subroutine-threading Forth. The picture below
-  illustrates how the compiled words would look like:
+  The picture below illustrates how the compiled words would look
+  like:
 
               +------
               |  ...                            DUP [asm]

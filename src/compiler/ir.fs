@@ -6,17 +6,24 @@ require ./xname.fs
 
 ( Intermedian Representation [IR]
 
-  As an intermediate representation for the compiler, we use a doubly
-linked-list of ir-node% elements. This allows us to easily insert and
-delete nodes.
+  For the compiler we use a basic IR composed of a few different IR
+  components [ir%]. Those components are just 'basic blocks' in the
+  compiler jargon.
 
-  The CALL and BRANCH nodes refer to another XNAME.
+  Each of them is a doubly linked-list of ir-node% elements. This
+  allows us to easily insert and delete nodes. The last node in a IR
+  component could be a FORK or CONTINUE node. Those nodes link to
+  other IR components and are how the control flow graph is defined.
 )
 
-1 constant IR_NODE_CALL
-2 constant IR_NODE_LITERAL
-3 constant IR_NODE_RET
-4 constant IR_NODE_BRANCH
+1 constant IR_NODE_LITERAL
+
+\ The CALL and BRANCH nodes refer to another XNAME.
+2 constant IR_NODE_CALL
+3 constant IR_NODE_BRANCH
+
+4 constant IR_NODE_RET
+
 \ FORK and CONTINUE nodes allow us to represent control flow. See the
 \ code for the immediate words `if`, `else` and `then` for further
 \ information.
