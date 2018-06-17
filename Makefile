@@ -5,7 +5,7 @@ export GBFORTH_PATH := $(shell pwd)/lib
 LIB_FILES=lib/*.fs
 SOURCE_FILES=gbforth src/*.fs src/utils/*.fs src/compiler/*.fs
 
-TEST_FILES = $(wildcard test/test-*.fs)
+TEST_FILES = $(wildcard test/*.fs) $(wildcard test/*/*.fs)
 TEST_OBJS = $(subst .fs,.gb,$(TEST_FILES))
 
 GBFORTH = ./gbforth $(GBFORTH_FLAGS)
@@ -41,4 +41,4 @@ tests: $(TEST_OBJS)
 clean:
 	-rm -f examples/hello-world-asm/hello.gb
 	-rm -f examples/hello-world/hello.gb
-	-rm -f test/test-*.gb
+	-rm -f $(TEST_OBJS)
