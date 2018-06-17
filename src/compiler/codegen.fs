@@ -65,18 +65,18 @@ defer gen-ir-component
 : gen-call ( ir-node -- )
   ir-node>addr # call, ;
 
-: gen-branch  ( ir-node -- )
+: gen-branch ( ir-node -- )
   ir-node>addr # jp, ;
 
-: gen-literal  ( ir-node -- )
+: gen-literal ( ir-node -- )
   ir-node-value @ push-lit, ;
 
-: gen-node ( ir-node -- )
+: gen-node ( ir ir-node -- )
   dup ir-node-type @ case
-    IR_NODE_CALL    of gen-call    endof
-    IR_NODE_LITERAL of gen-literal endof
-    IR_NODE_BRANCH  of gen-branch  endof
-    IR_NODE_RET     of drop ret,   endof
+    IR_NODE_CALL    of nip gen-call    endof
+    IR_NODE_LITERAL of nip gen-literal endof
+    IR_NODE_BRANCH  of nip gen-branch  endof
+    IR_NODE_RET     of 2drop ret,      endof
     true abort" (Can't generate code for unknown IR node) "
   endcase ;
 
@@ -110,10 +110,11 @@ defer gen-ir
   ['] gen-component-dependencies pre-dfs traverse-components ;
 
 : gen-ir-component' ( ir -- )
-  do-nodes
-    dup gen-node
+  dup do-nodes
+    2dup gen-node
     next-node
   end-nodes
+  drop
 ; latestxt is gen-ir-component
 
 : gen-ir' ( ir -- )
