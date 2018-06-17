@@ -4,6 +4,7 @@ require ./ir.fs
 require ./code.fs
 require ./xname.fs
 require ../asm.fs
+require ../asm-utils.fs
 require ../set.fs
 
 ( Assume you have the following code
@@ -90,26 +91,6 @@ defer gen-ir-component
 (
    TODO: This is duplicated i core.fs
 )
-
-( Adjust flags #NZ and #Z if HL is zero )
-: H|L->A,
-  H A ld, L A or, ;
-
-( Adjust flags #NZ and #Z if DE is zero )
-: D|E->A,
-  D A ld, E A or, ;
-
-: HL->DE,
-  H D ld,
-  L E ld, ;
-
-: ->A-> A ld, A ;
-
-: ps-drop,
-  [C] ->A-> L ld,
-  C inc,
-  [C] ->A-> H ld,
-  C inc, ;
 
 : gen-fork ( ir ir-node -- )
   2dup ir-fork-consequent @ separate-components? if
