@@ -118,12 +118,27 @@ defer gen-ir-component
 [endasm]
 
 
-: gen-xname ( xname -- )
+\ Get the address of code tokens and IR.
+\
+\ It will ensure that the respective code is emitted, so the address
+\ is known.
+
+: code>addr ( code -- addr )
+  emit-code ;
+
+: ir>addr ( ir -- addr )
+  dup gen-ir
+  ir-addr @ ;
+
+: xname>addr ( xname -- addr )
   dup xprimitive? if
-    >xcode emit-code drop
+    >xcode code>addr
   else
-    >xcode gen-ir
+    >xcode ir>addr
   then ;
+
+: gen-xname ( xname -- )
+  xname>addr drop ;
 
 (
   This is called by gen-ir before emitting the main word, because you can not emit
@@ -180,7 +195,6 @@ defer gen-ir-component
   drop ;
 
 
-
 : gen-ir' ( ir -- )
   dup ir-addr @ if drop exit then
   dup gen-dependencies
@@ -190,23 +204,3 @@ defer gen-ir-component
   drop
 ; latestxt is gen-ir
 
-
-( Get the address of code tokens and IR.
-
-  It will ensure that the respective code is emitted, so the address
-is known.
-)
-
-: code>addr ( code -- addr )
-  emit-code ;
-
-: ir>addr ( ir -- addr )
-  dup gen-ir
-  ir-addr @ ;
-
-: xname>addr ( xname -- addr )
-  dup xprimitive? if
-    >xcode code>addr
-  else
-    >xcode ir>addr
-  then ;
