@@ -4,6 +4,7 @@ require ./ir.fs
 require ./code.fs
 require ./xname.fs
 require ../asm.fs
+require ../asm-utils.fs
 require ../set.fs
 
 ( Assume you have the following code
@@ -71,13 +72,50 @@ defer gen-ir-component
 : gen-literal ( ir-node -- )
   ir-node-value @ push-lit, ;
 
+: separate-components? ( ir ir' -- flag )
+  swap ir-topo-next @ <> ;
+
+
+\ NOTE that if the referenced IR components in IR_NODE_CONTINUE
+\ and IR_NODE_FORK are the next one in the topological order,
+\ there is not need to compile a jump here because the other
+\ component will physically followed this one in memory.
+
+: gen-continue ( ir ir-node -- )
+  2dup ir-node-value @ separate-components? if
+    there> jp, ::fwd
+  then
+  2drop ;
+
+
+(
+   TODO: This is duplicated i core.fs
+)
+
+: gen-fork ( ir ir-node -- )
+  2dup ir-fork-consequent @ separate-components? if
+    HL->DE,
+    ps-drop,
+    D|E->A,
+    there> #nz jp, ::fwd
+  then
+  2dup ir-fork-alternative @ separate-components? if
+    HL->DE,
+    ps-drop,
+    D|E->A,
+    there> #z jp, ::fwd'
+  then
+  2drop ;
+
 : gen-node ( ir ir-node -- )
   dup ir-node-type @ case
-    IR_NODE_CALL    of nip gen-call    endof
-    IR_NODE_LITERAL of nip gen-literal endof
-    IR_NODE_BRANCH  of nip gen-branch  endof
-    IR_NODE_RET     of 2drop ret,      endof
-    true abort" (Can't generate code for unknown IR node) "
+    IR_NODE_CALL     of nip gen-call    endof
+    IR_NODE_LITERAL  of nip gen-literal endof
+    IR_NODE_BRANCH   of nip gen-branch  endof
+    IR_NODE_RET      of 2drop ret,      endof
+    IR_NODE_CONTINUE of gen-continue    endof
+    IR_NODE_FORK     of gen-fork        endof
+    true abort" (Can't generate code for unknown IR node)"
   endcase ;
 
 [endasm]
@@ -107,6 +145,7 @@ defer gen-ir-component
   ['] gen-component-dependencies pre-dfs traverse-components ;
 
 : gen-ir-component' ( ir -- )
+  offset over ir-addr !
   dup do-nodes
     2dup gen-node
     next-node
@@ -114,11 +153,44 @@ defer gen-ir-component
   drop
 ; latestxt is gen-ir-component
 
+
+\ During the code generation of the IR components, jumps between the
+\ different components were compiled as unresolved references. Before
+\ we finish the compilation, we must resolve those jumps.
+
+: patch-node ( ir-node -- )
+  dup ir-node-links rot { ir1 ir2 ir-node }
+
+  ir-node ir-node-fwd @ if
+    ir1 ir-addr @
+    ir-node
+    ir-node-fwd patch-fwd
+  then
+
+  ir-node ir-node-fwd' @ if
+    ir2 ir-addr @
+    ir-node
+    ir-node-fwd' patch-fwd
+  then 
+;
+
+: patch-component-jumps ( ir -- )
+  last-node
+  dup ir-node-type @ case
+    IR_NODE_CONTINUE of dup patch-node endof
+    IR_NODE_FORK     of dup patch-node endof
+  endcase 
+  drop ;
+
+
+
 : gen-ir' ( ir -- )
   dup ir-addr @ if drop exit then
   dup gen-dependencies
-  offset over ir-addr !
-  gen-ir-component
+
+  dup ['] gen-ir-component toposort traverse-components
+  dup ['] patch-component-jumps toposort traverse-components
+  drop
 ; latestxt is gen-ir
 
 

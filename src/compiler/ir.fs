@@ -1,5 +1,6 @@
 require ../utils/memory.fs
 require ../utils/misc.fs
+require ../asm.fs
 require ../set.fs
 require ./xname.fs
 
@@ -24,13 +25,18 @@ delete nodes.
 
 
 struct
-\ The ir-node-next field must be the first field of this struct, as it
-\ is shared by the ir% struct.
+  \ The ir-node-next field must be the first field of this struct, as
+  \ it is shared by the ir% struct.
   cell% field ir-node-next
   cell% field ir-node-prev
   cell% field ir-node-type
   cell% field ir-node-value
   cell% field ir-node-value'    ( secondary value )
+  \ Those fields contains a forward references (there>), which can be
+  \ used with `>here` in assembler to patch the jump of this
+  \ ir-node. This can also be 0 if there is no need to patch anything.
+  cell% 2* field ir-node-fwd
+  cell% 2* field ir-node-fwd'
 end-struct ir-node%
 
 ' ir-node-value  alias ir-fork-consequent
@@ -74,6 +80,21 @@ end-struct ir%
 
 : ::value' ( ir-node val -- ir-node )
   over ir-node-value' ! ;
+
+: ::fwd ( ir-node val1 val2 -- ir-node )
+  2 pick ir-node-fwd 2! ;
+
+: ::fwd' ( ir-node val1 val2 -- ir-node )
+  2 pick ir-node-fwd' 2! ;
+
+
+[asm]
+
+: patch-fwd  ( offset fwd-addr -- )
+  2@ dup if rot patch-ref else 2drop drop then ;
+
+[endasm]
+
 
 : delete-node ( ir-node -- )
   dup previous-node over next-node link-nodes
@@ -128,18 +149,20 @@ end-struct ir%
 
 ( IR component traversal )
 
-: next-ir-components ( ir -- ir1|0 ir2|0 )
-  last-node 
+: ir-node-links ( ir-node -- ir1|0 ir2|0 )
   dup ir-node-type @ case
     IR_NODE_CONTINUE of
       ir-node-value @ 0
     endof
     IR_NODE_FORK of
-      dup  ir-fork-alternative @
-      swap ir-fork-consequent  @
+      dup  ir-fork-consequent  @
+      swap ir-fork-alternative @
     endof
     nip 0 0 rot
   endcase ;
+
+: next-ir-components ( ir -- ir1|0 ir2|0 )
+  last-node ir-node-links ;
 
 :noname { ir xt visited -- }
   ir visited in? if exit then

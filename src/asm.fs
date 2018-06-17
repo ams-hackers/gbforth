@@ -233,12 +233,16 @@ end-types
   ( forward reference. See `emit-addr` and `emit-rel-addr` instead. )
   0 ~nn ~forward-reference | push-arg ;
 
-: >here
+: patch-ref ( ref1 ref2 offset -- )
+  -rot
   case
-    forward_rel_ref of offset swap emit-rel-to endof
-    forward_abs_ref of offset swap emit-16bits-to endof
+    forward_rel_ref of emit-rel-to endof
+    forward_abs_ref of emit-16bits-to endof
     true abort" Expected a forward reference."
   endcase ;
+
+: >here
+  offset patch-ref ;
 
 : named-ref>
   dup forward_rel_ref <> swap
