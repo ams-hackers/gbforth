@@ -4,6 +4,9 @@
 
 #32 constant bl
 
+$0000 constant false
+$FFFF constant true
+
 #2 constant cell
 
 
