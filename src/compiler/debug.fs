@@ -8,7 +8,7 @@ require ../../lib/core.fs
 : max
   2dup < if
     nip
-  \ else
+  else
     drop
   then ;
 
@@ -16,4 +16,4 @@ previous
 
 xsee max
 
-\ xname' max >xcode free-ir
+xname' max >xcode free-ir

@@ -1,7 +1,7 @@
 require ../utils/memory.fs
 require ../utils/misc.fs
+require ../set.fs
 require ./xname.fs
-
 
 ( Intermedian Representation [IR]
 
@@ -50,6 +50,9 @@ end-struct ir%
 
 : next-node ( ir-node -- ir-node'|0 )
   ir-node-next @ ;
+
+: last-node ( ir-node -- ir-node' )
+  begin dup next-node dup while nip repeat drop ;
 
 : link-nodes ( ir-node1 ir-node2 -- )
   2dup dup if ir-node-prev ! else 2drop then
@@ -105,7 +108,6 @@ end-struct ir%
 : ir-entry ( ir -- ir-node )
   ir-entry% @ ;
 
-
 ( DO-NODES...END-NODES will iterate through all the nodes in the
   IR. At the end of each iteration, next-node will be called, so you
   are responsible to leave the 'current node' in the stack.
@@ -118,70 +120,58 @@ end-struct ir%
 ; immediate
 
 : end-nodes
-  ` next-node
   ` repeat
 ; immediate
 
-\ Run XT for each component of the intermediate representation. Each
-\ XT should consume a IR value from the stack
-: for-each-subcomponent ( ir xt -- )
-  swap do-nodes
-    dup ir-node-type @ case
-      IR_NODE_CONTINUE of
-        2dup ir-node-value @ swap execute
-      endof
-      IR_NODE_FORK of
-        2dup ir-fork-consequent  @ swap execute
-        2dup ir-fork-alternative @ swap execute
-      endof
-    endcase
-  end-nodes 
-  drop ;
+: next-ir-components ( ir -- ir1|0 ir2|0 )
+  last-node 
+  dup ir-node-type @ case
+    IR_NODE_CONTINUE of
+      ir-node-value @ 0
+    endof
+    IR_NODE_FORK of
+      dup  ir-fork-alternative @
+      swap ir-fork-consequent  @
+    endof
+    nip 0 0 rot
+  endcase
+;
 
-: clear-visited-flags recursive { ir -- }
-  ir ir-visited @ if
-    ir ir-visited off
-    ir ['] clear-visited-flags for-each-subcomponent
-  then ;
+: print-ir-components recursive { ir visited -- }
+  ir visited in? if exit then
+  ir visited add-to-set
 
-: print-ir-components recursive { ir -- }
-  ir ir-visited @ invert if
-    ir ir-visited on
-    cr cr ." [ " ir hex. ." ]"
-    ir do-nodes dup .node end-nodes
-    \ Print each of the IR connected to this one.
-    ir ['] print-ir-components for-each-subcomponent
-  then ;
+  cr cr ." [ " ir hex. ." ]"
+  ir do-nodes dup .node next-node end-nodes
 
-: .ir 
-  dup print-ir-components 
-  clear-visited-flags ;
+  ir next-ir-components
+  ?dup if visited print-ir-components then
+  ?dup if visited print-ir-components then
+;
+
+: .ir ( ir -- )
+  make-set tuck print-ir-components free-set ;
 
 
 ( Freeing IR memory )
 
-defer free-ir
-
-: free-node ( ir-node -- )
-  dup ir-node-type @ case
-    IR_NODE_CONTINUE of ir-node-value @ free-ir endof
-    IR_NODE_FORK of
-      dup ir-fork-consequent  @ free-ir
-          ir-fork-alternative @ free-ir
-    endof
-    \ default
-    drop free
-  endcase ;
-
-: free-ir-nodes
+: free-ir-nodes ( ir -- )
   do-nodes
     dup next-node >r
-    free-node
+    free throw
     r>
   end-nodes ;
+
+: free-ir-components recursive { ir visited -- }
+  ir visited in? if exit then
+  ir visited add-to-set
+
+  ir next-ir-components
+  ?dup if visited free-ir-components then
+  ?dup if visited free-ir-components then
+
+  ir free-ir-nodes
+  ir free throw ;
   
-:noname ( ir -- )
-  dup free-ir-nodes
-  free 
-; IS free-ir
- 
+: free-ir
+  make-set tuck free-ir-components free-set ;

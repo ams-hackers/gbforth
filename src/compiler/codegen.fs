@@ -85,6 +85,7 @@ defer gen-ir
       IR_NODE_CALL   of dup ir-node-value @ gen-xname endof
       IR_NODE_BRANCH of dup ir-node-value @ gen-xname endof
     endcase
+    next-node
   end-nodes ;
 
 : gen-node ( ir-node -- )
@@ -102,6 +103,7 @@ defer gen-ir
   offset over ir-addr !
   do-nodes
     dup gen-node
+    next-node
   end-nodes
 ; latestxt is gen-ir
 
