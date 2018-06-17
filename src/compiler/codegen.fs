@@ -86,12 +86,19 @@ defer gen-ir-component
   then
   2drop ;
 
+( TODO: This is duplicated i core.fs )
+( Adjust flags #NZ and #Z if HL is zero )
+: H|L->A,
+  H A ld, L A or, ;
+
 : gen-fork ( ir ir-node -- )
   2dup ir-fork-consequent @ separate-components? if
-    there> #z jp, ::fwd
+    H|L->A,
+    there> #nz jp, ::fwd
   then
   2dup ir-fork-alternative @ separate-components? if
-    there> #nz jp, ::fwd'
+    H|L->A,
+    there> #z jp, ::fwd'
   then
   2drop ;
 
