@@ -106,7 +106,7 @@ $33 constant USE_MAKER_CODE
   parse-line
   dup #2 > abort" Maker Code is too long (max 2 characters)"
   $0144 offset>addr swap move
-  USE_MAKER_CODE $014B rom! ;
+  USE_MAKER_CODE $014B romc! ;
 
 ( Words to generate the checksums )
 
@@ -118,7 +118,7 @@ $33 constant USE_MAKER_CODE
   $19 + negate ;
 
 : fix-header-complement
-  header-complement $014D rom! ;
+  header-complement $014D romc! ;
 
 : global-checksum
   0
@@ -132,5 +132,5 @@ $33 constant USE_MAKER_CODE
 
 : fix-global-checksum
   global-checksum dup
-  higher-byte $014E rom!
-  lower-byte $014F rom! ;
+  higher-byte $014E romc!
+  lower-byte $014F romc! ;

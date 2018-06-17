@@ -17,9 +17,9 @@ require ./src/runtime.fs
 require ./src/compiler/cross.fs
 
 also gb-assembler-impl
-' rom, IS emit
+' romc, IS emit
 ' rom-offset IS offset
-' rom! IS emit-to
+' romc! IS emit-to
 previous
 
 rom erase

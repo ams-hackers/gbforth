@@ -8,12 +8,12 @@ require ./cartridge.fs
 
 ( Boot logo [$0104-0133] )
 : boot-logo,
-  $ce rom, $ed rom, $66 rom, $66 rom, $cc rom, $0d rom, $00 rom, $0b rom,
-  $03 rom, $73 rom, $00 rom, $83 rom, $00 rom, $0c rom, $00 rom, $0d rom,
-  $00 rom, $08 rom, $11 rom, $1f rom, $88 rom, $89 rom, $00 rom, $0e rom,
-  $dc rom, $cc rom, $6e rom, $e6 rom, $dd rom, $dd rom, $d9 rom, $99 rom,
-  $bb rom, $bb rom, $67 rom, $63 rom, $6e rom, $0e rom, $ec rom, $cc rom,
-  $dd rom, $dc rom, $99 rom, $9f rom, $bb rom, $b9 rom, $33 rom, $3e rom, ;
+  $ce romc, $ed romc, $66 romc, $66 romc, $cc romc, $0d romc, $00 romc, $0b romc,
+  $03 romc, $73 romc, $00 romc, $83 romc, $00 romc, $0c romc, $00 romc, $0d romc,
+  $00 romc, $08 romc, $11 romc, $1f romc, $88 romc, $89 romc, $00 romc, $0e romc,
+  $dc romc, $cc romc, $6e romc, $e6 romc, $dd romc, $dd romc, $d9 romc, $99 romc,
+  $bb romc, $bb romc, $67 romc, $63 romc, $6e romc, $0e romc, $ec romc, $cc romc,
+  $dd romc, $dc romc, $99 romc, $9f romc, $bb romc, $b9 romc, $33 romc, $3e romc, ;
 
 $0000 ==>       ( restart $0000 address )
 $0008 ==>       ( restart $0008 address )
@@ -44,15 +44,15 @@ named-ref> main:
 $0104 ==> boot-logo,                ( boot logo )
 $0134 ==>                           ( title )
 $013F ==>                           ( manufacturer code )
-$0143 ==> CGB_INCOMPATIBLE rom,     ( color GB function support )
+$0143 ==> CGB_INCOMPATIBLE romc,    ( color GB function support )
 $0144 ==>                           ( maker code )
-$0146 ==> SGB_DISABLED rom,         ( gb 00 or super gameboy 03 )
-$0147 ==> CART_TYPE_ROM rom,        ( cartridge type - rom only )
-$0148 ==> ROM_SIZE_32KBYTE rom,     ( rom size )
-$0149 ==> RAM_SIZE_NONE rom,        ( ram size )
-$014A ==> DEST_OTHER rom,           ( market code jp/int )
-$014B ==> USE_MAKER_CODE rom,       ( old licensee code )
-$014C ==> $00 rom,                  ( mask rom version number )
+$0146 ==> SGB_DISABLED romc,        ( gb 00 or super gameboy 03 )
+$0147 ==> CART_TYPE_ROM romc,       ( cartridge type - rom only )
+$0148 ==> ROM_SIZE_32KBYTE romc,    ( rom size )
+$0149 ==> RAM_SIZE_NONE romc,       ( ram size )
+$014A ==> DEST_OTHER romc,          ( market code jp/int )
+$014B ==> USE_MAKER_CODE romc,      ( old licensee code )
+$014C ==> $00 romc,                 ( mask rom version number )
 $014D ==>                           ( complement checksum )
 $014E ==>                           ( global checksum )
 

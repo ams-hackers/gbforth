@@ -14,9 +14,9 @@ also gbforth
       [char] . of      endof
       true abort" Wrong character!"
     endcase
-  loop 
+  loop
   nip
-  rom, ;
+  romc, ;
 
 previous
 [endhost]

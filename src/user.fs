@@ -27,7 +27,7 @@ also gbforth
 : [host] also forth ;
 : [endhost] previous ;
 
-: c, rom, ;
+: c, romc, ;
 : s" rom" ;
 
 export ( immediate

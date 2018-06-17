@@ -20,11 +20,11 @@ rom erase
 : rom@ ( offset -- val )
   offset>addr c@ ;
 
-: rom! ( val offset -- )
+: romc! ( c offset -- )
   offset>addr c! ;
 
-: rom,
-  rom-offset rom!
+: romc, ( c -- )
+  rom-offset romc!
   $1 rom-offset+! ;
 
 : rom-move ( addr u -- )
