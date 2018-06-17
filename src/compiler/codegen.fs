@@ -49,6 +49,10 @@ require ../set.fs
   ir-node-value @ >xcode ;
 
 
+defer gen-ir
+defer gen-ir-component
+
+
 [asm]
 
 : push-lit,
@@ -105,14 +109,18 @@ defer gen-ir
 : gen-dependencies ( ir -- )
   ['] gen-component-dependencies pre-dfs traverse-components ;
 
-: gen-ir' ( ir -- )
-  dup ir-addr @ if drop exit then
-  dup gen-dependencies
-  offset over ir-addr !
+: gen-ir-component' ( ir -- )
   do-nodes
     dup gen-node
     next-node
   end-nodes
+; latestxt is gen-ir-component
+
+: gen-ir' ( ir -- )
+  dup ir-addr @ if drop exit then
+  dup gen-dependencies
+  offset over ir-addr !
+  gen-ir-component
 ; latestxt is gen-ir
 
 
@@ -135,6 +143,3 @@ is known.
   else
     >xcode ir>addr
   then ;
-
-
-[endasm]
