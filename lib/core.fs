@@ -510,9 +510,26 @@ end-code
 : rot ( a b c -- b c a )
   >r swap r> swap ;
 
-( a b c -- c a b )
-: -rot
+: -rot ( a b c -- c a b )
   swap >r swap r> ;
 
 : 2dup ( a b -- a b a b )
   over over ;
+
+: 2drop ( x x -- )
+  drop drop ;
+
+: 2nip ( a b c d -- c d )
+  >r >r drop drop r> r> ;
+
+: 2over ( a b c d -- a b c d a b )
+  >r >r over over r> -rot r> -rot ;
+
+: 2swap ( a b c d -- c d a b )
+  >r -rot r> -rot ;
+
+: 2rot ( a b c d e f -- c d e f a b )
+  >r >r >r -rot r> -rot r> -rot r> -rot ;
+
+: 2tuck ( a b c d -- c d a b c d )
+  >r dup >r -rot r> r> swap >r dup >r -rot r> r> swap ;
