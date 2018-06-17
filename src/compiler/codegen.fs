@@ -83,9 +83,6 @@ defer gen-ir-component
 [endasm]
 
 
-
-defer gen-ir
-
 : gen-xname ( xname -- )
   dup xprimitive? if
     >xcode emit-code drop
