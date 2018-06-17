@@ -73,7 +73,7 @@ require ../set.fs
     IR_NODE_LITERAL of gen-literal endof
     IR_NODE_BRANCH  of gen-branch  endof
     IR_NODE_RET     of drop ret,   endof
-    true abort" (unknown node) "
+    true abort" (Can't generate code for unknown IR node) "
   endcase ;
 
 [endasm]
