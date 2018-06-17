@@ -37,11 +37,15 @@ end-struct ir-node%
 ' ir-node-value' alias ir-fork-alternative
 
 struct
-\ The ir-entry field must be the first field of this struct, as it is
-\ shared by the ir-node% struct. In that sense, we use the ir% struct
-\ as a sentinel node.
+  \ The ir-entry field must be the first field of this struct, as it is
+  \ shared by the ir-node% struct. In that sense, we use the ir% struct
+  \ as a sentinel node.
   cell% field ir-entry%
   cell% field ir-addr
+  \ ir-topo-next references the next component in topological
+  \ order. This is computed by `compute-ir-topological-order`, and
+  \ should be called if the control flow graph is modified.
+  cell% field ir-topo-next
 end-struct ir%
 
 : previous-node
@@ -159,6 +163,8 @@ end-struct ir%
   ir xt execute
 ; constant post-dfs
 
+
+
 \ Execute XT for each component in the IR with the specified
 \ method-order (pre-dfs, post-dps). The executed XT should consume the
 \ ir-component pointer from the stack.
@@ -166,16 +172,32 @@ end-struct ir%
   make-set dup >r swap execute r> free-set ;
 
 
+( Topologically sort IR components )
+
+: set-topological-order ( next ir -- next )
+  tuck ir-topo-next ! ;
+
+: compute-ir-topological-order ( ir -- )
+  0 swap
+  ['] set-topological-order post-dfs traverse-components 
+  drop ;
+
+:noname { ir xt visited -- }
+  ir if
+    ir xt execute
+    ir ir-topo-next @ xt visited recurse
+  then
+; constant toposort
 
 
 ( IR Printing )
 
-: print-ir-component
+: print-ir-component ( ir -- )
   cr cr ." [ " dup hex. ." ]"
   do-nodes dup .node next-node end-nodes ;
 
 : .ir ( ir -- )
-  ['] print-ir-component pre-dfs traverse-components ;
+  ['] print-ir-component toposort traverse-components ;
 
 
 ( Freeing IR memory )
