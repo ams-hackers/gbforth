@@ -123,22 +123,6 @@ ps-swap,
 ps-over,
 end-code
 
-( a b c -- b c a )
-code rot
-ps-pop-de,
-ps-swap,
-ps-push-de,
-ps-swap,
-end-code
-
-( a b c -- c a b )
-code -rot
-ps-swap,
-ps-pop-de,
-ps-swap,
-ps-push-de,
-end-code
-
 (
   ***** Arithmetic *****
 )
@@ -522,5 +506,12 @@ SP inc,
 SP inc,
 DE push,
 end-code
+
+: rot ( a b c -- b c a )
+  >r swap r> swap ;
+
+( a b c -- c a b )
+: -rot
+  swap >r swap r> ;
 
 : 2dup over over ;
