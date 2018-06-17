@@ -137,20 +137,41 @@ end-struct ir%
   endcase
 ;
 
-: print-ir-components recursive { ir visited -- }
+:noname { ir xt visited -- }
   ir visited in? if exit then
   ir visited add-to-set
+  ( Visit the current component)
+  ir xt execute
+  ( Visit the next ones )
+  ir next-ir-components { ir1 ir2 }
+  ir1 if ir1 xt visited recurse then
+  ir2 if ir2 xt visited recurse then
+; constant pre-dfs
 
-  cr cr ." [ " ir hex. ." ]"
-  ir do-nodes dup .node next-node end-nodes
+:noname { ir xt visited -- }
+  ir visited in? if exit then
+  ir visited add-to-set
+  ( Visit the next ones )
+  ir next-ir-components { ir1 ir2 }
+  ir1 if ir1 xt visited recurse then
+  ir2 if ir2 xt visited recurse then
 
-  ir next-ir-components
-  ?dup if visited print-ir-components then
-  ?dup if visited print-ir-components then
-;
+  ( Visit the current component)
+  ir xt execute
+; constant post-dfs
+
+
+: traverse-components ( ir xt method -- )
+  make-set swap execute ;
+
+
+
+: print-ir-component
+  cr cr ." [ " dup hex. ." ]"
+  do-nodes dup .node next-node end-nodes ;
 
 : .ir ( ir -- )
-  make-set tuck print-ir-components free-set ;
+  ['] print-ir-component pre-dfs traverse-components ;
 
 
 ( Freeing IR memory )
@@ -162,16 +183,9 @@ end-struct ir%
     r>
   end-nodes ;
 
-: free-ir-components recursive { ir visited -- }
-  ir visited in? if exit then
-  ir visited add-to-set
-
-  ir next-ir-components
-  ?dup if visited free-ir-components then
-  ?dup if visited free-ir-components then
-
-  ir free-ir-nodes
-  ir free throw ;
+: free-ir-component ( ir -- )
+  dup free-ir-nodes
+  free throw ;
   
 : free-ir
-  make-set tuck free-ir-components free-set ;
+  ['] free-ir-component post-dfs traverse-components ;
