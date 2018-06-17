@@ -71,45 +71,39 @@ defer gen-ir-component
 : gen-literal ( ir-node -- )
   ir-node-value @ push-lit, ;
 
-: adjacent-components? ( ir ir' -- flag )
-  swap ir-topo-next @ = ;
+: separate-components? ( ir ir' -- flag )
+  swap ir-topo-next @ <> ;
+
+
+\ NOTE that if the referenced IR components in IR_NODE_CONTINUE
+\ and IR_NODE_FORK are the next one in the topological order,
+\ there is not need to compile a jump here because the other
+\ component will physically followed this one in memory.
+
+: gen-continue ( ir ir-node -- )
+  2dup ir-node-value @ separate-components? if
+    there> jp, ::fwd
+  then
+  2drop ;
+
+: gen-fork ( ir ir-node -- )
+  2dup ir-fork-consequent @ separate-components? if
+    there> #z jp, ::fwd
+  then
+  2dup ir-fork-alternative @ separate-components? if
+    there> #nz jp, ::fwd'
+  then
+  2drop ;
 
 : gen-node ( ir ir-node -- )
   cr dup .node
   dup ir-node-type @ case
-    IR_NODE_CALL    of nip gen-call    endof
-    IR_NODE_LITERAL of nip gen-literal endof
-    IR_NODE_BRANCH  of nip gen-branch  endof
-    IR_NODE_RET     of 2drop ret,      endof
-
-    \ Note that if the referenced IR components in IR_NODE_CONTINUE
-    \ and IR_NODE_FORK are the next one in the topological order,
-    \ there is not need to compile a jump here because the other
-    \ component will physically followed this one in memory.
-
-    IR_NODE_CONTINUE of
-      2dup ir-node-value @ adjacent-components? invert if
-        dup ir-node-fwd
-        there> jp,
-        rot 2!
-      then
-      2drop
-    endof
-
-    IR_NODE_FORK of
-      2dup ir-fork-consequent @ adjacent-components? invert if
-        dup ir-node-fwd
-        there> #z jp,
-        rot 2!
-      then
-      2dup ir-fork-alternative @ adjacent-components? invert if
-        dup ir-node-fwd'
-        there> #nz jp,
-        rot 2!
-      then
-      2drop
-    endof
-
+    IR_NODE_CALL     of nip gen-call    endof
+    IR_NODE_LITERAL  of nip gen-literal endof
+    IR_NODE_BRANCH   of nip gen-branch  endof
+    IR_NODE_RET      of 2drop ret,      endof
+    IR_NODE_CONTINUE of gen-continue    endof
+    IR_NODE_FORK     of gen-fork        endof
     true abort" (Can't generate code for unknown IR node)"
   endcase ;
 

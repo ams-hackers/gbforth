@@ -80,6 +80,14 @@ end-struct ir%
 : ::value' ( ir-node val -- ir-node )
   over ir-node-value' ! ;
 
+: ::fwd ( ir-node val1 val2 -- ir-node )
+  2 pick ir-node-fwd 2! ;
+
+: ::fwd' ( ir-node val1 val2 -- ir-node )
+  2 pick ir-node-fwd' 2! ;
+
+
+
 : delete-node ( ir-node -- )
   dup previous-node over next-node link-nodes
   free throw ;
