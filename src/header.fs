@@ -4,6 +4,8 @@ require ./rom.fs
 require ./asm.fs
 require ./cartridge.fs
 
+[asm]
+
 ( Boot logo [$0104-0133] )
 : boot-logo,
   $ce rom, $ed rom, $66 rom, $66 rom, $cc rom, $0d rom, $00 rom, $0b rom,
@@ -33,11 +35,9 @@ $0078 ==> reti, ( high-to-low of p13 interrupt start address )
 
 $0100 ==> ( start entry point [$0100-$0103] )
 
-[asm]
 nop,
 there> jp,
 named-ref> main:
-[endasm]
 
 ( start header [$0104-$014F] )
 
@@ -58,3 +58,5 @@ $014E ==>                           ( global checksum )
 
 ( start main code [$0150...] )
 $0150 ==> main:
+
+[endasm]

@@ -3,18 +3,13 @@ require ./cross.fs
 
 also gbforth-user
 
-code prim
-  A inc,
-  A inc,
-end-code
+require ../../lib/core.fs
 
-: test prim prim prim ;
-: foo test ;
+: max
+  2dup < if nip else drop then ;
 
 previous
 
-xsee prim
-xsee test
-xsee foo
-
-x' foo drop ( emit code )
+\ x' max drop
+xsee max
+xname' max >xcode free-ir

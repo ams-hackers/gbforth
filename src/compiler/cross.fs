@@ -66,7 +66,6 @@ require ./xname.fs
 ( 0 if we the host is interpreting words,
  -1 if we are compiling into the target )
 variable xstate
--1 value current-ir
 
 : x[ 0 xstate ! ; ximmediate-as [
 
@@ -128,7 +127,8 @@ create user-name 128 chars allot
 0 constant WORD_NAMED
 
 : create-word
-  make-ir dup to current-ir to current-node
+  make-ir to current-node
+  current-node
   x] ;
 
 : x:noname
@@ -144,17 +144,73 @@ create user-name 128 chars allot
 : x; (  -- )
   xreturn,
   x[
-  current-ir 0 create-xname
+
+  dup compute-ir-topological-order
+  ( original-node ) 0 create-xname
 
   ( flags ) WORD_NONAME = if
     xlatest xname>addr
   then
 
-  -1 to current-ir
   -1 to current-node ; ximmediate-as ;
 
 
+( Conditionals
+
+                    consequent
+                   /
+                 _v______
+  current-node  /        \    continuation
+         _v____/          \__v____
+             ^ \          /
+             |  \________/ <---- IR_NODE_CONTINUE
+             |    ^
+             |    |
+             |    | alternative
+             |
+             IR_NODE_FORK
+)
+
+: xif ( -- alternative )
+  make-ir make-ir { consequent alternative }
+
+  current-node
+  insert-node IR_NODE_FORK ::type consequent ::value alternative ::value'
+  drop
+
+  consequent to current-node
+  alternative
+
+; ximmediate-as if
+
+
+: xelse { alternative -- continuation }
+  make-ir { continuation }
+
+  current-node 
+  insert-node IR_NODE_CONTINUE ::type continuation ::value
+  drop
+  
+  alternative to current-node
+  continuation
+; ximmediate-as else
+
+
+\ Note that if xelse is not present, the continuation IR is just the
+\ alternative IR from xif.
+: xthen { continuation -- }
+  current-node
+  insert-node IR_NODE_CONTINUE ::type continuation ::value
+  drop
+
+  continuation to current-node
+; ximmediate-as then
+
+
+
 ( Code definitions )
+
+[asm]
 
 : code
   parse-user-name
@@ -170,3 +226,5 @@ create user-name 128 chars allot
   postpone ret,
   postpone -end-code
 ; immediate
+
+[endasm]
