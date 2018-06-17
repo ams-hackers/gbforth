@@ -100,7 +100,7 @@ end-struct ir%
   endcase ;
 
 
-( IR Construction )
+( IR Components )
 
 : make-ir ( -- ir )
   ir% %zalloc ;
@@ -108,12 +108,11 @@ end-struct ir%
 : ir-entry ( ir -- ir-node )
   ir-entry% @ ;
 
-( DO-NODES...END-NODES will iterate through all the nodes in the
-  IR. At the end of each iteration, next-node will be called, so you
-  are responsible to leave the 'current node' in the stack.
-
-  This will let you do some node manipulations inside the body. 
- )
+\ DO-NODES...END-NODES will iterate through all the nodes in the
+\ IR. At the end of each iteration, next-node will be called, so you
+\ are responsible to leave the 'current node' in the stack.
+\
+\ This will let you do some node manipulations inside the body.
 : do-nodes
   ` ir-entry
   ` begin ` ?dup ` while
@@ -122,6 +121,9 @@ end-struct ir%
 : end-nodes
   ` repeat
 ; immediate
+
+
+( IR component traversal )
 
 : next-ir-components ( ir -- ir1|0 ir2|0 )
   last-node 
@@ -134,15 +136,14 @@ end-struct ir%
       swap ir-fork-consequent  @
     endof
     nip 0 0 rot
-  endcase
-;
+  endcase ;
 
 :noname { ir xt visited -- }
   ir visited in? if exit then
   ir visited add-to-set
-  ( Visit the current component)
+  \ Visit the current component
   ir xt execute
-  ( Visit the next ones )
+  \ Visit the next ones 
   ir next-ir-components { ir1 ir2 }
   ir1 if ir1 xt visited recurse then
   ir2 if ir2 xt visited recurse then
@@ -151,20 +152,22 @@ end-struct ir%
 :noname { ir xt visited -- }
   ir visited in? if exit then
   ir visited add-to-set
-  ( Visit the next ones )
+  \ Visit the next ones 
   ir next-ir-components { ir1 ir2 }
   ir1 if ir1 xt visited recurse then
   ir2 if ir2 xt visited recurse then
-
-  ( Visit the current component)
+  \ Visit the current component
   ir xt execute
 ; constant post-dfs
 
-
-: traverse-components ( ir xt method -- )
+\ Execute XT for each component in the IR with the specified
+\ method-order (pre-dfs, post-dps). The executed XT should consume the
+\ ir-component pointer from the stack.
+: traverse-components ( ir xt method-order -- )
   make-set swap execute ;
 
 
+( IR Printing )
 
 : print-ir-component
   cr cr ." [ " dup hex. ." ]"
