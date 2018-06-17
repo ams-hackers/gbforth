@@ -43,6 +43,10 @@ module.exports = filename => {
       }
     },
 
+    get frame() {
+      return frame;
+    },
+
     get frameSha() {
       return getSha(frame);
     },
