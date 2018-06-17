@@ -86,18 +86,42 @@ defer gen-ir-component
   then
   2drop ;
 
-( TODO: This is duplicated i core.fs )
+
+(
+   TODO: This is duplicated i core.fs
+)
+
 ( Adjust flags #NZ and #Z if HL is zero )
 : H|L->A,
   H A ld, L A or, ;
 
+( Adjust flags #NZ and #Z if DE is zero )
+: D|E->A,
+  D A ld, E A or, ;
+
+: HL->DE,
+  H D ld,
+  L E ld, ;
+
+: ->A-> A ld, A ;
+
+: ps-drop,
+  [C] ->A-> L ld,
+  C inc,
+  [C] ->A-> H ld,
+  C inc, ;
+
 : gen-fork ( ir ir-node -- )
   2dup ir-fork-consequent @ separate-components? if
-    H|L->A,
+    HL->DE,
+    ps-drop,
+    D|E->A,
     there> #nz jp, ::fwd
   then
   2dup ir-fork-alternative @ separate-components? if
-    H|L->A,
+    HL->DE,
+    ps-drop,
+    D|E->A,
     there> #z jp, ::fwd'
   then
   2drop ;
@@ -164,7 +188,7 @@ defer gen-ir-component
 
   ir-node ir-node-fwd' @ if
     ir2 ir-addr @
-    ir-node 
+    ir-node
     ir-node-fwd' patch-fwd
   then 
 ;
@@ -182,6 +206,7 @@ defer gen-ir-component
 : gen-ir' ( ir -- )
   dup ir-addr @ if drop exit then
   dup gen-dependencies
+
   dup ['] gen-ir-component toposort traverse-components
   dup ['] patch-component-jumps toposort traverse-components
   drop

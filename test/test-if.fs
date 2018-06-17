@@ -1,5 +1,5 @@
 : my-max
-  dup dup < if nip else drop then ;
+  2dup < if nip else drop then ;
 
 : main
    0 1 my-max

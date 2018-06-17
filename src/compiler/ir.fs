@@ -155,8 +155,8 @@ end-struct ir%
       ir-node-value @ 0
     endof
     IR_NODE_FORK of
-      dup  ir-fork-alternative @
-      swap ir-fork-consequent  @
+      dup  ir-fork-consequent  @
+      swap ir-fork-alternative @
     endof
     nip 0 0 rot
   endcase ;
