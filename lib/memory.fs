@@ -1,138 +1,46 @@
 require video.fs
 
-[asm]
+code cmovemono ( c-from c-to u -- )
+  [C] ->A-> E ld,  C inc,
+  [C] ->A-> D ld,  C inc,
 
-( these are written to the memory reserved for high-to-low of p10-p13 interrupt start addresses )
-(
-;***************************************************************************
-;*
-;* mem_Set - "Set" a memory region
-;*
-;* input:
-;*    a - value
-;*   hl - pMem
-;*   bc - bytecount
-;*
-;***************************************************************************
-)
-label mem_Set
-  b inc,
-  c inc,
-  there> jr,
-label .mem_Set_loop
-  a [hl+] ld,
->here
-  c dec,
-  .mem_Set_loop #nz jr,
-  b dec,
-  .mem_Set_loop #nz jr,
-  ret,
+  C inc, BC push,
+  [C] ->A-> B ld,  C dec,
+  [C] ->A-> C ld,
 
+  begin, H|L->A, #NZ while,
+    [BC] ->A-> [DE] ld,
+    DE inc,
+    [BC] ->A-> [DE] ld, \ duplicate copied byte
+    BC inc,
+    DE inc,
 
-label mem_Copy
-  b inc,
-  c inc,
-  there> jr,
-label .mem_Copy_loop
-  [hl+] a ld,
-  a [de] ld,
-  de inc,
->here
-  c dec,
-  .mem_Copy_loop #nz jr,
-  b dec,
-  .mem_Copy_loop #nz jr,
-  ret,
+    HL dec,
+  repeat,
 
-(
-;***************************************************************************
-;*
-;* mem_Copy - "Copy" a monochrome font from ROM to RAM
-;*
-;* input:
-;*   hl - pSource
-;*   de - pDest
-;*   bc - bytecount of Source
-;*
-;*************************************************************************** )
-label mem_CopyMono
-    b inc,
-    c inc,
-    there> jr,
+  BC pop, C inc,
+  ps-drop,
+end-code
 
-label .mem_CopyMono_loop
-    [HL+] a ld,
-    a [DE] ld,
-    de inc,
-    a [DE] ld,
-    de inc,
+code cmovevideo ( c-from c-to u -- )
+  [C] ->A-> E ld,  C inc,
+  [C] ->A-> D ld,  C inc,
 
->here
-    c dec,
-    .mem_CopyMono_loop #nz jr,
-    b dec,
-    .mem_CopyMono_loop #nz jr,
-    ret,
+  C inc, BC push,
+  [C] ->A-> B ld,  C dec,
+  [C] ->A-> C ld,
 
-(
-;***************************************************************************
-;*
-;* mem_SetVRAM - "Set" a memory region in VRAM
-;*
-;* input:
-;*    a - value
-;*   hl - pMem
-;*   bc - bytecount
-;*
-;***************************************************************************
-)
-label mem_SetVRam
-    b inc,
-    c inc,
-    there> jr,
-label .mem_SetVRam_loop
-    af push,
+  begin, H|L->A, #NZ while,
     di,
-    lcd_WaitVRAM
-    af pop,
-    a [hl+] ld,
+    lcd_WaitVRAM          \ cmove but with di, waitvram, ei,
+    [BC] ->A-> [DE] ld,
     ei,
+    BC inc,
+    DE inc,
 
->here
-    c dec,
-    .mem_SetVRam_loop #nz jr,
-    b dec,
-    .mem_SetVRam_loop #nz jr,
-    ret,
+    HL dec,
+  repeat,
 
-(
-;***************************************************************************
-;*
-;* mem_CopyVRAM - "Copy" a memory region to or from VRAM
-;*
-;* input:
-;*   hl - pSource
-;*   de - pDest
-;*   bc - bytecount
-;*
-;***************************************************************************
-)
-label mem_CopyVRAM
-  b inc,
-  c inc,
-  there> jr,
-label .mem_CopyVRAM_loop
-  di,
-  lcd_WaitVRAM
-  [hl+] a ld,
-  a [de] ld,
-  ei,
-  de inc,
->here
-  c dec,
-  .mem_CopyVRAM_loop #nz jr,
-  b dec,
-  .mem_CopyVRAM_loop #nz jr,
-  ret,
-
-[endasm]
+  BC pop, C inc,
+  ps-drop,
+end-code
