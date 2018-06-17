@@ -20,8 +20,17 @@ rom erase
 : rom@ ( offset -- val )
   offset>addr c@ ;
 
+: rom! ( val offset -- )
+  offset>addr 2dup
+  swap lower-byte swap c!
+  swap higher-byte swap 1+ c! ;
+
 : romc! ( c offset -- )
   offset>addr c! ;
+
+: rom, ( val -- )
+  rom-offset rom!
+  $2 rom-offset+! ;
 
 : romc, ( c -- )
   rom-offset romc!
