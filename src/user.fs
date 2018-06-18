@@ -20,6 +20,12 @@ require ./compiler/cross.fs
 : [end-user-definitions]
   previous set-current ;
 
+: create-constant ( x c-addr u  -- )
+  2dup >r >r nextname
+  dup constant
+
+  r> r> nextname
+  xconstant ;
 
 [user-definitions]
 also gbforth
@@ -61,22 +67,23 @@ export or
 : execute # call, ;
 [endasm]
 
-: constant
+: constant ( x -- )
+  parse-next-name create-constant ;
+
+: constant-sym ( x -- )
   >r
   parse-next-name
-  2dup nextname r@ constant
-
-  nextname
-  r> xconstant ;
+  2dup r@ sym
+  r> -rot create-constant ;
 
 : here rom-offset ;
 : unused rom-size here - ;
-: create here constant ;
+: create here constant-sym ;
 : cells $2 * ;
 : allot rom-offset+! ;
 
 : ram-here CP @ ;
-: ram-create ram-here constant ;
+: ram-create ram-here constant-sym ;
 : ram-allot CP +! ;
 
 : variable
