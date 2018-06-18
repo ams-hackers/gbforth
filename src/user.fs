@@ -60,8 +60,12 @@ export end-code immediate
 export dup
 export drop
 export +
+export -
 export *
+export /
 export or
+export and
+export invert
 
 [asm]
 : execute # call, ;
