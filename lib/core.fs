@@ -263,6 +263,13 @@ ret,
 false->HL,
 end-code
 
+
+code invert
+  H ->A-> cpl, A H ld,
+  L ->A-> cpl, A L ld,
+end-code
+
+
 (
   ***** Memory Access *****
 )
