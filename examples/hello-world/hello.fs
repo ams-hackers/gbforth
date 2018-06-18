@@ -18,11 +18,11 @@ constant TitleLength
 constant TitleOffset
 
 : reset-palette
-  %11100100 rGBP ! ;
+  %11100100 rGBP c! ;
 
 : reset-window-scroll
-  0 rSCX !
-  0 rSCY ! ;
+  0 rSCX c!
+  0 rSCY c! ;
 
 : copy-font
   TileData _VRAM [ 256 8 * ]L cmovemono ;

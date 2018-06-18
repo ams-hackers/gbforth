@@ -24,4 +24,4 @@ end-code
     LCDCF_BGON or
     LCDCF_OBJ16 or
     LCDCF_OBJOFF or ]L
-  rLCDC ! ;
+  rLCDC c! ;
