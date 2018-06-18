@@ -75,10 +75,13 @@ export or
 : cells $2 * ;
 : allot rom-offset+! ;
 
+: ram-here CP @ ;
+: ram-create ram-here constant ;
+: ram-allot CP +! ;
+
 : variable
-  CP @
-  $2 CP +!
-  constant ;
+  ram-create
+  $2 ram-allot ;
 
 : ' x' ;
 : ] x] ;
