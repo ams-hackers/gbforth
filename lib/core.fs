@@ -477,3 +477,5 @@ end-code
 
 : 2tuck ( a b c d -- c d a b c d )
   >r dup >r -rot r> r> swap >r dup >r -rot r> r> swap ;
+
+: 0= 0 = ;
