@@ -1,7 +1,6 @@
 ( IBMPC1 8x8 Character Set Macros V1.2 )
 
 [host]
-also gbforth
 
 : >
   parse-name
@@ -16,9 +15,8 @@ also gbforth
     endcase
   loop
   nip
-  romc, ;
+  [endhost] c, [host] ;
 
-previous
 [endhost]
 
 > .XXXXXX.  \ Use to be a space ?????

@@ -24,8 +24,8 @@ require ./compiler/cross.fs
 [user-definitions]
 also gbforth
 
-: [host] also forth ;
-: [endhost] previous ;
+: [host] also forth ; immediate
+: [endhost] previous ; immediate
 
 : ! rom! ;
 : c! romc! ;
