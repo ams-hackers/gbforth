@@ -1,4 +1,4 @@
-require video.fs
+require lcd.fs
 
 code cmovemono ( c-from c-to u -- )
   [C] ->A-> E ld,  C inc,

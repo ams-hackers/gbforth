@@ -389,7 +389,7 @@ ps-drop,
 end-code
 
 
-require video.fs
+require lcd.fs
 
 
 code fill ( c-addr u c -- )
