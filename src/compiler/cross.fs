@@ -207,6 +207,26 @@ create user-name 128 chars allot
 ; ximmediate-as then
 
 
+( Loops )
+
+: xbegin { -- body }
+  make-ir { body }
+  current-node
+  insert-node IR_NODE_CONTINUE ::type body ::value
+  drop
+  body to current-node
+  body
+; ximmediate-as begin
+
+: xagain { body -- }
+  current-node
+  insert-node IR_NODE_CONTINUE ::type body ::value
+  drop
+  \ Code following the next IR component is unreachable! but we have
+  \ to collect it somewhere
+  make-ir to current-node
+; ximmediate-as again
+
 
 ( Code definitions )
 
