@@ -123,18 +123,26 @@ defer gen-ir-component
 \ It will ensure that the respective code is emitted, so the address
 \ is known.
 
-: code>addr ( code -- addr )
-  emit-code ;
+: code>addr? ( code -- addr emitted? )
+  dup emitted-code? swap
+  emit-code
+  swap ;
 
-: ir>addr ( ir -- addr )
-  dup gen-ir
-  ir-addr @ ;
+: ir>addr? ( ir -- addr emitted? )
+  dup ir-addr @ 0<> swap
+  dup gen-ir ir-addr @
+  swap ;
 
-: xname>addr ( xname -- addr )
+: xname>addr? ( xname -- addr emmited? )
   dup xprimitive? if
-    >xcode code>addr
-  else
-    >xcode ir>addr
+    >xcode code>addr?
+  else 
+    >xcode ir>addr?
+  then ;
+  
+: xname>addr { xname -- addr }
+  xname xname>addr? if
+    dup >r xname xname>string r> sym
   then ;
 
 : gen-xname ( xname -- )

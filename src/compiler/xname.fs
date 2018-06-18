@@ -27,6 +27,10 @@ end-struct xname%
   latestxt is xlatest
   r> set-current ;
 
+: xname>string ( xname -- u-addr n )
+  >name ?dup if name>string
+  else 0 0 then ;
+
 : >xcode >body @ xname-addr @ ;
 : >xflags >body @ xname-flags @ ;
 

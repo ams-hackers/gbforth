@@ -26,3 +26,7 @@ require ../asm.fs
 
 : emit-code
   execute ;
+
+: emitted-code? ( xt -- flag )
+  >body @ -1 <> ;
+
