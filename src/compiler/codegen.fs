@@ -136,12 +136,12 @@ defer gen-ir-component
 : xname>addr? ( xname -- addr emmited? )
   dup xprimitive? if
     >xcode code>addr?
-  else 
+  else
     >xcode ir>addr?
   then ;
-  
+
 : xname>addr { xname -- addr }
-  xname xname>addr? if
+  xname xname>addr? invert if
     dup >r xname xname>string r> sym
   then ;
 
@@ -191,7 +191,7 @@ defer gen-ir-component
     ir2 ir-addr @
     ir-node
     ir-node-fwd' patch-fwd
-  then 
+  then
 ;
 
 : patch-component-jumps ( ir -- )
@@ -199,7 +199,7 @@ defer gen-ir-component
   dup ir-node-type @ case
     IR_NODE_CONTINUE of dup patch-node endof
     IR_NODE_FORK     of dup patch-node endof
-  endcase 
+  endcase
   drop ;
 
 
@@ -211,4 +211,3 @@ defer gen-ir-component
   dup ['] patch-component-jumps toposort traverse-components
   drop
 ; latestxt is gen-ir
-
