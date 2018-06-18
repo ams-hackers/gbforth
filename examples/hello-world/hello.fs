@@ -9,11 +9,8 @@ title: EXAMPLE
 gamecode: HELO
 makercode: RX
 
-[asm]
-\ label TileData
-offset constant TileData ( HACK: label is ASM-only )
+create TileData
 include ibm-font.fs
-[endasm]
 
 s" Hello World !"
 constant TitleLength
