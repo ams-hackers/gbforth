@@ -3,6 +3,7 @@ gbforth
 
 ## Table of contents
 
-  - [Using assembler](./assembler.md)
+  - [Meta Programming](./meta.md)
+  - [Using Assembler](./assembler.md)
   - [Code Words](./code-words.md)
   - [Kernel](./kernel.md)
