@@ -65,6 +65,7 @@ export -
 export *
 export /
 export or
+export xor
 export and
 export invert
 
