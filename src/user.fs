@@ -58,6 +58,7 @@ export -end-code immediate
 export end-code immediate
 
 export dup
+export over
 export drop
 export +
 export -
