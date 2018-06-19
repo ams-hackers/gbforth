@@ -41,11 +41,12 @@ constant TitleOffset
   begin
     rDIV c@ [ $FF 8 / ]L < if
       key-state
-      dup k-right and if -1 rSCX+! then
-      dup k-left  and if  1 rSCX+! then
-      dup k-up    and if  1 rSCY+! then
-      dup k-down  and if -1 rSCY+! then
-      drop
+      dup k-right and if -5 rSCX+! then
+      dup k-left  and if  5 rSCX+! then
+      dup k-up    and if  5 rSCY+! then
+      dup k-down  and if -5 rSCY+! then
+      \ If there no key pressed, wait for one
+      0= if halt then
     then
   again ;
 
@@ -56,4 +57,6 @@ constant TitleOffset
   disable-lcd copy-font enable-lcd
   clear-screen
   copy-title
+  enable-interrupts
+  init-input
   handle-input ;
