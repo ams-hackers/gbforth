@@ -60,6 +60,7 @@ export end-code immediate
 export dup
 export over
 export drop
+export rot
 export +
 export -
 export *
