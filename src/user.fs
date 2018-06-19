@@ -68,6 +68,8 @@ export or
 export xor
 export and
 export invert
+export lshift
+export rshift
 
 [asm]
 : execute # call, ;
