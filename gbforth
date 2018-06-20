@@ -3,10 +3,7 @@
 
 require ./src/vocabulary.fs
 
-get-current
 also gbforth definitions
-constant previous-wid
-
 also gbforth
 
 require ./src/cli.fs
