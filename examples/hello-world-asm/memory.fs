@@ -72,17 +72,14 @@ label .mem_copy_mono_loop
     .mem_copy_mono_loop #nz jr,
     ret,
 
-[host]
-[asm]
 
-: lcd_WaitVRAM
+[asm]
+:m lcd_WaitVRAM
   begin,
     [rSTAT] a ld,
     STATF_BUSY # A and,
   #z until, ;
-
 [endasm]
-[target]
 
 (
 ;***************************************************************************

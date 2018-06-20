@@ -99,111 +99,109 @@ $FF6A constant rOCPS    ( [CGB only] Color palette OBJ write specification [R/W]
 $FF6B constant rOCPD    ( [CGB only] Color palette OBJ write data [R/W] )
 
 ( Register references to use in ASM )
-[host]
 [asm]
 
 ( port/mode register references )
-: [rP1] rP1 ]* ;
-: [rSB] rSB ]* ;
-: [rSC] rSC ]* ;
+:m [rP1] rP1 ]* ;
+:m [rSB] rSB ]* ;
+:m [rSC] rSC ]* ;
 
-: [rDIV] rDIV ]* ;
-: [rTIMA] rTIMA ]* ;
-: [rTMA] rTMA ]* ;
-: [rTAC] rTAC ]* ;
+:m [rDIV] rDIV ]* ;
+:m [rTIMA] rTIMA ]* ;
+:m [rTMA] rTMA ]* ;
+:m [rTAC] rTAC ]* ;
 
-: [rKEY1] rKEY1 ]* ;
-: [rRP] rRP ]* ;
+:m [rKEY1] rKEY1 ]* ;
+:m [rRP] rRP ]* ;
 
 ( Bank control register references )
-: [rVBK] rVBK ]* ;
-: [rSVBK] rSVBK ]* ;
+:m [rVBK] rVBK ]* ;
+:m [rSVBK] rSVBK ]* ;
 
 ( Interrupt flag references )
-: [rIF] rIF ]* ;
-: [rIE] rIE ]* ;
+:m [rIF] rIF ]* ;
+:m [rIE] rIE ]* ;
 
 ( Sound channel 1 register refereces )
-: [rNR10] rNR10 ]* ;
-: [rNR11] rNR11 ]* ;
-: [rNR12] rNR12 ]* ;
-: [rNR13] rNR13 ]* ;
-: [rNR14] rNR14 ]* ;
+:m [rNR10] rNR10 ]* ;
+:m [rNR11] rNR11 ]* ;
+:m [rNR12] rNR12 ]* ;
+:m [rNR13] rNR13 ]* ;
+:m [rNR14] rNR14 ]* ;
 
 ( Sound channel 2 register refereces )
-: [rNR21] rNR21 ]* ;
-: [rNR22] rNR22 ]* ;
-: [rNR23] rNR23 ]* ;
-: [rNR24] rNR24 ]* ;
+:m [rNR21] rNR21 ]* ;
+:m [rNR22] rNR22 ]* ;
+:m [rNR23] rNR23 ]* ;
+:m [rNR24] rNR24 ]* ;
 
 ( Sound channel 3 register refereces )
-: [rNR30] rNR30 ]* ;
-: [rNR31] rNR31 ]* ;
-: [rNR32] rNR32 ]* ;
-: [rNR33] rNR33 ]* ;
-: [rNR34] rNR34 ]* ;
+:m [rNR30] rNR30 ]* ;
+:m [rNR31] rNR31 ]* ;
+:m [rNR32] rNR32 ]* ;
+:m [rNR33] rNR33 ]* ;
+:m [rNR34] rNR34 ]* ;
 
 ( Sound channel 4 register refereces )
-: [rNR41] rNR41 ]* ;
-: [rNR42] rNR42 ]* ;
-: [rNR43] rNR43 ]* ;
-: [rNR44] rNR44 ]* ;
+:m [rNR41] rNR41 ]* ;
+:m [rNR42] rNR42 ]* ;
+:m [rNR43] rNR43 ]* ;
+:m [rNR44] rNR44 ]* ;
 
 ( Sound control register refereces )
-: [rNR50] rNR50 ]* ;
-: [rNR51] rNR51 ]* ;
-: [rNR52] rNR52 ]* ;
+:m [rNR50] rNR50 ]* ;
+:m [rNR51] rNR51 ]* ;
+:m [rNR52] rNR52 ]* ;
 
 ( Alternative sound register refereces )
-: [rAUD1SWEEP] [rNR10] ;
-: [rAUD1LEN]   [rNR11] ;
-: [rAUD1ENV]   [rNR12] ;
-: [rAUD1LOW]   [rNR13] ;
-: [rAUD1HIGH]  [rNR14] ;
-: [rAUD2LEN]   [rNR21] ;
-: [rAUD2ENV]   [rNR22] ;
-: [rAUD2LOW]   [rNR23] ;
-: [rAUD2HIGH]  [rNR24] ;
-: [rAUD3ENA]   [rNR30] ;
-: [rAUD3LEN]   [rNR31] ;
-: [rAUD3LEVEL] [rNR32] ;
-: [rAUD3LOW]   [rNR33] ;
-: [rAUD3HIGH]  [rNR34] ;
-: [rAUD4LEN]   [rNR41] ;
-: [rAUD4ENV]   [rNR42] ;
-: [rAUD4POLY]  [rNR43] ;
-: [rAUD4GO]    [rNR44] ;
-: [rAUDVOL]    [rNR50] ;
-: [rAUDTERM]   [rNR51] ;
-: [rAUDENA]    [rNR52] ;
+:m [rAUD1SWEEP] [rNR10] ;
+:m [rAUD1LEN]   [rNR11] ;
+:m [rAUD1ENV]   [rNR12] ;
+:m [rAUD1LOW]   [rNR13] ;
+:m [rAUD1HIGH]  [rNR14] ;
+:m [rAUD2LEN]   [rNR21] ;
+:m [rAUD2ENV]   [rNR22] ;
+:m [rAUD2LOW]   [rNR23] ;
+:m [rAUD2HIGH]  [rNR24] ;
+:m [rAUD3ENA]   [rNR30] ;
+:m [rAUD3LEN]   [rNR31] ;
+:m [rAUD3LEVEL] [rNR32] ;
+:m [rAUD3LOW]   [rNR33] ;
+:m [rAUD3HIGH]  [rNR34] ;
+:m [rAUD4LEN]   [rNR41] ;
+:m [rAUD4ENV]   [rNR42] ;
+:m [rAUD4POLY]  [rNR43] ;
+:m [rAUD4GO]    [rNR44] ;
+:m [rAUDVOL]    [rNR50] ;
+:m [rAUDTERM]   [rNR51] ;
+:m [rAUDENA]    [rNR52] ;
 
 ( LCD display registers)
-: [rLCDC] rLCDC ]* ;
-: [rSTAT] rSTAT ]* ;
-: [rSCY] rSCY ]* ;
-: [rSCX] rSCX ]* ;
-: [rLY] rLY ]* ;
-: [rLYC] rLYC ]* ;
-: [rDMA] rDMA ]* ;
-: [rGBP] rGBP ]* ;
-: [rOBP0] rOBP0 ]* ;
-: [rOBP1] rOBP1 ]* ;
-: [rWY] rWY ]* ;
-: [rWX] rWX ]* ;
+:m [rLCDC] rLCDC ]* ;
+:m [rSTAT] rSTAT ]* ;
+:m [rSCY] rSCY ]* ;
+:m [rSCX] rSCX ]* ;
+:m [rLY] rLY ]* ;
+:m [rLYC] rLYC ]* ;
+:m [rDMA] rDMA ]* ;
+:m [rGBP] rGBP ]* ;
+:m [rOBP0] rOBP0 ]* ;
+:m [rOBP1] rOBP1 ]* ;
+:m [rWY] rWY ]* ;
+:m [rWX] rWX ]* ;
 
-: [rHDMA1] rHDMA1 ]* ;
-: [rHDMA2] rHDMA2 ]* ;
-: [rHDMA3] rHDMA3 ]* ;
-: [rHDMA4] rHDMA4 ]* ;
-: [rHDMA5] rHDMA5 ]* ;
+:m [rHDMA1] rHDMA1 ]* ;
+:m [rHDMA2] rHDMA2 ]* ;
+:m [rHDMA3] rHDMA3 ]* ;
+:m [rHDMA4] rHDMA4 ]* ;
+:m [rHDMA5] rHDMA5 ]* ;
 
-: [rBCPS] rBCPS ]* ;
-: [rGCPD] rGCPD ]* ;
-: [rOCPS] rOCPS ]* ;
-: [rOCPD] rOCPD ]* ;
+:m [rBCPS] rBCPS ]* ;
+:m [rGCPD] rGCPD ]* ;
+:m [rOCPS] rOCPS ]* ;
+:m [rOCPD] rOCPD ]* ;
 
 [endasm]
-[target]
 
 ( Memory addresses )
 $0150 constant _ROM          ( $0150->$7FFF )
