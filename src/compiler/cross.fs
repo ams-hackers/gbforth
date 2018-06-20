@@ -212,14 +212,31 @@ create user-name 128 chars allot
 
 ( Loops )
 
-: xbegin { -- body }
-  make-ir { body }
+: xbegin { -- pre }
+  make-ir { pre }
   current-node
-  insert-node IR_NODE_CONTINUE ::type body ::value
+  insert-node IR_NODE_CONTINUE ::type pre ::value
   drop
-  body to current-node
-  body
+  pre to current-node
+  pre
 ; ximmediate-as begin
+
+: xwhile { pre -- pre continuation }
+  make-ir make-ir { continuation post }
+  current-node
+  insert-node IR_NODE_FORK ::type post ::value continuation ::value'
+  drop
+  post to current-node
+  pre continuation
+; ximmediate-as while
+
+: xrepeat { pre continuation -- }
+  current-node
+  insert-node IR_NODE_CONTINUE ::type pre ::value
+  drop
+  continuation to current-node
+; ximmediate-as repeat
+
 
 : xagain { body -- }
   current-node
