@@ -317,11 +317,9 @@ ps-drop,
 end-code
 
 ( -- addr )
-code here
-ps-dup,
-$C001 ]* A ld, A H ld,
-$C000 ]* A ld, A L ld,
-end-code
+
+$C000 constant DP
+: here DP @ ;
 
 ( n -- )
 code allot
