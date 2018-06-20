@@ -18,7 +18,9 @@ rom erase
   rom-base + ;
 
 : rom@ ( offset -- val )
-  offset>addr @ ;
+  offset>addr dup
+  c@ swap
+  1+ c@ 8 lshift + ;
 
 : romc@ ( offset -- val )
   offset>addr c@ ;
