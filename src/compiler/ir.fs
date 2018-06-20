@@ -224,6 +224,11 @@ end-struct ir%
 
 : print-ir-component ( ir -- )
   cr cr ." [ " dup hex. ." ]"
+
+  dup ir-addr @ ?dup if
+    ."  offset: " hex.
+  then
+
   do-nodes dup .node next-node end-nodes ;
 
 : .ir ( ir -- )
