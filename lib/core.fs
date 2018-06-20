@@ -320,16 +320,8 @@ end-code
 
 $C000 constant DP
 : here DP @ ;
-
-( n -- )
-code allot
-$C001 ]* A ld, A D ld,
-$C000 ]* A ld, A E ld,
-DE HL add,
-H A ld, A $C001 ]* ld,
-L A ld, A $C000 ]* ld,
-ps-drop,
-end-code
+: allot ( n -- )
+  DP +! ;
 
 : unused ( -- n )
   $CFFF here - ; \ end of RAM bank 0
