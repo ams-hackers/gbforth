@@ -18,6 +18,9 @@ rom erase
   rom-base + ;
 
 : rom@ ( offset -- val )
+  offset>addr @ ;
+
+: romc@ ( offset -- val )
   offset>addr c@ ;
 
 : rom! ( val offset -- )

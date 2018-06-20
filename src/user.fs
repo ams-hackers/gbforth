@@ -48,6 +48,8 @@ also gbforth
 : c! romc! ;
 : , rom, ;
 : c, romc, ;
+: @ rom@ ;
+: c@ romc@ ;
 : s" rom" ;
 
 export ( immediate

@@ -113,7 +113,7 @@ $33 constant USE_MAKER_CODE
 : header-complement
   0
   $014D $0134 ?do
-    i rom@ +
+    i romc@ +
   loop
   $19 + negate ;
 
@@ -123,10 +123,10 @@ $33 constant USE_MAKER_CODE
 : global-checksum
   0
   $014E $0 ?do
-    i rom@ +
+    i romc@ +
   loop
   rom-size $0150 ?do
-    i rom@ +
+    i romc@ +
   loop
   $FFFF and ;
 
