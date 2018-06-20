@@ -165,7 +165,7 @@ defer gen-ir-component
   ['] gen-component-dependencies pre-dfs traverse-components ;
 
 : gen-ir-component' ( ir -- )
-  offset over ir-addr !
+  rom-offset over ir-addr !
   dup do-nodes
     2dup gen-node
     next-node

@@ -692,4 +692,4 @@ end-instruction
 
 
 previous-wid set-current
-previous
+previous previous
