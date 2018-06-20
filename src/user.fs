@@ -70,6 +70,7 @@ export code
 export -end-code immediate
 export end-code immediate
 
+export swap
 export dup
 export over
 export drop
