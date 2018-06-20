@@ -2,7 +2,7 @@
 
 _gbforth_ is a Forth cross-compiler. It runs on your computer (the _host system_) while it will generate a program that will be executed on a Game Boy (the _target system_).
 
-This imposes some restrictions compared to other Forth environments.
+This imposes some [restrictions](./limitations.md) compared to other Forth environments.
 
 The most fundamental limitation is that you cannot _interpret_ code that is intended to be executed on the target. For instance, the following code will not work:
 
