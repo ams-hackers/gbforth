@@ -60,18 +60,18 @@ CREATE bar 2 cells allot
 
 In this code, `CREATE` is _executed_ during the compilation of the program. Likewise, `2 cells allot` will allocate 2 cells on the target system memory.
 
-### Top-level colon definitions
+### Meta colon definitions
 
 As described above, the word `:` switches to colon definition / compilation mode for code that is meant to be executed on the _target_ system.
 
-However, that introduces a challenge. Sometimes we want to build new abstractions on top of interpreting words. To do that, we can use the word `h:`, which allows us to create a word that can be executed on the _host_, but will still act on _target_ structures.
+However, that introduces a challenge. Sometimes we want to build new abstractions on top of interpreting words. To do that, we can use the word `:m`, which allows us to create a word that can be executed on the _host_, but will still act on _target_ structures.
 
 For example, we can define this _enumerations_ facility like:
 
 ```forth
-h: begin-enum 0 ;
-h: enum 1+ dup constant ;
-h: end-enum drop ;
+:m begin-enum 0 ;
+:m enum 1+ dup constant ;
+:m end-enum drop ;
 ```
 
 This code, unlike ordinary colon definitions, can be executed in interpreter mode, so we can use it like:
