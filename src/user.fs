@@ -86,6 +86,7 @@ export rshift
 export 0=
 export 1+
 export 1-
+export bye
 
 : :m
   [host] :
@@ -115,8 +116,6 @@ latestxt F_IMMEDIATE create-xname ;
 
 : : x: ;
 
-  
+
 previous
 [end-user-definitions]
-
-

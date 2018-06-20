@@ -451,6 +451,13 @@ BC pop, C inc,
 ps-drop,
 end-code
 
+( Tools )
+
+code bye ( -- )
+begin,
+stop,
+again,
+end-code
 
 ( Return Stack manipulation )
 
