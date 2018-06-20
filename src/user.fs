@@ -83,6 +83,9 @@ export and
 export invert
 export lshift
 export rshift
+export 0=
+export 1+
+export 1-
 
 : :m
   [host] :
