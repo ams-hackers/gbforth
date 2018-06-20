@@ -1,11 +1,14 @@
 
-#7788 , #8899 , #9900 ,
+CREATE aaa #33 c, #44 c,
+CREATE bbb #5566 ,
 
 CREATE foo #10 cells allot
-CREATE baz #1122 , #3344 ,
-#5566 foo #9 cells + !
+CREATE baz #1122 , aaa c@ c,
+aaa 1+ c@ foo cell+ c!
+bbb @ foo #9 cells + !
 
 : main
   baz @
-  baz cell+ @
+  baz cell+ c@
+  foo cell+ c@
   foo #9 cells + @ ;
