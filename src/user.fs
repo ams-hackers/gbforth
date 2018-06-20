@@ -93,6 +93,7 @@ latestxt F_IMMEDIATE create-xname ;
 : unused rom-size here - ;
 : create here constant-sym ;
 : cells $2 * ;
+: cell+ $2 + ;
 : allot rom-offset+! ;
 
 : ram-here CP @ ;
