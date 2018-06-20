@@ -20,7 +20,7 @@
 (require 'forth-mode)
 
 (defvar gbforth-defining-words
-  '("simple-instruction" "instruction" "label" "export"))
+  '("simple-instruction" "instruction" "label" "export" ":m"))
 
 (dolist (w gbforth-defining-words)
   (forth-syntax--define w #'forth-syntax--state-defining-word))

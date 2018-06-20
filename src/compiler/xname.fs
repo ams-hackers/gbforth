@@ -39,7 +39,7 @@ end-struct xname%
 : xprimitive? >xflags F_PRIMITIVE and 0<> ;
 
 : ximmediate-as
-  latest name>int F_IMMEDIATE create-xname ;
+  latestxt F_IMMEDIATE create-xname ;
 
 : find-xname ( addr u -- xname )
   2>r

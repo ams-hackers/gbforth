@@ -25,6 +25,9 @@ require ./xname.fs
 
 -1 value current-node
 
+: xcompiling?
+  current-node -1 <> ;
+
 : xliteral, { n -- }
   current-node
   insert-node IR_NODE_LITERAL ::type n ::value
@@ -152,7 +155,7 @@ create user-name 128 chars allot
     xlatest xname>addr
   then
 
-  -1 to current-node ; ximmediate-as ;
+  -1 to current-node ;
 
 
 ( Conditionals

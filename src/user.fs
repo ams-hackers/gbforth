@@ -73,6 +73,13 @@ export invert
 export lshift
 export rshift
 
+: :m
+  [host] :
+  [target] ;
+
+: ; xcompiling? if x; else postpone ; then ; immediate
+latestxt F_IMMEDIATE create-xname ;
+
 : constant ( x -- )
   parse-next-name create-constant ;
 
