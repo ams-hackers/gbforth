@@ -27,6 +27,17 @@ require ./compiler/cross.fs
   r> r> nextname
   xconstant ;
 
+: constant-sym ( x -- )
+  >r
+  parse-next-name
+  2dup r@ sym
+  r> -rot create-constant ;
+
+: ram-here CP @ ;
+: ram-create ram-here constant-sym ;
+: ram-allot CP +! ;
+
+
 [user-definitions]
 also gbforth
 
@@ -83,22 +94,12 @@ latestxt F_IMMEDIATE create-xname ;
 : constant ( x -- )
   parse-next-name create-constant ;
 
-: constant-sym ( x -- )
-  >r
-  parse-next-name
-  2dup r@ sym
-  r> -rot create-constant ;
-
 : here rom-offset ;
 : unused rom-size here - ;
 : create here constant-sym ;
 : cells $2 * ;
 : cell+ $2 + ;
 : allot rom-offset+! ;
-
-: ram-here CP @ ;
-: ram-create ram-here constant-sym ;
-: ram-allot CP +! ;
 
 : variable
   ram-create
@@ -111,5 +112,8 @@ latestxt F_IMMEDIATE create-xname ;
 
 : : x: ;
 
+  
 previous
 [end-user-definitions]
+
+
