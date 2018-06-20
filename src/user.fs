@@ -73,10 +73,6 @@ export invert
 export lshift
 export rshift
 
-[asm]
-: execute # call, ;
-[endasm]
-
 : constant ( x -- )
   parse-next-name create-constant ;
 
