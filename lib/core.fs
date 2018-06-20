@@ -16,7 +16,7 @@ $FFFF constant true
 
 [host]
 include ../src/asm-utils.fs
-[endhost]
+[target]
 
 
 ( x -- x x )

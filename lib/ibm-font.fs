@@ -15,9 +15,9 @@
     endcase
   loop
   nip
-  [endhost] c, [host] ;
+  [target] c, [host] ;
 
-[endhost]
+[target]
 
 > .XXXXXX.  \ Use to be a space ?????
 > .X....X.

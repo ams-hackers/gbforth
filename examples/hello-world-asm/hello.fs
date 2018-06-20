@@ -29,18 +29,17 @@ there> call, named-ref> >StopLCD
 
 there> hl ld, named-ref> >TileData
 _VRAM # de ld,
-[host] 256 8 * [endhost] # bc ld,
+256 8 * # bc ld,
 
 mem_CopyMono call,
 
-[host]
-  LCDCF_ON
-  LCDCF_BG8000 or
-  LCDCF_BG9800 or
-  LCDCF_BGON or
-  LCDCF_OBJ16 or
-  LCDCF_OBJOFF or
-[endhost] # a ld,
+LCDCF_ON
+LCDCF_BG8000 or
+LCDCF_BG9800 or
+LCDCF_BGON or
+LCDCF_OBJ16 or
+LCDCF_OBJOFF or
+# a ld,
 
 a [rLCDC] ld,
 
@@ -48,18 +47,18 @@ a [rLCDC] ld,
 
 _SCRN0 # hl ld,
 
-[host] SCRN_VX_B SCRN_VY_B * [endhost] # bc ld,
+SCRN_VX_B SCRN_VY_B * # bc ld,
 
 mem_SetVRAM call,
 
 [host]
 : %Title s" Hello World !" ;
-[endhost]
+[target]
 
 there> hl ld, named-ref> >Title
-[host] _SCRN0 3 + SCRN_VY_B 7 * + [endhost] # de ld,
+_SCRN0 3 + SCRN_VY_B 7 * + # de ld,
 
-[host] %Title nip [endhost] # bc ld,
+%Title nip # bc ld,
 
 mem_CopyVRAM call,
 
@@ -74,7 +73,7 @@ wait jr,
 also gbforth
 %title rom-move
 previous
-[endhost]
+[target]
 
 nop,
 

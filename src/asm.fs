@@ -17,8 +17,10 @@ vocabulary gb-assembler-impl
 vocabulary gb-assembler-emiters
 [ENDIF]
 
-: [asm] also gb-assembler ;
-: [endasm] previous ;
+\ We leave an extra copy of the gb-assembler dictionary, so it can be
+\ replaced by [host] / [target].
+: [asm] also gb-assembler also ;
+: [endasm] previous previous ;
 
 get-current
 also gb-assembler

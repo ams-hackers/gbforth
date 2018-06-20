@@ -99,8 +99,8 @@ $FF6A constant rOCPS    ( [CGB only] Color palette OBJ write specification [R/W]
 $FF6B constant rOCPD    ( [CGB only] Color palette OBJ write data [R/W] )
 
 ( Register references to use in ASM )
-[asm]
 [host]
+[asm]
 
 ( port/mode register references )
 : [rP1] rP1 ]* ;
@@ -202,8 +202,8 @@ $FF6B constant rOCPD    ( [CGB only] Color palette OBJ write data [R/W] )
 : [rOCPS] rOCPS ]* ;
 : [rOCPD] rOCPD ]* ;
 
-[endhost]
 [endasm]
+[target]
 
 ( Memory addresses )
 $0150 constant _ROM          ( $0150->$7FFF )

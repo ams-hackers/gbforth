@@ -10,7 +10,7 @@ require gbhw.fs
   <there #nz jr, ;
 
 [endasm]
-[endhost]
+[target]
 
 
 code disable-lcd

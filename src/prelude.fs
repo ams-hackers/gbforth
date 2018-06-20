@@ -8,7 +8,7 @@ main:
 also gbforth
 runtime-init,
 previous
-[endhost]
+[target]
 
 ( main ) # call,
 

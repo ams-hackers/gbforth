@@ -30,8 +30,8 @@ require ./compiler/cross.fs
 [user-definitions]
 also gbforth
 
-: [host] also forth ; immediate
-: [endhost] previous ; immediate
+: [host] forth ; immediate
+: [target] gbforth-user ; immediate
 
 : ! rom! ;
 : c! romc! ;
@@ -61,6 +61,7 @@ export dup
 export over
 export drop
 export rot
+export nip
 export +
 export -
 export *
