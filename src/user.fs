@@ -106,6 +106,7 @@ export lshift
 export rshift
 export 0=
 export 0<>
+export 0<
 export 1+
 export 1-
 export bye
