@@ -49,19 +49,20 @@ variable memspace
 : rom-create rom-here constant-sym ;
 : rom-allot rom-offset+! ;
 
+: between ( n min max -- f )
+  -rot over <=
+  -rot >=
+  and ;
+
+: assert-rom-addr ( addr -- )
+  dup $C000 $DFFF between abort" Trying to reference RAM address"
+  dup $0000 $7FFF between invert abort" Trying to reference an address outside ROM" ;
+
 [user-definitions]
 also gbforth
 
 : [host] forth ; immediate
 : [target] gbforth-user ; immediate
-
-: ! rom! ;
-: c! romc! ;
-: , rom, ;
-: c, romc, ;
-: @ rom@ ;
-: c@ romc@ ;
-: s" rom" ;
 
 export ( immediate
 export \ immediate
@@ -135,6 +136,14 @@ latestxt F_IMMEDIATE create-xname ;
 
 : rom 0 memspace ! ;
 : ram -1 memspace ! ;
+
+: @ assert-rom-addr rom@ ;
+: c@ assert-rom-addr romc@ ;
+: ! assert-rom-addr rom! ;
+: c! assert-rom-addr romc! ;
+: , rom, ;
+: c, romc, ;
+: s" rom" ;
 
 : here   ram? if ram-here   else rom-here   then ;
 : unused ram? if ram-unused else rom-unused then ;
