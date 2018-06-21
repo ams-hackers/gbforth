@@ -326,6 +326,12 @@ $C000 constant DP
 : unused ( -- n )
   $CFFF here - ; \ end of RAM bank 0
 
+: char+ ( x -- x )
+  1+ ;
+
+: chars ( x -- x )
+  ( 1 * ) ;
+
 : cell+ ( x -- x )
   cell + ;
 

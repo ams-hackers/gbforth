@@ -153,6 +153,8 @@ latestxt F_IMMEDIATE create-xname ;
 : allot  ram? if ram-allot  else rom-allot  then ;
 : create ram? if ram-create else rom-create then ;
 
+: chars ( $1 * ) ;
+: char+ 1+ ;
 : cells $2 * ;
 : cell+ $2 + ;
 
