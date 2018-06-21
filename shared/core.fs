@@ -1,10 +1,6 @@
 
 : aligned ( x -- x )
-  dup #2 mod if
-    1+
-  then ;
+  dup %1 and + ;
 
 : align ( -- )
-  here #2 mod if
-    #1 allot
-  then ;
+  here %1 and if #1 allot then ;
