@@ -1,6 +1,6 @@
 const gb = require("../gbtest")(__filename);
 
 test("rstack", () => {
-  gb.cycles(200);
+  gb.run();
   expect(gb.stack).toEqual([42, 43, 44]);
 });

@@ -37,9 +37,18 @@ module.exports = filename => {
       }
     },
 
-    cycles(n) {
-      for (let i = 0; i < n; i++) {
+    run(options = {}) {
+      const HALT = 0x76;
+      const STOP = 0x10;
+      let cycles = 0;
+      while (!options.maxCycles || cycles < options.maxCycles) {
+        const pc = gameboy._cpu.pc;
+        const bytecode = gameboy._mmu.readByte(pc);
+        if (bytecode === HALT || bytecode === STOP) {
+          break;
+        }
         gameboy._cpu._runCycle();
+        cycles++;
       }
     },
 
