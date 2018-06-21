@@ -91,6 +91,12 @@ export +
 export -
 export *
 export /
+export <
+export >
+export u<
+export u>
+export =
+export <>
 export mod
 export or
 export xor
@@ -99,6 +105,7 @@ export invert
 export lshift
 export rshift
 export 0=
+export 0<>
 export 1+
 export 1-
 export bye
