@@ -154,15 +154,7 @@ latestxt F_IMMEDIATE create-xname ;
 : cells $2 * ;
 : cell+ $2 + ;
 
-: aligned ( x -- x )
-  dup #2 mod if
-    1+
-  then ;
-
-: align ( -- )
-  here #2 mod if
-    #1 allot
-  then ;
+include ../shared/core.fs
 
 : variable
   ram-create
