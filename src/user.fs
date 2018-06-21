@@ -34,10 +34,20 @@ require ./compiler/cross.fs
   2dup r@ sym
   r> -rot create-constant ;
 
+( 0 if we have selected ROM,
+  -1 if we have selected RAM )
+variable memspace
+: ram? memspace @ ;
+
 : ram-here ram-offset ;
+: ram-unused ram-size ram-here - ;
 : ram-create ram-here constant-sym ;
 : ram-allot ram-offset+! ;
 
+: rom-here rom-offset ;
+: rom-unused rom-size rom-here - ;
+: rom-create rom-here constant-sym ;
+: rom-allot rom-offset+! ;
 
 [user-definitions]
 also gbforth
@@ -123,12 +133,16 @@ latestxt F_IMMEDIATE create-xname ;
 : constant ( x -- )
   parse-next-name create-constant ;
 
-: here rom-offset ;
-: unused rom-size here - ;
-: create here constant-sym ;
+: rom 0 memspace ! ;
+: ram -1 memspace ! ;
+
+: here   ram? if ram-here   else rom-here   then ;
+: unused ram? if ram-unused else rom-unused then ;
+: allot  ram? if ram-allot  else rom-allot  then ;
+: create ram? if ram-create else rom-create then ;
+
 : cells $2 * ;
 : cell+ $2 + ;
-: allot rom-offset+! ;
 
 : variable
   ram-create

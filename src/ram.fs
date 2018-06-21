@@ -4,6 +4,8 @@ require ./utils/bytes.fs
 $C000 constant CP-addr \ start of RAM bank 0
 $C002 constant CP0
 
+$CFFF CP0 - constant ram-size
+
 variable ram-offset-variable
 CP0 ram-offset-variable !
 
