@@ -6,6 +6,7 @@ require ./cartridge.fs
 require ./header.fs
 require ./asm.fs
 require ./rom.fs
+require ./ram.fs
 require ./compiler/cross.fs
 
 : export
@@ -33,9 +34,9 @@ require ./compiler/cross.fs
   2dup r@ sym
   r> -rot create-constant ;
 
-: ram-here CP @ ;
+: ram-here ram-offset ;
 : ram-create ram-here constant-sym ;
-: ram-allot CP +! ;
+: ram-allot ram-offset+! ;
 
 
 [user-definitions]
