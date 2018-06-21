@@ -3,7 +3,7 @@ SHELL := /bin/bash
 export GBFORTH_PATH := $(shell pwd)/lib
 
 LIB_FILES=lib/*.fs
-SOURCE_FILES=gbforth src/*.fs src/utils/*.fs src/compiler/*.fs
+SOURCE_FILES=gbforth src/*.fs src/utils/*.fs src/compiler/*.fs shared/*.fs
 
 TEST_FILES = $(wildcard test/*.fs) $(wildcard test/*/*.fs)
 TEST_OBJS = $(subst .fs,.gb,$(TEST_FILES))
