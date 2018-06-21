@@ -2,7 +2,7 @@
   2dup < if nip else drop then ;
 
 : my-?dup
-  dup dup 0 = if drop then ;
+  dup dup 0 = if drop endif ;
 
 
 : main

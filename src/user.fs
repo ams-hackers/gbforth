@@ -98,6 +98,8 @@ export bye
 : ; xcompiling? if x; else postpone ; then ; immediate
 latestxt F_IMMEDIATE create-xname ;
 
+: postpone postpone xpostpone ; immediate
+
 : constant ( x -- )
   parse-next-name create-constant ;
 
@@ -112,13 +114,14 @@ latestxt F_IMMEDIATE create-xname ;
   ram-create
   $2 ram-allot ;
 
+: immediate ximmediate ;
+
 : ' x' ;
 : ] x] ;
 : ]L xliteral x] ;
 : :noname x:noname ;
 
 : : x: ;
-
 
 previous
 [end-user-definitions]

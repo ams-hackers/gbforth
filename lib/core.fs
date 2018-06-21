@@ -517,3 +517,5 @@ end-code
   >r dup >r -rot r> r> swap >r dup >r -rot r> r> swap ;
 
 : 0= 0 = ;
+
+:m endif postpone then ; immediate

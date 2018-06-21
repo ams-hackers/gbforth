@@ -87,29 +87,31 @@ variable xstate
     xstate @ while
   repeat ;
 
-: xname' 
-  parse-next-name find-xname ;
+: xname'
+  parse-next-name find-xname
+  dup 0= if
+    -1 abort" Unknown word"
+  then ;
+
+: xpostpone ( name -- )
+  xname'
+  postpone literal
+  postpone process-xname
+; immediate
 
 : xsee
   cr
-  xname' ?dup if
-    dup ." ========== " .xname ." ( " dup hex. ." ) " ." ========== "
-    dup xprimitive? if
-      cr ." (code)" drop
-    else
-      >xcode .ir
-    then
+  xname'
+  ." ========== " dup .xname ." ( " dup hex. ." ) " ." ========== "
+  dup xprimitive? if
+    cr ." (code)" drop
   else
-    -1 abort" Unknown word"
-  then 
+    >xcode .ir
+  then
   cr ;
 
 : x'
-  xname' ?dup if
-    xname>addr
-  else
-    -1 abort" Unknown word "
-  then ;
+  xname' xname>addr ;
 
 : x['] x' xliteral, ; ximmediate-as [']
 
