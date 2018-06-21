@@ -519,3 +519,25 @@ end-code
 : 0= 0 = ;
 
 :m endif postpone then ; immediate
+
+( CASE...ENDCASE implementation )
+
+:m case 0 ; immediate
+
+:m of
+  1+ >r
+  postpone over
+  postpone =
+  postpone if
+  postpone drop
+  r>
+; immediate
+
+:m endof
+  >r postpone else r>
+; immediate
+
+:m endcase
+  postpone drop
+  0 ?do postpone then loop
+; immediate

@@ -91,14 +91,26 @@ export 1+
 export 1-
 export bye
 
-: :m
-  [host] :
-  [target] ;
+export >r
+export r>
+export rdrop
+export 2>r
+export 2r>
+
+export cr
+export .s
+export order
+export words
+
+: ?do postpone ?do ; immediate
+: loop postpone loop ; immediate
+
+: :m : ;
 
 : ; xcompiling? if x; else postpone ; then ; immediate
 latestxt F_IMMEDIATE create-xname ;
 
-: postpone postpone xpostpone ; immediate
+: postpone xname' xpostpone, ; immediate
 
 : constant ( x -- )
   parse-next-name create-constant ;

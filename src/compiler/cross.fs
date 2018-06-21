@@ -93,11 +93,9 @@ variable xstate
     -1 abort" Unknown word"
   then ;
 
-: xpostpone ( name -- )
-  xname'
+: xpostpone, ( xname -- )
   postpone literal
-  postpone process-xname
-; immediate
+  postpone process-xname ;
 
 : xsee
   cr
