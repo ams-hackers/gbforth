@@ -1,4 +1,2 @@
-variable foo
-variable bar
-variable baz
+ram 3 cells allot
 : main here ;

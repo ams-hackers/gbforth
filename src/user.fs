@@ -156,9 +156,7 @@ latestxt F_IMMEDIATE create-xname ;
 
 include ../shared/core.fs
 
-: variable
-  ram-create
-  $2 ram-allot ;
+: variable create $2 allot ;
 
 : immediate ximmediate ;
 

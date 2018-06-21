@@ -9,9 +9,7 @@ During **compile-time**, you'll reference **ROM** by default. This is the only t
 where the ROM is writable (since gbforth is generating the program), and generally
 speaking, this is where you want to store most of your data.
 
-One exception to this is `VARIABLE`, which will automatically reference the **RAM**.
-
-For other words, you're able to freely select the affected data space using the
+For certain words, you're able to freely select the affected data space using the
 words `ROM` and `RAM`.
 
 | Word | Memory |
@@ -28,16 +26,17 @@ words `ROM` and `RAM`.
 | `align` | ROM/RAM |
 | `aligned` | ROM/RAM |
 | `create` | ROM/RAM |
-| `variable` | RAM |
+| `variable` | ROM/RAM |
 
-As you can see, you are not able to initialise the RAM at compile-time. Keep in
-mind that this also applies to `VARIABLE`: This word only reserves a cell in the
-RAM, but will **not** initialise or zero this memory for you.
+As you can see, you are not able to initialise or write to the RAM at compile-time.
+Keep in mind that you can only _reserve_ space in the RAM, but gbforth will
+**not** initialise (or zero) this memory for you.
 
 If you need to initialise the RAM, you'll need to do this at run-time.
 
 ## Run-time
-During **run-time**, you always reference the **RAM**. As such, the words `ROM` and `RAM` are not available here.
+During **run-time**, you always reference the **RAM**. As such, the words `ROM`
+and `RAM` are not available here.
 
 Additionally, words like `CREATE` and `VARIABLE` are not available
 due to the target not having an input steam to parse the name from.

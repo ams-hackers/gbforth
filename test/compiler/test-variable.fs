@@ -1,8 +1,9 @@
-variable foo
-variable bar
+rom variable foo
+ram variable bar
+
+$1337 foo !
 
 : main
-  $1337 foo !
   $4242 bar !
   foo @
   bar @ ;
