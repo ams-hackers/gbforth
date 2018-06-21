@@ -58,6 +58,9 @@ variable memspace
   dup $C000 $DFFF between abort" Trying to reference RAM address"
   dup $0000 $7FFF between invert abort" Trying to reference an address outside ROM" ;
 
+: assert-rom-selected ( -- )
+  ram? abort" Unavailable when RAM is selected" ;
+
 [user-definitions]
 also gbforth
 
@@ -141,9 +144,9 @@ latestxt F_IMMEDIATE create-xname ;
 : c@ assert-rom-addr romc@ ;
 : ! assert-rom-addr rom! ;
 : c! assert-rom-addr romc! ;
-: , rom, ;
-: c, romc, ;
-: s" rom" ;
+: , assert-rom-selected rom, ;
+: c, assert-rom-selected romc, ;
+: s" assert-rom-selected rom" ;
 
 : here   ram? if ram-here   else rom-here   then ;
 : unused ram? if ram-unused else rom-unused then ;
