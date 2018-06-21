@@ -489,6 +489,20 @@ SP inc,
 DE push,
 end-code
 
+code pick
+HL HL add,                      ( HL*2 )
+$ff00 # DE ld,                  ( ff00 )
+DE HL add,
+0 # B ld,                       ( C [= BC] )
+BC HL add,
+
+[HL+] ->A-> E ld,
+[HL+] ->A-> D ld,
+
+D H ld,
+E L ld,
+end-code
+
 : rot ( a b c -- b c a )
   >r swap r> swap ;
 

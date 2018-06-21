@@ -76,6 +76,7 @@ export over
 export drop
 export rot
 export nip
+export pick
 export +
 export -
 export *
