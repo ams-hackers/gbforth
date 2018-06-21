@@ -96,6 +96,7 @@ export +
 export -
 export *
 export /
+export mod
 export or
 export xor
 export and
