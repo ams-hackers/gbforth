@@ -49,14 +49,9 @@ variable memspace
 : rom-create rom-here constant-sym ;
 : rom-allot rom-offset+! ;
 
-: between ( n min max -- f )
-  -rot over <=
-  -rot >=
-  and ;
-
 : assert-rom-addr ( addr -- )
-  dup $C000 $DFFF between abort" Trying to reference RAM address"
-  dup $0000 $7FFF between invert abort" Trying to reference an address outside ROM" ;
+  dup $C000 $DFFF within abort" Trying to reference RAM address"
+  dup $0000 $7FFF within invert abort" Trying to reference an address outside ROM" ;
 
 : assert-rom-selected ( -- )
   ram? abort" Unavailable when RAM is selected" ;
