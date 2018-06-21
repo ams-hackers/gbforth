@@ -237,7 +237,6 @@ create user-name 128 chars allot
   orig to current-node
 ; ximmediate-as repeat
 
-
 : xagain { body -- }
   current-node
   insert-node IR_NODE_CONTINUE ::type body ::value
@@ -246,6 +245,14 @@ create user-name 128 chars allot
   \ to collect it somewhere
   make-ir to current-node
 ; ximmediate-as again
+
+: xuntil { dest -- }
+  make-ir { next }
+  current-node
+  insert-node IR_NODE_FORK ::type next ::value dest ::value'
+  drop
+  next to current-node
+; ximmediate-as until
 
 
 ( Code definitions )
