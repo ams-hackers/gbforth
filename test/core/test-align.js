@@ -1,0 +1,11 @@
+const gb = require("../gbtest")(__filename);
+
+test("align", () => {
+  gb.run();
+  expect(gb.stack).toEqual([
+    0xC002, 0xC002, 0xC002,
+    0xC004, 0xC004, 0xC004,
+    0xC00E, 0xC00E, 0xC00E,
+    0xC011, 0xC012, 0xC012,
+  ]);
+});
