@@ -225,7 +225,7 @@ end-code
 )
 
 ( x y -- f )
-code <
+code u<
 ps-over-ae-nip, \ x -> ae
 H A cp, \ compare higher byte
 #Z if, \ x_=y_
@@ -239,7 +239,7 @@ then,
 end-code
 
 ( x y -- f )
-code >
+code u>
 ps-over-ae-nip, \ x -> ae
 H A cp, \ compare higher byte
 #Z if, \ x_=y_
@@ -279,6 +279,19 @@ code invert
   L ->A-> cpl, A L ld,
 end-code
 
+code 0<>
+  H|L->A,
+  there> #z jr,
+  -1 # HL ld,
+  ret,
+  >here
+  0 # HL ld,
+end-code
+
+: <> = invert ;
+
+: < - $8000 and 0<> ;
+: > swap < ;
 
 (
   ***** Memory Access *****
