@@ -1,5 +1,3 @@
-( A SUBROUTINE-THREADED KERNEL FOR GBFORTH )
-
 require ./asm.fs
 require ./utils/bytes.fs
 
