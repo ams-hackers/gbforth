@@ -94,6 +94,7 @@ export bye
 
 export >r
 export r>
+export r@
 export rdrop
 export 2>r
 export 2r>
