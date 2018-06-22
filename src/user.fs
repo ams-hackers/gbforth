@@ -124,8 +124,6 @@ export .s
 export order
 export words
 
-: ?do    postpone ?do    ; immediate
-: loop   postpone loop   ; immediate
 : begin  postpone begin  ; immediate
 : until  postpone until  ; immediate
 : while  postpone while  ; immediate

@@ -643,6 +643,34 @@ end-code
 
 :m endif postpone then ; immediate
 
+( Counted Loops )
+
+:m ?do
+  postpone 2>r
+
+  postpone begin
+
+  postpone 2r@
+  postpone <>
+  postpone while
+
+; immediate
+
+:m i
+  postpone r@
+; immediate
+
+: nop ;
+
+:m loop
+  postpone r>
+  postpone 1+
+  postpone >r
+  postpone repeat
+  \ postpone 2rdrop
+; immediate
+
+
 ( CASE...ENDCASE implementation )
 
 :m case 0 ; immediate
@@ -662,33 +690,8 @@ end-code
 
 :m endcase
   postpone drop
-  0 ?do postpone then loop
+  0
+  [host] ?do [target]
+    postpone then
+  [host] loop [target]
 ; immediate
-
-
-
-( Counted Loops )
-
-\ code i++
-\ DE pop,
-\ DE inc,
-\ DE push,
-\ end-code
-
-\ :m ?do
-\   postpone 2dup
-\   postpone 2>r
-
-\   postpone begin
-
-\   postpone 2r@
-\   postpone =
-\   postpone if
-
-\   postpone while
-\ ; immediate
-
-\ :m loop
-\   postpone i++
-\   postpone repeat
-\ ; immediate
