@@ -289,7 +289,18 @@ code 0<>
 end-code
 
 : <> = invert ;
-: 0< $8000 and 0<> ;
+
+code 0<
+  H 7 # bit,
+  there> #z jr,
+  ( Positive )
+  true->HL,
+  ret,
+  ( Negative )
+  >here
+  false->HL,
+end-code
+
 : < - 0< ;
 : > swap < ;
 
