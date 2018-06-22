@@ -78,10 +78,21 @@
   ps-invert,
   HL inc, ;
 
+: negate-DE,
+  D ->A-> cpl, A D ld,
+  E ->A-> cpl, A E ld,
+  DE inc, ;
+
+: negate-BC,
+  B ->A-> cpl, A B ld,
+  C ->A-> cpl, A C ld,
+  BC inc, ;
+
+
 \ Divide unsigned HL by DE.
 \   - Quotient is put into BC
 \   - Remainder into HL 
-: HL-udiv-DE,
+: HL+/DE+,
   #0 # BC ld,
   begin, \ HL -= DE
     L A ld, E A sub, A L ld,
@@ -90,6 +101,43 @@
     BC inc,
   repeat,
   DE HL add, ;
+
+: HL/DE+,
+  H 7 # bit, #nz if,
+    ps-negate,
+    HL push,
+    HL+/DE+,
+    \ reminder = 0
+    H|L->A, #z if,
+      negate-BC,
+      DE pop,
+    else,
+      negate-BC,
+      BC dec,
+      DE pop,      \ divident
+       \ DE = DE[divident] - HL[reminder]
+      E A ld, L A sub, A E ld,
+      D A ld, D A sbc, A D ld,
+      \ DE -> HL
+      D H ld,
+      E L ld,
+    then,
+  else,
+    HL+/DE+,
+  then, ;
+
+\ Divide _signed_ HL by DE.
+\   - Quotient is put into BC
+\   - Remainder into HL
+: HL/DE,
+  D 7 # bit, #nz if,
+    negate-DE,
+    HL/DE+,    \ BC = quotient, HL = remainder
+    negate-BC,
+  else,
+    HL/DE+,
+  then,
+;
 
 
 [endasm]

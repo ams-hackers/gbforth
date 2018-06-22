@@ -98,7 +98,7 @@ end-code
 code /
   ps-pop-de,      \ dividend to HL, divisor to DE
   BC push,        \ store SP
-  HL-udiv-DE,
+  HL/DE,
   B H ld, C L ld, \ move BC [quotient] to HL [TOS]
   BC pop,         \ restore SP
 end-code
@@ -107,7 +107,7 @@ end-code
 code mod
   ps-pop-de,  \ dividend to HL, modulus to DE
   BC push,
-  HL-udiv-DE,
+  HL/DE,
   BC pop,
 end-code
 
