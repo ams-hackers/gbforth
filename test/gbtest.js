@@ -37,6 +37,10 @@ module.exports = filename => {
       }
     },
 
+    int(n) {
+      return n & 0xffff;
+    },
+
     run(options = {}) {
       const HALT = 0x76;
       const STOP = 0x10;
