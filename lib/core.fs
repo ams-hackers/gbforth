@@ -9,6 +9,10 @@ $FFFF constant true
 
 #2 constant cell
 
+[asm]
+:m [R1] $FF80 ]* ;
+:m [R2] $FF81 ]* ;
+[endasm]
 
 (
   ***** Stack Manipulation *****
@@ -525,6 +529,75 @@ SP inc,
 DE push,
 end-code
 
+[asm]
+:m DE->R12,
+  D ->A-> [R1] ld,
+  E ->A-> [R2] ld, ;
+
+:m R12->DE,
+  [R1] ->A-> D ld,
+  [R2] ->A-> E ld, ;
+[endasm]
+
+code 2>r
+  DE pop,
+  DE->R12,
+
+  ps-over-de-nip,
+  DE push,
+  HL push,
+  ps-drop,
+
+  R12->DE,
+  DE push,
+end-code
+
+code 2r>
+  DE pop,
+  DE->R12,
+
+  ps-dup,
+  DE pop,
+  HL pop,
+  ps-push-de,
+
+  R12->DE,
+  DE push,
+end-code
+
+code 2r@
+  DE pop,
+  DE->R12,
+
+  ps-dup,
+
+  HL pop,
+  DE pop,
+
+  C dec,
+  D ->A-> [C] ld,
+  C dec,
+  E ->A-> [C] ld,
+
+  DE push,
+  HL push,
+
+  R12->DE,
+  DE push,
+end-code
+
+code 2rdrop
+  DE pop,
+  DE->R12,
+
+  DE pop,
+  DE pop,
+
+  R12->DE,
+  DE push,
+end-code
+
+
 code pick
 HL HL add,                      ( HL*2 )
 $ff00 # DE ld,                  ( ff00 )
@@ -591,3 +664,31 @@ end-code
   postpone drop
   0 ?do postpone then loop
 ; immediate
+
+
+
+( Counted Loops )
+
+\ code i++
+\ DE pop,
+\ DE inc,
+\ DE push,
+\ end-code
+
+\ :m ?do
+\   postpone 2dup
+\   postpone 2>r
+
+\   postpone begin
+
+\   postpone 2r@
+\   postpone =
+\   postpone if
+
+\   postpone while
+\ ; immediate
+
+\ :m loop
+\   postpone i++
+\   postpone repeat
+\ ; immediate
