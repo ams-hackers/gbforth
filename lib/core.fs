@@ -273,10 +273,15 @@ ret,
 false->HL,
 end-code
 
-
 code invert
   H ->A-> cpl, A H ld,
   L ->A-> cpl, A L ld,
+end-code
+
+code negate
+  H ->A-> cpl, A H ld,
+  L ->A-> cpl, A L ld,
+  HL inc,
 end-code
 
 code 0<>
