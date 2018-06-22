@@ -70,5 +70,12 @@
   ps-over-de,
   ps-push-de, ;
 
+: ps-invert,
+  H ->A-> cpl, A H ld,
+  L ->A-> cpl, A L ld, ;
+
+: ps-negate,
+  ps-invert,
+  HL inc, ;
 
 [endasm]

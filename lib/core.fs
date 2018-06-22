@@ -274,14 +274,11 @@ false->HL,
 end-code
 
 code invert
-  H ->A-> cpl, A H ld,
-  L ->A-> cpl, A L ld,
+  ps-invert,
 end-code
 
 code negate
-  H ->A-> cpl, A H ld,
-  L ->A-> cpl, A L ld,
-  HL inc,
+  ps-negate,
 end-code
 
 code 0<>
