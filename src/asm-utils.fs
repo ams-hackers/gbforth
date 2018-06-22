@@ -78,4 +78,18 @@
   ps-invert,
   HL inc, ;
 
+\ Divide unsigned HL by DE.
+\   - Quotient is put into BC
+\   - Remainder into HL 
+: HL-udiv-DE,
+  #0 # BC ld,
+  begin, \ HL -= DE
+    L A ld, E A sub, A L ld,
+    H A ld, D A sbc, A H ld,
+  #NC while, \ remainder <0 ? done!
+    BC inc,
+  repeat,
+  DE HL add, ;
+
+
 [endasm]

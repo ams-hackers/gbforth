@@ -94,29 +94,21 @@ BC pop,
 \ ps-push-de, ( DE contains higher 2 bytes of result )
 end-code
 
-( a b -- c )
+( n1 n2 -- n3 )
 code /
-ps-pop-de,  \ dividend to HL, divisor to DE
-BC push,    \ store SP
-#0 # BC ld, \ quotient = 0
-begin, \ repeated substraction HL - DE
-  L A ld, E A sub, A L ld, \ L - E
-  H A ld, D A sbc, A H ld, \ H - D - carry
-#NC while, \ remainder <0 ? done!
-  BC inc,      \ inc quotient
-repeat,    \ repeat substraction
+  ps-pop-de,      \ dividend to HL, divisor to DE
+  BC push,        \ store SP
+  HL-udiv-DE,
   B H ld, C L ld, \ move BC [quotient] to HL [TOS]
   BC pop,         \ restore SP
 end-code
 
-( a b -- c )
+( n1 n2 -- n3 )
 code mod
-ps-pop-de,  \ dividend to HL, modulus to DE
-begin, \ repeated substraction HL - DE
-  L A ld, E A sub, A L ld, \ L - E
-  H A ld, D A sbc, A H ld, \ H - D - carry
-#C until, \ remainder <0 ? done!
-  DE HL add,
+  ps-pop-de,  \ dividend to HL, modulus to DE
+  BC push,
+  HL-udiv-DE,
+  BC pop,
 end-code
 
 ( x -- x )
