@@ -348,12 +348,9 @@ E [HL] ld,
 ps-drop,
 end-code
 
-( -- addr )
-
 $C000 constant DP
-: here DP @ ;
-: allot ( n -- )
-  DP +! ;
+: here ( -- addr ) DP @ ;
+: allot ( n -- ) DP +! ;
 
 : unused ( -- n )
   $CFFF here - ; \ end of RAM bank 0
@@ -369,6 +366,12 @@ $C000 constant DP
 
 : cells ( x -- x )
   cell * ;
+
+( c-addr -- x1 x2 )
+: 2@ dup cell+ @ swap @ ;
+
+( x1 x2 c-addr -- )
+: 2! swap over ! cell+ ! ;
 
 include ../shared/core.fs
 
