@@ -86,6 +86,7 @@ export end-code immediate
 export swap
 export over
 export dup
+export ?dup
 export drop
 export rot
 export nip
