@@ -14,6 +14,27 @@ $FFFF constant true
 :m [R2] $FF81 ]* ;
 [endasm]
 
+( Conditionals )
+
+:m if ( -- alternative )
+  @there dup 0branch,
+; immediate
+
+:m else ( alternative -- continuation )
+  @there dup branch,
+  swap @resolve
+; immediate
+
+:m then ( continuation -- )
+  @resolve
+; immediate
+
+:m ahead ( -- orig )
+  @there dup branch,
+; immediate
+
+:m endif postpone then ; immediate
+
 (
   ***** Stack Manipulation *****
 )
@@ -127,34 +148,6 @@ code 1-
 \ avoid uising dec, because of OAM bug
 L A ld, $1 # A sub, A L ld,
 H A ld, $0 # A sbc, A H ld,
-end-code
-
-( a b -- c )
-code max
-ps-over-de-nip,
-  \ compare higher bytes
-  H A ld, D A cp, \ H D cp,
-there> #C jp, \ H<D
-#NZ ret, \ H>D
-  \ higher bytes equal, compare lower
-  L A ld, E A cp, \ L E cp,
-#NC ret, \ L>=E
->here
-  D H ld, E L ld,
-end-code
-
-( a b -- c )
-code min
-ps-over-de-nip,
-  \ compare higher bytes
-  H A ld, D A cp, \ H D cp,
-#C ret, \ H<D
-there> #NZ jp, \ H>D
-  \ higher bytes equal, compare lower
-  L A ld, E A cp, \ L E cp,
-#C ret, \ L<E
->here
-  D H ld, E L ld,
 end-code
 
 (
@@ -659,5 +652,15 @@ require ./core/conditionals.fs
 require ./core/basic-loops.fs
 require ./core/counted-loops.fs
 require ./core/case.fs
+
+( a b -- c )
+: max
+  over over >
+  if drop else nip then ;
+
+( a b -- c )
+: min
+  over over <
+  if drop else nip then ;
 
 include ../shared/core.fs
