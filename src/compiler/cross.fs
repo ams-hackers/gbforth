@@ -187,49 +187,6 @@ make-ir constant unreachable
   dup branch, to current-node ;
 
 
-( Conditionals )
-
-: xif ( -- alternative )
-  @there dup 0branch,
-; ximmediate-as if
-
-: xelse ( alternative -- continuation )
-  @there dup branch,
-  swap @resolve
-; ximmediate-as else
-
-: xthen ( continuation -- )
-  @resolve
-; ximmediate-as then
-
-: xahead ( -- orig )
-  @there dup branch,
-; ximmediate-as ahead
-
-
-( Loops )
-
-: xbegin ( -- dest )
-  @there dup @resolve
-; ximmediate-as begin
-
-: xwhile ( dest -- orig dest )
-  @there dup 0branch, swap
-; ximmediate-as while
-
-: xrepeat ( orig dest -- )
-  branch,
-  @resolve
-; ximmediate-as repeat
-
-: xagain ( dest -- )
-  branch,
-; ximmediate-as again
-
-: xuntil ( dest -- )
-  0branch,
-; ximmediate-as until
-
 
 ( Code definitions )
 

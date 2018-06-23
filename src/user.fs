@@ -132,6 +132,11 @@ export .s
 export order
 export words
 
+export @there
+export @resolve
+export branch,
+export 0branch,
+
 : begin  postpone begin  ; immediate
 : until  postpone until  ; immediate
 : while  postpone while  ; immediate

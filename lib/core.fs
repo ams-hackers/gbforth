@@ -373,7 +373,6 @@ $C000 constant DP
 ( x1 x2 c-addr -- )
 : 2! swap over ! cell+ ! ;
 
-include ../shared/core.fs
 
 : , ( x -- )
   here !
@@ -656,7 +655,53 @@ end-code
 
 : 0= 0 = ;
 
+
+( Conditionals )
+
+:m if ( -- alternative )
+  @there dup 0branch,
+; immediate
+
+:m else ( alternative -- continuation )
+  @there dup branch,
+  swap @resolve
+; immediate
+
+:m then ( continuation -- )
+  @resolve
+; immediate
+
+:m ahead ( -- orig )
+  @there dup branch,
+; immediate
+
 :m endif postpone then ; immediate
+
+
+( Basic Loops )
+
+:m begin ( -- dest )
+  @there dup @resolve
+; immediate
+
+:m while ( dest -- orig dest )
+  @there dup 0branch, swap
+; immediate
+
+:m repeat ( orig dest -- )
+  branch,
+  @resolve
+; immediate
+
+:m again ( dest -- )
+  branch,
+; immediate
+
+:m until ( dest -- )
+  0branch,
+; immediate
+
+
 
 ( Counted Loops )
 
@@ -713,3 +758,6 @@ end-code
     postpone then
   [host] loop [target]
 ; immediate
+
+
+include ../shared/core.fs
