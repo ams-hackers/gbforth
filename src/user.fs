@@ -130,7 +130,6 @@ export rdrop
 export 2>r
 export 2r>
 
-export bl
 export cr
 export .s
 export order
@@ -140,12 +139,6 @@ export @there
 export @resolve
 export branch,
 export 0branch,
-
-: begin  postpone begin  ; immediate
-: until  postpone until  ; immediate
-: while  postpone while  ; immediate
-: repeat postpone repeat ; immediate
-: again  postpone again  ; immediate
 
 : :m : ;
 
