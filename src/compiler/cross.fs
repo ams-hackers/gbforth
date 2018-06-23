@@ -206,50 +206,20 @@ make-ir constant unreachable
 )
 
 : xif ( -- alternative )
-  make-ir make-ir { consequent alternative }
-
-  current-node
-  insert-node IR_NODE_FORK ::type consequent ::value alternative ::value'
-  drop
-
-  consequent to current-node
-  alternative
-
+  @there dup 0branch,
 ; ximmediate-as if
 
-
-: xelse { alternative -- continuation }
-  make-ir { continuation }
-
-  current-node 
-  insert-node IR_NODE_CONTINUE ::type continuation ::value
-  drop
-  
-  alternative to current-node
-  continuation
+: xelse ( alternative -- continuation )
+  @there dup branch,
+  swap @resolve
 ; ximmediate-as else
 
-
-\ Note that if xelse is not present, the continuation IR is just the
-\ alternative IR from xif.
-: xthen { continuation -- }
-  current-node
-  insert-node IR_NODE_CONTINUE ::type continuation ::value
-  drop
-
-  continuation to current-node
+: xthen ( continuation -- )
+  @resolve
 ; ximmediate-as then
 
-
 : xahead ( -- orig )
-  make-ir make-ir { orig unused }
-
-  current-node
-  insert-node IR_NODE_CONTINUE ::type orig ::value
-  drop
-  
-  unused to current-node
-  orig
+  @there dup branch,
 ; ximmediate-as ahead
 
 
