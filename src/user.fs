@@ -119,6 +119,7 @@ export rdrop
 export 2>r
 export 2r>
 
+export bl
 export cr
 export .s
 export order
