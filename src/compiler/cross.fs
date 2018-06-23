@@ -187,23 +187,7 @@ make-ir constant unreachable
   dup branch, to current-node ;
 
 
-
-
-( Conditionals
-
-                    consequent
-                   /
-                 _v______
-  current-node  /        \    continuation
-         _v____/          \__v____
-             ^ \          /
-             |  \________/ <---- IR_NODE_CONTINUE
-             |    ^
-             |    |
-             |    | alternative
-             |
-             IR_NODE_FORK
-)
+( Conditionals )
 
 : xif ( -- alternative )
   @there dup 0branch,
@@ -223,49 +207,27 @@ make-ir constant unreachable
 ; ximmediate-as ahead
 
 
-
 ( Loops )
 
-: xbegin { -- dest }
-  make-ir { dest }
-  current-node
-  insert-node IR_NODE_CONTINUE ::type dest ::value
-  drop
-  dest to current-node
-  dest
+: xbegin ( -- dest )
+  @there dup @resolve
 ; ximmediate-as begin
 
-: xwhile { dest -- orig dest }
-  make-ir make-ir { orig post }
-  current-node
-  insert-node IR_NODE_FORK ::type post ::value orig ::value'
-  drop
-  post to current-node
-  orig dest
+: xwhile ( dest -- orig dest )
+  @there dup 0branch, swap
 ; ximmediate-as while
 
-: xrepeat { orig dest -- }
-  current-node
-  insert-node IR_NODE_CONTINUE ::type dest ::value
-  drop
-  orig to current-node
+: xrepeat ( orig dest -- )
+  branch,
+  @resolve
 ; ximmediate-as repeat
 
-: xagain { dest -- }
-  current-node
-  insert-node IR_NODE_CONTINUE ::type dest ::value
-  drop
-  \ Code following the next IR component is unreachable! but we have
-  \ to collect it somewhere
-  make-ir to current-node
+: xagain ( dest -- )
+  branch,
 ; ximmediate-as again
 
-: xuntil { dest -- }
-  make-ir { next }
-  current-node
-  insert-node IR_NODE_FORK ::type next ::value dest ::value'
-  drop
-  next to current-node
+: xuntil ( dest -- )
+  0branch,
 ; ximmediate-as until
 
 
