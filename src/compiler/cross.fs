@@ -210,6 +210,19 @@ create user-name 128 chars allot
 ; ximmediate-as then
 
 
+: xahead ( -- orig )
+  make-ir make-ir { orig unused }
+
+  current-node
+  insert-node IR_NODE_CONTINUE ::type orig ::value
+  drop
+  
+  unused to current-node
+  orig
+; ximmediate-as ahead
+
+
+
 ( Loops )
 
 : xbegin { -- dest }
