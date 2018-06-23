@@ -95,6 +95,8 @@ export +
 export -
 export *
 export /
+export 2*
+export 2/
 export <
 export >
 export u<
