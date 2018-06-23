@@ -56,11 +56,14 @@ variable memspace
 : assert-rom-selected ( -- )
   ram? abort" Unavailable when RAM is selected" ;
 
+: [host] forth ; immediate
+: [target] gbforth-user ; immediate
+
 [user-definitions]
 also gbforth
 
-: [host] forth ; immediate
-: [target] gbforth-user ; immediate
+' [host]   alias [host]   immediate
+' [target] alias [target] immediate
 
 export ( immediate
 export \ immediate
