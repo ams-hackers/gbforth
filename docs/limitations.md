@@ -14,6 +14,7 @@ differently in order to emulate the expected behaviour as close as possible.
 | `create` | No input stream available |
 | `parse` | No input stream available |
 | `postpone` | No input stream available |
+| `variable` | No input stream available |
 
 ## Partial support
 
