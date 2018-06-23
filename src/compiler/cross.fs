@@ -158,6 +158,37 @@ create user-name 128 chars allot
   -1 to current-node ;
 
 
+( Control Flow )
+
+make-ir constant unreachable
+
+\ Create a unresolved mark.
+: @there ( -- mark )
+  make-ir ;
+
+\ Compile a jump to a mark. Code compiled directly afte rthe mark
+\ becomes unreachable.
+: branch, { mark -- }
+  current-node
+  insert-node IR_NODE_CONTINUE ::type mark ::value
+  drop
+  unreachable to current-node ;
+
+\ Compile a jump to a mark if the top of the stack is zero.
+: 0branch, { mark -- }
+  make-ir { continue }
+  current-node
+  insert-node IR_NODE_FORK ::type continue ::value mark ::value'
+  drop
+  continue to current-node ;
+
+\ Resolve a mark to the current location.
+: @resolve ( mark -- )
+  dup branch, to current-node ;
+
+
+
+
 ( Conditionals
 
                     consequent
@@ -250,9 +281,9 @@ create user-name 128 chars allot
   orig to current-node
 ; ximmediate-as repeat
 
-: xagain { body -- }
+: xagain { dest -- }
   current-node
-  insert-node IR_NODE_CONTINUE ::type body ::value
+  insert-node IR_NODE_CONTINUE ::type dest ::value
   drop
   \ Code following the next IR component is unreachable! but we have
   \ to collect it somewhere
