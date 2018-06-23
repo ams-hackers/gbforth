@@ -667,7 +667,7 @@ end-code
   postpone 1+
   postpone >r
   postpone repeat
-  \ postpone 2rdrop
+  postpone 2rdrop
 ; immediate
 
 
