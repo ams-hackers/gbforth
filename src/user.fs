@@ -114,6 +114,7 @@ export 0<
 export 1+
 export 1-
 export negate
+export quit
 export bye
 
 export >r

@@ -22,3 +22,4 @@ differently in order to emulate the expected behaviour as close as possible.
 | Word | Alternative behaviour | Reason |
 | ---- | --------------------- | ------ |
 | `bye` | Terminate execution of the program and _stop_ the CPU | No OS available |
+| `quit` | Terminate execution of the program and _stop_ the CPU | No OS available |

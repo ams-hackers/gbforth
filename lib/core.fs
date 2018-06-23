@@ -493,6 +493,12 @@ end-code
 
 ( Tools )
 
+code quit ( -- )
+begin,
+stop,
+again,
+end-code
+
 code bye ( -- )
 begin,
 stop,
