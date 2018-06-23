@@ -15,8 +15,13 @@
   loop
   99 ;
 
+: test-4
+  0 0 ?do i loop 42 ;
+
+
 : main
   test-1
   test-2
   test-3
+  test-4
 ;

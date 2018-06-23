@@ -743,12 +743,16 @@ variable leave-count 0 leave-sp !
 
 :m ?do
   postpone 2>r
-
+  postpone ahead
   postpone begin
-  postpone 2r@
-  postpone <>
-  postpone while
+  swap
+  @there leave-push
+; immediate
 
+:m do
+  postpone 2>r
+  postpone begin
+  0 \ not ahead!
   @there leave-push
 ; immediate
 
@@ -770,6 +774,15 @@ variable leave-count 0 leave-sp !
   postpone r>
   postpone 1+
   postpone >r
+
+  [host] ?dup if [target]
+    postpone then
+  [host] then [target]
+
+  postpone 2r@
+  postpone <>
+  postpone while
+
   postpone repeat
   leave-pop @resolve
   postpone unloop
