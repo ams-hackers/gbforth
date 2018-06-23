@@ -81,12 +81,16 @@ export -end-code immediate
 export end-code immediate
 
 export swap
-export dup
 export over
+export dup
 export drop
 export rot
 export nip
 export pick
+export 2swap
+export 2over
+export 2dup
+export 2drop
 export +
 export -
 export *
