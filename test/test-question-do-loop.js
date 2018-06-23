@@ -6,5 +6,5 @@ test("?do...loop", () => {
   const result2 = [0, 1, 2];
   const result3 = [0, 1, 2, 99];
   const result4 = [42];
-  expect(gb.stack).toEqual([...result1, ...result2, ...result3, ...result4);
+  expect(gb.stack).toEqual([...result1, ...result2, ...result3, ...result4]);
 });
