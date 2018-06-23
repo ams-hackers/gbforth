@@ -11,6 +11,7 @@ differently in order to emulate the expected behaviour as close as possible.
 
 | Word | Reason |
 | ---- | ------ |
+| `constant` | No input stream available |
 | `create` | No input stream available |
 | `parse` | No input stream available |
 | `postpone` | No input stream available |
