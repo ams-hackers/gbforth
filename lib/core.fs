@@ -529,6 +529,12 @@ SP inc,
 DE push,
 end-code
 
+code exit
+\ Discard exit's return address so RET will
+\ exit from the caller instaed
+  DE pop,
+end-code
+
 [asm]
 :m DE->R12,
   D ->A-> [R1] ld,
