@@ -666,7 +666,10 @@ end-code
   postpone r@
 ; immediate
 
-: nop ;
+:m unloop
+  postpone 2rdrop
+; immediate
+
 
 :m loop
   postpone r>
