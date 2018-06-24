@@ -28,5 +28,6 @@ require term.fs
   init-term
   init-input
   page
+  3 7 at-xy
   ." Hello World !"
   handle-input ;

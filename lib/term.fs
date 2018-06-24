@@ -5,14 +5,34 @@ require ./memory.fs
 create TileData
 include ./ibm-font.fs
 
+variable cursor-x
+variable cursor-y
+
+: cursor-addr ( -- addr )
+  _SCRN0 cursor-x @ +
+  SCRN_VY_B cursor-y @ *
+  + ;
+
 : copy-font
   TileData _VRAM [ 256 8 * ]L cmovemono ;
 
+: at-xy ( x y -- )
+  cursor-y !
+  cursor-x ! ;
+
+\ Clear the screen
 : page
-  _SCRN0 [ SCRN_VX_B SCRN_VY_B * ]L bl fill ;
+  _SCRN0 [ SCRN_VX_B SCRN_VY_B * ]L bl fill
+  0 0 at-xy ;
 
 : type ( addr u -- )
-  [ _SCRN0 3 + SCRN_VY_B 7 * + ]L swap cmovevideo ;
+  cursor-addr swap cmovevideo ;
+
+:m ."
+  postpone s"
+  postpone type
+; immediate
+
 
 : reset-palette
   %11100100 rGBP c! ;
@@ -20,11 +40,6 @@ include ./ibm-font.fs
 : reset-window-scroll
   0 rSCX c!
   0 rSCY c! ;
-
-:m ."
-  postpone s"
-  postpone type
-; immediate
 
 : init-term
   disable-interrupts
