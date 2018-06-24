@@ -28,6 +28,13 @@ code dup
 ps-dup,
 end-code
 
+code ?dup
+H|L->A,
+#nz if,
+  ps-dup,
+then,
+end-code
+
 ( x -- )
 code drop
 ps-drop,
