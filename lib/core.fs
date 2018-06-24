@@ -568,6 +568,11 @@ require ./core/case.fs
   over over <
   if drop else nip then ;
 
+
+: count ( c-addr1 -- c-addr2 u )
+  dup c@ swap 1 chars + swap ;
+
+
 include ./core/memory.fs
 
 include ../shared/core.fs
