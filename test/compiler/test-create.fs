@@ -1,3 +1,4 @@
+ROM
 
 CREATE aaa #33 ,
 CREATE bbb #5566 , #44 c,
@@ -7,6 +8,8 @@ CREATE baz #1122 , aaa c@ c,
 bbb cell+ c@ foo char+ c!
 bbb @ foo #9 cells + !
 #99 baz +!
+
+RAM
 
 : main
   baz @

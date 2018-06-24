@@ -38,6 +38,11 @@ require ./compiler/cross.fs
   -1 if we have selected RAM )
 variable memspace
 : ram? memspace @ ;
+: rom 0 memspace ! ;
+: ram -1 memspace ! ;
+
+\ Default to RAM
+RAM
 
 : ram-here ram-offset ;
 : ram-unused ram-size ram-here - ;
@@ -150,10 +155,10 @@ latestxt F_IMMEDIATE create-xname ;
 : constant ( x -- )
   parse-next-name create-constant ;
 
-: rom 0 memspace ! ;
-: ram -1 memspace ! ;
+export rom
+export ram
 
-: (s") assert-rom-selected rom" ;
+: (s") ROM assert-rom-selected rom" RAM ;
 
 : here   ram? if ram-here   else rom-here   then ;
 : unused ram? if ram-unused else rom-unused then ;

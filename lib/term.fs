@@ -4,8 +4,10 @@ require ./memory.fs
 require ./input.fs
 require ./bits.fs
 
+ROM
 create TileData
 include ./ibm-font.fs
+RAM
 
 variable cursor-x
 variable cursor-y
