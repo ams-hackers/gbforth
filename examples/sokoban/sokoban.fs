@@ -60,15 +60,24 @@ Variable score
     0 score !  \ total number of scores
 ;
 
-: new-maze ( n -- addr ) \ add a new level
+:m new-maze ( n -- addr ) \ add a new level
     here mazes rot 1 ?DO  @  LOOP  !
     0 , 0 , here >maze ! 0 , ;
+
+[host]
 : count-$ ( addr u -- n )
     0 rot rot
     over + swap ?DO  I c@ [char] $ = -  LOOP ;
-: m: ( "string" -- )  \ add a level line (top first!)
-    -1 parse tuck 2dup count-$ >maze @ cell- +!
-    here swap move dup allot
+
+: rom-move
+    [ also gbforth ]
+    rom-move
+    [ previous ] ;
+[target]
+
+:m m: ( "string" -- )  \ add a level line (top first!)
+    [host] -1 parse [target] tuck 2dup count-$ >maze @ cell - +!
+    here [host] <rom swap move [target] dup allot
     /maze swap - here over bl fill allot
     >maze @ here over cell+ - swap ! ;
 
