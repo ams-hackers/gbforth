@@ -100,7 +100,7 @@ Variable score
     maze-field 0
     DO  dup I chars + c@ [char] @ =
 	IF  drop I  UNLOOP  EXIT  THEN
-    LOOP  true abort" No player in field!" ;
+    LOOP ( true abort" No player in field!" ) ;
 
 : level ( n -- flag )  \ finds level n
     dup level# !
