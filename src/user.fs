@@ -45,7 +45,7 @@ variable memspace
 RAM
 
 : ram-here ram-offset ;
-: ram-unused ram-size ram-here - ;
+: ram-unused ram-size ram-here CP0 - - ;
 : ram-create ram-here constant-sym ;
 : ram-allot ram-offset+! ;
 
