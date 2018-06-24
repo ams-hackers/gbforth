@@ -158,7 +158,7 @@ latestxt F_IMMEDIATE create-xname ;
 export rom
 export ram
 
-: (s") ROM assert-rom-selected rom" RAM ;
+: (s") rom" ;
 
 : here   ram? if ram-here   else rom-here   then ;
 : unused ram? if ram-unused else rom-unused then ;
