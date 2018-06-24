@@ -1,3 +1,7 @@
+ROM
+create test 10 cells allot
+test 10 cells 7 fill
+RAM
 
 : initialize
   1 $C101 c!
@@ -12,4 +16,5 @@
 
 : main
   initialize
-  $C103 #3 #42 fill ;
+  $C103 #3 #42 fill 
+  test ;

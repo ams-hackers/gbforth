@@ -54,10 +54,6 @@ RAM
 : rom-create rom-here constant-sym ;
 : rom-allot rom-offset+! ;
 
-: assert-rom-addr ( addr -- )
-  dup $C000 $DFFF within abort" Trying to reference RAM address"
-  dup $0000 $7FFF within invert abort" Trying to reference an address outside ROM" ;
-
 : assert-rom-selected ( -- )
   ram? abort" Unavailable when RAM is selected" ;
 
@@ -168,13 +164,16 @@ export ram
 
 : variable create $2 allot ;
 
-: @ assert-rom-addr rom@ ;
-: c@ assert-rom-addr romc@ ;
-: ! assert-rom-addr rom! ;
-: c! assert-rom-addr romc! ;
+: @ rom@ ;
+: c@ romc@ ;
+: ! rom! ;
+: c! romc! ;
 : , assert-rom-selected rom, ;
 : c, assert-rom-selected romc, ;
-: +! assert-rom-addr dup rom@ rot + swap rom! ;
+: +! dup rom@ rot + swap rom! ;
+
+: fill ( offset u c -- )
+  rot offset>addr -rot fill ;
 
 : chars ( $1 * ) ;
 : char+ 1+ ;

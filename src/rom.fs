@@ -14,7 +14,12 @@ variable rom-offset-variable
 rom-buffer erase
 
 
-: offset>addr
+: assert-rom-addr ( offset -- )
+  dup $C000 $E000 within abort" Trying to reference RAM address"
+  dup $0000 $8000 within invert abort" Trying to reference an address outside ROM" ;
+
+: offset>addr ( offset )
+  assert-rom-addr
   rom-base + ;
 
 : rom@ ( offset -- val )
