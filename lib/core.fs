@@ -641,6 +641,12 @@ end-code
 
 :m s" (s") ;
 
+[host]
+: [char] postpone [char] ; immediate
+[target]
+immediate
+ 
+
 require ./core/conditionals.fs
 require ./core/basic-loops.fs
 require ./core/counted-loops.fs
