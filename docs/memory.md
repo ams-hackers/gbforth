@@ -5,12 +5,12 @@ or the **ROM** (read-only). The available data space is dependent on whether it 
 being accessed during compile-time or run-time.
 
 ## Compile-time
-During **compile-time**, you'll reference **ROM** by default. This is the only time
-where the ROM is writable (since gbforth is generating the program), and generally
-speaking, this is where you want to store most of your data.
+During **compile-time**, you'll reference **RAM** by default. You're able to
+select the affected data space using `ROM` and `RAM` for some words.
 
-For certain words, you're able to freely select the affected data space using the
-words `ROM` and `RAM`.
+This is the only time where the ROM is writable (since gbforth is generating the
+program), and generally speaking, this is where you want to store most of your
+data.
 
 | Word | Memory |
 | ---- | ------ |
@@ -26,7 +26,7 @@ words `ROM` and `RAM`.
 | `align` | ROM/RAM |
 | `aligned` | ROM/RAM |
 | `create` | ROM/RAM |
-| `variable` | RAM |
+| `variable` | ROM/RAM |
 
 As you can see, you are not able to initialise or write to the RAM at compile-time.
 Keep in mind that you can only _reserve_ space in the RAM, but gbforth will
