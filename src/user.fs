@@ -91,6 +91,7 @@ export end-code immediate
 export swap
 export over
 export dup
+export tuck
 export ?dup
 export drop
 export rot
