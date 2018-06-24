@@ -1,6 +1,7 @@
 require ./cpu.fs
 require ./gbhw.fs
 require ./memory.fs
+require ./input.fs
 
 create TileData
 include ./ibm-font.fs
@@ -34,6 +35,17 @@ variable cursor-y
 ; immediate
 
 
+: key
+  key-state
+  dup
+  begin
+    halt
+    key-state tuck <>
+  until
+  ( old new )
+  tuck xor and ;
+
+
 : reset-palette
   %11100100 rGBP c! ;
 
@@ -45,7 +57,7 @@ variable cursor-y
   disable-interrupts
   reset-palette
   reset-window-scroll
-
+  init-input
   disable-lcd
   copy-font
   enable-lcd
