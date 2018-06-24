@@ -2,7 +2,7 @@ SHELL := /bin/bash
 
 export GBFORTH_PATH := $(shell pwd)/lib
 
-LIB_FILES=lib/*.fs
+LIB_FILES=lib/*.fs lib/core/*.fs
 SOURCE_FILES=gbforth src/*.fs src/utils/*.fs src/compiler/*.fs shared/*.fs
 
 TEST_FILES = $(wildcard test/*.fs) $(wildcard test/*/*.fs)

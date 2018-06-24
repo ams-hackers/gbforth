@@ -36,16 +36,19 @@ variable leave-count 0 leave-sp !
 
 :m ?do
   postpone 2>r
-  postpone ahead
+
+  postpone 2r@
+  postpone <>
+  postpone if
+
   postpone begin
-  swap
   @there leave-push
 ; immediate
 
 :m do
   postpone 2>r
+  0 \ enter inconditionally!
   postpone begin
-  0 \ not ahead!
   @there leave-push
 ; immediate
 
@@ -63,20 +66,34 @@ variable leave-count 0 leave-sp !
   leave-push
 ; immediate
 
-:m +loop
+: different-sign? ( n1 n2 -- flag )
+  $8000 and swap
+  $8000 and xor ;
+
+\ The standard mandates that the loop will finish when the index
+\ crosses the limit between N-1 and N. Equivalently, to say, I-N and
+\ I+u-N must have different sign bit
+: +loop-index-next ( u I N -- flag I+u )
+
+  >r                ( u I           R: N )
+  tuck + tuck       ( I+u I I+u     R: N )
+  swap r@ -
+  swap r> -         ( I+u I-N I+u-N )
+  different-sign?   ( I+u flag -- )
+  swap ;
+
+
+:m +loop ( u -- )
   postpone r>
-  postpone +
+  postpone r@
+  postpone +loop-index-next ( finished? I+u )
   postpone >r
+  postpone until
 
   [host] ?dup if [target]
     postpone then
   [host] then [target]
 
-  postpone 2r@
-  postpone <>
-  postpone while
-
-  postpone repeat
   leave-pop @resolve
   postpone unloop
 ; immediate
