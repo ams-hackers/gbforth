@@ -63,9 +63,9 @@ variable leave-count 0 leave-sp !
   leave-push
 ; immediate
 
-:m loop
+:m +loop
   postpone r>
-  postpone 1+
+  postpone +
   postpone >r
 
   [host] ?dup if [target]
@@ -79,4 +79,9 @@ variable leave-count 0 leave-sp !
   postpone repeat
   leave-pop @resolve
   postpone unloop
+; immediate
+
+:m loop 
+  1 postpone literal
+  postpone +loop
 ; immediate
