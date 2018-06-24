@@ -641,11 +641,17 @@ end-code
 
 :m s" (s") ;
 
+\ HACK: As s", define two versions of the word to deal with the
+\ USER/CROSS discrepancies.
+:m [char]
+  [host] char [target]
+  postpone literal
+; immediate
+
 [host]
 : [char] postpone [char] ; immediate
 [target]
-immediate
- 
+
 
 require ./core/conditionals.fs
 require ./core/basic-loops.fs
