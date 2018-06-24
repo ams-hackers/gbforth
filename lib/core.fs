@@ -568,6 +568,10 @@ require ./core/case.fs
   over over <
   if drop else nip then ;
 
+\ Taken from the standard
+: within  ( test low high -- flag )
+  over - >r - r> u< ;
+
 
 : count ( c-addr1 -- c-addr2 u )
   dup c@ swap 1 chars + swap ;
