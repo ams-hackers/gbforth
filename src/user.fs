@@ -153,6 +153,18 @@ latestxt F_IMMEDIATE create-xname ;
 : rom 0 memspace ! ;
 : ram -1 memspace ! ;
 
+: (s") assert-rom-selected rom" ;
+
+: here   ram? if ram-here   else rom-here   then ;
+: unused ram? if ram-unused else rom-unused then ;
+: allot  ram? if ram-allot  else rom-allot  then ;
+: create ram? if ram-create else rom-create then ;
+
+: variable
+  memspace @
+  ram create $2 allot
+  memspace ! ;
+
 : @ assert-rom-addr rom@ ;
 : c@ assert-rom-addr romc@ ;
 : ! assert-rom-addr rom! ;
@@ -161,21 +173,12 @@ latestxt F_IMMEDIATE create-xname ;
 : c, assert-rom-selected romc, ;
 : +! assert-rom-addr dup rom@ rot + swap rom! ;
 
-: (s") assert-rom-selected rom" ;
-
-: here   ram? if ram-here   else rom-here   then ;
-: unused ram? if ram-unused else rom-unused then ;
-: allot  ram? if ram-allot  else rom-allot  then ;
-: create ram? if ram-create else rom-create then ;
-
 : chars ( $1 * ) ;
 : char+ 1+ ;
 : cells $2 * ;
 : cell+ $2 + ;
 
 include ../shared/core.fs
-
-: variable create $2 allot ;
 
 : immediate ximmediate ;
 
