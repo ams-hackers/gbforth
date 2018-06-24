@@ -26,7 +26,7 @@ words `ROM` and `RAM`.
 | `align` | ROM/RAM |
 | `aligned` | ROM/RAM |
 | `create` | ROM/RAM |
-| `variable` | ROM/RAM |
+| `variable` | RAM |
 
 As you can see, you are not able to initialise or write to the RAM at compile-time.
 Keep in mind that you can only _reserve_ space in the RAM, but gbforth will
