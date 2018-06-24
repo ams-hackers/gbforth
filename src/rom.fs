@@ -8,10 +8,10 @@ variable rom-offset-variable
 : rom-offset! rom-offset-variable ! ;
 : rom-offset+! rom-offset-variable +! ;
 
-: rom rom-base rom-size ;
+: rom-buffer rom-base rom-size ;
 
 ( Initialize the room to zeros )
-rom erase
+rom-buffer erase
 
 
 : offset>addr
@@ -57,5 +57,5 @@ rom erase
 0 Value rom-fd
 : dump-rom ( c-addr u -- )
   w/o bin create-file throw TO rom-fd
-  rom rom-fd write-file throw
+  rom-buffer rom-fd write-file throw
   rom-fd close-file throw ;
