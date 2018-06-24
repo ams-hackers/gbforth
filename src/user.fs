@@ -165,10 +165,7 @@ export ram
 : allot  ram? if ram-allot  else rom-allot  then ;
 : create ram? if ram-create else rom-create then ;
 
-: variable
-  memspace @
-  ram create $2 allot
-  memspace ! ;
+: variable create $2 allot ;
 
 : @ assert-rom-addr rom@ ;
 : c@ assert-rom-addr romc@ ;
