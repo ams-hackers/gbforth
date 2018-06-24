@@ -159,8 +159,9 @@ latestxt F_IMMEDIATE create-xname ;
 : c! assert-rom-addr romc! ;
 : , assert-rom-selected rom, ;
 : c, assert-rom-selected romc, ;
-: s" assert-rom-selected rom" ;
 : +! assert-rom-addr dup rom@ rot + swap rom! ;
+
+: (s") assert-rom-selected rom" ;
 
 : here   ram? if ram-here   else rom-here   then ;
 : unused ram? if ram-unused else rom-unused then ;
