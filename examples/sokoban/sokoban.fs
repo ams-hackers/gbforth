@@ -37,6 +37,9 @@
 \ I could have used blocks as level tables, but as I don't have a good
 \ block editor for gforth now, I let it be.
 
+require ibm-font.fs
+require term.fs
+
 40 Constant /maze  \ maximal maze line
 
 ROM
