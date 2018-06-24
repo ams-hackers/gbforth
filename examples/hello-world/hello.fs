@@ -6,13 +6,6 @@ require gbhw.fs
 require input.fs
 require term.fs
 
-s" Hello World !"
-constant TitleLength
-constant TitleOffset
-
-: copy-title
-  TitleOffset TitleLength type ;
-
 ( program start )
 
 : rSCX+! rSCX c@ + rSCX c! ;
@@ -35,5 +28,5 @@ constant TitleOffset
   init-term
   init-input
   page
-  copy-title
+  ." Hello World !"
   handle-input ;

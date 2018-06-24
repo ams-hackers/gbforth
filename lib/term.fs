@@ -21,6 +21,11 @@ include ./ibm-font.fs
   0 rSCX c!
   0 rSCY c! ;
 
+:m ."
+  postpone s"
+  postpone type
+; immediate
+
 : init-term
   disable-interrupts
   reset-palette
