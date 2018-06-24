@@ -39,17 +39,26 @@
 
 40 Constant /maze  \ maximal maze line
 
+ROM
 Create maze  1 cells allot /maze 25 * allot  \ current maze
 Variable mazes   0 mazes !  \ root pointer
 Variable soko    0 soko !   \ player position
 Variable >maze   0 >maze !  \ current compiled maze
+RAM
 
 \ score information
 
-Variable rocks     0 rocks !  \ number of rocks left
-Variable level#    0 level# ! \ Current level
-Variable moves     0 moves !  \ number of moves
-Variable score     0 score !  \ total number of scores
+Variable rocks
+Variable level#
+Variable moves
+Variable score
+
+: init
+    0 rocks !  \ number of rocks left
+    0 level# ! \ Current level
+    0 moves !  \ number of moves
+    0 score !  \ total number of scores
+;
 
 : new-maze ( n -- addr ) \ add a new level
     here mazes rot 1 ?DO  @  LOOP  !
@@ -177,6 +186,7 @@ Variable score     0 score !  \ total number of scores
 \ start game with "sokoban"
 
 : sokoban ( -- )
+    init
     page 1 level IF  play-loop ." Game finished!"  THEN ;
     
 001 new-maze
