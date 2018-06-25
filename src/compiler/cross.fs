@@ -148,7 +148,7 @@ create user-name 128 chars allot
   xreturn,
   x[
 
-  dup compute-ir-topological-order
+  dup finalize-ir
   ( original-node ) 0 create-xname
 
   ( flags ) WORD_NONAME = if

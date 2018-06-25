@@ -220,6 +220,12 @@ end-struct ir%
 ; constant toposort
 
 
+\ Finalize a IR so it is ready for optimization or code generation
+\ after constructing a IR.
+: finalize-ir
+  compute-ir-topological-order ;
+
+
 ( IR Printing )
 
 : print-ir-component ( ir -- )

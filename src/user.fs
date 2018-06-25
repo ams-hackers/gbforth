@@ -147,9 +147,6 @@ latestxt F_IMMEDIATE create-xname ;
 
 : postpone xname' xpostpone, ; immediate
 
-: constant ( x -- )
-  parse-next-name create-constant ;
-
 export rom
 export ram
 
@@ -159,11 +156,34 @@ export ram
 : unused ram? if ram-unused else rom-unused then ;
 : allot  ram? if ram-allot  else rom-allot  then ;
 
+: create-host ( here c-addr u -- )
+  nextname constant ;
+
+: create-target ( here c-addr u -- )
+  make-ir { ir }
+  ir to current-node
+  rot xliteral,
+  xreturn,
+  -1 to current-node
+
+  ir finalize-ir
+
+  nextname
+  ir 0 create-xname ;
+
 : create
   ram? if ram-here else rom-here then
-  constant-sym ;
+  parse-next-name
+  { here c-addr u }
+  here c-addr u create-host
+  here c-addr u create-target ;
+
+
+: constant ( x -- )
+  parse-next-name create-constant ;
 
 : variable create $2 allot ;
+
 
 : @ rom@ ;
 : c@ romc@ ;
