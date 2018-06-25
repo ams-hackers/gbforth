@@ -27,7 +27,10 @@ require gbhw.fs
 %00000010 constant k-left
 %00000100 constant k-up
 %00001000 constant k-down
-
+%00010000 constant k-a
+%00100000 constant k-b
+%01000000 constant k-select
+%10000000 constant k-start
 
 : enable-interrupt-flags ( u -- )
   0 rIF c!
