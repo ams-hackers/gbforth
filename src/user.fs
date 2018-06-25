@@ -46,12 +46,10 @@ RAM
 
 : ram-here ram-offset ;
 : ram-unused ram-size ram-here CP0 - - ;
-: ram-create ram-here constant-sym ;
 : ram-allot ram-offset+! ;
 
 : rom-here rom-offset ;
 : rom-unused rom-size rom-here - ;
-: rom-create rom-here constant-sym ;
 : rom-allot rom-offset+! ;
 
 : assert-rom-selected ( -- )
@@ -160,7 +158,10 @@ export ram
 : here   ram? if ram-here   else rom-here   then ;
 : unused ram? if ram-unused else rom-unused then ;
 : allot  ram? if ram-allot  else rom-allot  then ;
-: create ram? if ram-create else rom-create then ;
+
+: create
+  ram? if ram-here else rom-here then
+  constant-sym ;
 
 : variable create $2 allot ;
 
@@ -190,6 +191,7 @@ include ../shared/core.fs
 : :noname x:noname ;
 
 : : x: ;
+
 
 previous
 [end-user-definitions]
