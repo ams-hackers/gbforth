@@ -9,10 +9,16 @@ bbb cell+ c@ foo char+ c!
 bbb @ foo #9 cells + !
 #99 baz +!
 
+CREATE zzz #99 ,
+
 RAM
+
 
 : main
   baz @
   baz cell+ c@
   foo char+ c@
-  foo #9 cells + @ ;
+  foo #9 cells + @
+
+  zzz ['] zzz execute =
+;
