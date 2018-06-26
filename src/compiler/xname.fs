@@ -12,26 +12,30 @@ wordlist constant xwordlist
 
 struct
   cell% field xname-flags
-  cell% field xname-addr
+  \ Execution semantics for this word. If the XNAME is PRIMITIVE, then
+  \ it references a code definition, which can be processed with words
+  \ like `EMIT-CODE`. Otherwise, this is the root IR of a colon
+  \ definition.
+  cell% field xname-code
 end-struct xname%
 
-: allot-xname { addr flag -- xname }
+: allot-xname { code flag -- xname }
   xname% %zallot
-  addr over xname-addr !
+  code over xname-code !
   flag over xname-flags ! ;
 
-: create-xname ( addr flag -- )
+: create-xname ( code flag -- )
   get-current >r
   xwordlist set-current
   allot-xname create ,
   latestxt is xlatest
   r> set-current ;
 
-: xname>string ( xname -- u-addr n )
+: xname>string ( xname -- c-addr n )
   >name ?dup if name>string
   else 0 0 then ;
 
-: >xcode >body @ xname-addr @ ;
+: >xcode >body @ xname-code @ ;
 : >xflags >body @ xname-flags @ ;
 
 : ximmediate? >xflags F_IMMEDIATE and 0<> ;
@@ -45,7 +49,7 @@ end-struct xname%
   latest name>string nextname
   ximmediate-as ;
 
-: find-xname ( addr u -- xname )
+: find-xname ( c-addr u -- xname )
   2>r
   get-order
   xwordlist 1 set-order
