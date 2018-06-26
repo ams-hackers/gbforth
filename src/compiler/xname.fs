@@ -38,12 +38,12 @@ end-struct xname%
 : xconstant?  >xflags F_CONSTANT  and 0<> ;
 : xprimitive? >xflags F_PRIMITIVE and 0<> ;
 
-: ximmediate
-  latest name>string nextname
-  latestxt F_IMMEDIATE create-xname ;
-
 : ximmediate-as
   latestxt F_IMMEDIATE create-xname ;
+
+: ximmediate
+  latest name>string nextname
+  ximmediate-as ;
 
 : find-xname ( addr u -- xname )
   2>r
