@@ -1,5 +1,6 @@
 ( Cross words )
 require ../utils/memory.fs
+require ./xmemory.fs
 
 ( Cross Dictionary )
 wordlist constant xwordlist
@@ -20,12 +21,19 @@ struct
   \ The XT of a linked host word. The cross-word CREATE will define
   \ both this xname and a host word. This is the XT of the host word.
   cell% field xname-host-xt
+  \ Data field address. This is initialized to the position in ROM/RAM
+  \ at the time the word was defined, as returned by `xHERE`. This
+  \ value is pushed to the stack by the initialization code compiled
+  \ by DOES>.
+  cell% field xname-dfa
 end-struct xname%
+
 
 : allot-xname { code flag -- xname }
   xname% %zallot
-  code over xname-code !
-  flag over xname-flags ! ;
+  code  over xname-code !
+  flag  over xname-flags !
+  xhere over xname-dfa ! ;
 
 : create-xname ( code flag -- )
   get-current >r
