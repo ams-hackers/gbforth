@@ -17,6 +17,9 @@ struct
   \ like `EMIT-CODE`. Otherwise, this is the root IR of a colon
   \ definition.
   cell% field xname-code
+  \ The XT of a linked host word. The cross-word CREATE will define
+  \ both this xname and a host word. This is the XT of the host word.
+  cell% field xname-host-xt
 end-struct xname%
 
 : allot-xname { code flag -- xname }
@@ -37,6 +40,8 @@ end-struct xname%
 
 : >xcode >body @ xname-code @ ;
 : >xflags >body @ xname-flags @ ;
+: >xhost >body @ xname-host-xt @ ;
+: >xhost! >body @ xname-host-xt ! ;
 
 : ximmediate? >xflags F_IMMEDIATE and 0<> ;
 : xconstant?  >xflags F_CONSTANT  and 0<> ;
