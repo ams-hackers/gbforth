@@ -79,6 +79,21 @@ variable xstate
 \ The next parenthesis is only here to make the editor happy!
 )
 
+\
+\ Note that X] will return when the cross-compilation is finished (
+\ with X[ ), unlike other Forth systems.
+\
+\ In normal Forth systems, this would switch to compiling mode, so the
+\ outer interpreter the responsible to keep iterating and compiling
+\ words from the input source.
+\
+\ Unfortunately we can't use the GForth outer interpreter that way,
+\ because we can't customize how numbers will be processed. We would
+\ like to cross-compiling them, not pushing them to the stack.
+\
+\ Instead, this implements its own reading from the host input stream
+\ and it will return when the cross-compiling mode is finished.
+\
 : x]
   1 xstate !
   begin
@@ -128,37 +143,55 @@ create user-name 128 chars allot
 
 0 constant WORD_NONAME
 1 constant WORD_NAMED
+2 constant WORD_DOES
+
+0 0 2constant unnamed
 
 : create-word
   make-ir to current-node
   current-node
   x] ;
 
-: x:noname ( -- type 0 0 ir )
+
+\ Defining words
+\
+\ Note that those words will return when the full definition has been
+\ processed, unlike in ANS Forth. See X] for further information.
+\
+
+: x:noname ( -- addr )
   WORD_NONAME
-  0 0
+  unnamed
   create-word ;
 
-( create the word AFTER parsing the definition so word is not visible
-( to itself, in x; )
-: x: ( -- type c-addr u ir )
+: x:
   WORD_NAMED
   parse-user-name
+  create-word ;
+
+: :does ( -- ir )
+  WORD_DOES
+  unnamed
   create-word ;
 
 : x; ( type c-addr u ir -- )
   xreturn,
   x[
 
-  dup finalize-ir
+  -1 to current-node
+
   -rot nextname
-  ( original-node ) 0 create-xname
 
-  ( type ) case
+  { type ir }
+
+  ir finalize-ir
+  ir 0 create-xname
+
+  type case
     WORD_NONAME of xlatest xname>addr endof
+    WORD_DOES   of ir endof
   endcase
-
-  -1 to current-node ;
+;
 
 
 ( Control Flow )
