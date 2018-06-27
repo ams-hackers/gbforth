@@ -176,7 +176,10 @@ export ram
   parse-next-name
   { here c-addr u }
   here c-addr u create-host
-  here c-addr u create-target ;
+  latestxt
+    here c-addr u create-target 
+  xlatest >xhost!
+;
 
 
 : constant ( x -- )
