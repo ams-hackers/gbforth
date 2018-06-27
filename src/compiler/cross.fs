@@ -126,34 +126,37 @@ create user-name 128 chars allot
   parse-next-name copy-user-name ;
 
 
-1 constant WORD_NONAME
-0 constant WORD_NAMED
+0 constant WORD_NONAME
+1 constant WORD_NAMED
 
 : create-word
   make-ir to current-node
   current-node
   x] ;
 
-: x:noname
+: x:noname ( -- type 0 0 ir )
   WORD_NONAME
-  noname create-word ;
+  0 0
+  create-word ;
 
 ( create the word AFTER parsing the definition so word is not visible
 ( to itself, in x; )
-: x:
+: x: ( -- type c-addr u ir )
   WORD_NAMED
-  parse-user-name nextname create-word ;
+  parse-user-name
+  create-word ;
 
-: x; (  -- )
+: x; ( type c-addr u ir -- )
   xreturn,
   x[
 
   dup finalize-ir
+  -rot nextname
   ( original-node ) 0 create-xname
 
-  ( flags ) WORD_NONAME = if
-    xlatest xname>addr
-  then
+  ( type ) case
+    WORD_NONAME of xlatest xname>addr endof
+  endcase
 
   -1 to current-node ;
 
