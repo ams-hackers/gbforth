@@ -46,11 +46,14 @@ end-struct xname%
   >name ?dup if name>string
   else 0 0 then ;
 
-: >xcode >body @ xname-code @ ;
-: >xflags >body @ xname-flags @ ;
-: >xhost >body @ xname-host-xt @ ;
+: >xcode  >body @ xname-code @ ;
+: >xcode! >body @ xname-code ! ;
+: >xhost  >body @ xname-host-xt @ ;
 : >xhost! >body @ xname-host-xt ! ;
+: >xflags >body @ xname-flags @ ;
+: >xdfa   >body @ xname-dfa @ ;
 
+: xregular?   >xflags 0= ;
 : ximmediate? >xflags F_IMMEDIATE and 0<> ;
 : xconstant?  >xflags F_CONSTANT  and 0<> ;
 : xprimitive? >xflags F_PRIMITIVE and 0<> ;

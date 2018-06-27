@@ -143,23 +143,37 @@ create user-name 128 chars allot
   parse-next-name copy-user-name ;
 
 
+\ Defining words
+\
+\ Note that those words will return when the full definition has been
+\ processed, unlike in ANS Forth. See X] for further information.
+\
+
 0 constant WORD_NONAME
 1 constant WORD_NAMED
 2 constant WORD_DOES
 
 0 0 2constant unnamed
 
-: create-word
+\ The output of this word depends on the TYPE.
+: create-word ( type c-addr u -- ...? )
   make-ir to current-node
   current-node
   x] ;
 
-
-\ Defining words
-\
-\ Note that those words will return when the full definition has been
-\ processed, unlike in ANS Forth. See X] for further information.
-\
+: finalize-word { type c-addr u ir }
+  -1 to current-node
+  ir finalize-ir
+  type WORD_DOES = if
+    ir
+  else
+    c-addr u nextname
+    ir 0 create-xname
+    type WORD_NONAME = if
+      xlatest xname>addr
+    then    
+  then
+;
 
 : x:noname ( -- addr )
   WORD_NONAME
@@ -171,7 +185,7 @@ create user-name 128 chars allot
   parse-user-name
   create-word ;
 
-: :does ( -- ir )
+: xdoes:
   WORD_DOES
   unnamed
   create-word ;
@@ -179,21 +193,7 @@ create user-name 128 chars allot
 : x; ( type c-addr u ir -- )
   xreturn,
   x[
-
-  -1 to current-node
-
-  -rot nextname
-
-  { type ir }
-
-  ir finalize-ir
-  ir 0 create-xname
-
-  type case
-    WORD_NONAME of xlatest xname>addr endof
-    WORD_DOES   of ir endof
-  endcase
-;
+  finalize-word ;
 
 
 ( Control Flow )

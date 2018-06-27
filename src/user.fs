@@ -6,6 +6,7 @@ require ./cartridge.fs
 require ./header.fs
 require ./asm.fs
 require ./compiler/xmemory.fs
+require ./compiler/xname.fs
 require ./compiler/cross.fs
 
 : export
@@ -121,13 +122,6 @@ export @resolve
 export branch,
 export 0branch,
 
-: :m : ;
-
-: ; xcompiling? if x; else postpone ; then ; immediate
-latestxt F_IMMEDIATE create-xname ;
-
-: postpone xname' xpostpone, ; immediate
-
 export rom
 export ram
 
@@ -162,6 +156,33 @@ export ram
   xlatest >xhost!
 ;
 
+: (replace-with-does) ( does-ir -- )
+  xlatest xregular? invert if
+    true abort" DOES> can only be used with words created with CREATE"
+  then
+  make-ir { ir }
+  ir to current-node
+  xlatest >xdfa xliteral,
+  ( does-ir ) branch,
+  -1 to current-node
+  ir finalize-ir
+  ir xlatest >xcode! ;
+
+: does>
+  postpone [
+  xdoes: 
+  ]L
+  postpone (replace-with-does)
+  postpone ;
+; immediate
+
+
+: :m : ;
+
+: ; xcompiling? if x; else postpone ; then ; immediate
+latestxt F_IMMEDIATE create-xname ;
+
+: postpone xname' xpostpone, ; immediate
 
 : constant ( x -- )
   parse-next-name create-constant ;
