@@ -205,7 +205,10 @@ ROM
     init
     page 1 level IF  play-loop ." Game finished!"  THEN ;
 
-: main sokoban ;
+: main
+  install-font
+  init-term
+  sokoban ;
     
 001 new-maze
 m:     #####
