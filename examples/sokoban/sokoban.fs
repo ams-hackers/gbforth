@@ -40,21 +40,23 @@
 require ibm-font.fs
 require term.fs
 
+\ By default, we'll allocate everything into ROM
+ROM
+
 40 Constant /maze  \ maximal maze line
 
-ROM
 Create maze  1 cells allot /maze 25 * allot  \ current maze
 Variable mazes   0 mazes !  \ root pointer
 Variable soko    0 soko !   \ player position
 Variable >maze   0 >maze !  \ current compiled maze
-RAM
 
 \ score information
-
+RAM
 Variable rocks
 Variable level#
 Variable moves
 Variable score
+ROM
 
 : init
     0 rocks !  \ number of rocks left
@@ -64,10 +66,8 @@ Variable score
 ;
 
 :m new-maze ( n -- addr ) \ add a new level
-    ROM
     here mazes rot 1 [host] ?DO [target] @ [host] LOOP [target]  !
-    0 , 0 , here >maze ! 0 ,
-    RAM ;
+    0 , 0 , here >maze ! 0 , ;
 
 [host]
 : count-$ ( addr u -- n )
@@ -141,7 +141,7 @@ Variable score
 \ player may move up, down, left and right
 
 :m move:  ( offset -- )
-    ROM Create , RAM
+    Create ,
     DOES>  @ >r  1 moves +!
 	S" @ "  S"  @"  r@ play-rule  IF  r> soko +!  EXIT  THEN
 	S" @."  S"  &"  r@ play-rule  IF  r> soko +!  EXIT  THEN
