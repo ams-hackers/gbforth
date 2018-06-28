@@ -196,6 +196,13 @@ ROM
 	    [char] C OF  soko-right false  ENDOF
 
 	    [char] q OF  true              ENDOF
+
+        \ Game boy cursor keys!
+	    k-left  OF  soko-left  false  ENDOF
+	    k-down  OF  soko-down  false  ENDOF
+	    k-up    OF  soko-up    false  ENDOF
+	    k-right OF  soko-right false  ENDOF
+
 	false swap  ENDCASE
     UNTIL ;
 
