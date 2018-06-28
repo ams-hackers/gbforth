@@ -45,11 +45,11 @@ ROM
 
 40 Constant /maze  \ maximal maze line
 
-Create maze  1 cells allot /maze 25 * allot  \ current maze
 Variable mazes   0 mazes !  \ root pointer
 Variable >maze   0 >maze !  \ current compiled maze
 
 RAM
+Create maze  1 cells allot /maze 25 * allot  \ current maze
 Variable soko
 
 \ score information
