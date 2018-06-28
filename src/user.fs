@@ -5,8 +5,8 @@ require ./vocabulary.fs
 require ./cartridge.fs
 require ./header.fs
 require ./asm.fs
-require ./rom.fs
-require ./ram.fs
+require ./compiler/xmemory.fs
+require ./compiler/xname.fs
 require ./compiler/cross.fs
 
 : export
@@ -33,24 +33,6 @@ require ./compiler/cross.fs
   parse-next-name
   2dup r@ sym
   r> -rot create-constant ;
-
-( 0 if we have selected ROM,
-  -1 if we have selected RAM )
-variable memspace
-: ram? memspace @ ;
-: rom 0 memspace ! ;
-: ram -1 memspace ! ;
-
-\ Default to RAM
-RAM
-
-: ram-here ram-offset ;
-: ram-unused ram-size ram-here CP0 - - ;
-: ram-allot ram-offset+! ;
-
-: rom-here rom-offset ;
-: rom-unused rom-size rom-here - ;
-: rom-allot rom-offset+! ;
 
 : assert-rom-selected ( -- )
   ram? abort" Unavailable when RAM is selected" ;
@@ -140,21 +122,14 @@ export @resolve
 export branch,
 export 0branch,
 
-: :m : ;
-
-: ; xcompiling? if x; else postpone ; then ; immediate
-latestxt F_IMMEDIATE create-xname ;
-
-: postpone xname' xpostpone, ; immediate
-
 export rom
 export ram
 
 : (s") rom" ;
 
-: here   ram? if ram-here   else rom-here   then ;
-: unused ram? if ram-unused else rom-unused then ;
-: allot  ram? if ram-allot  else rom-allot  then ;
+: here xhere ;
+: unused xunused ;
+: allot xallot ;
 
 : create-host ( here c-addr u -- )
   nextname constant ;
@@ -172,18 +147,47 @@ export ram
   ir 0 create-xname ;
 
 : create
-  ram? if ram-here else rom-here then
+  xhere
   parse-next-name
   { here c-addr u }
   here c-addr u create-host
-  here c-addr u create-target ;
+  latestxt
+    here c-addr u create-target 
+  xlatest >xhost!
+;
 
+: (replace-with-does) ( does-ir -- )
+  xlatest xregular? invert if
+    true abort" DOES> can only be used with words created with CREATE"
+  then
+  make-ir { ir }
+  ir to current-node
+  xlatest >xdfa xliteral,
+  ( does-ir ) branch,
+  -1 to current-node
+  ir finalize-ir
+  ir xlatest >xcode! ;
+
+: does>
+  postpone [
+  xdoes: 
+  ]L
+  postpone (replace-with-does)
+  postpone ;
+; immediate
+
+
+: :m : ;
+
+: ; xcompiling? if x; else postpone ; then ; immediate
+latestxt F_IMMEDIATE create-xname ;
+
+: postpone xname' xpostpone, ; immediate
 
 : constant ( x -- )
   parse-next-name create-constant ;
 
 : variable create $2 allot ;
-
 
 : @ rom@ ;
 : c@ romc@ ;

@@ -1,5 +1,6 @@
 ( Cross words )
 require ../utils/memory.fs
+require ./xmemory.fs
 
 ( Cross Dictionary )
 wordlist constant xwordlist
@@ -17,12 +18,22 @@ struct
   \ like `EMIT-CODE`. Otherwise, this is the root IR of a colon
   \ definition.
   cell% field xname-code
+  \ The XT of a linked host word. The cross-word CREATE will define
+  \ both this xname and a host word. This is the XT of the host word.
+  cell% field xname-host-xt
+  \ Data field address. This is initialized to the position in ROM/RAM
+  \ at the time the word was defined, as returned by `xHERE`. This
+  \ value is pushed to the stack by the initialization code compiled
+  \ by DOES>.
+  cell% field xname-dfa
 end-struct xname%
+
 
 : allot-xname { code flag -- xname }
   xname% %zallot
-  code over xname-code !
-  flag over xname-flags ! ;
+  code  over xname-code !
+  flag  over xname-flags !
+  xhere over xname-dfa ! ;
 
 : create-xname ( code flag -- )
   get-current >r
@@ -35,9 +46,14 @@ end-struct xname%
   >name ?dup if name>string
   else 0 0 then ;
 
-: >xcode >body @ xname-code @ ;
+: >xcode  >body @ xname-code @ ;
+: >xcode! >body @ xname-code ! ;
+: >xhost  >body @ xname-host-xt @ ;
+: >xhost! >body @ xname-host-xt ! ;
 : >xflags >body @ xname-flags @ ;
+: >xdfa   >body @ xname-dfa @ ;
 
+: xregular?   >xflags 0= ;
 : ximmediate? >xflags F_IMMEDIATE and 0<> ;
 : xconstant?  >xflags F_CONSTANT  and 0<> ;
 : xprimitive? >xflags F_PRIMITIVE and 0<> ;

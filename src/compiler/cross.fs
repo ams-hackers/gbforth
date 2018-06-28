@@ -79,6 +79,21 @@ variable xstate
 \ The next parenthesis is only here to make the editor happy!
 )
 
+\
+\ Note that X] will return when the cross-compilation is finished (
+\ with X[ ), unlike other Forth systems.
+\
+\ In normal Forth systems, this would switch to compiling mode, so the
+\ outer interpreter the responsible to keep iterating and compiling
+\ words from the input source.
+\
+\ Unfortunately we can't use the GForth outer interpreter that way,
+\ because we can't customize how numbers will be processed. We would
+\ like to cross-compiling them, not pushing them to the stack.
+\
+\ Instead, this implements its own reading from the host input stream
+\ and it will return when the cross-compiling mode is finished.
+\
 : x]
   1 xstate !
   begin
@@ -97,9 +112,8 @@ variable xstate
   postpone literal
   postpone process-xname ;
 
-: xsee
+: xsee-xname ( xname -- )
   cr
-  xname'
   ." ========== " dup .xname ." ( " dup hex. ." ) " ." ========== "
   dup xprimitive? if
     cr ." (code)" drop
@@ -107,6 +121,9 @@ variable xstate
     >xcode .ir
   then
   cr ;
+
+: xsee
+  xname' xsee-xname ;
 
 : x'
   xname' xname>addr ;
@@ -126,36 +143,57 @@ create user-name 128 chars allot
   parse-next-name copy-user-name ;
 
 
-1 constant WORD_NONAME
-0 constant WORD_NAMED
+\ Defining words
+\
+\ Note that those words will return when the full definition has been
+\ processed, unlike in ANS Forth. See X] for further information.
+\
 
-: create-word
+0 constant WORD_NONAME
+1 constant WORD_NAMED
+2 constant WORD_DOES
+
+0 0 2constant unnamed
+
+\ The output of this word depends on the TYPE.
+: create-word ( type c-addr u -- ...? )
   make-ir to current-node
   current-node
   x] ;
 
-: x:noname
-  WORD_NONAME
-  noname create-word ;
+: finalize-word { type c-addr u ir }
+  -1 to current-node
+  ir finalize-ir
+  type WORD_DOES = if
+    ir
+  else
+    c-addr u nextname
+    ir 0 create-xname
+    type WORD_NONAME = if
+      xlatest xname>addr
+    then    
+  then
+;
 
-( create the word AFTER parsing the definition so word is not visible
-( to itself, in x; )
+: x:noname ( -- addr )
+  WORD_NONAME
+  unnamed
+  create-word ;
+
 : x:
   WORD_NAMED
-  parse-user-name nextname create-word ;
+  parse-user-name
+  create-word ;
 
-: x; (  -- )
+: xdoes:
+  WORD_DOES
+  unnamed
+  create-word ;
+
+: x; ( type c-addr u ir -- )
   xreturn,
   x[
-
-  dup finalize-ir
-  ( original-node ) 0 create-xname
-
-  ( flags ) WORD_NONAME = if
-    xlatest xname>addr
-  then
-
-  -1 to current-node ;
+  finalize-word ;
 
 
 ( Control Flow )
