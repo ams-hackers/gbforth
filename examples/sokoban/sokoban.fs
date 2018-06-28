@@ -47,11 +47,12 @@ ROM
 
 Create maze  1 cells allot /maze 25 * allot  \ current maze
 Variable mazes   0 mazes !  \ root pointer
-Variable soko    0 soko !   \ player position
 Variable >maze   0 >maze !  \ current compiled maze
 
-\ score information
 RAM
+Variable soko
+
+\ score information
 Variable rocks
 Variable level#
 Variable moves
@@ -59,6 +60,7 @@ Variable score
 ROM
 
 : init
+    0 soko !   \ player position
     0 rocks !  \ number of rocks left
     0 level# ! \ Current level
     0 moves !  \ number of moves
