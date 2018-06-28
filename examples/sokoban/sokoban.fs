@@ -64,8 +64,10 @@ Variable score
 ;
 
 :m new-maze ( n -- addr ) \ add a new level
-    here mazes rot 1 ?DO  @  LOOP  !
-    0 , 0 , here >maze ! 0 , ;
+    ROM
+    here mazes rot 1 [host] ?DO [target] @ [host] LOOP [target]  !
+    0 , 0 , here >maze ! 0 ,
+    RAM ;
 
 [host]
 : count-$ ( addr u -- n )
@@ -139,9 +141,7 @@ Variable score
 \ player may move up, down, left and right
 
 :m move:  ( offset -- )
-    ROM
-    Create ,
-    RAM
+    ROM Create , RAM
     DOES>  @ >r  1 moves +!
 	S" @ "  S"  @"  r@ play-rule  IF  r> soko +!  EXIT  THEN
 	S" @."  S"  &"  r@ play-rule  IF  r> soko +!  EXIT  THEN
