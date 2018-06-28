@@ -112,9 +112,8 @@ variable xstate
   postpone literal
   postpone process-xname ;
 
-: xsee
+: xsee-xname ( xname -- )
   cr
-  xname'
   ." ========== " dup .xname ." ( " dup hex. ." ) " ." ========== "
   dup xprimitive? if
     cr ." (code)" drop
@@ -122,6 +121,9 @@ variable xstate
     >xcode .ir
   then
   cr ;
+
+: xsee
+  xname' xsee-xname ;
 
 : x'
   xname' xname>addr ;
