@@ -138,8 +138,10 @@ Variable score
 
 \ player may move up, down, left and right
 
-: move:  ( offset -- )
+:m move:  ( offset -- )
+    ROM
     Create ,
+    RAM
     DOES>  @ >r  1 moves +!
 	S" @ "  S"  @"  r@ play-rule  IF  r> soko +!  EXIT  THEN
 	S" @."  S"  &"  r@ play-rule  IF  r> soko +!  EXIT  THEN
