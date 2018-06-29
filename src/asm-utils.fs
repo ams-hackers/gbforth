@@ -30,6 +30,13 @@
   C dec,
   L ->A-> [C] ld, ;
 
+( DE to the second element of the stack )
+: ps-tuck-de,
+  C dec,
+  D ->A-> [C] ld,
+  C dec,
+  E ->A-> [C] ld, ;
+
 : ps-drop,
   [C] ->A-> L ld,
   C inc,
@@ -105,17 +112,14 @@
 : HL/DE+,
   H 7 # bit, #nz if,
     ps-negate,
-    HL push,
     HL+/DE+,
     \ reminder = 0
     H|L->A, #z if,
       negate-BC,
-      DE pop,
     else,
       negate-BC,
       BC dec,
-      DE pop,      \ divident
-       \ DE = DE[divident] - HL[reminder]
+      \ DE = DE[divident] - HL[reminder]
       E A ld, L A sub, A E ld,
       D A ld, D A sbc, A D ld,
       \ DE -> HL

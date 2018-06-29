@@ -122,6 +122,18 @@ code mod
   BC pop,
 end-code
 
+code /mod
+  ps-pop-de,
+  BC push,
+  HL/DE,
+  \ quotient from BC -> DE
+  B D ld,
+  C E ld,
+  BC pop,
+  ps-tuck-de,
+end-code
+
+
 ( x -- x )
 code 1+
 \ avoid using inc, because of OAM bug
