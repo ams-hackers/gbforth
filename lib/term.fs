@@ -34,6 +34,18 @@ variable cursor-y
   0 cursor-x !
   1 cursor-y +! ;
 
+: emit
+  dup 10 = if
+    0 cursor-x !
+    1 cursor-y +!
+  else
+    ( n ) cursor-addr c!
+    1 cursor-x +!
+  then ;
+
+: space bl emit ;
+: spaces 0 ?do space loop ;
+
 : type ( addr u -- )
   cursor-addr swap cmovevideo ;
 
