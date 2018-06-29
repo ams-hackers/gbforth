@@ -3,6 +3,7 @@ require ./gbhw.fs
 require ./memory.fs
 require ./input.fs
 require ./bits.fs
+require ./debug.fs
 
 ROM
 create TileData
@@ -44,19 +45,12 @@ variable cursor-y
 
 \ Wait until a key is pressed and return
 : key
-  key-state
-  dup
   begin
-    halt
-    key-state tuck <>
-  until
-  ( old new )
-  tuck xor and
-  \ At this point the TOS contains the bits with the new keys that
-  \ were pressed. However, key should always return 1 key, not many!
-  \ We extract the key with the highest priority (the rightmost 1-bit
-  \ set) to disambiguate.
-  irm1b ;
+    \ Use irm1b to isolate the rightmost 1-bit set, disambiguating in
+    \ case multiple keys are press
+    halt key-state irm1b
+    dup emit
+  ?dup until ;
 
 : reset-palette
   %11100100 rGBP c! ;
