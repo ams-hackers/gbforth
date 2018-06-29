@@ -5,11 +5,7 @@ require ./input.fs
 require ./bits.fs
 require ./debug.fs
 require ./formatted-output.fs
-
-ROM
-create TileData
 include ./ibm-font.fs
-RAM
 
 variable cursor-x
 variable cursor-y
@@ -18,9 +14,6 @@ variable cursor-y
   _SCRN0 cursor-x @ +
   SCRN_VY_B cursor-y @ *
   + ;
-
-: copy-font
-  TileData _VRAM [ 256 8 * ]L cmovemono ;
 
 : at-xy ( x y -- )
   cursor-y !
@@ -85,8 +78,5 @@ variable cursor-y
   reset-palette
   reset-window-scroll
   init-input
-  disable-lcd
-  copy-font
-  enable-lcd
   enable-interrupts
 ;

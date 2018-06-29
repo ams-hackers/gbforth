@@ -5,6 +5,7 @@ makercode: RX
 require gbhw.fs
 require input.fs
 require term.fs
+require ibm-font.fs
 
 ( program start )
 
@@ -25,8 +26,8 @@ require term.fs
   again ;
 
 : main
+  install-font
   init-term
-  init-input
   page
   3 7 at-xy
   ." Hello World !"

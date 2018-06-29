@@ -1,5 +1,9 @@
 ( IBMPC1 8x8 Character Set Macros V1.2 )
 
+require gbhw.fs
+require memory.fs
+require lcd.fs
+
 [host]
 
 : l:
@@ -20,6 +24,7 @@
 [target]
 
 ROM
+create TileData
 
 l: .XXXXXX.  \ Use to be a space ?????
 l: .X....X.
@@ -2328,3 +2333,10 @@ l: ........
 l: ........
 
 RAM
+
+: install-font
+  disable-interrupts
+  disable-lcd
+  TileData _VRAM [ 256 8 * ]L cmovemono 
+  enable-lcd
+  enable-interrupts ;
