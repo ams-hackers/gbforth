@@ -130,7 +130,7 @@ code /mod
   B D ld,
   C E ld,
   BC pop,
-  ps-tuck-de,
+  ps-push-de,
 end-code
 
 
