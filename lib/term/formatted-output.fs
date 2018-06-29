@@ -6,8 +6,9 @@
 
 10 chars constant pad-size
 
-create pad-end pad-size allot
 create pad-base
+pad-size allot
+create pad-end
 
 variable pad-pointer
 
