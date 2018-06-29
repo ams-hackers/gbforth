@@ -21,7 +21,6 @@
 
 (defvar gbforth-defining-words
   '("simple-instruction" "instruction" "label" "export" ":m"))
-
 (dolist (w gbforth-defining-words)
   (forth-syntax--define w #'forth-syntax--state-defining-word))
 
@@ -31,7 +30,8 @@
     "begin," "while," "repeat," "until," "if," "else," "then,"
     "code" "end-code"
     "do-nodes" "end-nodes"
-    "struct" "end-struct"))
+    "struct" "end-struct"
+    "[target]" "[host]"))
 
 (dolist (w gbforth-keywords)
   (forth-syntax--define w #'forth-syntax--state-font-lock-keyword))
