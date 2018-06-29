@@ -39,7 +39,7 @@ variable cursor-y
     0 cursor-x !
     1 cursor-y +!
   else
-    ( n ) cursor-addr c!
+    ( n ) cursor-addr c!video
     1 cursor-x +!
   then ;
 
