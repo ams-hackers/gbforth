@@ -47,7 +47,9 @@ variable cursor-y
 : spaces 0 ?do space loop ;
 
 : type ( addr u -- )
-  cursor-addr swap cmovevideo ;
+  tuck
+  cursor-addr swap cmovevideo
+  cursor-x +! ;
 
 :m ."
   postpone s"
