@@ -14,29 +14,32 @@ variable rom-offset-variable
 rom-buffer erase
 
 
-: assert-rom-addr ( offset -- )
+: assert-rom-addr ( offset -- offset )
   dup $C000 $E000 within abort" Trying to reference RAM address"
   dup $0000 $8000 within invert abort" Trying to reference an address outside ROM" ;
 
-: offset>addr ( offset )
+\ Convert a ROM offset to a host address.
+\
+\ Will throw an exception if the rom offset is out of range.
+: <rom ( offset -- addr )
   assert-rom-addr
   rom-base + ;
 
 : rom@ ( offset -- val )
-  offset>addr dup
+  <rom dup
   c@ swap
   1+ c@ 8 lshift + ;
 
 : romc@ ( offset -- val )
-  offset>addr c@ ;
+  <rom c@ ;
 
 : rom! ( val offset -- )
-  offset>addr 2dup
+  <rom 2dup
   swap lower-byte swap c!
   swap higher-byte swap 1+ c! ;
 
 : romc! ( c offset -- )
-  offset>addr c! ;
+  <rom c! ;
 
 : rom, ( val -- )
   rom-offset rom!
@@ -48,7 +51,7 @@ rom-buffer erase
 
 : rom-move ( addr u -- )
   dup >r
-  rom-offset offset>addr swap move
+  rom-offset <rom swap move
   r> rom-offset+! ;
 
 : rom" ( -- offset u )

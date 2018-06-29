@@ -40,6 +40,22 @@ require ./compiler/cross.fs
 : [host] forth ; immediate
 : [target] gbforth-user ; immediate
 
+\
+\ Expose words into the standard FORTH vocabulary. Available within
+\ [HOST] in interpreting mode. Keep this list small!
+\
+get-current
+also Forth definitions
+
+export <rom
+
+previous
+set-current
+
+\
+\ Expose words into the GBFORTH-USER vocabulary. Available within
+\ [TARGET] in interpreting mode.
+\
 [user-definitions]
 also gbforth
 
@@ -198,7 +214,7 @@ latestxt F_IMMEDIATE create-xname ;
 : +! dup rom@ rot + swap rom! ;
 
 : fill ( offset u c -- )
-  rot offset>addr -rot fill ;
+  rot <rom -rot fill ;
 
 : chars ( $1 * ) ;
 : char+ 1+ ;

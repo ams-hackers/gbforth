@@ -95,17 +95,17 @@ $33 constant USE_MAKER_CODE
 : title:
   parse-line
   dup #15 > abort" Title is too long (max 15 characters)"
-  $0134 offset>addr swap move ;
+  $0134 <rom swap move ;
 
 : gamecode:
   parse-line
   dup #4 > abort" Game Code is too long (max 4 characters)"
-  $013F offset>addr swap move ;
+  $013F <rom swap move ;
 
 : makercode:
   parse-line
   dup #2 > abort" Maker Code is too long (max 2 characters)"
-  $0144 offset>addr swap move
+  $0144 <rom swap move
   USE_MAKER_CODE $014B romc! ;
 
 ( Words to generate the checksums )
