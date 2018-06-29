@@ -5,7 +5,6 @@ require ./input.fs
 require ./bits.fs
 require ./debug.fs
 require ./formatted-output.fs
-require ./ibm-font.fs
 
 variable cursor-x
 variable cursor-y
