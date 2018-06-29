@@ -33,9 +33,3 @@ variable pad-pointer
 
 : #> ( n -- )
   drop pad ;
-
-: .r ( n1 n2 -- )
-  swap <# #s #>
-  ( width addr u )
-  rot over - 0 max spaces
-  type ;

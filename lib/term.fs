@@ -4,6 +4,7 @@ require ./memory.fs
 require ./input.fs
 require ./bits.fs
 require ./debug.fs
+require ./formatted-output.fs
 
 ROM
 create TileData
@@ -55,6 +56,12 @@ variable cursor-y
   postpone s"
   postpone type
 ; immediate
+
+: .r ( n1 n2 -- )
+  swap <# #s #>
+  ( width addr u )
+  rot over - 0 max spaces
+  type ;
 
 
 \ Wait until a key is pressed and return
