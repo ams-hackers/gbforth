@@ -4,6 +4,7 @@ require ./memory.fs
 require ./input.fs
 require ./bits.fs
 require ./debug.fs
+require ./formatted-output.fs
 
 ROM
 create TileData
@@ -39,7 +40,7 @@ variable cursor-y
     0 cursor-x !
     1 cursor-y +!
   else
-    ( n ) cursor-addr c!
+    ( n ) cursor-addr c!video
     1 cursor-x +!
   then ;
 
@@ -47,12 +48,20 @@ variable cursor-y
 : spaces 0 ?do space loop ;
 
 : type ( addr u -- )
-  cursor-addr swap cmovevideo ;
+  tuck
+  cursor-addr swap cmovevideo
+  cursor-x +! ;
 
 :m ."
   postpone s"
   postpone type
 ; immediate
+
+: .r ( n1 n2 -- )
+  swap <# #s #>
+  ( width addr u )
+  rot over - 0 max spaces
+  type ;
 
 
 \ Wait until a key is pressed and return
