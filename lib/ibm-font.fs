@@ -3,6 +3,7 @@
 require gbhw.fs
 require memory.fs
 require lcd.fs
+require cpu.fs
 
 [host]
 
