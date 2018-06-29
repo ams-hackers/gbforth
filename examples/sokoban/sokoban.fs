@@ -92,8 +92,8 @@ ROM
     maze dup cell+ swap @ chars ;
 
 : .score ( -- )
-    ." Level: " level# @ 2 .r ."  Score: " score @ 4 .r
-    ."  Moves: " moves @ 6 .r ."  Rocks: " rocks @ 2 .r ;
+    ." Lvl: " level# @ 2 .r ."  Scr: " score @ 4 .r CR
+    ." Mov: "  moves @ 6 .r ."  Rck: " rocks @ 2 .r CR ;
 
 : .maze ( -- )  \ display maze
     0 0 at-xy  .score
