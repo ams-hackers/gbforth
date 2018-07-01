@@ -56,6 +56,10 @@ module.exports = filename => {
       }
     },
 
+    saveFrame(filename) {
+      fs.writeFileSync(filename, frame);
+    },
+
     get frameSha() {
       return getSha(frame);
     },
