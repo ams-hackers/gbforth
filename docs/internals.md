@@ -19,7 +19,9 @@ gbforth compiles words into an [intermediate representation
 (IR)](https://github.com/ams-hackers/gbforth/blob/master/src/compiler/ir.fs). This
 represents the code as a graph of IR components, each of them being a
 sequence of IR nodes (e.g: CALL node to call another word),
-corresponding to the traditional basic blocks in compiler terminology.
+corresponding to the traditional basic blocks in compiler
+terminology. Control flow like conditionals and loops are implemented
+as links between those IR components.
 
 This intermediate representation are saved together with cross-words,
 as defined in
