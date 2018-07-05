@@ -19,7 +19,11 @@ differently in order to emulate the expected behaviour as close as possible.
 
 ## Partial support
 
-| Word | Alternative behaviour | Reason |
-| ---- | --------------------- | ------ |
-| `bye` | Terminate execution of the program and _stop_ the CPU | No OS available |
-| `quit` | Terminate execution of the program and _stop_ the CPU | No OS available |
+| Word     | Alternative behaviour                                                | Reason          |
+| ----     | ---------------------                                                | ------          |
+| `bye`    | Terminate execution of the program and _stop_ the CPU                | No OS available |
+| `quit`   | Terminate execution of the program and _stop_ the CPU                | No OS available |
+| `move`   | It is available at runtime and in the host, but they cannot be mixed |                 |
+| `cmove`  | Same                                                                 |                 |
+| `cmove>` | Same                                                                 |                 |
+    
