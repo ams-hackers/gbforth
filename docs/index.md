@@ -9,3 +9,4 @@ gbforth
   - [Using Assembler](./assembler.md)
   - [Code Words](./code-words.md)
   - [Kernel](./kernel.md)
+  - [Internals](./internals.md)
