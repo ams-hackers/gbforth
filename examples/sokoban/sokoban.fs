@@ -92,8 +92,8 @@ ROM
     maze dup cell+ swap @ chars ;
 
 : .score ( -- )
-    ." Lvl: " level# @ 2 .r ."  Scr: " score @ 4 .r CR
-    ." Mov: "  moves @ 6 .r ."  Rck: " rocks @ 2 .r CR ;
+    ." Lvl: " level# @ 4 .r ."  Scr: " score @ 4 .r CR
+    ." Mov: "  moves @ 4 .r ."  Rck: " rocks @ 4 .r CR ;
 
 : .maze ( -- )  \ display maze
     0 0 at-xy  .score
@@ -182,7 +182,7 @@ ROM
 	key
 	CASE
 	    [char] ? OF  print-help false  ENDOF
-	    
+
 	    [char] h OF  soko-left  false  ENDOF
 	    [char] j OF  soko-down  false  ENDOF
 	    [char] k OF  soko-up    false  ENDOF
@@ -216,7 +216,7 @@ ROM
   install-font
   init-term
   sokoban ;
-    
+
 001 new-maze
 m:     #####
 m:     #   #
@@ -930,21 +930,21 @@ m: ###$       #######
 m:   #  #######
 m:   ####
 048 new-maze
-m:   #########  
-m:   #*.*#*.*#  
-m:   #.*.*.*.#  
-m:   #*.*.*.*#  
-m:   #.*.*.*.#  
-m:   #*.*.*.*#  
-m:   ###   ###  
-m:     #   #    
+m:   #########
+m:   #*.*#*.*#
+m:   #.*.*.*.#
+m:   #*.*.*.*#
+m:   #.*.*.*.#
+m:   #*.*.*.*#
+m:   ###   ###
+m:     #   #
 m: ###### ######
 m: #           #
 m: # $ $ $ $ $ #
 m: ## $ $ $ $ ##
-m:  #$ $ $ $ $# 
-m:  #   $@$   # 
-m:  #  #####  # 
+m:  #$ $ $ $ $#
+m:  #   $@$   #
+m:  #  #####  #
 m:  ####   ####
 049 new-maze
 m:        ####
@@ -961,7 +961,7 @@ m: ###  #### ### #
 m:   #### @$  ##$##
 m:      ### $     #
 m:        #  ##   #
-m:        ######### 
+m:        #########
 050 new-maze
 m:       ############
 m:      ##..    #   #
@@ -1444,4 +1444,3 @@ m: ##  $  $ #   #  ####
 m: ##       ###########
 m: ####################
 )
-
