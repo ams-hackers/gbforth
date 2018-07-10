@@ -62,7 +62,6 @@ variable cursor-y
     \ Use irm1b to isolate the rightmost 1-bit set, disambiguating in
     \ case multiple keys are press
     halt key-state irm1b
-    dup emit
   ?dup until ;
 
 : reset-palette
