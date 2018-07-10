@@ -8,7 +8,7 @@ describe("sokoban", () => {
   test("shows the first maze", () => {
     gb.steps(40);
     expect(gb.frameSha).toBe(
-      "0dd7aa501f46280525e35dbd2e25a19c07fe8de0c811cd82f5555dfebe3ce837"
+      "9092f5818f750dbef06a046314fb0d457229e3c8dabaa67aadca8858399d07e2"
     );
   });
 
@@ -17,7 +17,7 @@ describe("sokoban", () => {
     gb.gameboy._joypad.keyDown(38);
     gb.steps(10);
     expect(gb.frameSha).toBe(
-      "c5e08dfb1bdb066ff678a97c287136fd5122675397aa9ad496f8e57fa851c613"
+      "7e522f83860ed6cf9670cd4cc88fdbe17ff2e2bbb647eb6496ba8cad7acf3ac2"
     );
   });
 });
