@@ -130,6 +130,7 @@ variable xstate
 
 : x['] x' xliteral, ; ximmediate-as [']
 
+: x'body xname' >xdfa xliteral, ;
 
 create user-name 128 chars allot
 

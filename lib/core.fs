@@ -546,6 +546,12 @@ end-code
 
 : 0= 0 = ;
 
+:m to
+  [host] 'body [target]
+  postpone ! ; immediate
+
+:m value create $2 allot does> @ ;
+
 \ HACK: s" behaves differently in inteprreting and compiling mode. We
 \ could define a "smart" word by looking at a hypothetical STATE
 \ target word to detect if we are cross-compiling, but it would be a
@@ -570,7 +576,6 @@ end-code
 [host]
 : [char] postpone [char] ; immediate
 [target]
-
 
 require ./core/conditionals.fs
 require ./core/basic-loops.fs

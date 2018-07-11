@@ -221,6 +221,8 @@ latestxt F_IMMEDIATE create-xname ;
 : cells $2 * ;
 : cell+ $2 + ;
 
+: 'body x'body ;
+
 include ../shared/core.fs
 
 : immediate ximmediate ;
