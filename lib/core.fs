@@ -550,7 +550,11 @@ end-code
   [host] 'body [target]
   postpone ! ; immediate
 
+:m is to ; immediate
+
 :m value create $2 allot does> @ ;
+
+:m defer create $2 allot does> @ execute ;
 
 \ HACK: s" behaves differently in inteprreting and compiling mode. We
 \ could define a "smart" word by looking at a hypothetical STATE
