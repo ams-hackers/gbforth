@@ -552,9 +552,9 @@ end-code
 
 :m is to ; immediate
 
-:m value create $2 allot does> @ ;
+:m value create cell allot does> @ ;
 
-:m defer create $2 allot does> @ execute ;
+:m defer create cell allot does> @ execute ;
 
 \ HACK: s" behaves differently in inteprreting and compiling mode. We
 \ could define a "smart" word by looking at a hypothetical STATE
