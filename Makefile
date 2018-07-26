@@ -8,13 +8,13 @@ SOURCE_FILES=gbforth src/*.fs src/utils/*.fs src/compiler/*.fs shared/*.fs
 TEST_FILES = $(wildcard test/*.fs) $(wildcard test/*/*.fs)
 TEST_OBJS = $(subst .fs,.gb,$(TEST_FILES))
 
-GBFORTH = ./gbforth $(GBFORTH_FLAGS)
+GBFORTH = ./gbforth
 
 .PHONY: all examples tests
 
 # Pattern rule to build gbforth roms
 %.gb: %.fs $(SOURCE_FILES) $(LIB_FILES)
-	$(GBFORTH) $< $@
+	$(GBFORTH) --pad-ff $< $@
 
 all: examples
 

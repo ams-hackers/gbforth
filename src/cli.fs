@@ -11,17 +11,26 @@ s" GBFORTH_PATH" getenv 2constant gbforth-path
   ."   -v, --verbose    enable verbose output" CR
   ."   -d, --debug      enable debugging mode" CR
   ."   --no-kernel      exclude the kernel, only use assembler" CR
+  ."   -p, --pad-ff     pad the ROM with $FF instead of $00" CR
   CR ;
 
 false Value --no-kernel
 false Value --verbose
 false Value --debug
+false Value --pad-ff
 
 : arg= 1 arg compare 0= ;
 
 : process-option
   s" --no-kernel" arg= if
     true To --no-kernel
+    shift-args
+    true exit
+  then
+
+  s" -p" arg=
+  s" --pad-ff" arg= or if
+    true To --pad-ff
     shift-args
     true exit
   then

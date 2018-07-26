@@ -1,3 +1,4 @@
+require ./cli.fs
 require ./utils/bytes.fs
 
 32 kB constant rom-size
@@ -10,9 +11,13 @@ variable rom-offset-variable
 
 : rom-buffer rom-base rom-size ;
 
-( Initialize the room to zeros )
-rom-buffer erase
-
+( Initialize the rom to zeros/0xFF )
+rom-buffer
+--pad-ff [if]
+  $FF fill
+[else]
+  erase
+[then]
 
 : assert-rom-addr ( offset -- offset )
   dup $C000 $E000 within abort" Trying to reference RAM address"
