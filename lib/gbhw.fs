@@ -94,7 +94,7 @@ $FF54 constant rHDMA4   ( [CGB only] Lower-order address of HDMAtransfer destina
 $FF55 constant rHDMA5   ( [CGB only] H-blank and general-purpose HDMA control [W] )
 
 $FF68 constant rBCPS    ( [CGB only] Color palette BG write specification [R/W] )
-$FF69 constant rGCPD    ( [CGB only] Color palette BG write data [R/W] )
+$FF69 constant rBCPD    ( [CGB only] Color palette BG write data [R/W] )
 $FF6A constant rOCPS    ( [CGB only] Color palette OBJ write specification [R/W] )
 $FF6B constant rOCPD    ( [CGB only] Color palette OBJ write data [R/W] )
 
@@ -197,7 +197,7 @@ $FF6B constant rOCPD    ( [CGB only] Color palette OBJ write data [R/W] )
 :m [rHDMA5] rHDMA5 ]* ;
 
 :m [rBCPS] rBCPS ]* ;
-:m [rGCPD] rGCPD ]* ;
+:m [rBCPD] rBCPD ]* ;
 :m [rOCPS] rOCPS ]* ;
 :m [rOCPD] rOCPD ]* ;
 
