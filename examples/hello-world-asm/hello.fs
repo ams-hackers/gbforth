@@ -17,7 +17,7 @@ $ffff # sp ld,
 
 %11100100 # a ld,
 
-a [rGBP] ld,
+a [rBGP] ld,
 
 0 # a ld,
 a [rSCX] ld,

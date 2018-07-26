@@ -81,7 +81,7 @@ $FF43 constant rSCX     ( Scroll X [R/W] )
 $FF44 constant rLY      ( LCDC Y-Coordinate [144->153 is VBlank period] [R] )
 $FF45 constant rLYC     ( LY Compare [R/W] )
 $FF46 constant rDMA     ( DMA Transfer and Start Address [W] )
-$FF47 constant rGBP     ( BG Palette Data [W] )
+$FF47 constant rBGP     ( BG Palette Data [W] )
 $FF48 constant rOBP0    ( Object Palette 0 Data [W] )
 $FF49 constant rOBP1    ( Object Palette 1 Data [W] )
 $FF4A constant rWY      ( Window Y Position [R/W] )
@@ -184,7 +184,7 @@ $FF6B constant rOCPD    ( [CGB only] Color palette OBJ write data [R/W] )
 :m [rLY] rLY ]* ;
 :m [rLYC] rLYC ]* ;
 :m [rDMA] rDMA ]* ;
-:m [rGBP] rGBP ]* ;
+:m [rBGP] rBGP ]* ;
 :m [rOBP0] rOBP0 ]* ;
 :m [rOBP1] rOBP1 ]* ;
 :m [rWY] rWY ]* ;

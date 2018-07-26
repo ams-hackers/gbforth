@@ -65,7 +65,7 @@ variable cursor-y
   ?dup until ;
 
 : reset-palette
-  %11100100 rGBP c! ;
+  %11100100 rBGP c! ;
 
 : reset-window-scroll
   0 rSCX c!
