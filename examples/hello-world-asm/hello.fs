@@ -70,9 +70,7 @@ wait jr,
 ( HACK: Don't use gbforth internals here )
 >Title
 [host]
-also gbforth
 %title rom-move
-previous
 [target]
 
 nop,

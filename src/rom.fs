@@ -21,7 +21,7 @@ rom-buffer
 
 : assert-rom-addr ( offset -- offset )
   dup $C000 $E000 within abort" Trying to reference RAM address"
-  dup $0000 $8000 within invert abort" Trying to reference an address outside ROM" ;
+  dup $0000 rom-size within invert abort" Trying to reference an address outside ROM" ;
 
 \ Convert a ROM offset to a host address.
 \
@@ -65,6 +65,7 @@ rom-buffer
   nip ;
 
 : ==> ( n -- )
+  assert-rom-addr
   rom-offset! ;
 
 0 Value rom-fd
