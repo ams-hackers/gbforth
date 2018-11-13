@@ -1,8 +1,8 @@
+title: EXAMPLE
+
 require gbhw.fs
 
 [asm]
-
-title: EXAMPLE
 
 $61 ==>
 include ./memory.fs
@@ -24,8 +24,6 @@ a [rSCX] ld,
 a [rSCY] ld,
 
 there> call, named-ref> >StopLCD
-
-
 
 there> hl ld, named-ref> >TileData
 _VRAM # de ld,
@@ -62,10 +60,10 @@ _SCRN0 3 + SCRN_VY_B 7 * + # de ld,
 
 mem_CopyVRAM call,
 
-label wait
+here<
 halt,
 nop,
-wait jr,
+<there jr,
 
 ( HACK: Don't use gbforth internals here )
 >Title
@@ -83,10 +81,11 @@ rlca,
 
 #NC ret,
 
-label .wait
+here<
 [rLY] A ld,
 #145 # A cp,
-.wait #NZ jr,
+<there #NZ jr,
+
 [rLCDC] A ld,
 A #7 # res,
 A [rLCDC] ld,
