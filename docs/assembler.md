@@ -10,11 +10,12 @@ compile-time.
 
 ### Introduction
 
-gbforth's assembler lives in a separate *vocabulary*, which can be accessed using the words `[asm]` and `[endasm]`.
+gbforth's assembler lives in a separate *vocabulary*, which can be accessed
+using the words `[asm]` and `[endasm]`.
 
-It provides a traditional postfix notation. Operands are specified
-first, and then the instruction. For example, the code below will move
-the number 42 to the register `HL`.
+It provides a traditional postfix notation. Operands are specified first, and
+then the instruction. For example, the code below will move the number 42 to the
+register `HL`.
 
 ```forth
 [asm]
@@ -31,13 +32,13 @@ or the [the lib/ directory](https://github.com/ams-hackers/gbforth/tree/master/l
 
 ### Operands
 
-Operands are kept in an auxiliary stack. Registers and flags push themselves
-to this stack, immediate values have to be pushed manually.
+Operands are kept in an auxiliary stack. Registers and flags push themselves to
+this stack, immediate values have to be pushed manually.
 
 #### Immediate
 
-You can push immediate values by using the word `#`. You can use
-prefixes to specify the base of your immediate values.
+You can push immediate values by using the word `#`. You can use prefixes to
+specify the base of your immediate values.
 
 ```forth
 [asm]
@@ -51,15 +52,14 @@ $ff # HL ld,    \ hex
 
 #### Registers
 
-Registers like `A`, `B`, `SP`, or `HL` push themselves to the operand
-stack.
+Registers like `A`, `B`, `SP`, or `HL` push themselves to the operand stack.
 
-Some registers also support memory indirection. In that case, the
-register is wrapped in square brackets: `[HL]`, `[C]`, `[DE]`.
+Some registers also support memory indirection. In that case, the register is
+wrapped in square brackets: `[HL]`, `[C]`, `[DE]`.
 
-Finally, there are the operands `[HI+]` and `[HI-]`. This means that
-the register `HI` will be used to reference the memory, and then the
-register `HI` will be incremented or decremented.
+Finally, there are the operands `[HI+]` and `[HI-]`. This means that the
+register `HI` will be used to reference the memory, and then the register `HI`
+will be incremented or decremented.
 
 #### Flags
 
@@ -71,7 +71,8 @@ There are 4 operands available to make an instruction conditional:
 - `#C` checks whether the carry flag is set
 - `#NZ` checks whether the carry flag is **not** set
 
-These flags can be used in combination with the instructions `call,`, `jp,`, `jr,` and `ret,`.
+These flags can be used in combination with the instructions `call,` and `jp,`
+and `jr,` and `ret,`.
 
 ```forth
 [asm]
@@ -109,16 +110,21 @@ countToZero #NZ jp,
 [endasm]
 ```
 
-For local references however (like in the example above), you are encouraged to make use of two other concepts that the gbforth assembler provides: *stack-based references*, and *structured control flow*. These also support cases where you need to forward-reference an address (which is not possible with `label`).
+For local references however (like in the example above), you are encouraged to
+make use of two other concepts that the gbforth assembler provides:
+*stack-based references*, and *structured control flow*. These also support
+cases where you need to forward-reference an address (which is not possible
+with `label`).
 
 #### Anonymous stack-based references
 
-gbforth's assembler provides word pairs to create anonymous stack-based references:
+gbforth's assembler provides word pairs to create anonymous stack-based
+references:
 - `here<` and `<there` for backward references
 - `there>` and `>here` for forward references
 
-They can be used to implement simple loops or jumps,
-when there is no need to give a name to the reference:
+They can be used to implement simple loops or jumps, when there is no need to
+give a name to the reference:
 
 ```forth
 [asm]
@@ -136,8 +142,8 @@ B inc,
 [endasm]
 ```
 
-For cases where you need a long forward reference, you can use the word `named-ref>`
-to assign a name to the reference:
+For cases where you need a long forward reference, you can use the word
+`named-ref>` to assign a name to the reference:
 
 ```forth
 [asm]
@@ -154,16 +160,19 @@ longFwdJump \ replaces >here
 
 #### Structured control flow
 
-The assembler exposes a few words similar to control flow words available in Forth:
+The assembler exposes a few words similar to control flow words available in
+Forth:
 - `begin,` ... `repeat,`
 - `begin,` ... `until,`
 - `begin,` ... `while,` ... `repeat,`
 - `if,` ... `then,`
 - `if,` ... `else,` ... `then,`
 
-The words `if,`, `until,` and `while,` have to be combined with one of the flag operands.
+The words `if,`, `until,` and `while,` have to be combined with one of the flag
+operands.
 
-These can be used to structure the control flow without using the underlying references directly:
+These can be used to structure the control flow without using the underlying
+references directly:
 
 ```forth
 [asm]

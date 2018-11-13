@@ -1,8 +1,8 @@
 # Run-time limitations
 
 It is important to note that gbforth does not provide a run-time Forth system on
-the target. While most words will be compiled and work on the target as you would
-expect, this imposes some limitations compared to other Forth systems.
+the target. While most words will be compiled and work on the target as you
+would expect, this imposes some limitations compared to other Forth systems.
 
 This page lists all words that are either unsupported completely, or behave
 differently in order to emulate the expected behaviour as close as possible.
@@ -26,4 +26,3 @@ differently in order to emulate the expected behaviour as close as possible.
 | `move`   | It is available at runtime and in the host, but they cannot be mixed |                 |
 | `cmove`  | Same                                                                 |                 |
 | `cmove>` | Same                                                                 |                 |
-    
