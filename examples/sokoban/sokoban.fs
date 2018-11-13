@@ -76,16 +76,11 @@ ROM
 : count-$ ( addr u -- n )
     0 rot rot
     over + swap ?DO  I c@ [char] $ = -  LOOP ;
-
-: rom-move
-    [ also gbforth ]
-    rom-move
-    [ previous ] ;
 [target]
 
 :m m: ( "string" -- )  \ add a level line (top first!)
     [host] -1 parse [target] tuck 2dup count-$ >maze @ cell - +!
-    here [host] <rom swap move [target] dup allot
+    [host] rom-move [target]
     /maze swap - here over bl fill allot
     >maze @ here over cell+ - swap ! ;
 
