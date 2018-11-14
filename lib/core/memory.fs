@@ -108,5 +108,4 @@ BC pop, C inc,
 ps-drop,
 end-code
 
-
-
+: erase 0 fill ;
