@@ -42,4 +42,5 @@ tests: $(TEST_OBJS)
 clean:
 	-rm -f examples/hello-world-asm/hello.gb
 	-rm -f examples/hello-world/hello.gb
+	-rm -f examples/sokoban/sokoban.gb
 	-rm -f $(TEST_OBJS)
