@@ -203,7 +203,7 @@ end-code
 
 ( x -- x )
 code 2/
-H srl,
+H sra,
 L rr,
 end-code
 
