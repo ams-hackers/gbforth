@@ -28,6 +28,7 @@ require ibm-font.fs
 : main
   install-font
   init-term
+  init-input
   page
   3 7 at-xy
   ." Hello World !"

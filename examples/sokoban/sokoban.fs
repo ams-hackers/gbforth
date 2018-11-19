@@ -39,6 +39,7 @@
 
 require ibm-font.fs
 require term.fs
+require input.fs
 
 \ By default, we'll allocate everything into ROM
 ROM
@@ -215,6 +216,7 @@ ROM
 : main
   install-font
   init-term
+  init-input
   sokoban ;
 
 001 new-maze

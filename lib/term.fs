@@ -1,7 +1,6 @@
 require ./cpu.fs
 require ./gbhw.fs
 require ./memory.fs
-require ./input.fs
 require ./formatted-output.fs
 
 variable cursor-x
@@ -64,6 +63,5 @@ variable cursor-y
   disable-interrupts
   reset-palette
   reset-window-scroll
-  init-input
   enable-interrupts
 ;
