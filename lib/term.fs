@@ -3,7 +3,6 @@ require ./gbhw.fs
 require ./memory.fs
 require ./input.fs
 require ./bits.fs
-require ./debug.fs
 require ./formatted-output.fs
 
 variable cursor-x
