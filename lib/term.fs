@@ -41,6 +41,12 @@ variable cursor-y
   cursor-addr swap cmovevideo
   cursor-x +! ;
 
+: typewhite nip spaces ;
+
+: . <# #s #> type space ;
+
+: ? c@ . ;
+
 :m ."
   postpone s"
   postpone type
