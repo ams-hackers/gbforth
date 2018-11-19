@@ -2,7 +2,6 @@ require ./cpu.fs
 require ./gbhw.fs
 require ./memory.fs
 require ./input.fs
-require ./bits.fs
 require ./formatted-output.fs
 
 variable cursor-x
@@ -53,15 +52,6 @@ variable cursor-y
   ( width addr u )
   rot over - 0 max spaces
   type ;
-
-
-\ Wait until a key is pressed and return
-: key
-  begin
-    \ Use irm1b to isolate the rightmost 1-bit set, disambiguating in
-    \ case multiple keys are press
-    halt key-state irm1b
-  ?dup until ;
 
 : reset-palette
   %11100100 rBGP c! ;

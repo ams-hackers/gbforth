@@ -1,4 +1,6 @@
-require gbhw.fs
+require ./gbhw.fs
+require ./bits.fs
+require ./cpu.fs
 
 \ Read up,down,left,right keys
 : P14 $20 rP1 c! ;
@@ -22,6 +24,14 @@ require gbhw.fs
   \ Ensure that any key will trigger an interruption, so it will
   \ resume the execution after HALT.
   reset-P14-15 ;
+
+\ Wait until a key is pressed and return
+: key
+  begin
+    \ Use irm1b to isolate the rightmost 1-bit set, disambiguating in
+    \ case multiple keys are press
+    halt key-state irm1b
+  ?dup until ;
 
 %00000001 constant k-right
 %00000010 constant k-left
