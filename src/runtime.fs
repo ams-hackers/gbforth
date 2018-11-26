@@ -1,10 +1,8 @@
 require ./asm.fs
 require ./ram.fs
+require ../shared/runtime.fs
 
 [asm]
-
-$FFFE constant SP0 \ end of HRAM
-$CFFF constant RP0 \ end of RAM bank 0
 
 : sp-init,
   SP0 $FF00 - # C ld, ;

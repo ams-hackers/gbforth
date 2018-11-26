@@ -9,6 +9,8 @@ $FFFF constant true
 
 #2 constant cell
 
+require ../shared/runtime.fs
+
 [asm]
 :m [R1] $FF80 ]* ;
 :m [R2] $FF81 ]* ;
@@ -22,6 +24,12 @@ $FFFF constant true
 include ../src/asm-utils.fs
 [target]
 
+code sp@
+C D ld,
+ps-dup,
+$FF # H ld,
+D L ld,
+end-code
 
 ( x -- x x )
 code dup
@@ -381,6 +389,7 @@ hl push,
 ps-drop,
 end-code
 
+: depth sp@ sp0 swap - 2/ ;
 
 require lcd.fs
 
