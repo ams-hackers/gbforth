@@ -5,9 +5,9 @@ require ./utils/bytes.fs
 create rom-base rom-size allot
 variable rom-offset-variable
 
-: rom-offset rom-offset-variable @ ;
+: rom-offset rom-offset-variable @ ; \ here
 : rom-offset! rom-offset-variable ! ;
-: rom-offset+! rom-offset-variable +! ;
+: rom-offset+! rom-offset-variable +! ; \ allot
 
 : rom-buffer rom-base rom-size ;
 
@@ -54,14 +54,12 @@ rom-buffer
   rom-offset romc!
   $1 rom-offset+! ;
 
-: rom-move ( addr u -- )
-  dup >r
-  rom-offset <rom swap move
-  r> rom-offset+! ;
+: rommem, ( addr u -- )
+  rom-offset <rom over rom-offset+! swap move ; \ here over allot swap move
 
 : rom" ( -- offset u )
   rom-offset
-  [char] " parse 2dup rom-move
+  [char] " parse 2dup rommem,
   nip ;
 
 : ==> ( n -- )
