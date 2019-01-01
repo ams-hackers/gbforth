@@ -211,6 +211,8 @@ latestxt F_IMMEDIATE create-xname ;
 : c! romc! ;
 : , assert-rom-selected rom, ;
 : c, assert-rom-selected romc, ;
+: mem, ( addr u -- )
+  assert-rom-selected rommem, ;
 : +! dup rom@ rot + swap rom! ;
 
 : fill ( offset u c -- )

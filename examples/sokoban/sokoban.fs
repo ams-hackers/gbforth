@@ -79,7 +79,7 @@ ROM
 
 :m m: ( "string" -- )  \ add a level line (top first!)
     [host] -1 parse [target] tuck 2dup count-$ >maze @ cell - +!
-    [host] rommem, [target]
+    mem,
     /maze swap - here over bl fill allot
     >maze @ here over cell+ - swap ! ;
 

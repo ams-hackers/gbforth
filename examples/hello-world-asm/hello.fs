@@ -1,4 +1,5 @@
 require gbhw.fs
+ROM
 
 [asm]
 
@@ -69,9 +70,7 @@ wait jr,
 
 ( HACK: Don't use gbforth internals here )
 >Title
-[host]
-%title rommem,
-[target]
+[host] %title [target] mem,
 
 nop,
 
