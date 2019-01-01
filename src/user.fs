@@ -14,13 +14,6 @@ require ./compiler/cross.fs
   2dup find-name name>int >r
   nextname r> alias ;
 
-: [user-definitions]
-  get-current
-  also gbforth-user definitions ;
-
-: [end-user-definitions]
-  previous set-current ;
-
 : create-constant ( x c-addr u  -- )
   2dup >r >r nextname
   dup constant
@@ -44,13 +37,11 @@ require ./compiler/cross.fs
 \ Expose words into the standard FORTH vocabulary. Available within
 \ [HOST] in interpreting mode. Keep this list small!
 \
-get-current
-also Forth definitions
+[host-definitions]
 
 export rommem,
 
-previous
-set-current
+[end-host-definitions]
 
 \
 \ Expose words into the GBFORTH-USER vocabulary. Available within
@@ -163,12 +154,12 @@ export ram
   ir 0 create-xname ;
 
 : create
-  xhere
+  here
   parse-next-name
   { here c-addr u }
   here c-addr u create-host
   latestxt
-    here c-addr u create-target 
+  here c-addr u create-target
   xlatest >xhost!
 ;
 
@@ -186,7 +177,7 @@ export ram
 
 : does>
   postpone [
-  xdoes: 
+  xdoes:
   ]L
   postpone (replace-with-does)
   postpone ;
