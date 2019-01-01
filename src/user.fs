@@ -34,16 +34,6 @@ require ./compiler/cross.fs
 : [target] gbforth-user ; immediate
 
 \
-\ Expose words into the standard FORTH vocabulary. Available within
-\ [HOST] in interpreting mode. Keep this list small!
-\
-[host-definitions]
-
-export rommem,
-
-[end-host-definitions]
-
-\
 \ Expose words into the GBFORTH-USER vocabulary. Available within
 \ [TARGET] in interpreting mode.
 \
