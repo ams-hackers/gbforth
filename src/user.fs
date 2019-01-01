@@ -47,7 +47,7 @@ require ./compiler/cross.fs
 get-current
 also Forth definitions
 
-export rom-move
+export rommem,
 
 previous
 set-current
