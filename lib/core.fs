@@ -9,7 +9,7 @@ $FFFF constant true
 
 #2 constant cell
 
-require ../shared/runtime.fs
+include ../shared/runtime.fs
 
 [asm]
 :m [R1] $FF80 ]* ;

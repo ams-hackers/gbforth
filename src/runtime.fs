@@ -1,6 +1,6 @@
 require ./asm.fs
 require ./ram.fs
-require ../shared/runtime.fs
+include ../shared/runtime.fs
 
 [asm]
 

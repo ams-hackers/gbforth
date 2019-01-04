@@ -32,8 +32,9 @@ include ./src/header.fs
   then ;
 
 fpath clear-path
+fpath path+ ~+
+fpath path+ .
 gbforth-path also-path-if-set
-fpath path+ ./
 
 require ./src/user.fs
 
