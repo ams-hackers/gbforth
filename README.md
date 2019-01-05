@@ -51,7 +51,7 @@ make check
 
 ## Running with Docker
 
-You can run gbforth in Docker using the `amshackers/gbforth` image:
+You can run gbforth in Docker using the [amshackers/gbforth](https://hub.docker.com/r/amshackers/gbforth) image:
 
 ```
 docker run amshackers/gbforth
