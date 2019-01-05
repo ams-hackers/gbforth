@@ -43,7 +43,12 @@ variable cursor-y
 
 : typewhite nip spaces ;
 
-: . <# #s #> type space ;
+: . ( n -- )
+  dup 0< if
+    [char] - emit
+    0 swap -
+  then
+  <# #s #> type space ;
 
 : ? c@ . ;
 
