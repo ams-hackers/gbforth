@@ -28,15 +28,21 @@ data.
 | `create` | ROM/RAM |
 | `variable` | ROM/RAM |
 
-As you can see, you are not able to initialise or write to the RAM at
-compile-time. Keep in mind that you can only _reserve_ space in the RAM, but
-gbforth will **not** initialise (or zero) this memory for you.
+As you can see, you are not able to initialise, read from or write to the RAM at
+compile-time. Keep in mind that you can only _reserve_ space in the RAM (and
+name the space with words such as `CREATE` and `VARAIBLE`), but gbforth will
+**not** initialise (or zero) this memory for you.
 
-If you need to initialise the RAM, you'll need to do this at run-time.
+If you need to initialise the RAM, you'll need to do this at run-time (meaning
+you might have to store some data in the ROM, and then copy it over on startup).
 
 ## Run-time
-During **run-time**, you always reference the **RAM**. As such, the words `ROM`
+During **run-time**, you are unable to modify the ROM, so you always reference
+the **RAM** when trying to write or allocate memory. As such, the words `ROM`
 and `RAM` are not available here.
+
+The ROM is still accessible for reading, but since `@` and `c@` read from a
+specific memory _address_, the memory space is implicit.
 
 Additionally, words like `CREATE` and `VARIABLE` are not available due to the
 target not having an input steam to parse the name from.
