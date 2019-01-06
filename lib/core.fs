@@ -21,7 +21,7 @@ include ../shared/runtime.fs
 )
 
 [host]
-include ../src/asm-utils.fs
+include ../shared/asm-utils.fs
 [target]
 
 code sp@
