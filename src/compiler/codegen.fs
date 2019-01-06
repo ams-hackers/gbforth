@@ -4,7 +4,7 @@ require ./ir.fs
 require ./code.fs
 require ./xname.fs
 require ../asm.fs
-require ../asm-utils.fs
+require ../../shared/asm-utils.fs
 require ../set.fs
 
 ( gbforth is subroutine-threading [STC] Forth.
