@@ -24,7 +24,8 @@ all: examples
 examples: \
 	examples/hello-world-asm/hello.gb \
 	examples/hello-world/hello.gb \
-	examples/sokoban/sokoban.gb
+	examples/sokoban/sokoban.gb \
+	examples/synth/synth.gb
 
 examples/hello-world-asm/hello.gb: examples/hello-world-asm/hello.fs examples/hello-world-asm/*.fs $(SOURCE_FILES) $(LIB_FILES)
 	$(GBFORTH) --no-kernel $< $@
@@ -43,6 +44,7 @@ clean:
 	-rm -f examples/hello-world-asm/hello.gb
 	-rm -f examples/hello-world/hello.gb
 	-rm -f examples/sokoban/sokoban.gb
+	-rm -f examples/synth/synth.gb
 	-rm -f $(TEST_OBJS)
 
 #
