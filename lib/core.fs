@@ -397,7 +397,7 @@ require lcd.fs
 
 code quit ( -- )
 begin,
-stop,
+halt,
 again,
 end-code
 
