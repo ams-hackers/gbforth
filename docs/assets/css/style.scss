@@ -1,0 +1,29 @@
+---
+---
+
+$DMG00: #081820;
+$DMG01: #346856;
+$DMG10: #88c070;
+$DMG11: #e0f8d0;
+
+// Headers
+$header-heading-color: #ffffff;
+$header-bg-color: $DMG10;
+$header-bg-color-secondary: $DMG01;
+
+// Text
+$section-headings-color: $DMG01;
+$body-text-color: $DMG00;
+$body-link-color: $DMG10;
+$blockquote-text-color: $DMG01;
+
+// Code
+$code-bg-color: $DMG11;
+$code-text-color: $DMG01;
+
+// Borders
+$border-color: $DMG10;
+$table-border-color: $DMG11;
+$hr-border-color: $DMG11;
+
+@import "{{ site.theme }}";
