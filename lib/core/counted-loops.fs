@@ -52,8 +52,31 @@ variable leave-count 0 leave-sp !
   @there leave-push
 ; immediate
 
-:m i
+:m I
   postpone r@
+; immediate
+
+:m J
+  postpone r>
+  postpone r>
+  postpone r@
+  postpone -rot
+  postpone >r
+  postpone >r
+; immediate
+
+:m K
+  postpone r>
+  postpone r>
+  postpone r>
+  postpone r>
+  postpone r@
+  postpone -rot
+  postpone >r
+  postpone >r
+  postpone -rot
+  postpone >r
+  postpone >r
 ; immediate
 
 :m unloop
@@ -98,7 +121,7 @@ variable leave-count 0 leave-sp !
   postpone unloop
 ; immediate
 
-:m loop 
+:m loop
   1 postpone literal
   postpone +loop
 ; immediate
