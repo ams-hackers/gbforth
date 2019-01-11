@@ -63,9 +63,9 @@ require ./src/user.fs
     s" ./lib/core.fs" required
   then
 
-  ROM
-  s" ./lib/header.fs" included
-  RAM
+  --no-header invert if
+    ROM s" ./lib/header.fs" included RAM
+  then
 
   input-file included
 
