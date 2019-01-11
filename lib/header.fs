@@ -1,19 +1,8 @@
-( Cartridge structure )
+( Default header structure )
 
-require ./rom.fs
-require ./asm.fs
 require ./cartridge.fs
 
 [asm]
-
-( Boot logo [$0104-0133] )
-: boot-logo,
-  $ce romc, $ed romc, $66 romc, $66 romc, $cc romc, $0d romc, $00 romc, $0b romc,
-  $03 romc, $73 romc, $00 romc, $83 romc, $00 romc, $0c romc, $00 romc, $0d romc,
-  $00 romc, $08 romc, $11 romc, $1f romc, $88 romc, $89 romc, $00 romc, $0e romc,
-  $dc romc, $cc romc, $6e romc, $e6 romc, $dd romc, $dd romc, $d9 romc, $99 romc,
-  $bb romc, $bb romc, $67 romc, $63 romc, $6e romc, $0e romc, $ec romc, $cc romc,
-  $dd romc, $dc romc, $99 romc, $9f romc, $bb romc, $b9 romc, $33 romc, $3e romc, ;
 
 $0000 ==>       ( restart $0000 address )
 $0008 ==>       ( restart $0008 address )
@@ -33,30 +22,26 @@ $0068 ==> reti, ( high-to-low of p11 interrupt start address )
 $0070 ==> reti, ( high-to-low of p12 interrupt start address )
 $0078 ==> reti, ( high-to-low of p13 interrupt start address )
 
-$0100 ==> ( start entry point [$0100-$0103] )
-
-nop,
-there> jp,
-named-ref> main:
+$0100 ==> ( entry point [$0100-$0103] emitted by `main:` )
 
 ( start header [$0104-$014F] )
 
 $0104 ==> boot-logo,                ( boot logo )
 $0134 ==>                           ( title )
 $013F ==>                           ( manufacturer code )
-$0143 ==> CGB_INCOMPATIBLE romc,    ( color GB function support )
+$0143 ==> CGB_INCOMPATIBLE c,       ( color GB function support )
 $0144 ==>                           ( maker code )
-$0146 ==> SGB_DISABLED romc,        ( gb 00 or super gameboy 03 )
-$0147 ==> CART_TYPE_ROM romc,       ( cartridge type - rom only )
-$0148 ==> ROM_SIZE_32KBYTE romc,    ( rom size )
-$0149 ==> RAM_SIZE_NONE romc,       ( ram size )
-$014A ==> DEST_OTHER romc,          ( market code jp/int )
-$014B ==> USE_MAKER_CODE romc,      ( old licensee code )
-$014C ==> $00 romc,                 ( mask rom version number )
+$0146 ==> SGB_DISABLED c,           ( gb 00 or super gameboy 03 )
+$0147 ==> CART_TYPE_ROM c,          ( cartridge type - rom only )
+$0148 ==> ROM_SIZE_32KBYTE c,       ( rom size )
+$0149 ==> RAM_SIZE_NONE c,          ( ram size )
+$014A ==> DEST_OTHER c,             ( market code jp/int )
+$014B ==> USE_MAKER_CODE c,         ( old licensee code )
+$014C ==> $00 c,                    ( mask rom version number )
 $014D ==>                           ( complement checksum )
 $014E ==>                           ( global checksum )
 
-( start main code [$0150...] )
+( start of main code [$0150...] )
 $0150 ==> main:
 
 [endasm]
