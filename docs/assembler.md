@@ -55,17 +55,17 @@ $ff # HL ld,    \ hex
 Registers like `A`, `B`, `SP`, or `HL` push themselves to the operand stack.
 
 Some registers also support memory indirection. In that case, the register is
-wrapped in square brackets: `[HL]`, `[C]`, `[DE]`.
+wrapped in square brackets: `[BC]`, `[DE]`, `[HL]`, `[C]`.
 
-Finally, there are the operands `[HI+]` and `[HI-]`. This means that the
-register `HI` will be used to reference the memory, and then the register `HI`
+Finally, there are the operands `[HL+]` and `[HL-]`. This means that the
+register `HL` will be used to reference the memory, and then the register `HL`
 will be incremented or decremented.
 
 #### Flags
 
 Flags, like registers, push themselves to the operand stack.
 
-There are 4 operands available to make an instruction conditional:
+There are 4 flags available to make an instruction conditional:
 - `#Z` checks whether the zero flag is set
 - `#NZ` checks whether the zero flag is **not** set
 - `#C` checks whether the carry flag is set
@@ -162,14 +162,14 @@ longFwdJump \ replaces >here
 
 The assembler exposes a few words similar to control flow words available in
 Forth:
-- `begin,` ... `repeat,`
+- `begin,` ... `again,`
 - `begin,` ... `until,`
 - `begin,` ... `while,` ... `repeat,`
 - `if,` ... `then,`
 - `if,` ... `else,` ... `then,`
 
 The words `if,`, `until,` and `while,` have to be combined with one of the flag
-operands.
+operands (because they are essentially `jp,` instructions).
 
 These can be used to structure the control flow without using the underlying
 references directly:
