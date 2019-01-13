@@ -16,3 +16,4 @@ For further information, visit the page of the project at
   - [Code Words](./code-words.md)
   - [Kernel](./kernel.md)
   - [Internals](./internals.md)
+  - [Word Index](./words.md)
