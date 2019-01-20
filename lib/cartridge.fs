@@ -75,7 +75,7 @@ $03 constant RAM_SIZE_256KBIT
 $04 constant RAM_SIZE_128KBYTE
 $04 constant RAM_SIZE_1MBIT
 $05 constant RAM_SIZE_64KBYTE
-$03 constant RAM_SIZE_512KBIT
+$05 constant RAM_SIZE_512KBIT
 
 ( Destination code [$014A] )
 $00 constant DEST_JAPAN
