@@ -1,0 +1,32 @@
+# random.fs (lib)
+
+The `random.fs` library contains very basic xorshift random number generator (RNG).
+
+## Usage
+
+Initialise the lib with by setting the `seed` variable to a non-zero value first.
+This can be done in a couple of ways:
+
+```forth
+require random.fs
+
+\ for some games using a constant value might be good enough
+: main
+  1234 seed ! ;
+
+\ common pattern in Forth, but essentially a constant in gbforth
+: main
+  here seed ! ;
+
+\ use the divider register (from gbhw.fs)
+: main
+  rDIV c@ 1 max seed ! ;
+```
+
+## Word Index
+
+##### `random` *( n -- n )*
+Generate a random number between 0 and *n* (exclusive).
+
+##### `rnd` *( -- n )*
+Generate a random number.
