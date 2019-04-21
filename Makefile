@@ -24,6 +24,7 @@ all: examples
 examples: \
 	examples/hello-world-asm/hello.gb \
 	examples/hello-world/hello.gb \
+	examples/happy-birthday/happy-birthday.gb \
 	examples/sokoban/sokoban.gb \
 	examples/synth/synth.gb
 
@@ -43,6 +44,7 @@ tests: $(TEST_OBJS)
 clean:
 	-rm -f examples/hello-world-asm/hello.gb
 	-rm -f examples/hello-world/hello.gb
+	-rm -f examples/happy-birthday/happy-birthday.gb
 	-rm -f examples/sokoban/sokoban.gb
 	-rm -f examples/synth/synth.gb
 	-rm -f $(TEST_OBJS)
