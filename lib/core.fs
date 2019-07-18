@@ -556,7 +556,7 @@ end-code
 : 0= 0 = ;
 
 :m to
-  [host] 'body [target]
+  'body ( ' >body )
   postpone ! ; immediate
 
 :m is to ; immediate
