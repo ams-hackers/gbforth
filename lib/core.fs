@@ -31,6 +31,10 @@ $FF # H ld,
 D L ld,
 end-code
 
+code clearstack
+sp0 $FF00 - # C ld,
+end-code
+
 ( x -- x x )
 code dup
 ps-dup,
