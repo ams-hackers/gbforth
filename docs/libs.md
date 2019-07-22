@@ -5,6 +5,7 @@
 - [random.fs](./libs/random.md)
 - [sfx.fs](./libs/sfx.md)
 - [term.fs](./libs/term.md)
+- [tester.fs](./libs/tester.md)
 
 > Todo:
 >
