@@ -57,9 +57,9 @@ rom-buffer
 : rommem, ( addr u -- )
   rom-offset <rom over rom-offset+! swap move ; \ here over allot swap move
 
-: rom" ( -- offset u )
-  rom-offset
-  [char] " parse 2dup rommem,
+: romparse ( c -- offset u )
+  rom-offset swap
+  ( char ) parse 2dup rommem,
   nip ;
 
 : ==> ( n -- )
