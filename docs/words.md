@@ -76,6 +76,10 @@ characters (overwrites the last characters from the title).
 ##### `mem,` *( addr u -- )*
 Compiles the *host* memory starting at `addr` with length `u` to the target ROM.
 
+##### `parse` *( c -- addr u )*
+Parses a string delimited by character `c`, stores it in the ROM, and pushes the
+address and length of the compiled string to the stack.
+
 ##### `ram` *( -- )*
 Switch to the RAM memory space (affects the words `here`, `unused`, `allocate`).
 In this mode you are unable to access the memory (e.g. words like `@` and `!`
