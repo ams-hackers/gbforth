@@ -121,7 +121,10 @@ export 0branch,
 export rom
 export ram
 
-: (s") rom" ;
+export char
+
+: parse romparse ;
+: (s") [char] " parse ;
 
 : here xhere ;
 : unused xunused ;
