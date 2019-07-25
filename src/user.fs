@@ -124,7 +124,6 @@ export ram
 export char
 
 : parse romparse ;
-: (s") [char] " parse ;
 
 : here xhere ;
 : unused xunused ;
