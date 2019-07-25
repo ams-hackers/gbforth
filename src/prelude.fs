@@ -1,5 +1,7 @@
-\ get the XT of MAIN (this also force emits the code)
-' main
+\ run the MAIN word and BYE to stop the CPU
+\ (just in case MAIN terminates)
+\ this line force emits all the code
+:noname main bye ;
 
 \ mark the starting location of the cartridge
 main:
@@ -12,9 +14,5 @@ previous
 [target]
 
 [asm]
-\ call the MAIN word
-( main ) # call,
-
-\ stop the CPU (just in case MAIN terminates)
-begin, stop, again,
+( noname XT ) # call,
 [endasm]
