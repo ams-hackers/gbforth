@@ -109,3 +109,6 @@ ps-drop,
 end-code
 
 : erase 0 fill ;
+
+: on true swap ! ;
+: off false swap ! ;
