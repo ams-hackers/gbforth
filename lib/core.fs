@@ -565,20 +565,6 @@ end-code
 
 :m defer create cell allot does> @ execute ;
 
-\ HACK: s" behaves differently in inteprreting and compiling mode. We
-\ could define a "smart" word by looking at a hypothetical STATE
-\ target word to detect if we are cross-compiling, but it would be a
-\ host variable, so we would need `state [host] @ [target]` which is
-\ pretty awkward as well.
-:m s"
-  (s")
-  swap
-  postpone literal
-  postpone literal
-; immediate
-
-:m s" (s") ;
-
 \ HACK: As s", define two versions of the word to deal with the
 \ USER/CROSS discrepancies.
 :m [char]
@@ -589,6 +575,20 @@ end-code
 [host]
 : [char] postpone [char] ; immediate
 [target]
+
+\ HACK: s" behaves differently in inteprreting and compiling mode. We
+\ could define a "smart" word by looking at a hypothetical STATE
+\ target word to detect if we are cross-compiling, but it would be a
+\ host variable, so we would need `state [host] @ [target]` which is
+\ pretty awkward as well.
+:m s"
+  [char] " parse
+  swap
+  postpone literal
+  postpone literal
+; immediate
+
+:m s" [char] " parse ;
 
 require ./core/conditionals.fs
 require ./core/basic-loops.fs
