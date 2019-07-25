@@ -44,7 +44,6 @@ require music.fs
   120 wait ;
 
 : start
-  page
   1989 2019 .counter
 
   BEGIN

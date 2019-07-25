@@ -237,5 +237,5 @@ variable current
 
   0 current !
 
-  page .ui
+  .ui
   handle-input ;

@@ -74,4 +74,5 @@ variable cursor-y
   reset-palette
   reset-window-scroll
   enable-interrupts
+  page
 ;

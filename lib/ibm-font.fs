@@ -2338,6 +2338,6 @@ RAM
 : install-font
   disable-interrupts
   disable-lcd
-  TileData _VRAM [ 256 8 * ]L cmovemono 
+  TileData _VRAM [ 256 8 * ]L cmovemono
   enable-lcd
   enable-interrupts ;
