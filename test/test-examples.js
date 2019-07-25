@@ -17,7 +17,7 @@ describe("sokoban", () => {
     gb.gameboy._joypad.keyDown(38);
     gb.steps(10);
     expect(gb.frameSha).toBe(
-      "7e522f83860ed6cf9670cd4cc88fdbe17ff2e2bbb647eb6496ba8cad7acf3ac2"
+      "7e97581b4abb26471577f91804afd28b7b376e27bd4c4a9d4e2ea6cc95ddd47b"
     );
   });
 });
