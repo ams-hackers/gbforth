@@ -22,12 +22,11 @@ variable cursor-y
 
 : cr
   0 cursor-x !
-  1 cursor-y +! ;
+  cursor-y @ 1 + SCRN_VY_B mod cursor-y ! ;
 
 : emit
   dup 10 = if
-    0 cursor-x !
-    1 cursor-y +!
+    cr
   else
     ( n ) cursor-addr c!video
     1 cursor-x +!
