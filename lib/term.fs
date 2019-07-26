@@ -20,6 +20,8 @@ variable cursor-y
   _SCRN0 [ SCRN_VX_B SCRN_VY_B * ]L bl fill
   0 0 at-xy ;
 
+: form ( -- h w ) SCRN_Y_B SCRN_X_B ;
+
 : cr
   0 cursor-x !
   cursor-y @ 1 + SCRN_VY_B mod cursor-y ! ;
