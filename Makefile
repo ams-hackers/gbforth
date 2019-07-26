@@ -18,6 +18,7 @@ TEST_OBJS = $(subst .fs,.gb,$(TEST_FILES))
 EXAMPLE_OBJS = \
 	examples/hello-world-asm/hello.gb \
 	examples/hello-world/hello.gb \
+	examples/test-suite/test-suite.gb \
 	examples/sokoban/sokoban.gb \
 	examples/simon/simon.gb \
 	examples/aces-up/aces-up.gb \
