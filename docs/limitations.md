@@ -27,8 +27,8 @@ differently in order to emulate the expected behaviour as close as possible.
 
 | Word     | Alternative behaviour | Reason |
 | -------- | --------------------- | ------ |
-| `quit`   | Terminate execution of the program and _halt_ the CPU | No run-time available |
-| `bye`    | Terminate execution of the system and _stop_ the CPU (this also disables the LCD) | No OS available |
+| `bye`   | Terminate execution of the program and _halt_ the CPU | No OS available |
+| `quit`    | Terminate execution of the system and _stop_ the CPU (this also disables the LCD) | No run-time available |
 
 ## Compile-time limitations
 

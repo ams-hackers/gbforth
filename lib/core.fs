@@ -395,13 +395,13 @@ require lcd.fs
 
 ( Tools )
 
-code quit ( -- )
+code bye ( -- )
 begin,
 halt,
 again,
 end-code
 
-code bye ( -- )
+code quit ( -- )
 begin,
 stop,
 again,
