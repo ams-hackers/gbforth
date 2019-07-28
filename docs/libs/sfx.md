@@ -18,10 +18,16 @@ require sfx.fs
 
 Run any of these words to play the corresponding sound effect immediately:
 
-##### `beep` *( -- )*
-##### `boop` *( -- )*
-##### `blip` *( -- )*
-##### `pow` *( -- )*
-##### `thud` *( -- )*
-##### `buzz` *( -- )*
-##### `whoosh` *( -- )*
+##### `beep` _( -- )_
+
+##### `boop` _( -- )_
+
+##### `blip` _( -- )_
+
+##### `pow` _( -- )_
+
+##### `thud` _( -- )_
+
+##### `buzz` _( -- )_
+
+##### `whoosh` _( -- )_

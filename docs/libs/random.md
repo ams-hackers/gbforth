@@ -25,8 +25,10 @@ require random.fs
 
 ## Word Index
 
-##### `random` *( n -- n )*
-Generate a random number between 0 and *n* (exclusive).
+##### `random` _( n -- n )_
 
-##### `rnd` *( -- n )*
+Generate a random number between 0 and _n_ (exclusive).
+
+##### `rnd` _( -- n )_
+
 Generate a random number.

@@ -11,16 +11,16 @@
 ## Memory allocation
 
 **SP0:** The parameter stack pointer is initialised to address `$FFFE`, located
-at the very end of the HRAM. The PSP value is *decreased* when a new item is
+at the very end of the HRAM. The PSP value is _decreased_ when a new item is
 added to the stack.
 
 **RS0:** The return stack pointer (RSP) is initialised to address `$CFFF`,
 located at the very end of the RAM (or the end of RAM bank 0). The RSP value is
-*decreased* when a new address is added to the return stack.
+_decreased_ when a new address is added to the return stack.
 
 **DP:** The dictionary pointer is stored at addresses `$C000` and `$C001`,
 located at the start of the RAM (or RAM bank 0). The pointer value is
-initialised to `$C002`, and is *increased* when new memory is allocated.
+initialised to `$C002`, and is _increased_ when new memory is allocated.
 
 ## Pushing a value to the PSP
 

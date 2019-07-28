@@ -36,9 +36,9 @@ We can characterize code based on 2 criteria:
 Since it does not make sense for a computation in the target system to act on
 the host system, we are left with 3 meaningful combinations:
 
-  - **Colon definitions** execute at _run-time_, act on the _target_ system
-  - **Top-level code** executes at _compile-time_, acts on the _target_ system
-  - **Host definitions** execute at _compile-time_, act on the _host_ system
+- **Colon definitions** execute at _run-time_, act on the _target_ system
+- **Top-level code** executes at _compile-time_, acts on the _target_ system
+- **Host definitions** execute at _compile-time_, act on the _host_ system
 
 ## Colon definitions
 

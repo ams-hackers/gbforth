@@ -19,39 +19,51 @@ require term.fs
 
 ## Word Index
 
-##### `.` *( n -- )*
+##### `.` _( n -- )_
+
 Prints the number to the screen and moves the cursor position.
 
-##### `.r` *( n1 n2 -- )*
-Prints the number *n1* to the screen, using at least *n2* positions.
+##### `.r` _( n1 n2 -- )_
+
+Prints the number _n1_ to the screen, using at least _n2_ positions.
 
 ##### `."`
+
 Reads the string up to the first `"` character, and prints the string to the
 screen.
 
-##### `?` *( addr -- )*
-Prints the value at *addr* to the screen.
+##### `?` _( addr -- )_
 
-##### `at-xy` *( x y -- )*
+Prints the value at _addr_ to the screen.
+
+##### `at-xy` _( x y -- )_
+
 Sets the cursor position to the given coordinates.
 
-##### `cr` *( -- )*
+##### `cr` _( -- )_
+
 Prints a newline (moves the cursor down).
 
-##### `emit` *( c -- )*
+##### `emit` _( c -- )_
+
 Prints the character with the given character code.
 
-##### `page` *( -- )*
+##### `page` _( -- )_
+
 Clears the entire screen.
 
-##### `space` *( -- )*
+##### `space` _( -- )_
+
 Prints a single space to the screen.
 
-##### `spaces` *( n -- )*
-Prints *n* spaces to the screen.
+##### `spaces` _( n -- )_
 
-##### `type` *( addr c -- )*
-Prints the string starting from *addr* with length *c* to the screen.
+Prints _n_ spaces to the screen.
 
-##### `typewhite` *( addr c -- )*
-Prints *c* spaces to the screen.
+##### `type` _( addr c -- )_
+
+Prints the string starting from _addr_ with length _c_ to the screen.
+
+##### `typewhite` _( addr c -- )_
+
+Prints _c_ spaces to the screen.
