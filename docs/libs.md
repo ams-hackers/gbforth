@@ -1,5 +1,6 @@
 # Libraries
 
+- [gbhw.fs](./libs/gbhw.md)
 - [ibm-font.fs](./libs/ibm-font.md)
 - [input.fs](./libs/input.md)
 - [random.fs](./libs/random.md)
