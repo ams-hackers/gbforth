@@ -2,10 +2,10 @@
 
 ## Toplevel (compile-time)
 
-A number of common Forth words are available from the *toplevel* context at
+A number of common Forth words are available from the _toplevel_ context at
 compile-time. Generally speaking you should be able to use all stack
 (`dup`, `swap`, ...) and arithmetic/logic (`+`, `<>`, ...) operators as you
-would expect them; they are simply exposed from the *HOST* vocabulary. If you
+would expect them; they are simply exposed from the _HOST_ vocabulary. If you
 think a word is missing, consider
 [opening an issue](https://github.com/ams-hackers/gbforth/issues/new) or submit
 a PR to add it.
@@ -18,79 +18,98 @@ behave similar to the
 Additionally, the are a few gbforth specific words available to you at
 compile-time:
 
-##### `:` *( -- )*
-Parses the next word and starts compiling a new *target definition*. Words
+##### `:` _( -- )_
+
+Parses the next word and starts compiling a new _target definition_. Words
 defined with `:` can not be executed at compile-time and are only available
 from within other target definitions.
 
-##### `:m` *( -- )*
-Parses the next word and starts compiling a new *meta definition*. Words
+##### `:m` _( -- )_
+
+Parses the next word and starts compiling a new _meta definition_. Words
 defined with `:m` can not be executed at run-time and serve only as an
 abstraction level for simplifying your toplevel code.
 
-##### `;` *( -- )*
+##### `;` _( -- )_
+
 Ends the target or meta definition and switches back to interpreter mode.
 
-##### `==>` *( n -- )*
+##### `==>` _( n -- )_
+
 Sets the ROM offset to a new position. Usually only needed when writing ASM.
 
-##### `[asm]` *( -- )*
-Adds the *ASSEMBLER* vocabulary to the context, allowing you to write ASM
+##### `[asm]` _( -- )_
+
+Adds the _ASSEMBLER_ vocabulary to the context, allowing you to write ASM
 instructions.
 
-##### `[endasm]` *( -- )*
-Removes the *ASSEMBLER* vocabulary from the context.
+##### `[endasm]` _( -- )_
 
-##### `[host]` *( -- )*
-Switches to the *HOST* vocabulary, allowing you to use Forth words that operate
+Removes the _ASSEMBLER_ vocabulary from the context.
+
+##### `[host]` _( -- )_
+
+Switches to the _HOST_ vocabulary, allowing you to use Forth words that operate
 on your host machine and memory.
 
-##### `[target]` *( -- )*
-Switches to the *TARGET* vocabulary (this list). This is the default context.
+##### `[target]` _( -- )_
 
-##### `code` *( -- )*
+Switches to the _TARGET_ vocabulary (this list). This is the default context.
+
+##### `code` _( -- )_
+
 Parses the next word and creates a new ASM primitive. The ASSEMBLER vocabulary
 is made available automatically.
 
-##### `endcode` *( -- )*
+##### `endcode` _( -- )_
+
 Ends the ASM primitive definition.
 
-##### `-endcode` *( -- )*
+##### `-endcode` _( -- )_
+
 Ends the ASM primitive definition without compiling a RETURN at the end. This
 assumes that you handle exiting the definition in ASM yourself.
 
-##### `gamecode:` *( -- )*
+##### `gamecode:` _( -- )_
+
 Parses the rest of the line and sets the cartridge Game Code. Maximum 4
 characters (overwrites the last characters from the title if this exceeds 11
-  characters).
+characters).
 
-##### `main:` *( -- )*
+##### `main:` _( -- )_
+
 Patches the entry point vector (in the header of the cartridge) with a jump to
 the current ROM offset. Usually only needed when writing an ASM-only game, as
 the kernel overwrites this to point to the gbforth prelude by default.
 
-##### `makercode:` *( -- )*
+##### `makercode:` _( -- )_
+
 Parses the rest of the line and sets the cartridge Maker Code. Maximum 4
 characters (overwrites the last characters from the title).
 
-##### `mem,` *( addr u -- )*
-Compiles the *host* memory starting at `addr` with length `u` to the target ROM.
+##### `mem,` _( addr u -- )_
 
-##### `parse` *( c -- addr u )*
+Compiles the _host_ memory starting at `addr` with length `u` to the target ROM.
+
+##### `parse` _( c -- addr u )_
+
 Parses a string delimited by character `c`, stores it in the ROM, and pushes the
 address and length of the compiled string to the stack.
 
-##### `ram` *( -- )*
+##### `ram` _( -- )_
+
 Switch to the RAM memory space (affects the words `here`, `unused`, `allocate`).
 In this mode you are unable to access the memory (e.g. words like `@` and `!`
 are unavailable), you can only allocate space (e.g. using `variable`).
 
-##### `rom` *( -- )*
+##### `rom` _( -- )_
+
 Switch to the ROM memory space (affects the words `here`, `unused`, `allocate`).
 In this mode you are able use words like `!` and `c,`, but allocated space can
 not be written to at run-time.
 
-##### `title:` *( -- )*
+##### `title:` _( -- )_
+
 Parses the rest of the line and sets the cartridge Title. Maximum 15 characters
 (or 11 if you want to specify a Game Code as well).
 

@@ -15,20 +15,20 @@ differently in order to emulate the expected behaviour as close as possible.
 
 ### Unsupported
 
-| Word | Reason |
-| ---- | ------ |
-| `create` | No input stream available |
+| Word       | Reason                    |
+| ---------- | ------------------------- |
+| `create`   | No input stream available |
 | `constant` | No input stream available |
 | `variable` | No input stream available |
-| `parse` | No input stream available |
+| `parse`    | No input stream available |
 | `postpone` | No input stream available |
 
 ### Partial support
 
-| Word     | Alternative behaviour | Reason |
-| -------- | --------------------- | ------ |
-| `bye`   | Terminate execution of the program and _halt_ the CPU | No OS available |
-| `quit`    | Terminate execution of the system and _stop_ the CPU (this also disables the LCD) | No run-time available |
+| Word   | Alternative behaviour                                                             | Reason                |
+| ------ | --------------------------------------------------------------------------------- | --------------------- |
+| `bye`  | Terminate execution of the program and _halt_ the CPU                             | No OS available       |
+| `quit` | Terminate execution of the system and _stop_ the CPU (this also disables the LCD) | No run-time available |
 
 ## Compile-time limitations
 
@@ -40,6 +40,7 @@ not possible to access the RAM memory space during compile-time, so you are
 restricted to only allocating memory there.
 
 ### Compiling strings (`s"` / `."`)
+
 In order to save space, compiled strings are stored at the dictionary pointer.
 This is usually not a problem, unless you are mixing the words `s"` or `."` with
 other words that compile data to the **DP**. For example, in standard Forth you
@@ -58,6 +59,7 @@ CREATE message s" Hello World" 2drop
 ```
 
 ### Copying memory (`mem,`)
+
 When writing to memory at compile-time, you are usually dealing with the ROM.
 If you need to access the host memory instead, you need to explicitly specify
 this using the word `[host]` (and `[target]` to return).
@@ -72,6 +74,7 @@ cross-referencing of memory (yet?) and are
 only available at run-time or in the host context.
 
 ### The stack
+
 During compilation a lot of stack modifying words are available to you, including
 most arithmetic operators. Although math is universal, the cell size of the data
 stack is not. The most apparent difference is that the target system only supports

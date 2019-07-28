@@ -1,5 +1,4 @@
-gbForth's internals
-===================
+# gbforth internals
 
 gbforth includes a Forth cross-compiler. The cross-compiler is missing many
 optimizations and functionality but it is quite easy to work with. This document

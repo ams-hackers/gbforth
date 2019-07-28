@@ -10,7 +10,7 @@ compile-time.
 
 ### Introduction
 
-gbforth's assembler lives in a separate *vocabulary*, which can be accessed
+gbforth's assembler lives in a separate _vocabulary_, which can be accessed
 using the words `[asm]` and `[endasm]`.
 
 It provides a traditional postfix notation. Operands are specified first, and
@@ -28,7 +28,6 @@ register `HL`.
 To learn more, you can have a look to the hello world example
 [written in assembler](https://github.com/ams-hackers/gbforth/blob/master/examples/hello-world-asm/hello.fs),
 or the [the lib/ directory](https://github.com/ams-hackers/gbforth/tree/master/lib).
-
 
 ### Operands
 
@@ -66,6 +65,7 @@ will be incremented or decremented.
 Flags, like registers, push themselves to the operand stack.
 
 There are 4 flags available to make an instruction conditional:
+
 - `#Z` checks whether the zero flag is set
 - `#NZ` checks whether the zero flag is **not** set
 - `#C` checks whether the carry flag is set
@@ -98,7 +98,7 @@ $FF40 ]* A ld,  \ load value at address $FF40 into A
 ### Labels
 
 Labels can be created using the word `label`. These labels are simple constants,
-and can only be referenced *after* they are defined:
+and can only be referenced _after_ they are defined:
 
 ```
 [asm]
@@ -112,7 +112,7 @@ countToZero #NZ jp,
 
 For local references however (like in the example above), you are encouraged to
 make use of two other concepts that the gbforth assembler provides:
-*stack-based references*, and *structured control flow*. These also support
+_stack-based references_, and _structured control flow_. These also support
 cases where you need to forward-reference an address (which is not possible
 with `label`).
 
@@ -120,6 +120,7 @@ with `label`).
 
 gbforth's assembler provides word pairs to create anonymous stack-based
 references:
+
 - `here<` and `<there` for backward references
 - `there>` and `>here` for forward references
 
@@ -162,6 +163,7 @@ longFwdJump \ replaces >here
 
 The assembler exposes a few words similar to control flow words available in
 Forth:
+
 - `begin,` ... `again,`
 - `begin,` ... `until,`
 - `begin,` ... `while,` ... `repeat,`
