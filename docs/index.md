@@ -11,6 +11,7 @@ For further information, visit the page of the project at
 - [Installation instructions](./setup.md)
 - [Command Line Interface](./cli.md)
 - [Meta Programming](./meta.md)
+- [Contexts](./contexts.md)
 - [Run-time Limitations](./limitations.md)
 - [Memory Spaces (ROM/RAM)](./memory.md)
 - [Using Assembler](./assembler.md)
