@@ -3,9 +3,9 @@ require ./bits.fs
 require ./cpu.fs
 
 \ Read up,down,left,right keys
-: P14 $20 rP1 c! ;
+: P15 P1F_5 rP1 c! ;
 \ Read A,B,Start,Pause keys
-: P15 $10 rP1 c! ;
+: P14 P1F_4 rP1 c! ;
 \ Reset the P14 and P15 lines
 : reset-P14-15
   $00 rP1 c! ;
@@ -33,14 +33,14 @@ require ./cpu.fs
     halt key-state irm1b
   ?dup until ;
 
-%00000001 constant k-right
-%00000010 constant k-left
-%00000100 constant k-up
-%00001000 constant k-down
-%00010000 constant k-a
-%00100000 constant k-b
-%01000000 constant k-select
-%10000000 constant k-start
+PADF_A      constant k-a
+PADF_B      constant k-b
+PADF_SELECT constant k-select
+PADF_START  constant k-start
+PADF_RIGHT  constant k-right
+PADF_LEFT   constant k-left
+PADF_UP     constant k-up
+PADF_DOWN   constant k-down
 
 : enable-interrupt-flags ( u -- )
   0 rIF c!
