@@ -13,7 +13,7 @@ variable memspace
 RAM
 
 : ram-here ram-offset ;
-: ram-unused ram-size ram-here CP0 - - ;
+: ram-unused ram-size ram-here DP0 - - ;
 : ram-allot ram-offset+! ;
 
 : rom-here rom-offset ;

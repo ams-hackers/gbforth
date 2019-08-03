@@ -351,8 +351,8 @@ E [HL] ld,
 ps-drop,
 end-code
 
-$C000 constant DP                    \ start of RAM bank 0
-$CFFE constant usable-dictionary-end \ end of RAM bank 0
+include ../shared/dictionary.fs
+
 : here ( -- addr ) DP @ ;
 : allot ( n -- ) DP +! ;
 : unused ( -- n )
