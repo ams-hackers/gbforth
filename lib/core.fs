@@ -613,10 +613,8 @@ require ./core/case.fs
 : within  ( test low high -- flag )
   over - >r - r> u< ;
 
-
 : count ( c-addr1 -- c-addr2 u )
-  dup c@ swap 1 chars + swap ;
-
+  dup c@ swap char+ swap ;
 
 include ./core/memory.fs
 
