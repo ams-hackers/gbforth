@@ -351,12 +351,12 @@ E [HL] ld,
 ps-drop,
 end-code
 
-$C000 constant DP
+$C000 constant DP                    \ start of RAM bank 0
+$CFFE constant usable-dictionary-end \ end of RAM bank 0
 : here ( -- addr ) DP @ ;
 : allot ( n -- ) DP +! ;
-
 : unused ( -- n )
-  $CFFF here - ; \ end of RAM bank 0
+  usable-dictionary-end here - ;
 
 : char+ ( x -- x )
   1+ ;
