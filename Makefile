@@ -26,6 +26,7 @@ examples: \
 	examples/hello-world/hello.gb \
 	examples/happy-birthday/happy-birthday.gb \
 	examples/sokoban/sokoban.gb \
+	examples/simon/simon.gb \
 	examples/goto10/goto10.gb \
 	examples/synth/synth.gb
 
@@ -47,6 +48,7 @@ clean:
 	-rm -f examples/hello-world/hello.gb
 	-rm -f examples/happy-birthday/happy-birthday.gb
 	-rm -f examples/sokoban/sokoban.gb
+	-rm -f examples/simon/simon.gb
 	-rm -f examples/goto10/goto10.gb
 	-rm -f examples/synth/synth.gb
 	-rm -f $(TEST_OBJS)
