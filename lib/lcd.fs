@@ -14,7 +14,6 @@ require gbhw.fs
   <there #NZ jr, ;
 [endasm]
 
-
 code disable-lcd
   [rLCDC] A ld,
   rlca,
@@ -31,6 +30,6 @@ end-code
   LCDCF_ON or
   rLCDC c! ;
 
-code wait-lcd
-lcd_WaitVRAM
+code lcd-wait-vblank
+lcd-wait-vblank,
 end-code

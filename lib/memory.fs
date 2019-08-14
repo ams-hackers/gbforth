@@ -1,7 +1,7 @@
 require lcd.fs
 
-: c!video
-  wait-lcd c! ;
+: c!video ( c addr -- )
+  lcd-wait-vblank c! ;
 
 code cmovemono ( c-from c-to u -- )
   [C] ->A-> E ld,  C inc,
