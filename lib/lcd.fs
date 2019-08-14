@@ -6,24 +6,24 @@ require gbhw.fs
     [rSTAT] a ld,
     STATF_BUSY # A and,
   <there #nz jr, ;
+
+:m lcd-wait-vblank,
+  here<
+    [rLY] A ld,
+    #145 # A cp,
+  <there #NZ jr, ;
 [endasm]
 
 
 code disable-lcd
   [rLCDC] A ld,
   rlca,
-
   #NC ret,
 
-  here<
-  [rLY] A ld,
-  #145 # A cp,
-  <there #NZ jr,
-  [rLCDC] A ld,
-  A #7 # res,
-  A [rLCDC] ld,
+  lcd-wait-vblank,
 
-  ret,
+  rLCDC # HL ld,
+  [HL] #7 # res,
 end-code
 
 : enable-lcd
