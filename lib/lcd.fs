@@ -10,7 +10,7 @@ require gbhw.fs
 :m lcd-wait-vblank,
   here<
     [rLY] A ld,
-    #145 # A cp,
+    #144 # A cp,
   <there #NZ jr, ;
 [endasm]
 
