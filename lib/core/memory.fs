@@ -98,7 +98,7 @@ C inc, BC push,
 
 ( HL = c )
 begin, D|E->A, #NZ while,
-  lcd_WaitVRAM
+  lcd-wait-vram,
   L ->A-> [BC] ld,
   BC inc,
   DE dec,

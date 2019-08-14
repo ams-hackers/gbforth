@@ -1,17 +1,17 @@
 require gbhw.fs
 
 [asm]
-:m lcd_WaitVRAM
-  here<
+:m lcd-wait-vram,
+  begin,
     [rSTAT] a ld,
     STATF_BUSY # A and,
-  <there #nz jr, ;
+  #Z until, ;
 
 :m lcd-wait-vblank,
-  here<
+  begin,
     [rLY] A ld,
     #144 # A cp,
-  <there #NZ jr, ;
+  #Z until, ;
 [endasm]
 
 code disable-lcd

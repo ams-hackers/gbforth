@@ -35,7 +35,7 @@ code cmovevideo ( c-from c-to u -- )
 
   begin, H|L->A, #NZ while,
     di,
-    lcd_WaitVRAM          \ cmove but with di, waitvram, ei,
+    lcd-wait-vram,          \ cmove but with di, waitvram, ei,
     [BC] ->A-> [DE] ld,
     ei,
     BC inc,
