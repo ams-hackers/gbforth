@@ -15,9 +15,9 @@ describe("sokoban", () => {
   test("The player moves up if UP is pressed", () => {
     gb.steps(40);
     gb.gameboy._joypad.keyDown(38);
-    gb.steps(10);
+    gb.steps(40);
     expect(gb.frameSha).toBe(
-      "7e97581b4abb26471577f91804afd28b7b376e27bd4c4a9d4e2ea6cc95ddd47b"
+      "fb4f0eb287561d97413ff3a6b7ac0d24404105c227e57b05291b06d25eee3e03"
     );
   });
 });
