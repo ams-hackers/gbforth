@@ -27,12 +27,8 @@ code disable-lcd
 end-code
 
 : enable-lcd
-  [ LCDCF_ON
-    LCDCF_BG8000 or
-    LCDCF_BG9800 or
-    LCDCF_BGON or
-    LCDCF_OBJ16 or
-    LCDCF_OBJOFF or ]L
+  rLCDC c@
+  LCDCF_ON or
   rLCDC c! ;
 
 code wait-lcd
