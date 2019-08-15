@@ -17,7 +17,7 @@ variable cursor-y
 
 \ Clear the screen
 : page
-  _SCRN0 [ SCRN_VX_B SCRN_VY_B * ]L bl fill
+  _SCRN0 [ SCRN_VX_B SCRN_VY_B * ]L blank
   0 0 at-xy ;
 
 : form ( -- h w ) SCRN_Y_B SCRN_X_B ;

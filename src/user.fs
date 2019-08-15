@@ -200,6 +200,7 @@ latestxt F_IMMEDIATE create-xname ;
 : fill ( offset u c -- )
   rot <rom -rot fill ;
 : erase 0 fill ;
+: blank BL fill ;
 
 : chars ( $1 * ) ;
 : char+ 1+ ;
