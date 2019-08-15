@@ -26,6 +26,7 @@ examples: \
 	examples/hello-world/hello.gb \
 	examples/happy-birthday/happy-birthday.gb \
 	examples/sokoban/sokoban.gb \
+	examples/goto10/goto10.gb \
 	examples/synth/synth.gb
 
 examples/hello-world-asm/hello.gb: examples/hello-world-asm/hello.fs examples/hello-world-asm/*.fs $(SOURCE_FILES) $(LIB_FILES)
@@ -46,6 +47,7 @@ clean:
 	-rm -f examples/hello-world/hello.gb
 	-rm -f examples/happy-birthday/happy-birthday.gb
 	-rm -f examples/sokoban/sokoban.gb
+	-rm -f examples/goto10/goto10.gb
 	-rm -f examples/synth/synth.gb
 	-rm -f $(TEST_OBJS)
 
