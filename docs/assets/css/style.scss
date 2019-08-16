@@ -1,15 +1,15 @@
 ---
 ---
 
-$DMG00: #081820;
-$DMG01: #346856;
+$DMG00: #424242;
+$DMG01: #33691e;
 $DMG10: #88c070;
-$DMG11: #e0f8d0;
+$DMG11: #f1f8e9;
 
 // Headers
 $header-heading-color: #ffffff;
 $header-bg-color: $DMG10;
-$header-bg-color-secondary: $DMG01;
+$header-bg-color-secondary: #346856;
 
 // Text
 $section-headings-color: $DMG01;
@@ -22,8 +22,8 @@ $code-bg-color: $DMG11;
 $code-text-color: $DMG01;
 
 // Borders
-$border-color: $DMG10;
-$table-border-color: $DMG11;
-$hr-border-color: $DMG11;
+$border-color: $DMG01;
+$table-border-color: $DMG00;
+$hr-border-color: $DMG01;
 
 @import "{{ site.theme }}";
