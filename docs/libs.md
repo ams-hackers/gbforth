@@ -11,6 +11,7 @@
 - [sfx.fs](./libs/sfx.md)
 - [term.fs](./libs/term.md)
 - [tester.fs](./libs/tester.md)
+- [time.fs](./libs/time.md)
 
 > Todo:
 >
