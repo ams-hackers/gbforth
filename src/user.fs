@@ -186,6 +186,7 @@ latestxt F_IMMEDIATE create-xname ;
   parse-next-name create-constant ;
 
 : variable create $2 allot ;
+: 2variable create $4 allot ;
 
 : @ rom@ ;
 : c@ romc@ ;

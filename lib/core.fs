@@ -569,6 +569,8 @@ end-code
 
 :m defer create cell allot does> @ execute ;
 
+:m 2constant create , , DOES> 2@ ;
+
 \ HACK: As s", define two versions of the word to deal with the
 \ USER/CROSS discrepancies.
 :m [char]
