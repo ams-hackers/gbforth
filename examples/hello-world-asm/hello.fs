@@ -51,7 +51,7 @@ SCRN_VX_B SCRN_VY_B * # bc ld,
 mem_SetVRAM call,
 
 [host]
-: %Title s" Hello World !" ;
+s" Hello World !" 2CONSTANT %Title
 [target]
 
 there> hl ld, named-ref> >Title
@@ -66,9 +66,8 @@ halt,
 nop,
 <there jr,
 
-( HACK: Don't use gbforth internals here )
 >Title
-[host] %title [target] mem,
+%Title mem,
 
 nop,
 
