@@ -2,6 +2,9 @@
 
 require ./cartridge.fs
 
+:m zeroes, ( n -- )
+  0 [host] DO [target] 0 c, [host] LOOP [target] ;
+
 [asm]
 
 $0000 ==>       ( restart $0000 address )
@@ -27,10 +30,10 @@ $0100 ==> ( entry point [$0100-$0103] emitted by `main:` )
 ( start header [$0104-$014F] )
 
 $0104 ==> boot-logo,                ( boot logo )
-$0134 ==>                           ( title )
-$013F ==>                           ( manufacturer code )
+$0134 ==> #15 zeroes,               ( title )
+$013F ==> #4 zeroes,                ( manufacturer code, overwrites title )
 $0143 ==> CGB_INCOMPATIBLE c,       ( color GB function support )
-$0144 ==>                           ( maker code )
+$0144 ==> #2 zeroes,                ( maker code )
 $0146 ==> SGB_DISABLED c,           ( gb 00 or super gameboy 03 )
 $0147 ==> CART_TYPE_ROM c,          ( cartridge type - rom only )
 $0148 ==> ROM_SIZE_32KBYTE c,       ( rom size )

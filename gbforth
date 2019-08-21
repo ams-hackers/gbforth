@@ -64,7 +64,9 @@ require ./src/user.fs
   then
 
   --no-header invert if
-    ROM s" ./lib/header.fs" included RAM
+    ROM
+    s" ./lib/header.fs" included
+    RAM
   then
 
   input-file included
