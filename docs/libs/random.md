@@ -32,3 +32,11 @@ Generate a random number between 0 and _n_ (exclusive).
 ##### `rnd` _( -- n )_
 
 Generate a random number.
+
+##### `shuffle` _( a-addr u -- )_
+
+Shuffles _u_ cells starting from _a-addr_.
+
+##### `cshuffle` _( c-addr u -- )_
+
+Shuffles _u_ chars starting from _c-addr_.
