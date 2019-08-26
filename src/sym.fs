@@ -2,7 +2,7 @@ require ./utils/bytes.fs
 require ./utils/strings.fs
 
 : to-symbol-file ( c-addr u -- c-addr' u' )
-  sans-extname s" .sym" append-string ;
+  s" .sym" replace-ext ;
 
 0 Value sym-out
 
@@ -42,5 +42,5 @@ require ./utils/strings.fs
   addr-to-str   sym-write
   s"  "         sym-write
   ( c-addr u )  sym-write
-  sym-cr 
+  sym-cr
 ;

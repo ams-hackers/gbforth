@@ -3,7 +3,7 @@
 CLI usage:
 
 ```sh
-gbforth [<options>] input.fs output.gb
+gbforth [<options>] input.fs [output.gb]
 ```
 
 This takes `input.fs` as source code and creates the ROM at `output.gb`.

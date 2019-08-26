@@ -1,10 +1,12 @@
+require ./utils/strings.fs
+
 ( Add lib/ to the search path of the game )
 s" GBFORTH_PATH" getenv 2constant gbforth-path
 
 : process-exit (bye) ;
 
 : usage
-  ." Usage: gbforth [<options>] input.fs output.gb" CR
+  ." Usage: gbforth [<options>] input.fs [output.gb]" CR
   CR
   ." Options:" CR
   ."   -h, --help       print usage information" CR
@@ -69,10 +71,16 @@ false Value --pad-ff
 
 [begin] process-option [while] [repeat]
 
-argc @ 3 <> [if]
+argc @ 2 <>
+argc @ 3 <> and [if]
   ' usage stderr outfile-execute
   1 process-exit
 [then]
 
 next-arg 2constant input-file
-next-arg 2constant output-file
+
+argc @ 2 = [if]
+  next-arg
+[else]
+  input-file s" .gb" replace-ext
+[then] 2constant output-file
