@@ -1,4 +1,4 @@
-require lcd.fs
+require ./lcd.fs
 
 : c!video ( c addr -- )
   lcd-wait-vblank c! ;

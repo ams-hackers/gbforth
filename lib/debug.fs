@@ -1,3 +1,4 @@
+require ./gbhw.fs
 
 : emit
   rSB c!

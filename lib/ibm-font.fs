@@ -1,9 +1,9 @@
 ( IBMPC1 8x8 Character Set Macros V1.2 )
 
-require gbhw.fs
-require memory.fs
-require lcd.fs
-require cpu.fs
+require ./gbhw.fs
+require ./memory.fs
+require ./lcd.fs
+require ./cpu.fs
 
 [host]
 

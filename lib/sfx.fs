@@ -1,4 +1,4 @@
-require gbhw.fs
+require ./gbhw.fs
 
 : beep
   $00 rNR10 c!

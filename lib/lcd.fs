@@ -1,4 +1,4 @@
-require gbhw.fs
+require ./gbhw.fs
 
 [asm]
 :m lcd-wait-vram,
