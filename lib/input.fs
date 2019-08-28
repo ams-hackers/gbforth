@@ -27,6 +27,7 @@ require ./cpu.fs
 
 \ Wait until a key is pressed and return
 : key
+  begin key-state 0= until
   begin
     \ Use irm1b to isolate the rightmost 1-bit set, disambiguating in
     \ case multiple keys are press
