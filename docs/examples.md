@@ -7,7 +7,7 @@ run the following from your terminal:
 make examples
 ```
 
-## Goto 10 [☞](https://github.com/ams-hackers/gbforth/blob/master/examples/goto10/goto10.fs)
+## 10 Print [☞](https://github.com/ams-hackers/gbforth/blob/master/examples/10-print/10-print.fs)
 
 The gbforth version of the classic BASIC one-liner
 `10 PRINT CHR$(205.5+RND(1)); : GOTO 10`. Produces a random maze-like pattern on

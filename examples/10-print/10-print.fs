@@ -1,4 +1,4 @@
-title: GOTO10
+title: 10-PRINT
 makercode: TK
 
 require gbhw.fs
