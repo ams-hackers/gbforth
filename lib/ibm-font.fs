@@ -1,31 +1,9 @@
 ( IBMPC1 8x8 Character Set Macros V1.2 )
 
-require ./gbhw.fs
-require ./memory.fs
-require ./lcd.fs
-require ./cpu.fs
-
-[host]
-
-: l:
-  parse-name
-  dup 8 <> if true abort" The tile line length is wrong!" then
-  0 swap
-  0 ?do
-    1 lshift
-    over i + c@ case
-      [char] X of 1 or endof
-      [char] . of      endof
-      true abort" Wrong character!"
-    endcase
-  loop
-  nip
-  [target] c, [host] ;
-
-[target]
+require ./tileset-mono.fs
 
 ROM
-create TileData
+create ibm-font-data
 
 l: .XXXXXX.  \ Use to be a space ?????
 l: .X....X.
@@ -2335,9 +2313,5 @@ l: ........
 
 RAM
 
-: install-font
-  disable-interrupts
-  disable-lcd
-  TileData _VRAM [ 256 8 * ]L cmovemono
-  enable-lcd
-  enable-interrupts ;
+: install-font ( -- )
+  ibm-font-data 256 install-tileset ;
