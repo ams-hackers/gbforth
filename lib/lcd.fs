@@ -21,8 +21,9 @@ code disable-lcd
 
   lcd-wait-vblank,
 
-  rLCDC # HL ld,
-  [HL] #7 # res,
+  [rLCDC] A ld,
+  A #7 # res,
+  A [rLCDC] ld,
 end-code
 
 : enable-lcd
