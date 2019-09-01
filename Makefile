@@ -24,9 +24,10 @@ all: examples
 examples: \
 	examples/hello-world-asm/hello.gb \
 	examples/hello-world/hello.gb \
-	examples/happy-birthday/happy-birthday.gb \
 	examples/sokoban/sokoban.gb \
 	examples/simon/simon.gb \
+	examples/aces-up/aces-up.gb \
+	examples/happy-birthday/happy-birthday.gb \
 	examples/10-print/10-print.gb \
 	examples/brainfuck/brainfuck.gb \
 	examples/synth/synth.gb
@@ -47,9 +48,10 @@ tests: $(TEST_OBJS)
 clean:
 	-rm -f examples/hello-world-asm/hello.gb
 	-rm -f examples/hello-world/hello.gb
-	-rm -f examples/happy-birthday/happy-birthday.gb
 	-rm -f examples/sokoban/sokoban.gb
 	-rm -f examples/simon/simon.gb
+	-rm -f examples/aces-up/aces-up.gb
+	-rm -f examples/happy-birthday/happy-birthday.gb
 	-rm -f examples/10-print/10-print.gb
 	-rm -f examples/brainfuck/brainfuck.gb
 	-rm -f examples/synth/synth.gb
