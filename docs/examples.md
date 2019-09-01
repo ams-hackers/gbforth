@@ -13,6 +13,10 @@ The gbforth version of the classic BASIC one-liner
 `10 PRINT CHR$(205.5+RND(1)); : GOTO 10`. Produces a random maze-like pattern on
 the screen.
 
+## Aces Up [☞](https://github.com/ams-hackers/gbforth/blob/master/examples/aces-up/aces-up.fs)
+
+A solitaire card game.
+
 ## Brainfuck [☞](https://github.com/ams-hackers/gbforth/blob/master/examples/brainfuck/brainfuck.fs)
 
 A Brainfuck interpreter running a program that prints _"Hello World!"_ to the
