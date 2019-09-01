@@ -20,3 +20,4 @@ For further information, visit the page of the project at
 - [Internals](./internals.md)
 - [Word Index](./words.md)
 - [Libraries](./libs.md)
+- [Contribute](./contribute.md)
