@@ -41,32 +41,26 @@ require ibm-font.fs
 require term.fs
 require input.fs
 
-\ By default, we'll allocate everything into ROM
-ROM
-
 40 Constant /maze  \ maximal maze line
+
+ROM
 
 Variable mazes   0 mazes !  \ root pointer
 Variable >maze   0 >maze !  \ current compiled maze
 
 RAM
+
 Create maze  1 cells allot /maze 25 * allot  \ current maze
-Variable soko
+Variable soko               \ player position
 
 \ score information
-Variable rocks
-Variable level#
-Variable moves
-Variable score
-ROM
 
-: init
-    0 soko !   \ player position
-    0 rocks !  \ number of rocks left
-    0 level# ! \ Current level
-    0 moves !  \ number of moves
-    0 score !  \ total number of scores
-;
+Variable rocks                \ number of rocks left
+Variable level#               \ Current level
+Variable moves                \ number of moves
+Variable score                \ total number of scores
+
+ROM
 
 :m new-maze ( n -- addr ) \ add a new level
     here mazes rot 1 [host] ?DO [target] @ [host] LOOP [target]  !
@@ -88,8 +82,8 @@ ROM
     maze dup cell+ swap @ chars ;
 
 : .score ( -- )
-    ." Lvl: " level# @ 4 .r ."  Scr: " score @ 4 .r CR
-    ." Mov: "  moves @ 4 .r ."  Rck: " rocks @ 4 .r CR ;
+    ." Lvl: " level# @ 4 .r ."  Scr: " score @ 4 .r cr
+    ." Mov: "  moves @ 4 .r ."  Rck: " rocks @ 4 .r cr ;
 
 : .maze ( -- )  \ display maze
     0 0 at-xy  .score
@@ -191,28 +185,34 @@ ROM
 	    [char] A OF  soko-up    false  ENDOF
 	    [char] C OF  soko-right false  ENDOF
 
+	    \ Game boy cursor keys!
+	    k-left   OF  soko-left  false  ENDOF
+	    k-down   OF  soko-down  false  ENDOF
+	    k-up     OF  soko-up    false  ENDOF
+	    k-right  OF  soko-right false  ENDOF
+
 	    [char] q OF  true              ENDOF
-
-        \ Game boy cursor keys!
-	    k-left  OF  soko-left  false  ENDOF
-	    k-down  OF  soko-down  false  ENDOF
-	    k-up    OF  soko-up    false  ENDOF
-	    k-right OF  soko-right false  ENDOF
-
 	false swap  ENDCASE
     UNTIL ;
 
 \ start game with "sokoban"
 
 : sokoban ( -- )
-    init
     page 1 level IF  play-loop ." Game finished!"  THEN ;
 
+: init-variables
+    0 soko !
+    0 rocks !
+    0 level# !
+    0 moves !
+    0 score ! ;
+
 : main
-  install-font
-  init-term
-  init-input
-  sokoban ;
+    install-font
+    init-term
+    init-input
+    init-variables
+    sokoban ;
 
 001 new-maze
 m:     #####
