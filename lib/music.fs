@@ -71,12 +71,12 @@
 #2013 constant A#8 \ MIDI 106  - 3729.3   Hz
 #2015 constant B8  \ MIDI 107  - 3951.1   Hz
 
-: split-note-freq ( freq -- lsb msb )
+: split-note-freq ( u -- c1 c2 )
   dup
   %11100000000 and 8 rshift swap
   %00011111111 and ;
 
-: note ( freq -- )
+: note ( u -- )
   split-note-freq
   %00000000 rNR10 c!
   %10000000 rNR11 c!

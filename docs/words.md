@@ -87,11 +87,11 @@ the kernel overwrites this to point to the gbforth prelude by default.
 Parses the rest of the line and sets the cartridge Maker Code. Maximum 4
 characters (overwrites the last characters from the title).
 
-##### `mem,` _( addr u -- )_
+##### `mem,` _( c-addr u -- )_
 
-Compiles the _host_ memory starting at `addr` with length `u` to the target ROM.
+Compiles the _host_ memory starting at `c-addr` with length `u` to the target ROM.
 
-##### `parse` _( c -- addr u )_
+##### `parse` _( c -- c-addr u )_
 
 Parses a string delimited by character `c`, stores it in the ROM, and pushes the
 address and length of the compiled string to the stack.

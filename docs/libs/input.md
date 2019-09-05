@@ -15,13 +15,13 @@ require input.fs
 
 ## Word Index
 
-##### `key` _( -- n )_
+##### `key` _( -- c )_
 
 Wait for a key press and return the keycode.
 
-##### `key-state` _( -- n )_
+##### `key-state` _( -- c )_
 
-Return the keycode of the currently pressed key, or `0` when no key is pressed.
+Return the keycode of the currently pressed keys, or `0` when no keys are pressed.
 
 ## constants
 

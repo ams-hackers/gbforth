@@ -18,7 +18,7 @@ variable pad-pointer
 : <#
   pad-end pad-pointer ! ;
 
-: hold ( char -- )
+: hold ( c -- )
   -1 pad-pointer +!
   pad-pointer @ c! ;
 
@@ -28,7 +28,7 @@ variable pad-pointer
 : # ( n1 -- n2 )
   10 /mod swap digit>ascii hold ;
 
-: #s ( n1 -- 0 )
+: #s ( n -- 0 )
   begin # dup 0= until ;
 
 : #> ( n -- )

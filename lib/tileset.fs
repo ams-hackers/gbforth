@@ -8,8 +8,8 @@ require ./cpu.fs
 variable tilebyte1
 variable tilebyte2
 
-: or! ( n addr -- ) dup @ rot or swap ! ;
-: 2*! ( addr -- )   dup @     2* swap ! ;
+: or! ( n a-addr -- ) dup @ rot or swap ! ;
+: 2*! ( a-addr -- )   dup @     2* swap ! ;
 
 \ Define a line for a 1-bit (2 colours) tile:
 \ Palette 0: `.`
@@ -39,7 +39,7 @@ variable tilebyte2
 [target]
 
 \ copy a tileset
-: install-tileset ( c-addr n -- )
+: install-tileset ( c-addr u -- )
   disable-interrupts
   disable-lcd
   16 * _VRAM swap cmove

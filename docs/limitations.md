@@ -54,7 +54,7 @@ CREATE message s" Hello World" mem,
 But in gbforth you'll need to do:
 
 ```forth
-\ already correctly placed, simply drop ( addr u )
+\ already correctly placed, simply drop ( c-addr u )
 CREATE message s" Hello World" 2drop
 ```
 
@@ -64,7 +64,7 @@ When writing to memory at compile-time, you are usually dealing with the ROM.
 If you need to access the host memory instead, you need to explicitly specify
 this using the word `[host]` (and `[target]` to return).
 
-One exception is the (non-standard) word `mem,` ( addr u -- ), which takes data
+One exception is the (non-standard) word `mem,` ( c-addr u -- ), which takes data
 from the host memory and compiles it to the dictionary pointer. The reasoning
 behind this is that this is convenient (and something you'll often need), and
 it's unlikely that you'd want to duplicate data in the ROM (with limited space).

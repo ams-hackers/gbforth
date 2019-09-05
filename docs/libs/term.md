@@ -32,13 +32,13 @@ Prints the number _n1_ to the screen, using at least _n2_ positions.
 Reads the string up to the first `"` character, and prints the string to the
 screen.
 
-##### `?` _( addr -- )_
+##### `?` _( c-addr -- )_
 
-Prints the value at _addr_ to the screen.
+Prints the value at _c-addr_ to the screen.
 
-##### `at-xy` _( x y -- )_
+##### `at-xy` _( u1 u2 -- )_
 
-Sets the cursor position to the given coordinates.
+Moves the cursor to column _u1_ and row _u2_.
 
 ##### `cr` _( -- )_
 
@@ -56,14 +56,14 @@ Clears the entire screen.
 
 Prints a single space to the screen.
 
-##### `spaces` _( n -- )_
+##### `spaces` _( u -- )_
 
-Prints _n_ spaces to the screen.
+Prints _u_ spaces to the screen.
 
-##### `type` _( addr c -- )_
+##### `type` _( c-addr u -- )_
 
-Prints the string starting from _addr_ with length _c_ to the screen.
+Prints the string starting from _c-addr_ with length _u_ to the screen.
 
-##### `typewhite` _( addr c -- )_
+##### `typewhite` _( c-addr u -- )_
 
-Prints _c_ spaces to the screen.
+Prints _u_ spaces to the screen.

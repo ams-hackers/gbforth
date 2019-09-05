@@ -11,7 +11,7 @@ variable cursor-y
   SCRN_VY_B cursor-y @ *
   + ;
 
-: at-xy ( x y -- )
+: at-xy ( u1 u2 -- )
   cursor-y !
   cursor-x ! ;
 
@@ -20,7 +20,7 @@ variable cursor-y
   _SCRN0 [ SCRN_VX_B SCRN_VY_B * ]L blank
   0 0 at-xy ;
 
-: form ( -- h w ) SCRN_Y_B SCRN_X_B ;
+: form ( -- u1 u2 ) SCRN_Y_B SCRN_X_B ;
 
 : cr
   0 cursor-x !
@@ -37,7 +37,7 @@ variable cursor-y
 : space bl emit ;
 : spaces 0 ?do space loop ;
 
-: type ( addr u -- )
+: type ( c-addr u -- )
   tuck
   cursor-addr swap cmovevideo
   cursor-x +! ;

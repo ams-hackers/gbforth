@@ -89,20 +89,20 @@ variable leave-count 0 leave-sp !
   leave-push
 ; immediate
 
-: different-sign? ( n1 n2 -- flag )
+: different-sign? ( n1 n2 -- f )
   $8000 and swap
   $8000 and xor ;
 
 \ The standard mandates that the loop will finish when the index
 \ crosses the limit between N-1 and N. Equivalently, to say, I-N and
 \ I+u-N must have different sign bit
-: +loop-index-next ( u I N -- flag I+u )
+: +loop-index-next ( u I N -- f I+u )
 
   >r                ( u I           R: N )
   tuck + tuck       ( I+u I I+u     R: N )
   swap r@ -
   swap r> -         ( I+u I-N I+u-N )
-  different-sign?   ( I+u flag -- )
+  different-sign?   ( I+u f -- )
   swap ;
 
 

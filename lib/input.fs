@@ -18,7 +18,7 @@ require ./cpu.fs
 
 : P10-P13 rP1 c@ invert %1111 and ;
 
-: key-state
+: key-state ( -- c )
   P14 wait P10-P13
   P15 wait P10-P13 4 lshift or
   \ Ensure that any key will trigger an interruption, so it will
@@ -26,7 +26,7 @@ require ./cpu.fs
   reset-P14-15 ;
 
 \ Wait until a key is pressed and return
-: key
+: key ( -- c )
   begin key-state 0= until
   begin
     \ Use irm1b to isolate the rightmost 1-bit set, disambiguating in
@@ -43,9 +43,9 @@ PADF_LEFT   constant k-left
 PADF_UP     constant k-up
 PADF_DOWN   constant k-down
 
-: enable-interrupt-flags ( u -- )
+: enable-interrupt-flags ( c -- )
   0 rIF c!
   rIE c@ or rIE c! ;
 
-: init-input
+: init-input ( -- )
   IEF_HILO enable-interrupt-flags ;

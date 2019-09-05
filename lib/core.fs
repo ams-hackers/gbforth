@@ -52,23 +52,23 @@ code drop
 ps-drop,
 end-code
 
-( a b -- b a )
+( x1 x2 -- x1 x2 )
 code swap
 ps-swap,
 end-code
 
-( a b -- b )
+( x1 x2 -- x2 )
 code nip
 C inc,
 C inc,
 end-code
 
-( a b -- a b a )
+( x1 x2 -- x1 x2 x1 )
 code over
 ps-over,
 end-code
 
-( a b -- b a b )
+( x1 x2 -- x2 x1 x2 )
 code tuck
 ps-swap,
 ps-over,
@@ -78,13 +78,13 @@ end-code
   ***** Arithmetic *****
 )
 
-( a b -- c )
+( n1 n2 -- n )
 code +
 ps-over-de-nip,
 DE HL add,
 end-code
 
-( a b -- c )
+( n1 n2 -- n )
 code -
 ps-pop-de,
 L A ld,
@@ -95,7 +95,7 @@ D A sbc,
 A H ld,
 end-code
 
-code * ( a b -- c )
+code * ( n1 n2 -- n )
 ps-over-de-nip,
 BC push,
 H B ld,
@@ -117,7 +117,7 @@ BC pop,
 \ ps-push-de, ( DE contains higher 2 bytes of result )
 end-code
 
-( n1 n2 -- n3 )
+( n1 n2 -- n )
 code /
   ps-pop-de,      \ dividend to HL, divisor to DE
   BC push,        \ store SP
@@ -126,7 +126,7 @@ code /
   BC pop,         \ restore SP
 end-code
 
-( n1 n2 -- n3 )
+( n1 n2 -- n )
 code mod
   ps-pop-de,  \ dividend to HL, modulus to DE
   BC push,
@@ -146,14 +146,14 @@ code /mod
 end-code
 
 
-( x -- x )
+( n1 -- n2 )
 code 1+
 \ avoid using inc, because of OAM bug
 $1 # DE ld,
 DE HL add,
 end-code
 
-( x -- x )
+( n1 -- n2 )
 code 1-
 \ avoid uising dec, because of OAM bug
 L A ld, $1 # A sub, A L ld,
@@ -164,28 +164,28 @@ end-code
   ***** Bitwise Operations *****
 )
 
-( a b -- c )
+( x1 x2 -- x )
 code and
 ps-over-de-nip,
 H A ld, D A and, A H ld,
 L A ld, E A and, A L ld,
 end-code
 
-( a b -- c )
+( x1 x2 -- x )
 code or
 ps-over-de-nip,
 H A ld, D A or, A H ld,
 L A ld, E A or, A L ld,
 end-code
 
-( a b -- c )
+( x1 x2 -- x )
 code xor
 ps-over-de-nip,
 H A ld, D A xor, A H ld,
 L A ld, E A xor, A L ld,
 end-code
 
-( a n -- b )
+( u1 n -- u2 )
 code lshift
 ps-pop-de,
 begin,
@@ -196,7 +196,7 @@ begin,
 repeat,
 -end-code
 
-( a n -- b )
+( u1 n -- u2 )
 code rshift
 ps-pop-de,
 begin,
@@ -208,12 +208,12 @@ begin,
 repeat,
 -end-code
 
-( x -- x )
+( n1 -- n2 )
 code 2*
 HL HL add,
 end-code
 
-( x -- x )
+( n1 -- n2 )
 code 2/
 H sra,
 L rr,
@@ -223,7 +223,7 @@ end-code
   ***** Numeric Comparison *****
 )
 
-( x y -- f )
+( u1 u2 -- f )
 code u<
 ps-over-ae-nip, \ x -> ae
 H A cp, \ compare higher byte
@@ -237,7 +237,7 @@ else,
 then,
 end-code
 
-( x y -- f )
+( u1 u2 -- f )
 code u>
 ps-over-ae-nip, \ x -> ae
 H A cp, \ compare higher byte
@@ -255,7 +255,7 @@ then, \ x>y
 true->HL,
 end-code
 
-( x y -- f )
+( n1 n2 -- f )
 code =
 ps-over-ae-nip, \ x -> ae
 \ compare higher byte
@@ -322,14 +322,14 @@ E [HL] ld,
 ps-drop,
 end-code
 
-( c-addr -- x )
+( a-addr -- x )
 code @
 [HL+] A ld,
 [HL] H ld,
 A L ld,
 end-code
 
-( x c-addr -- )
+( x a-addr -- )
 code !
 ps-over-de-nip,
 E A ld, A [HL+] ld,
@@ -337,7 +337,7 @@ D [HL] ld,
 ps-drop,
 end-code
 
-( n c-addr -- )
+( n a-addr -- )
 code +!
 [HL+] A ld, A E ld,
 [HL] A ld, A D ld,
@@ -358,22 +358,22 @@ include ../shared/dictionary.fs
 : unused ( -- n )
   usable-dictionary-end here - ;
 
-: char+ ( x -- x )
+: char+ ( c-addr1 -- c-addr2 )
   1+ ;
 
-: chars ( x -- x )
+: chars ( n1 -- n2 )
   ( 1 * ) ;
 
-: cell+ ( x -- x )
+: cell+ ( a-addr1 -- a-addr2 )
   cell + ;
 
-: cells ( x -- x )
+: cells ( n1 -- n2 )
   cell * ;
 
-( c-addr -- x1 x2 )
+( a-addr -- x2 x2 )
 : 2@ dup cell+ @ swap @ ;
 
-( x1 x2 c-addr -- )
+( x1 x2 a-addr -- )
 : 2! swap over ! cell+ ! ;
 
 
@@ -381,7 +381,7 @@ include ../shared/dictionary.fs
   here !
   cell allot ;
 
-: c, ( x -- )
+: c, ( c -- )
   here c!
   #1 allot ;
 
@@ -530,31 +530,31 @@ D H ld,
 E L ld,
 end-code
 
-: rot ( a b c -- b c a )
+: rot ( x1 x2 x3 -- x2 x3 x1 )
   >r swap r> swap ;
 
-: -rot ( a b c -- c a b )
+: -rot ( x1 x2 x3 -- x3 x1 x2 )
   swap >r swap r> ;
 
-: 2dup ( a b -- a b a b )
+: 2dup ( x1 x2 -- x1 x2 x1 x2 )
   over over ;
 
-: 2drop ( x x -- )
+: 2drop ( x1 x2 -- )
   drop drop ;
 
-: 2nip ( a b c d -- c d )
+: 2nip ( x1 x2 x3 x4 -- x3 x4 )
   >r >r drop drop r> r> ;
 
-: 2over ( a b c d -- a b c d a b )
+: 2over ( x1 x2 x3 x4 -- x1 x2 x3 x4 x1 x2 )
   >r >r over over r> -rot r> -rot ;
 
-: 2swap ( a b c d -- c d a b )
+: 2swap ( x1 x2 x3 x4 -- x3 x4 x1 x2 )
   >r -rot r> -rot ;
 
-: 2rot ( a b c d e f -- c d e f a b )
+: 2rot ( x1 x2 x3 x4 x5 x6 -- x3 x4 x5 x6 x1 x2 )
   >r >r >r -rot r> -rot r> -rot r> -rot ;
 
-: 2tuck ( a b c d -- c d a b c d )
+: 2tuck ( x1 x2 x3 x4 -- x3 x4 x1 x2 x3 x4 )
   >r dup >r -rot r> r> swap >r dup >r -rot r> r> swap ;
 
 : 0= 0 = ;
@@ -601,18 +601,18 @@ require ./core/basic-loops.fs
 require ./core/counted-loops.fs
 require ./core/case.fs
 
-( a b -- c )
+( n1 n2 -- n )
 : max
   over over >
   if drop else nip then ;
 
-( a b -- c )
+( n1 n2 -- n )
 : min
   over over <
   if drop else nip then ;
 
 \ Taken from the standard
-: within  ( test low high -- flag )
+: within  ( u1 u2 u3 -- flag )
   over - >r - r> u< ;
 
 : count ( c-addr1 -- c-addr2 u )

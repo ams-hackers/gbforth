@@ -26,7 +26,7 @@ require ./cpu.fs
 [target]
 
 \ copy a monochromatic tileset
-: install-tileset ( c-addr n -- )
+: install-tileset ( c-addr u -- )
   disable-interrupts
   disable-lcd
   8 * _VRAM swap cmovemono
