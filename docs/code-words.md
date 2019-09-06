@@ -13,7 +13,6 @@ You can define new code words using the `code` and `end-code` word. For example,
 code c@
   [HL] L ld,  \ HL register contains TOS
   $0 # H ld,  \ clear the higher byte
-  ret,
 end-code
 ```
 
