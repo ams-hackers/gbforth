@@ -10,6 +10,7 @@ For further information, visit the page of the project at
 
 - [Installation instructions](./setup.md)
 - [Command Line Interface](./cli.md)
+- [Examples](./examples.md)
 - [Meta Programming](./meta.md)
 - [Contexts](./contexts.md)
 - [Run-time Limitations](./limitations.md)
