@@ -19,6 +19,7 @@ For further information, visit the page of the project at
 - [Code Words](./code-words.md)
 - [Kernel](./kernel.md)
 - [Internals](./internals.md)
+- [Stack Effects](./stack-effects.md)
 - [Word Index](./words.md)
 - [Libraries](./libs.md)
 - [Contribute](./contribute.md)
