@@ -1,27 +1,22 @@
 title: 10-PRINT
-makercode: TK
 
 require gbhw.fs
 require random.fs
 require term.fs
-require ibm-font.fs
+require ./petscii.fs
 
-: random-line
-  2 random IF
-    [char] /
-  ELSE
-    [char] \
-  THEN ;
+: print 205 2 random + emit ;
 
 : main
-  install-font
   init-term
+  _SCRN0 [ SCRN_VX_B SCRN_VY_B * ]L erase
+  install-petscii
   1234 seed !
   BEGIN
     0 0 at-xy
     SCRN_Y_B 0 DO
       SCRN_X_B 0 DO
-        random-line emit
+        print
       LOOP cr
     LOOP
   AGAIN ;
