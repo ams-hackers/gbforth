@@ -1,4 +1,4 @@
-# random.fs (lib)
+# random.fs (lib) [☞](https://github.com/ams-hackers/gbforth/blob/master/lib/random.fs)
 
 The `random.fs` library contains very basic xorshift random number generator (RNG).
 

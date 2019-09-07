@@ -1,4 +1,4 @@
-# term.fs (lib)
+# term.fs (lib) [☞](https://github.com/ams-hackers/gbforth/blob/master/lib/term.fs)
 
 The `term.fs` library helps you emulate a terminal on the screen.
 

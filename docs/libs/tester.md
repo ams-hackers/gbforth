@@ -1,4 +1,4 @@
-# tester.fs (lib)
+# tester.fs (lib) [☞](https://github.com/ams-hackers/gbforth/blob/master/lib/tester.fs)
 
 The `tester.fs` library helps you write test assertions.
 

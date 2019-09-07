@@ -1,4 +1,4 @@
-# gbhw.fs (lib)
+# gbhw.fs (lib) [☞](https://github.com/ams-hackers/gbforth/blob/master/lib/gbhw.fs)
 
 The `gbhw.fs` library contains data to help using the Game Boy hardware.
 

@@ -1,4 +1,4 @@
-# input.fs (lib)
+# input.fs (lib) [☞](https://github.com/ams-hackers/gbforth/blob/master/lib/input.fs)
 
 The `input.fs` library contains words to read key input.
 

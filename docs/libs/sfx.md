@@ -1,4 +1,4 @@
-# sfx.fs (lib)
+# sfx.fs (lib) [☞](https://github.com/ams-hackers/gbforth/blob/master/lib/sfx.fs)
 
 The `sfx.fs` library contains a few basic sound effect presets.
 

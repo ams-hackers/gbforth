@@ -1,4 +1,4 @@
-# time.fs (lib)
+# time.fs (lib) [☞](https://github.com/ams-hackers/gbforth/blob/master/lib/time.fs)
 
 The `time.fs` library contains (very inaccurate) words that help keep track of time.
 
