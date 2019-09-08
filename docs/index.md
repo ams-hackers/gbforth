@@ -12,6 +12,7 @@ For further information, visit the page of the project at
 - [Command Line Interface](./cli.md)
 - [Forth Crash Course](./forth-crash-course.md)
 - [Hello World](./hello-world.md)
+- [Your First Game](./your-first-game.md)
 
 ## Advanced Topics
 
