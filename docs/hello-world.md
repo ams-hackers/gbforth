@@ -17,13 +17,6 @@ To start simple, you can define an empty `main` word:
 : main ;
 ```
 
-If you are unfamiliar with Forth, here's a break-down of this code:
-
-- `:` indicates that we want to define a new word (a _colon definition_)
-- `main` is the name of this new word
-- Following words make up the body of the definition (in our case it's empty)
-- `;` indicates the end of the definition
-
 This is the most minimal program we can write. To compile it from your terminal:
 
 ```sh
