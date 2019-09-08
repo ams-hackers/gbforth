@@ -10,7 +10,7 @@ For further information, visit the page of the project at
 
 - [Installation instructions](./setup.md)
 - [Command Line Interface](./cli.md)
-- [Examples](./examples.md)
+- [Forth Crash Course](./forth-crash-course.md)
 - [Hello World](./hello-world.md)
 
 ## Advanced Topics
@@ -26,6 +26,7 @@ For further information, visit the page of the project at
 
 ## Reference
 
+- [Examples](./examples.md)
 - [Stack Effects](./stack-effects.md)
 - [Word Index](./words.md)
 - [Libraries](./libs.md)
