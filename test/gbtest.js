@@ -56,6 +56,19 @@ module.exports = filename => {
       }
     },
 
+    input(code) {
+      gameboy._joypad.keyDown(code);
+    },
+
+    K_LEFT: 37,
+    K_UP: 38,
+    K_RIGHT: 39,
+    K_DOWN: 40,
+    K_A: 90,
+    K_B: 88,
+    K_START: 13,
+    K_SELECT: 16,
+
     saveFrame(filename) {
       fs.writeFileSync(filename, frame);
     },
