@@ -33,12 +33,12 @@ examples: \
 
 examples/hello-world-asm/hello.gb: examples/hello-world-asm/hello.fs examples/hello-world-asm/*.fs $(SOURCE_FILES) $(LIB_FILES)
 	$(GBFORTH) --no-kernel $< $@
-	@cd examples/hello-world-asm/ && shasum -c hello.gb.sha
 
 #
 # Tests
 #
 check: tests examples
+	@cd examples/hello-world-asm/ && shasum -c hello.gb.sha
 	gforth src/asm.spec.fs -e bye
 	( cd test/; yarn test )
 
