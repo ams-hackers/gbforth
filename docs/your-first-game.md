@@ -346,22 +346,22 @@ code to a note. It's a bit similar to the `.key` word we wrote earlier:
 ```fs
 : key>note ( c -- n )
   CASE
-    k-up    OF C#5 exit ENDOF
-    k-down  OF E5  exit ENDOF
-    k-right OF A5  exit ENDOF
-    k-left  OF E6  exit ENDOF
-  ENDCASE
-  G3 ;
+    k-up    OF C#5 ENDOF
+    k-down  OF E5  ENDOF
+    k-right OF A5  ENDOF
+    k-left  OF E6  ENDOF
+               G3
+  ENDCASE ;
 ```
 
 In this word we are mapping from key code (`k-up`...`k-left`) to a note, making
 sure that the keys are corresponding to the correct character codes we used in
 `.key`.
 
-We are also using `exit` here to return from the word once a match is found. We
-do this because we want to return a different note if the player presses a key
-that is not one of the joy pad keys. In this case `G3`, which is not a note that
-can occur in the generated pattern (so this is always considered incorrect).
+We are also adding an extra note at the end of our 4 `OF`...`ENDOF` cases. We do
+this because we want to return a different note if the player presses a key that
+is not one of the joy pad keys. In this case `G3`, which is not a note that can
+occur in the generated pattern (so this is always considered incorrect).
 
 Let's define a new word to repeatedly checks for player input, and play the
 corresponding note:
@@ -444,12 +444,12 @@ CREATE pattern
 
 : key>note ( c -- n )
   CASE
-    k-up    OF C#5 exit ENDOF
-    k-down  OF E5  exit ENDOF
-    k-right OF A5  exit ENDOF
-    k-left  OF E6  exit ENDOF
-  ENDCASE
-  G3 ;
+    k-up    OF C#5 ENDOF
+    k-down  OF E5  ENDOF
+    k-right OF A5  ENDOF
+    k-left  OF E6  ENDOF
+               G3
+  ENDCASE ;
 
 : prompt-pattern ( -- )
   10 0 ?DO
@@ -595,12 +595,12 @@ CREATE pattern
 
 : key>note ( c -- n )
   CASE
-    k-up    OF C#5 exit ENDOF
-    k-down  OF E5  exit ENDOF
-    k-right OF A5  exit ENDOF
-    k-left  OF E6  exit ENDOF
-  ENDCASE
-  G3 ;
+    k-up    OF C#5 ENDOF
+    k-down  OF E5  ENDOF
+    k-right OF A5  ENDOF
+    k-left  OF E6  ENDOF
+               G3
+  ENDCASE ;
 
 : prompt-pattern ( u -- )
   0 ?DO
