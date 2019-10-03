@@ -218,6 +218,7 @@ include ../shared/core.fs
 : ] x] ;
 : ]L xliteral x] ;
 : :noname x:noname ;
+: alias xalias ;
 
 : : x: ;
 

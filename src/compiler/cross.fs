@@ -172,7 +172,7 @@ create user-name 128 chars allot
     ir 0 create-xname
     type WORD_NONAME = if
       xlatest xname>addr
-    then    
+    then
   then
 ;
 
@@ -185,6 +185,10 @@ create user-name 128 chars allot
   WORD_NAMED
   parse-user-name
   create-word ;
+
+: xalias ( addr -- )
+  ( addr ) make-ir tuck ir-addr !
+  parse-user-name nextname ( ir ) 0 create-xname ;
 
 : xdoes:
   WORD_DOES
