@@ -91,6 +91,14 @@ characters (overwrites the last characters from the title).
 
 Compiles the _host_ memory starting at `c-addr` with length `u` to the target ROM.
 
+##### `mem>` _( -- x )_
+
+Fetches the currently selected memory space to restore it later. Use in combination with `>mem`.
+
+##### `>mem` _( x -- )_
+
+Restores the selected memory space that you retrieved earlier. Use in combination with `mem>`.
+
 ##### `parse` _( c -- c-addr u )_
 
 Parses a string delimited by character `c`, stores it in the ROM, and pushes the

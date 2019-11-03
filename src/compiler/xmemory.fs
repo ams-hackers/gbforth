@@ -9,6 +9,9 @@ variable memspace
 : ROM 0 memspace ! ;
 : RAM -1 memspace ! ;
 
+: MEM> memspace @ ;
+: >MEM memspace ! ;
+
 \ Default to RAM
 RAM
 

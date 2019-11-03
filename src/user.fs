@@ -120,6 +120,8 @@ export 0branch,
 
 export rom
 export ram
+export mem>
+export >mem
 
 export char
 
