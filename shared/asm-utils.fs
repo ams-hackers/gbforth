@@ -24,11 +24,14 @@
 : D|E->A,
   D A ld, E A or, ;
 
-: ps-dup,
-  C dec,
+: ps-dup-after-dec-c,
   H ->A-> [C] ld,
   C dec,
   L ->A-> [C] ld, ;
+
+: ps-dup,
+  C dec,
+  ps-dup-after-dec-c, ;
 
 ( DE to the second element of the stack )
 : ps-tuck-de,
@@ -53,16 +56,17 @@
   [C] A ld,
   C inc, ;
 
-: ps-over-de-nip,
+: ps-over-de-nip-dec-c,
   [C] ->A-> E ld,
   C inc,
-  [C] ->A-> D ld,
+  [C] ->A-> D ld, ;
+
+: ps-over-de-nip,
+  ps-over-de-nip-dec-c,
   C inc, ;
 
 : ps-over-de,
-  [C] ->A-> E ld,
-  C inc,
-  [C] ->A-> D ld,
+  ps-over-de-nip-dec-c,
   C dec, ;
 
 : ps-push-de,
@@ -70,8 +74,9 @@
   DE->HL, ;
 
 : ps-swap,
-  ps-over-de-nip,
-  ps-push-de, ;
+  ps-over-de-nip-dec-c,
+  ps-dup-after-dec-c,
+  DE->HL, ;
 
 : ps-over,
   ps-over-de,
