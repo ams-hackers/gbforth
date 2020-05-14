@@ -1,5 +1,11 @@
 SHELL := /bin/bash
 
+ifneq (, $(shell which sha1sum))
+SHA1 ?= sha1sum
+else ifneq (, $(shell which shasum))
+SHA1 ?= shasum
+endif
+
 export GBFORTH_PATH := $(shell pwd)/lib
 
 LIB_FILES=lib/*.fs lib/core/*.fs
@@ -39,7 +45,7 @@ examples/hello-world-asm/hello.gb: examples/hello-world-asm/hello.fs examples/he
 # Tests
 #
 check: tests examples
-	@cd examples/hello-world-asm/ && shasum -c hello.gb.sha
+	@cd examples/hello-world-asm/ && $(SHA1) -c hello.gb.sha
 	gforth src/asm.spec.fs -e bye
 	( cd test/; yarn test )
 
