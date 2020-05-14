@@ -36,7 +36,7 @@ constant previous-wid
 
 
 ( You can override this vectored words in order to customize where the
-( assembler will write its output )
+  assembler will write its output )
 
 defer emit ( value -- )
 defer offset ( -- offset )
@@ -232,7 +232,7 @@ end-types
 
 : there>
   ( This word doesn't know the proper offset yet, so it won't emit the
-  ( forward reference. See `emit-addr` and `emit-rel-addr` instead. )
+    forward reference. See `emit-addr` and `emit-rel-addr` instead. )
   0 ~nn ~forward-reference | push-arg ;
 
 : patch-ref ( ref1 ref2 offset -- )
@@ -413,7 +413,7 @@ instruction add,
   ~n    ~A  ~~> %11 %000 %110 op, n,    2 cycles ::
   ~(HL) ~A  ~~> %10 %000 %110 op,       2 cycles ::
   ~ss   ~HL ~~> %00 ss1  %001 op,       2 cycles ::
-  ~e    ~SP ~~> %11 %101 %000 op, e,    4 cycles ::
+  ~e    ~SP ~~> %11 %101 %000 op, e_,   4 cycles ::
 end-instruction
 
 instruction and,
