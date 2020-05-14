@@ -100,36 +100,55 @@
   C ->A-> cpl, A C ld,
   BC inc, ;
 
-
 \ Divide unsigned HL by DE.
 \   - Quotient is put into BC
-\   - Remainder into HL 
+\   - Remainder into HL
+\   - DE is negated
+\ Based on https://wikiti.brandonw.net/index.php?title=Z80_Routines:Math:Division#16.2F16_division
 : HL+/DE+,
-  #0 # BC ld,
-  begin, \ HL -= DE
-    L A ld, E A sub, A L ld,
-    H A ld, D A sbc, A H ld,
-  #NC while, \ remainder <0 ? done!
-    BC inc,
-  repeat,
-  DE HL add, ;
+  negate-DE,
+
+  H A ld,
+  L C ld,
+  0 # HL ld,
+  16 # B ld,
+  \ During the loop, the high B+16 bits of HLAC form what starts as the divisor
+  \ and becomes the remainder. The low 16-B bits of AC are the quotient so far.
+  begin,
+    \ Shift in another bit
+    C sla,
+    rla,
+    L rl,
+    H rl,
+
+    \ Try to subtract the divisor
+    HL push,
+    DE HL add,
+    \ This condition is written #NC first to make the cycle count less varied.
+    \ Coincidentally, this makes the division constant-time.
+    #NC if,
+      HL pop,
+    else,
+      \ Subtracted successfully
+      2 # SP add,
+      C inc,
+    then,
+
+    B dec,
+  #Z until,
+  A B ld, ;
 
 : HL/DE+,
   H 7 # bit, #nz if,
     ps-negate,
     HL+/DE+,
-    \ reminder = 0
-    H|L->A, #z if,
-      negate-BC,
-    else,
-      negate-BC,
+    negate-BC,
+    \ remainder <> 0
+    H|L->A, #nz if,
       BC dec,
-      \ DE = DE[divident] - HL[reminder]
-      E A ld, L A sub, A E ld,
-      D A ld, D A sbc, A D ld,
-      \ DE -> HL
-      D H ld,
-      E L ld,
+      \ HL = dividend - HL[remainder] = -(HL + -dividend) = -(HL + DE)
+      DE HL add,
+      ps-negate,
     then,
   else,
     HL+/DE+,
@@ -139,14 +158,13 @@
 \   - Quotient is put into BC
 \   - Remainder into HL
 : HL/DE,
-  D 7 # bit, #nz if,
+  D 7 # bit, AF push, #nz if,
     negate-DE,
-    HL/DE+,    \ BC = quotient, HL = remainder
+  then,
+  HL/DE+,    \ BC = quotient, HL = remainder
+  AF pop, #nz if,
     negate-BC,
-  else,
-    HL/DE+,
   then,
 ;
-
 
 [endasm]
