@@ -1,6 +1,7 @@
 require ../rom.fs
 require ../sym.fs
 require ../utils/memory.fs
+require ../utils/errors.fs
 
 require ./ir.fs
 require ./code.fs
@@ -28,12 +29,23 @@ require ./xname.fs
 : xcompiling?
   current-node -1 <> ;
 
+make-ir constant unreachable-node
+
+: unreachable?
+  current-node unreachable-node = ;
+
 : xliteral, { n -- }
+  unreachable? if
+    s" Unreachable code" .warn-line
+  then
   current-node
   insert-node IR_NODE_LITERAL ::type n ::value
   to current-node ;
 
 : xcompile, { xname -- }
+  unreachable? if
+    s" Unreachable code" .warn-line
+  then
   current-node
   insert-node IR_NODE_CALL ::type xname ::value
   to current-node ;
@@ -203,8 +215,6 @@ create user-name 128 chars allot
 
 ( Control Flow )
 
-make-ir constant unreachable
-
 \ Create a unresolved mark.
 : @there ( -- mark )
   make-ir ;
@@ -215,7 +225,7 @@ make-ir constant unreachable
   current-node
   insert-node IR_NODE_CONTINUE ::type mark ::value
   drop
-  unreachable to current-node ;
+  unreachable-node to current-node ;
 
 \ Compile a jump to a mark if the top of the stack is zero.
 : 0branch, { mark -- }
