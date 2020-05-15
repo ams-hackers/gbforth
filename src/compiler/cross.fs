@@ -51,9 +51,11 @@ make-ir constant unreachable-node
   to current-node ;
 
 : xreturn,
-  current-node
-  insert-node IR_NODE_RET ::type
-  to current-node ;
+  unreachable? invert if
+    current-node
+    insert-node IR_NODE_RET ::type
+    to current-node
+  then ;
 
 : process-xname ( xname -- )
   dup ximmediate? if
