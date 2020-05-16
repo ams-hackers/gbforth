@@ -6,6 +6,7 @@ else ifneq (, $(shell which shasum))
 SHA1 ?= shasum
 endif
 
+GBFORTH = ./gbforth
 export GBFORTH_PATH := $(shell pwd)/lib
 
 LIB_FILES=lib/*.fs lib/core/*.fs
@@ -14,20 +15,7 @@ SOURCE_FILES=gbforth src/*.fs src/utils/*.fs src/compiler/*.fs shared/*.fs
 TEST_FILES = $(wildcard test/*.fs) $(wildcard test/*/*.fs)
 TEST_OBJS = $(subst .fs,.gb,$(TEST_FILES))
 
-GBFORTH = ./gbforth
-
-.PHONY: all examples tests
-
-# Pattern rule to build gbforth roms
-%.gb: %.fs $(SOURCE_FILES) $(LIB_FILES)
-	$(GBFORTH) --pad-ff $< $@
-
-all: examples
-
-#
-# Examples
-#
-examples: \
+EXAMPLE_OBJS = \
 	examples/hello-world-asm/hello.gb \
 	examples/hello-world/hello.gb \
 	examples/sokoban/sokoban.gb \
@@ -38,30 +26,38 @@ examples: \
 	examples/brainfuck/brainfuck.gb \
 	examples/synth/synth.gb
 
+.PHONY: all examples tests
+
+# Pattern rule to build gbforth roms
+%.gb: %.fs $(SOURCE_FILES) $(LIB_FILES)
+	$(GBFORTH) --pad-ff $< $@
+
+#
+# Examples
+#
 examples/hello-world-asm/hello.gb: examples/hello-world-asm/hello.fs examples/hello-world-asm/*.fs $(SOURCE_FILES) $(LIB_FILES)
 	$(GBFORTH) --no-kernel $< $@
+
+examples: $(EXAMPLE_OBJS)
 
 #
 # Tests
 #
+tests: $(TEST_OBJS)
+
 check: tests examples
 	@cd examples/hello-world-asm/ && $(SHA1) -c hello.gb.sha
 	gforth src/asm.spec.fs -e bye
 	( cd test/; yarn test )
 
-tests: $(TEST_OBJS)
-
+#
+# Utils
+#
 clean:
-	-rm -f examples/hello-world-asm/hello.gb
-	-rm -f examples/hello-world/hello.gb
-	-rm -f examples/sokoban/sokoban.gb
-	-rm -f examples/simon/simon.gb
-	-rm -f examples/aces-up/aces-up.gb
-	-rm -f examples/happy-birthday/happy-birthday.gb
-	-rm -f examples/10-print/10-print.gb
-	-rm -f examples/brainfuck/brainfuck.gb
-	-rm -f examples/synth/synth.gb
+	-rm -f $(EXAMPLE_OBJS)
 	-rm -f $(TEST_OBJS)
+
+all: examples
 
 #
 # Docker commands
