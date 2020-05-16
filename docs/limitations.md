@@ -51,7 +51,10 @@ might do this to store a string:
 CREATE message s" Hello World" mem,
 ```
 
-But in gbforth you'll need to do:
+But this would effectively store the same data twice, as we need to allocate the
+memory at compile time before it can be made available to the program at runtime.
+
+So in gbforth you should use:
 
 ```forth
 \ already correctly placed, simply drop ( c-addr u )
