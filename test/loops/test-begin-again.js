@@ -1,4 +1,4 @@
-const gb = require("./gbtest")(__filename);
+const gb = require("../gbtest")(__filename);
 
 test("begin...again", () => {
   gb.run({ maxCycles: 500 });
