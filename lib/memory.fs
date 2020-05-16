@@ -3,6 +3,13 @@ require ./lcd.fs
 : c!video ( c c-addr -- )
   lcd-wait-vblank c! ;
 
+code v! ( c c-addr -- )
+  lcd-wait-vram,
+  ps-over-de-nip,
+  E [HL] ld,
+  ps-drop,
+end-code
+
 code cmovemono ( c-from c-to u -- )
   [C] ->A-> E ld,  C inc,
   [C] ->A-> D ld,  C inc,
