@@ -182,6 +182,8 @@ export char
 : ; xcompiling? if x; else postpone ; then ; immediate
 latestxt F_IMMEDIATE create-xname ;
 
+export [ immediate
+
 : postpone xname' xpostpone, ; immediate
 
 : constant ( x -- )
@@ -217,8 +219,8 @@ include ../shared/core.fs
 : immediate ximmediate ;
 
 : ' x' ;
-: ] x] ;
-: ]L xliteral x] ;
+: ] xcompiling? if x] else ] then ;
+: ]L xcompiling? if xliteral x] else ]L then ;
 : :noname x:noname ;
 : alias xalias ;
 
