@@ -65,8 +65,8 @@ melody!
 
 ## 2. Generating a pattern
 
-The next step would be to generate a pattern of notes. To do this, first need to
-know how to generate a random note, so our game will not be too predictable.
+The next step would be to generate a pattern of notes. To do this, we first need
+to know how to generate a random note, so our game will not be too predictable.
 After that, we need to save the pattern somewhere so we can verify that the
 player remembers it correctly.
 
@@ -341,7 +341,7 @@ require input.fs
 
 The `init-input` word makes sure the system is ready to accept key presses,
 which we can get with the word `key`. We need to add a new word to convert a key
-code to a note. It's a bit similar to the `.key` word we wrote earlier:
+code to a note. It's a bit similar to the `.note` word we wrote earlier:
 
 ```fs
 : key>note ( c -- n )
@@ -356,14 +356,14 @@ code to a note. It's a bit similar to the `.key` word we wrote earlier:
 
 In this word we are mapping from key code (`k-up`...`k-left`) to a note, making
 sure that the keys are corresponding to the correct character codes we used in
-`.key`.
+`.note`.
 
 We are also adding an extra note at the end of our 4 `OF`...`ENDOF` cases. We do
 this because we want to return a different note if the player presses a key that
 is not one of the joy pad keys. In this case `G3`, which is not a note that can
 occur in the generated pattern (so this is always considered incorrect).
 
-Let's define a new word to repeatedly checks for player input, and play the
+Let's define a new word that repeatedly checks for player input, and plays the
 corresponding note:
 
 ```fs
