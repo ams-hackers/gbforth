@@ -224,6 +224,12 @@ include ../shared/core.fs
 : :noname x:noname ;
 : alias xalias ;
 
+: SLiteral ( addr u -- )
+  tuck rom-offset -rot
+  rommem,
+  postpone literal
+  postpone literal ; immediate
+
 : : x: ;
 
 
