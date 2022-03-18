@@ -5,18 +5,18 @@ const gb = require("../gbtest")(
 
 describe("Sokoban", () => {
   test("Shows the first maze", () => {
-    gb.steps(40);
+    gb.run();
     expect(gb.frameSha).toBe(
-      "9092f5818f750dbef06a046314fb0d457229e3c8dabaa67aadca8858399d07e2"
+      "ccc593ed7ed2d35af08774336d0d67ac3a65f20ad46f104927fb16dad9c75b13"
     );
   });
 
   test("The player moves up if UP is pressed", () => {
-    gb.steps(40);
+    gb.run();
     gb.input(gb.K_UP);
-    gb.steps(40);
+    gb.run();
     expect(gb.frameSha).toBe(
-      "fb4f0eb287561d97413ff3a6b7ac0d24404105c227e57b05291b06d25eee3e03"
+      "e6f27c478752534476b245810b7ce0c41daec0b3fb41ce3e0eb5ed31e854565d"
     );
   });
 });

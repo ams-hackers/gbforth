@@ -5,9 +5,9 @@ const gb = require("../gbtest")(
 
 describe("Brainfuck", () => {
   test('Outputs "Hello World!"', () => {
-    gb.steps(75);
+    gb.run();
     expect(gb.frameSha).toBe(
-      "a73773c2a18aa09afa0e2c78737b857fbe57ffc30cca043b66c0883e56d31a0b"
+      "61086ce6ce247baa24a1c17d0f36cf70e05fffcc0fca33d8e289b501fe93f244"
     );
   });
 });

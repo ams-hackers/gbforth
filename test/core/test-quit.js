@@ -1,6 +1,6 @@
-const gb = require("../gbtest")(__filename);
+const gb = require('../gbtest')(__filename)
 
-test("quit", () => {
-  gb.run();
-  expect(gb.stack).toEqual([42]);
-});
+test('quit', () => {
+  gb.run({ maxFrames: 10 })
+  expect(gb.stack).toEqual([42])
+})

@@ -5,9 +5,10 @@ const gb = require("../gbtest")(
 
 describe("hello-world-asm", () => {
   test('Shows "Hello World !"', () => {
-    gb.steps(10);
+    gb.run();
+    gb.run();
     expect(gb.frameSha).toBe(
-      "1dded7c5cbaaa4b94377fc76574deffb0869ee65e9b72dfafae0604304fbe365"
+      "88801720e7ad041a76a1fd21e2280b113b4cb80a9b2131b4b948fe680b577284"
     );
   });
 });

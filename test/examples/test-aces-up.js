@@ -5,18 +5,18 @@ const gb = require("../gbtest")(
 
 describe("Aces Up", () => {
   test("Shows the title screen", () => {
-    gb.steps(40);
+    gb.run();
     expect(gb.frameSha).toBe(
-      "0d75c5bd83e93944fc69dfefbffdd65b43e3818ee954b134117c096bc3806b35"
+      "9bef3f63207622052eb9943472880de3bcc9394d832268f2e7b9ef2f5416f18a"
     );
   });
 
   test("Starts the game if START is pressed", () => {
-    gb.steps(40);
+    gb.run()
     gb.input(gb.K_START);
-    gb.steps(100);
+    gb.run();
     expect(gb.frameSha).toBe(
-      "e2013e01022a8aaf6d08329c2c7ea4121e461f5cea0b5016c6146046ffa5fa2c"
+      "aed9d721f6a388a0c9840c9b4ab17f7cad7bec5bfae6ead0810d085e2bef6921"
     );
   });
 });

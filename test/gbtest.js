@@ -1,108 +1,118 @@
-const fs = require("fs");
-const Gameboy = require("node-gameboy");
-const crypto = require("crypto");
+const Gameboy = require('serverboy')
+const fs = require('fs')
 
-const SP0 = 0xfe;
-
+const crypto = require('crypto')
 function getSha(x) {
-  const hash = crypto.createHash("sha256");
-  hash.update(x);
-  return hash.digest("hex");
+  const hash = crypto.createHash('sha256')
+  hash.update(x)
+  return hash.digest('hex')
 }
 
-module.exports = filename => {
-  const rompath = filename.replace(/.js$/, ".gb");
+const SP0 = 0xfe
 
-  let gameboy;
-  let frame;
+module.exports = (filename) => {
+  const rompath = filename.replace(/.js$/, '.gb')
+  const rom = fs.readFileSync(rompath)
 
-  beforeEach(() => {
-    gameboy = new Gameboy();
-    gameboy.loadCart(fs.readFileSync(rompath));
-    gameboy._init();
+  const gameboy = new Gameboy()
+  gameboy.loadRom(rom)
 
-    gameboy.gpu.on("frame", canvas => {
-      frame = canvas.toBuffer();
-    });
-  });
+  const cpu = Object.values(gameboy)[0].gameboy
 
   return {
-    get gameboy() {
-      return gameboy;
-    },
-
     steps(n) {
       for (let i = 0; i < n; i++) {
-        gameboy._cpu._step();
+        gameboy.doFrame()
       }
     },
-
     int(n) {
-      return n & 0xffff;
+      return n & 0xffff
     },
-
-    run(options = {}) {
-      const HALT = 0x76;
-      const STOP = 0x10;
-      let cycles = 0;
-      while (!options.maxCycles || cycles < options.maxCycles) {
-        const pc = gameboy._cpu.pc;
-        const bytecode = gameboy._mmu.readByte(pc);
-        if (bytecode === HALT || bytecode === STOP) {
-          break;
-        }
-        gameboy._cpu._runCycle();
-        cycles++;
-      }
+    run(options = { maxFrames: Infinity }) {
+      let frame = 0
+      do {
+        gameboy.doFrame()
+      } while (!cpu.halt && frame++ < options.maxFrames)
     },
-
     input(code) {
-      gameboy._joypad.keyDown(code);
+      gameboy.pressKey(code)
     },
-
-    K_LEFT: 37,
-    K_UP: 38,
-    K_RIGHT: 39,
-    K_DOWN: 40,
-    K_A: 90,
-    K_B: 88,
-    K_START: 13,
-    K_SELECT: 16,
-
-    saveFrame(filename) {
-      fs.writeFileSync(filename, frame);
-    },
-
+    K_RIGHT: 0,
+    K_LEFT: 1,
+    K_UP: 2,
+    K_DOWN: 3,
+    K_A: 4,
+    K_B: 5,
+    K_SELECT: 6,
+    K_START: 7,
+    // get frameSha() {
+    //   return saveFrame()
+    //   gameboy.doFrame()
+    //   const lcd = gameboy.getScreen()
+    //
+    //   return getSha(new Buffer(lcd))
+    // },
     get frameSha() {
-      return getSha(frame);
+      gameboy.doFrame()
+      const lcd = gameboy.getScreen()
+      const html = `<!DOCTYPE html>
+      <html>
+        <body>
+          <canvas></canvas>
+          <script type="text/javascript">
+            const lcd = [${lcd.join(',')}]
+            const canvas = document.querySelector('canvas')
+            canvas.width = 160
+            canvas.height = 144
+            canvas.style.width = '320px'
+            canvas.style['image-rendering'] = 'pixelated'
+            const ctx = canvas.getContext('2d')
+            const imgData = ctx.createImageData(160, 144)
+            for (let i = 0; i < lcd.length; i++) {
+              imgData.data[i] = lcd[i]
+            }
+            ctx.putImageData(imgData, 0, 0)
+          </script>
+        </body>
+      </html>`
+      const sha = getSha(new Buffer(lcd))
+      fs.writeFileSync(`${sha}.html`, html)
+      return sha
     },
-
     get depth() {
-      return (((SP0 - 2 - gameboy._cpu.c) / 2) | 0) + 1;
+      return (((SP0 - 2 - cpu.registerC) / 2) | 0) + 1
     },
-
-    get memory() {
-      const memory = new Uint8Array(65536);
-      for (let offset = 0; offset <= 0xffff; offset++) {
-        memory[offset] = gameboy._mmu.readByte(offset);
+    get registers() {
+      return {
+        a: cpu.registerA,
+        b: cpu.registerB,
+        c: cpu.registerC,
+        d: cpu.registerD,
+        e: cpu.registerE,
+        f: cpu.registerF,
+        hl: cpu.registersHL,
       }
-      return memory;
     },
-
+    get memory() {
+      return gameboy.getMemory()
+    },
     get stack() {
-      const c = gameboy._cpu.c;
-      const stack = [];
+      const c = cpu.registerC
+      const stack = []
 
       // HL is TOS only if the stack is no empty
       if (c < SP0) {
-        stack.push(gameboy._cpu.hl);
+        stack.push(cpu.registersHL)
       }
 
+      const mem = gameboy.getMemory()
       for (let i = c; i < SP0 - 2; i += 2) {
-        stack.push(gameboy._mmu.readWord(0xff00 + i));
+        const lo = mem[0xff00 + i]
+        const hi = mem[0xff00 + i + 1]
+        stack.push((hi << 8) + lo)
       }
 
-      return stack.reverse();
-    }
-  };
-};
+      return stack.reverse()
+    },
+  }
+}

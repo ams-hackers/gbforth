@@ -9,10 +9,12 @@
     "testRegex": "test-.*\\.js$"
   },
   "devDependencies": {
-    "jest": "^23.1.0",
-    "node-gameboy": "^0.4.4"
+    "jest": "^23.1.0"
   },
   "engines": {
-    "node": "^8.0.0 || ^10.0.0"
+    "node": "^8.0.0 || ^10.0.0 || ^12.0.0"
+  },
+  "dependencies": {
+    "serverboy": "^0.0.7"
   }
 }
