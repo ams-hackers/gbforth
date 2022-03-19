@@ -74,6 +74,7 @@ export 2swap
 export 2over
 export 2dup
 export 2drop
+
 export +
 export -
 export *
@@ -99,6 +100,7 @@ export 0<
 export 1+
 export 1-
 export negate
+
 export quit
 export bye
 
@@ -110,6 +112,9 @@ export 2>r
 export 2r>
 
 export cr
+export ."
+export .
+export type
 export .s
 export order
 export words
