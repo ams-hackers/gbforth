@@ -67,6 +67,7 @@ export tuck
 export ?dup
 export drop
 export rot
+export -rot
 export nip
 export pick
 export 2swap
