@@ -623,3 +623,9 @@ require ./core/case.fs
 include ./core/memory.fs
 
 include ../shared/core.fs
+
+: place ( c-addr1 u1 c-addr2 -- )
+  over >r rot over char+ r> move c! ;
+
+: bounds ( addr u – addr+u addr )
+  over + swap ;
