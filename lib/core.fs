@@ -611,6 +611,8 @@ require ./core/case.fs
   over over <
   if drop else nip then ;
 
+: abs ( n -- n ) dup 0< if negate then ;
+
 \ Taken from the standard
 : within  ( u1 u2 u3 -- flag )
   over - >r - r> u< ;
