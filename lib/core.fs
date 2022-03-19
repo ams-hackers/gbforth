@@ -591,9 +591,7 @@ end-code
 \ pretty awkward as well.
 :m s"
   [char] " parse
-  swap
-  postpone literal
-  postpone literal
+  postpone sliteral
 ; immediate
 
 :m s" [char] " parse ;
