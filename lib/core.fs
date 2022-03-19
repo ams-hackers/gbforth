@@ -629,3 +629,19 @@ include ../shared/core.fs
 
 : bounds ( addr u – addr+u addr )
   over + swap ;
+
+: /string ( c-addr1 u1 n -- c-addr2 u2 )
+  tuck - >r + r> ;
+
+: str= ( c-addr1 u1 c-addr2 u2 -- f )
+  rot tuck <> if
+    drop drop drop false
+  else
+    0 do
+      over c@ over c@ <> if
+        drop drop false unloop exit
+      then
+      char+ swap char+
+    loop
+    drop drop true
+  then ;
