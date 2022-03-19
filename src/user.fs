@@ -130,8 +130,7 @@ export mem>
 export >mem
 
 export char
-
-: parse romparse ;
+export parse
 
 : here xhere ;
 : unused xunused ;
@@ -229,6 +228,12 @@ include ../shared/core.fs
 : ]L xcompiling? if xliteral x] else ]L then ;
 : :noname x:noname ;
 : alias xalias ;
+
+: SLiteral ( addr u -- )
+  tuck rom-offset -rot
+  rommem,
+  postpone literal
+  postpone literal ; immediate
 
 : : x: ;
 

@@ -41,24 +41,25 @@ restricted to only allocating memory there.
 
 ### Compiling strings (`s"` / `."`)
 
-In order to save space, compiled strings are stored at the dictionary pointer.
-This is usually not a problem, unless you are mixing the words `s"` or `."` with
-other words that compile data to the **DP**. For example, in standard Forth you
+The words `s"` or `."` compile strings directly to the ROM when used in a colon
+definition, but will keep the strings in the host memory when used toplevel.
+
+While this might be slightly confusing, it's consistent with the standard forth
+behaviour that strings are only available to you for a short while, and if you
+require access to them later, you need to persist them manually. For example,
 might do this to store a string:
 
 ```forth
-\ mem, copies the string to the correct location
-CREATE message s" Hello World" mem,
+\ mem, copies the string from host to ROM
+CREATE message s" Hello World!" mem,
+: main message 12 type ;
 ```
 
-But this would effectively store the same data twice, as we need to allocate the
-memory at compile time before it can be made available to the program at runtime.
-
-So in gbforth you should use:
+Or to keep things simple:
 
 ```forth
-\ already correctly placed, simply drop ( c-addr u )
-CREATE message s" Hello World" 2drop
+: message ( -- addr u ) s" Hello World!" ;
+: main message type ;
 ```
 
 ### Copying memory (`mem,`)
