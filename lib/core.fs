@@ -304,6 +304,8 @@ end-code
 
 : < - 0< ;
 : > swap < ;
+: >= < invert ;
+: <= > invert ;
 
 (
   ***** Memory Access *****
