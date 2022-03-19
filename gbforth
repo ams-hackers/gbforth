@@ -48,6 +48,10 @@ require ./src/user.fs
 : assert-empty-stack
   depth 0<> abort" Stack is not empty" ;
 
+: assert-memory-fits
+  rom-unused 0< abort" ROM is full"
+  ram-unused 0< abort" WRAM is full" ;
+
 : write-game
   fix-header-complement
   fix-global-checksum
@@ -78,6 +82,7 @@ require ./src/user.fs
   then
 
   assert-empty-stack
+  assert-memory-fits
   write-game
 
   --verbose if
