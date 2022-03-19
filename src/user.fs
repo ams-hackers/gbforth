@@ -42,7 +42,7 @@ also gbforth
 ' [host]   alias [host]   immediate
 ' [target] alias [target] immediate
 
-export ( immediate
+export ( immediate \ )
 export \ immediate
 export ==>
 export include
