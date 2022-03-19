@@ -31,5 +31,8 @@ variable pad-pointer
 : #s ( n -- 0 )
   begin # dup 0= until ;
 
+: sign ( n -- )
+  0< if [char] - hold then ;
+
 : #> ( n -- )
   drop pad ;
