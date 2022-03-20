@@ -628,6 +628,12 @@ include ../shared/core.fs
 : place ( c-addr1 u1 c-addr2 -- )
   over >r rot over char+ r> move c! ;
 
+: +place ( c-addr1 u1 c-addr2 -- )
+  over over >r >r
+  count chars +
+  swap chars move
+  r> r@ c@ + r> c! ;
+
 : bounds ( addr u – addr+u addr )
   over + swap ;
 
