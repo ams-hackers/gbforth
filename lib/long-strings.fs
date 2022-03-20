@@ -27,3 +27,22 @@ require ./formatted-output.fs
   swap
   dup abs <# #s swap sign #>
   rot +place ;
+
+\ define an additional word wrap. to display
+\ long text wrapped within the screen. returns
+\ the remaining addr' u' portion if the text
+\ does not fit on one page, or 0 0 if all text
+\ was written to the screen
+
+: wrap. ( addr u -- addr' u' )
+  begin
+    dup SCRN_X_B >
+  while
+    over SCRN_X_B
+    begin 1- 2dup + c@ bl = until
+    dup 1+ >r
+    begin 1- 2dup + c@ bl <> until
+    1+ type cr
+    r> /string
+    cursor-y @ SCRN_Y_B = if exit then
+  repeat type cr 0 0 ;
