@@ -23,12 +23,13 @@ require ./xname.fs
 3 constant IR_NODE_BRANCH
 
 4 constant IR_NODE_RET
+5 constant IR_NODE_RETI
 
 \ FORK and CONTINUE nodes allow us to represent control flow. See the
 \ code for the immediate words `if`, `else` and `then` for further
 \ information.
-5 constant IR_NODE_CONTINUE
-6 constant IR_NODE_FORK
+6 constant IR_NODE_CONTINUE
+7 constant IR_NODE_FORK
 
 
 struct
@@ -113,6 +114,7 @@ end-struct ir%
   ir-node ir-node-type @ case
     IR_NODE_LITERAL  of ." LITERAL " hex. endof
     IR_NODE_RET      of ." RET"      drop endof
+    IR_NODE_RETI     of ." RETI"     drop endof
 
     IR_NODE_CALL     of ." CALL "   dup .xname ."  ( " hex. ." )" endof
     IR_NODE_BRANCH   of ." BRANCH " dup .xname ."  ( " hex. ." )" endof
@@ -176,7 +178,7 @@ end-struct ir%
   ir visited add-to-set
   \ Visit the current component
   ir xt execute
-  \ Visit the next ones 
+  \ Visit the next ones
   ir next-ir-components { ir1 ir2 }
   ir1 if ir1 xt visited recurse then
   ir2 if ir2 xt visited recurse then
@@ -185,7 +187,7 @@ end-struct ir%
 :noname { ir xt visited -- }
   ir visited in? if exit then
   ir visited add-to-set
-  \ Visit the next ones 
+  \ Visit the next ones
   ir next-ir-components { ir1 ir2 }
   ir1 if ir1 xt visited recurse then
   ir2 if ir2 xt visited recurse then
@@ -209,7 +211,7 @@ end-struct ir%
 
 : compute-ir-topological-order ( ir -- )
   0 swap
-  ['] set-topological-order post-dfs traverse-components 
+  ['] set-topological-order post-dfs traverse-components
   drop ;
 
 :noname { ir xt visited -- }
@@ -253,6 +255,6 @@ end-struct ir%
 : free-ir-component ( ir -- )
   dup free-ir-nodes
   free throw ;
-  
+
 : free-ir
   ['] free-ir-component post-dfs traverse-components ;

@@ -235,6 +235,8 @@ include ../shared/core.fs
   postpone literal
   postpone literal ; immediate
 
+: reti; xcompiling? if xreti; else postpone ; then ; immediate
+
 : : x: ;
 
 

@@ -110,6 +110,7 @@ defer gen-ir-component
     IR_NODE_LITERAL  of nip gen-literal endof
     IR_NODE_BRANCH   of nip gen-branch  endof
     IR_NODE_RET      of 2drop ret,      endof
+    IR_NODE_RETI     of 2drop reti,     endof
     IR_NODE_CONTINUE of gen-continue    endof
     IR_NODE_FORK     of gen-fork        endof
     true abort" (Can't generate code for unknown IR node)"

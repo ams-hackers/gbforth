@@ -57,6 +57,13 @@ make-ir constant unreachable-node
     to current-node
   then ;
 
+: xreturn-interrupt,
+  unreachable? invert if
+    current-node
+    insert-node IR_NODE_RETI ::type
+    to current-node
+  then ;
+
 : process-xname ( xname -- )
   dup ximmediate? if
     >xcode execute
@@ -214,6 +221,10 @@ create user-name 128 chars allot
   x[
   finalize-word ;
 
+: xreti; ( type c-addr u ir -- )
+  xreturn-interrupt,
+  x[
+  finalize-word ;
 
 ( Control Flow )
 
