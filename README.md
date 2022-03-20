@@ -1,4 +1,4 @@
-# gbforth [![Build Status](https://travis-ci.org/ams-hackers/gbforth.svg?branch=master)](https://travis-ci.org/ams-hackers/gbforth)
+# gbforth [![Build Status](https://github.com/ams-hackers/gbforth/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/ams-hackers/gbforth/actions/workflows/ci.yml?query=branch%3Amain)
 
 A Forth-based Game Boy development kit
 
