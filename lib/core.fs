@@ -304,6 +304,7 @@ end-code
 
 : < - 0< ;
 : > swap < ;
+: 0> 0 > ;
 : >= < invert ;
 : <= > invert ;
 
