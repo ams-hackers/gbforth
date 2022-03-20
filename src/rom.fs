@@ -57,6 +57,9 @@ rom-buffer
 : rommem, ( addr u -- )
   rom-offset <rom over rom-offset+! swap move ; \ here over allot swap move
 
+: roms, ( addr u -- )
+  rom-offset <rom over char+ rom-offset+! place ;
+
 : ==> ( n -- )
   assert-rom-addr
   rom-offset! ;
