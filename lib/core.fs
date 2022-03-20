@@ -640,6 +640,12 @@ include ../shared/core.fs
 : /string ( c-addr1 u1 n -- c-addr2 u2 )
   tuck - >r + r> ;
 
+: -trailing ( c-addr u1 -- c-addr u2 )
+  begin
+    2dup + 1- c@ bl =
+    over 0<> and
+  while 1- repeat ;
+
 : str= ( c-addr1 u1 c-addr2 u2 -- f )
   rot tuck <> if
     drop drop drop false
