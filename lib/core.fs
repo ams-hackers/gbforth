@@ -597,6 +597,11 @@ end-code
 
 :m s" [char] " parse ;
 
+:m c"
+  [char] " parse
+  postpone cliteral
+; immediate
+
 require ./core/conditionals.fs
 require ./core/basic-loops.fs
 require ./core/counted-loops.fs

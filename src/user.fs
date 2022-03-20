@@ -237,6 +237,11 @@ include ../shared/core.fs
   postpone literal
   postpone literal ; immediate
 
+: CLiteral ( addr u -- )
+  rom-offset -rot
+  roms,
+  postpone literal ; immediate
+
 : : x: ;
 
 
