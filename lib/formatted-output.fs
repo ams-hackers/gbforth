@@ -4,23 +4,17 @@
 \ only on base 10 and single-cell numbers for now.
 \
 
-10 chars constant pad-size
+create holdbuf 10 chars allot
+create holdbuf-end
 
-create pad-base
-pad-size allot
-create pad-end
-
-variable pad-pointer
-
-: pad ( -- c-addr u )
-  pad-end pad-pointer @ tuck - ;
+variable holdptr
 
 : <#
-  pad-end pad-pointer ! ;
+  holdbuf-end holdptr ! ;
 
 : hold ( c -- )
-  -1 pad-pointer +!
-  pad-pointer @ c! ;
+  -1 holdptr +!
+  holdptr @ c! ;
 
 : digit>ascii ( n -- )
   [char] 0 + ;
@@ -34,5 +28,5 @@ variable pad-pointer
 : sign ( n -- )
   0< if [char] - hold then ;
 
-: #> ( n -- )
-  drop pad ;
+: #> ( n -- addr u )
+  drop holdptr @ holdbuf-end over - ;
