@@ -10,7 +10,7 @@ GBFORTH = ./gbforth
 export GBFORTH_PATH := $(shell pwd)/lib
 
 LIB_FILES=lib/*.fs lib/core/*.fs
-SOURCE_FILES=gbforth src/*.fs src/utils/*.fs src/compiler/*.fs shared/*.fs
+SOURCE_FILES=gbforth gbforth.fs src/*.fs src/utils/*.fs src/compiler/*.fs shared/*.fs
 
 TEST_FILES = $(wildcard test/*.fs) $(wildcard test/*/*.fs)
 TEST_OBJS = $(subst .fs,.gb,$(TEST_FILES))
