@@ -562,6 +562,9 @@ end-code
 
 : 0= 0 = ;
 
+:m variable create cell allot ;
+:m 2variable create 2 cells allot ;
+
 :m to
   'body ( ' >body )
   postpone ! ; immediate
