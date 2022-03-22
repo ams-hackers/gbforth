@@ -1,3 +1,8 @@
+include ../shared/runtime.fs
+[host]
+include ../shared/asm-utils.fs
+[target]
+
 (
   ***** Constants *****
 )
@@ -9,20 +14,9 @@ $FFFF constant true
 
 #2 constant cell
 
-include ../shared/runtime.fs
-
-[asm]
-:m [R1] $FF80 ]* ;
-:m [R2] $FF81 ]* ;
-[endasm]
-
 (
   ***** Stack Manipulation *****
 )
-
-[host]
-include ../shared/asm-utils.fs
-[target]
 
 code sp@
 C D ld,
@@ -449,16 +443,6 @@ code exit
 \ exit from the caller instaed
   DE pop,
 end-code
-
-[asm]
-:m DE->R12,
-  D ->A-> [R1] ld,
-  E ->A-> [R2] ld, ;
-
-:m R12->DE,
-  [R1] ->A-> D ld,
-  [R2] ->A-> E ld, ;
-[endasm]
 
 code 2>r
   DE pop,

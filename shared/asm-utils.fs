@@ -1,6 +1,17 @@
 [asm]
 
+: [R1] $FF80 ]* ;
+: [R2] $FF81 ]* ;
+
 : ->A-> A ld, A ;
+
+: DE->R12,
+  D ->A-> [R1] ld,
+  E ->A-> [R2] ld, ;
+
+: R12->DE,
+  [R1] ->A-> D ld,
+  [R2] ->A-> E ld, ;
 
 : true->HL,
   $FFFF # HL ld, ;
