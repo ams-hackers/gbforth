@@ -546,6 +546,8 @@ end-code
 
 : 0= 0 = ;
 
+: >body 7 + @ ; \ trust me
+
 :m variable create cell allot ;
 :m 2variable create 2 cells allot ;
 
