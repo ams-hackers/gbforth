@@ -222,9 +222,9 @@ include ../shared/core.fs
 
 : immediate ximmediate ;
 
-: ' x' ;
-: ] xcompiling? if x] else ] then ;
-: ]L xcompiling? if xliteral x] else ]L then ;
+: ' x' xcompiling? if xliteral then ;
+: ] xinterpreting? if x] else ] then ;
+: ]L xinterpreting? if xliteral x] else ]L then ;
 : :noname x:noname ;
 : alias xalias ;
 

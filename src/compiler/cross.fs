@@ -24,10 +24,19 @@ require ./xname.fs
     2drop recurse
   then ;
 
+( 0 if we the host is interpreting words,
+ -1 if we are compiling into the target )
+variable xstate
+
 -1 value current-node
 
 : xcompiling?
-  current-node -1 <> ;
+  current-node -1 <>
+  xstate @ 1 = and ;
+
+: xinterpreting?
+  current-node -1 <>
+  xstate @ 0 = and ;
 
 make-ir constant unreachable-node
 
@@ -79,10 +88,6 @@ make-ir constant unreachable-node
     then
   then ;
 
-
-( 0 if we the host is interpreting words,
- -1 if we are compiling into the target )
-variable xstate
 
 : x[ 0 xstate ! ; ximmediate-as [
 
