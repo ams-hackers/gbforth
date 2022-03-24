@@ -149,8 +149,6 @@ make-ir constant unreachable-node
 
 : x['] x' xliteral, ; ximmediate-as [']
 
-: x'body xname' >xdfa xliteral, ;
-
 create user-name 128 chars allot
 
 ( Copy a string into colon-name to persist it! )

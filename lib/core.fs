@@ -551,17 +551,13 @@ end-code
 :m variable create cell allot ;
 :m 2variable create 2 cells allot ;
 
-:m to
-  'body ( ' >body )
-  postpone ! ; immediate
-
-:m is to ; immediate
+:m 2constant create , , does> 2@ ;
 
 :m value create cell allot does> @ ;
+:m to ' postpone >body postpone ! ; immediate
 
 :m defer create cell allot does> @ execute ;
-
-:m 2constant create , , DOES> 2@ ;
+:m is to ; immediate
 
 \ HACK: As s", define two versions of the word to deal with the
 \ USER/CROSS discrepancies.

@@ -216,8 +216,6 @@ export [ immediate
 : cells $2 * ;
 : cell+ $2 + ;
 
-: 'body x'body ;
-
 include ../shared/core.fs
 
 : immediate ximmediate ;
