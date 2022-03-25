@@ -1,5 +1,6 @@
 # Libraries
 
+- [assert.fs](./libs/assert.md)
 - cartridge.fs
 - [gbhw.fs](./libs/gbhw.md)
 - header.fs
