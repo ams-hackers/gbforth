@@ -185,7 +185,11 @@ create user-name 128 chars allot
   type WORD_DOES = if
     ir
   else
-    c-addr u nextname
+    type WORD_NONAME = if
+      noname
+    else
+      c-addr u nextname
+    then
     ir 0 create-xname
     type WORD_NONAME = if
       xlatest xname>addr
