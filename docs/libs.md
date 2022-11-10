@@ -2,6 +2,7 @@
 
 - [assert.fs](./libs/assert.md)
 - cartridge.fs
+- [cgb.fs](./libs/cgb.md)
 - [gbhw.fs](./libs/gbhw.md)
 - header.fs
 - [ibm-font.fs](./libs/ibm-font.md)
