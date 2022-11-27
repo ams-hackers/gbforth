@@ -130,7 +130,10 @@ export mem>
 export >mem
 
 export char
-export parse
+
+\ our compiler makes the transient memory a little bit too transient
+\ using SAVE-MEM by default here avoids unexpected mangled strings
+: parse parse save-mem ;
 
 : here xhere ;
 : unused xunused ;
