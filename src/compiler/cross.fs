@@ -94,9 +94,7 @@ make-ir constant unreachable-node
 : xliteral xliteral, ; ximmediate-as literal
 
 : x\ postpone \ ; ximmediate-as \
-: x( postpone ( ; ximmediate-as (
-\ The next parenthesis is only here to make the editor happy!
-)
+: x( postpone ( ; ximmediate-as ( \ )
 
 \
 \ Note that X] will return when the cross-compilation is finished (
