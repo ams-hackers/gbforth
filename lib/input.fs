@@ -48,4 +48,5 @@ PADF_DOWN   constant k-down
   rIE c@ or rIE c! ;
 
 : init-input ( -- )
-  IEF_HILO enable-interrupt-flags ;
+  IEF_HILO IEF_VBLANK or
+  enable-interrupt-flags ;
