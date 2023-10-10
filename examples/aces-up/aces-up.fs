@@ -76,8 +76,7 @@ VARIABLE hand-ix
     1 pile-1 size 1 + at-xy pile-1 peek .card
     1 pile-1 size 2 + at-xy 8 emit 9 emit
   ELSE
-    1 pile-1 size 1 + at-xy BL emit BL emit
-    1 pile-1 size 2 + at-xy BL emit BL emit
+    1 2 at-xy BL emit BL emit
   THEN
   1 pile-1 size 3 + at-xy BL emit BL emit ;
 
@@ -86,8 +85,7 @@ VARIABLE hand-ix
     4 pile-2 size 1 + at-xy pile-2 peek .card
     4 pile-2 size 2 + at-xy 8 emit 9 emit
   ELSE
-    4 pile-2 size 1 + at-xy BL emit BL emit
-    4 pile-2 size 2 + at-xy BL emit BL emit
+    4 2 at-xy BL emit BL emit
   THEN
   4 pile-2 size 3 + at-xy BL emit BL emit ;
 
@@ -96,8 +94,7 @@ VARIABLE hand-ix
     7 pile-3 size 1 + at-xy pile-3 peek .card
     7 pile-3 size 2 + at-xy 8 emit 9 emit
   ELSE
-    7 pile-3 size 1 + at-xy BL emit BL emit
-    7 pile-3 size 2 + at-xy BL emit BL emit
+    7 2 at-xy BL emit BL emit
   THEN
   7 pile-3 size 3 + at-xy BL emit BL emit ;
 
@@ -106,8 +103,7 @@ VARIABLE hand-ix
     10 pile-4 size 1 + at-xy pile-4 peek .card
     10 pile-4 size 2 + at-xy 8 emit 9 emit
   ELSE
-    10 pile-4 size 1 + at-xy BL emit BL emit
-    10 pile-4 size 2 + at-xy BL emit BL emit
+    10 2 at-xy BL emit BL emit
   THEN
   10 pile-4 size 3 + at-xy BL emit BL emit ;
 
