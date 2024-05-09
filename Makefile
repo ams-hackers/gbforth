@@ -24,7 +24,8 @@ EXAMPLE_OBJS = \
 	examples/happy-birthday/happy-birthday.gb \
 	examples/10-print/10-print.gb \
 	examples/brainfuck/brainfuck.gb \
-	examples/synth/synth.gb
+	examples/synth/synth.gb \
+	examples/sha256/sha256.gb
 
 .PHONY: all examples tests
 
