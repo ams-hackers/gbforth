@@ -17,7 +17,7 @@
   dup 4 rshift %00001111 and
   dup 9 <= if 48 else 65 10 - then + swap
                %00001111 and
-  dup 9 <= if 48 else 65 10 - then + swap
+  dup 9 <= if 48 else 65 10 - then +
 ;
 
 : print-hex ( c-addr u x y -- )
