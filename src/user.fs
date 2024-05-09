@@ -32,8 +32,6 @@ require ./compiler/cross.fs
 : [host] forth ; immediate
 : [target] gbforth-user ; immediate
 
-: [if] if else [char] ] parse drop drop then ; immediate
-
 \
 \ Expose words into the GBFORTH-USER vocabulary. Available within
 \ [TARGET] in interpreting mode.
@@ -44,9 +42,6 @@ also gbforth
 ' [host]   alias [host]   immediate
 ' [target] alias [target] immediate
 
-' [if] alias [if] immediate
-' [then] alias [then] immediate
-
 export ( immediate \ )
 export \ immediate
 export ==>
@@ -54,6 +49,10 @@ export include
 export require
 export [asm]
 export [endasm]
+export [if]
+export [else]
+export [then]
+export [endif]
 
 export main:
 
