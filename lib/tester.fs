@@ -1,38 +1,44 @@
 \ (C) 1995 JOHNS HOPKINS UNIVERSITY / APPLIED PHYSICS LABORATORY
 \ MAY BE DISTRIBUTED FREELY AS LONG AS THIS COPYRIGHT NOTICE REMAINS.
-\ VERSION 1.2
-\ -------------------------------------------------------------------
-\ Modified to work properly with gbforth
+\
+\ Based on the original testing harnass by John Hayes,
+\ modified to work properly with gbforth.
+
+ROM
+VARIABLE error-xt
+: error error-xt @ execute ;
+:noname 2drop bye ; error-xt !
 
 RAM
-VARIABLE #errors
 VARIABLE actual-depth
-CREATE actual-stack 20 cells allot
+CREATE   actual-results 32 cells allot
+VARIABLE start-depth
 
-: fail ( ... -- )
-  #errors @ 1 + #errors ! ;
+: empty-stack ( ... -- )
+  depth start-depth @ < IF clearstack THEN
+  depth start-depth @ > IF
+    depth start-depth @ DO drop LOOP
+  THEN ;
 
-: T{ ( ... -- )
-  clearstack ;
+: T{ ( -- )
+  depth start-depth ! ;
 
 : -> ( ... -- )
-   depth
-   dup actual-depth !
-   ?dup IF
-      0 DO actual-stack I cells + ! LOOP
-   THEN ;
+  depth dup actual-depth !
+  start-depth @ > IF
+    depth start-depth @ - 0 DO
+      actual-results I cells + !
+    LOOP
+  THEN ;
 
 : }T ( ... -- )
    depth actual-depth @ = IF
-      depth ?dup IF
-         0 DO
-           actual-stack I cells + @
-           = 0= IF fail LEAVE THEN
+      depth start-depth @ > IF
+         depth start-depth @ - 0 DO
+           actual-results I cells + @
+           <> IF S" INCORRECT RESULT" ERROR LEAVE THEN
          LOOP
       THEN
    ELSE
-      fail
-   THEN clearstack ;
-
-: init-tester
-  0 #errors ! ;
+      S" WRONG NUMBER OF RESULTS" ERROR
+   THEN empty-stack ;
