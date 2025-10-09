@@ -13,7 +13,7 @@
 \ know where in the control stack (in the data stack for us) the
 \ destination of the jump will be
 \
-create leave-stack 10 cells allot
+create gb-leave-stack 10 cells allot
 variable leave-count 0 leave-count !
 
 : check-leave-stack-integrity
@@ -21,7 +21,7 @@ variable leave-count 0 leave-count !
 
 : leave-pointer ( -- addr )
   check-leave-stack-integrity
-  leave-stack leave-count @ cells + ;
+  gb-leave-stack leave-count @ cells + ;
 
 : leave-push ( mark -- )
   leave-pointer !
