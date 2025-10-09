@@ -14,7 +14,7 @@
 \ destination of the jump will be
 \
 create leave-stack 10 cells allot
-variable leave-count 0 leave-sp !
+variable leave-count 0 leave-count !
 
 : check-leave-stack-integrity
   leave-count @ 0 10 within invert abort" The leave stack pointer is out of range" ;
