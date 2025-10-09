@@ -49,3 +49,10 @@ jobs:
         with:
           push: true
           tags: amshackers/gbforth:latest
+
+      - name: Build and push Docker image (forthy)
+        uses: docker/build-push-action@v2
+        with:
+          file: 'Dockerfile-forthy'
+          push: true
+          tags: amshackers/gbforth:forthy
