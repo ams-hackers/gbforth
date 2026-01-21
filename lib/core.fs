@@ -648,3 +648,10 @@ include ../shared/core.fs
     loop
     drop drop true
   then ;
+
+: roll ( x_u x_u-1 ... x_0 u -- x_u-1 ... x_0 x_u )
+  dup 0= if 
+   drop exit 
+  then
+  swap >R 
+  1- recurse R> swap ;
